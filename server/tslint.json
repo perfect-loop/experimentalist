@@ -1,0 +1,24 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-microsoft-contrib/recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "max-line-length": [true, 120],
+        "no-debugger": false,
+        "cyclomatic-complexity": [true, 10],
+        "no-console": false,
+        "max-file-line-count": [true, 200], 
+        "no-relative-imports": false,
+        "export-name": false, 
+        "function-name": false, 
+        "no-single-line-block-comment": false, 
+        "no-http-string": false,
+        "no-backbone-get-set-outside-model": false, 
+        "import-name": false,
+        "max-func-body-length": [true , 25]
+    },
+    "rulesDirectory": []
+}
