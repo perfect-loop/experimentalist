@@ -8,15 +8,23 @@ const NavBar = () => {
 
   return (
     <div>
-      {!isAuthenticated && <button onClick={() => loginWithRedirect({})}>Log in</button>}
+      {!isAuthenticated && (
+        <button className="btn btn-primary" onClick={() => loginWithRedirect({})}>
+          Log in
+        </button>
+      )}
       {isAuthenticated && user && (
         <>
           <img width="20px" alt="profile" src={user.picture} />
           <div>Logged in as {JSON.stringify(user.nickname)}</div>
+          <a href="/video" className="btn btn-primary">
+            Start conference
+          </a>
           <button
+            className="btn btn-primary"
             onClick={() =>
               logout({
-                returnTo: "http://localhost:3001/",
+                returnTo: "http://localhost:3001/video",
                 // eslint-disable-next-line @typescript-eslint/camelcase
                 client_id: AUTH0_CLIENT_ID,
               })

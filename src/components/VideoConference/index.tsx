@@ -13,21 +13,25 @@ enum Role {
 
 class VideConference extends Component<{}> {
   componentDidMount() {
-    $("h1");
     console.log("mounted");
     console.log("checkSystemRequirements");
     console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
+    this.prepareConference();
+  }
+
+  render() {
+    return <div>placeholder</div>;
+  }
+
+  private prepareConference = () => {
+    $("#zmmtg-root").show();
     ZoomMtg.setZoomJSLib("https://source.zoom.us/1.7.7/lib", "/av");
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareJssdk();
     this.startConference(Role.Attendee);
-  }
+  };
 
-  render() {
-    return <div>Video</div>;
-  }
-
-  startConference(role: Role) {
+  private startConference = (role: Role) => {
     const meetConfig = {
       apiKey: API_KEY,
       apiSecret: API_SECRET,
@@ -39,6 +43,7 @@ class VideConference extends Component<{}> {
     };
     console.log(meetConfig);
 
+    console.log("generting signature");
     ZoomMtg.generateSignature({
       meetingNumber: meetConfig.meetingNumber,
       apiKey: meetConfig.apiKey,
@@ -56,7 +61,7 @@ class VideConference extends Component<{}> {
               apiKey: meetConfig.apiKey,
               passWord: meetConfig.passWord,
               success() {
-                $("#nav-tool").hide();
+                // $("#nav-tool").hide();
                 console.log("join meeting success");
               },
               error(res: any) {
@@ -70,7 +75,7 @@ class VideConference extends Component<{}> {
         });
       },
     });
-  }
+  };
 }
 
 export default VideConference;
