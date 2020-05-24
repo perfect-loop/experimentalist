@@ -69,27 +69,31 @@ class VideConference extends Component<{}> {
   private initializeConference = (meetConfig: IMeetingConfig, res: any) => {
     ZoomMtg.init({
       leaveUrl: "http://www.zoom.us",
-      success() {
-        ZoomMtg.join({
-          meetingNumber: meetConfig.meetingNumber,
-          userName: meetConfig.userName,
-          signature: res.result,
-          apiKey: meetConfig.apiKey,
-          passWord: meetConfig.passWord,
-          success() {
-            // $("#nav-tool").hide();
-            console.log("join meeting success");
-          },
-          error(res: any) {
-            console.log(res);
-          },
-        });
+      success: () => {
+        this.joinConference(meetConfig, res);
       },
       error(res: any) {
         console.log(res);
       },
     });
   };
+
+  private joinConference(meetConfig: IMeetingConfig, res: any) {
+    ZoomMtg.join({
+      meetingNumber: meetConfig.meetingNumber,
+      userName: meetConfig.userName,
+      signature: res.result,
+      apiKey: meetConfig.apiKey,
+      passWord: meetConfig.passWord,
+      success() {
+        // $("#nav-tool").hide();
+        console.log("join meeting success");
+      },
+      error(res: any) {
+        console.log(res);
+      },
+    });
+  }
 }
 
 export default VideConference;
