@@ -21,7 +21,18 @@ interface IMeetingConfig {
   role: Role;
 }
 
-class VideConference extends Component<{}> {
+interface IState {
+  role: Role;
+}
+
+class VideConference extends Component<{}, IState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      role: Role.Attendee,
+    };
+  }
+
   componentDidMount() {
     console.log("mounted");
     console.log("checkSystemRequirements");
@@ -38,7 +49,7 @@ class VideConference extends Component<{}> {
     ZoomMtg.setZoomJSLib("https://source.zoom.us/1.7.7/lib", "/av");
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareJssdk();
-    this.startConference(Role.Attendee);
+    this.startConference(this.state.role);
   };
 
   private startConference = (role: Role) => {
@@ -78,22 +89,30 @@ class VideConference extends Component<{}> {
     });
   };
 
-  private joinConference(meetConfig: IMeetingConfig, res: any) {
+  private joinConference = (meetConfig: IMeetingConfig, res: any) => {
     ZoomMtg.join({
       meetingNumber: meetConfig.meetingNumber,
       userName: meetConfig.userName,
       signature: res.result,
       apiKey: meetConfig.apiKey,
       passWord: meetConfig.passWord,
-      success() {
-        // $("#nav-tool").hide();
+      success: () => {
         console.log("join meeting success");
+        this.customizeConference();
       },
       error(res: any) {
         console.log(res);
       },
     });
-  }
+  };
+
+  private customizeConference = () => {
+    if (this.state.role == Role.Attendee) {
+      $(".img-start-video")
+        .parents("button")
+        .hide();
+    }
+  };
 }
 
 export default VideConference;
