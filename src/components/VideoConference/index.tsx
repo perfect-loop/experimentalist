@@ -11,6 +11,16 @@ enum Role {
   Assistant = 5,
 }
 
+interface IMeetingConfig {
+  apiKey: string;
+  apiSecret: string;
+  meetingNumber: number;
+  userName: string;
+  passWord: string;
+  leaveUrl: string;
+  role: Role;
+}
+
 class VideConference extends Component<{}> {
   componentDidMount() {
     console.log("mounted");
@@ -32,7 +42,7 @@ class VideConference extends Component<{}> {
   };
 
   private startConference = (role: Role) => {
-    const meetConfig = {
+    const meetConfig: IMeetingConfig = {
       apiKey: API_KEY,
       apiSecret: API_SECRET,
       meetingNumber: 7503424717,
@@ -49,30 +59,34 @@ class VideConference extends Component<{}> {
       apiKey: meetConfig.apiKey,
       apiSecret: meetConfig.apiSecret,
       role: meetConfig.role,
-      success(res: any) {
+      success: (res: any) => {
         console.log("signature", res.result);
-        ZoomMtg.init({
-          leaveUrl: "http://www.zoom.us",
+        this.initializeConference(meetConfig, res);
+      },
+    });
+  };
+
+  private initializeConference = (meetConfig: IMeetingConfig, res: any) => {
+    ZoomMtg.init({
+      leaveUrl: "http://www.zoom.us",
+      success() {
+        ZoomMtg.join({
+          meetingNumber: meetConfig.meetingNumber,
+          userName: meetConfig.userName,
+          signature: res.result,
+          apiKey: meetConfig.apiKey,
+          passWord: meetConfig.passWord,
           success() {
-            ZoomMtg.join({
-              meetingNumber: meetConfig.meetingNumber,
-              userName: meetConfig.userName,
-              signature: res.result,
-              apiKey: meetConfig.apiKey,
-              passWord: meetConfig.passWord,
-              success() {
-                // $("#nav-tool").hide();
-                console.log("join meeting success");
-              },
-              error(res: any) {
-                console.log(res);
-              },
-            });
+            // $("#nav-tool").hide();
+            console.log("join meeting success");
           },
           error(res: any) {
             console.log(res);
           },
         });
+      },
+      error(res: any) {
+        console.log(res);
       },
     });
   };
