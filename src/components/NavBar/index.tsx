@@ -24,7 +24,7 @@ const NavBar = () => {
             className="btn btn-primary"
             onClick={() =>
               logout({
-                returnTo: "http://localhost:3001/video",
+                returnTo: "http://localhost:3001",
                 // eslint-disable-next-line @typescript-eslint/camelcase
                 client_id: AUTH0_CLIENT_ID,
               })
