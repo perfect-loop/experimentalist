@@ -1,10 +1,16 @@
-import React from "react";
+import React, { ReactText } from "react";
 import { useAuth0 } from "../../util/react-auth0-spa";
-import { AUTH0_CLIENT_ID } from "../../util/config";
 import "./Header.css";
+import { UserInfo } from "./UserInfo";
 
 const NavBar = () => {
-  const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
+  const auth0 = useAuth0();
+  const isAuthenticated = auth0.isAuthenticated;
+  const loginWithRedirect = auth0.loginWithRedirect;
+  const logout = auth0.logout;
+  // const userProfile = auth0.user;
+  // const user = new User(userProfile);
+  const user = auth0.user;
 
   return (
     <div>
@@ -13,27 +19,7 @@ const NavBar = () => {
           Log in
         </button>
       )}
-      {isAuthenticated && user && (
-        <>
-          <img width="20px" alt="profile" src={user.picture} />
-          <div>Logged in as {JSON.stringify(user.nickname)}</div>
-          <a href="/video" className="btn btn-primary">
-            Start conference
-          </a>
-          <button
-            className="btn btn-primary"
-            onClick={() =>
-              logout({
-                returnTo: "http://localhost:3001",
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                client_id: AUTH0_CLIENT_ID,
-              })
-            }
-          >
-            Log out
-          </button>
-        </>
-      )}
+      {isAuthenticated && user && <UserInfo user={user} logout={logout} />}
     </div>
   );
 };
