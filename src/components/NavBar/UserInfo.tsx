@@ -1,38 +1,29 @@
 import React from "react";
-import { AUTH0_CLIENT_ID } from "../../util/config";
-import { User } from "../../models/user";
+import { API_DOMAIN } from "../../util/config";
+import { Auth0User } from "../../util/react-auth0-spa";
 
 interface IProps {
-  user: any;
+  user: Auth0User;
   logout: any;
 }
 
 export class UserInfo extends React.Component<IProps, {}> {
-  realUser: User;
+  user: Auth0User;
   constructor(props: IProps) {
     super(props);
-    this.realUser = new User(props.user);
+    this.user = props.user;
   }
 
   render() {
     return (
       <>
-        <div>Logged in as {this.realUser.userProfile?.picture}</div>
+        <div>Logged in as {this.user.email}</div>
         <a href="/video" className="btn btn-primary">
           Start conference
         </a>
-        <button
-          className="btn btn-primary"
-          onClick={() =>
-            this.props.logout({
-              returnTo: "http://localhost:3001",
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              client_id: AUTH0_CLIENT_ID,
-            })
-          }
-        >
-          Log out
-        </button>
+        <a className="btn btn-primary" href={`http://${API_DOMAIN}/api/auth/logout`}>
+          Logout
+        </a>
       </>
     );
   }

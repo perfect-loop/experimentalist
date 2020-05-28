@@ -5,11 +5,11 @@ import { useAuth0 } from "./util/react-auth0-spa";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App: React.FC = () => {
-  const { isInitializing } = useAuth0();
+  const { isInitializing, user } = useAuth0();
 
-  // if (isInitializing) {
-  //   return <div>Loading...</div>;
-  // }
+  if (isInitializing) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Router>

@@ -1,3 +1,5 @@
+import "./LoadEnv"; // Must be the first import
+
 import express from "express";
 import morgan from "morgan";
 import path from "path";
@@ -10,10 +12,6 @@ import { ApplicationError } from "./types";
 import { normalizePort } from "./util";
 import { SERVER_ROOT } from "./constants";
 
-import IndexRouter from "./routes";
-import UserRouter from "./routes/users";
-import { Messenging } from "./Messenging";
-
 const debug = debugLib("server");
 
 const accessLogStream = rfs("access.log", {
@@ -21,7 +19,8 @@ const accessLogStream = rfs("access.log", {
   path: path.join(SERVER_ROOT, "log"),
 });
 
-const app = express();
+// const app = express();
+import app from "./Server";
 
 // Apache commons style logging
 app.use(morgan("combined", { stream: accessLogStream }));
@@ -30,9 +29,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(SERVER_ROOT, "public")));
-
-app.use("/", IndexRouter);
-app.use("/users", UserRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -67,8 +63,6 @@ server.on("error", (error: ApplicationError) => {
       throw error;
   }
 });
-
-Messenging();
 
 server.on("listening", () => {
   const addr = server.address();
