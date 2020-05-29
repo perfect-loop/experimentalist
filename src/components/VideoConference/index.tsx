@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { ZoomMtg } from "@zoomus/websdk";
 import $ from "jquery";
 
+import "./index.css";
+import FabView from "./FabView";
+
 const API_KEY = "d9X8t8-HQgi33MzVsdZKcg";
 const API_SECRET = "oBBj6t1iz60wXXCTkHZPNHni19qJCM5LiLdd";
 
@@ -41,7 +44,11 @@ class VideConference extends Component<{}, IState> {
   }
 
   render() {
-    return <div>placeholder</div>;
+    return (
+      <>
+        <FabView />
+      </>
+    );
   }
 
   private prepareConference = () => {
@@ -79,7 +86,7 @@ class VideConference extends Component<{}, IState> {
 
   private initializeConference = (meetConfig: IMeetingConfig, res: any) => {
     ZoomMtg.init({
-      leaveUrl: "http://www.zoom.us",
+      leaveUrl: "http://localhost:3001/",
       success: () => {
         this.joinConference(meetConfig, res);
       },

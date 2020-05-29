@@ -5,6 +5,8 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.8.1",
     "@brainhubeu/react-carousel": "^1.15.2",
+    "@material-ui/core": "^4.10.0",
+    "@material-ui/icons": "^4.9.1",
     "@types/react-router-dom": "^5.1.5",
     "@types/socket.io-client": "^1.4.32",
     "@zoomus/websdk": "^1.7.7",
