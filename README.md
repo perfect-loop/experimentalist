@@ -20,22 +20,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 `yarn client`
 
-## Mock API
-
-### Mock Server
-
-```
-brew cask install mockoon
-```
-
-or https://mockoon.com/
-
-- Start Mockoon
-- Import API routes
-  - Import/Export -> Import from a file (JSON) -> mock/mocking.json
-- Start "Humor API" server
-- access it via http://localhost:3001/api/messages
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -84,32 +68,33 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## One time setup
 
 ```
-heroku git:remote -a humor-app
+heroku git:remote -a app
 heroku stack:set container
 ```
 
 ## Docker Locally
 
 ```
-docker run -it humor /bin/bash
-docker run -p 3000:3000 humor
+docker build . -t app
+docker run -it app /bin/bash
+docker run -p 3000:3000 app
 ```
 
 ```
 open localhost:3000
 ```
 
-## Updating humor-api
+## Updating api
 
 Bump version in `package.json`
 
 ```
-cd humor-api
+cd api
 yarn build
 ```
 
 In the users of the api
 
 ```
-yarn upgrade humor-api  
+yarn upgrade api  
 ```

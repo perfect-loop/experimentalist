@@ -1,0 +1,8 @@
+{
+  "name": "experiments",
+  "version": "0.0.1",
+  "scripts": {
+    "client": "cd client PORT=3001 react-scripts start",
+    "server": "cd server && yarn start"
+  }
+}

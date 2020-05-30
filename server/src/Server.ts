@@ -67,7 +67,7 @@ import session from "express-session";
 import connectMongo from "connect-mongo";
 import passport from "./passport/setup";
 import auth from "./routes/auth";
-import user from "./routes/Users";
+import user from "./routes/users";
 
 const MONGO_URI = "mongodb://127.0.0.1:27017/tutorial_social_login";
 mongoose.connect(MONGO_URI, { useNewUrlParser: true }).catch((err: any) => console.log(err));

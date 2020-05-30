@@ -1,8 +1,8 @@
 build:
   docker:
-    humor: Dockerfile
+    iep: Dockerfile
 run:
   web:
     command:
       - PORT=$PORT node_modules/pm2/bin/pm2 start ./build/index.js --no-daemon -f
-    image: humor
+    image: iep

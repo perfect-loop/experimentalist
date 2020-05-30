@@ -1,9 +1,13 @@
-FROM node:12
+FROM node:14
 COPY . .
 
+WORKDIR /client
 RUN yarn install
 RUN NODE_ENV=production yarn build
-RUN cp -r build/* server/public
+RUN mv build ../server
+
+# RUN apt-get update
+# RUN apt-get install vim
 
 WORKDIR /server
 RUN yarn install
