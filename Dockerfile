@@ -7,7 +7,6 @@ COPY . .
 WORKDIR /server
 RUN yarn install
 RUN yarn build
-RUN rm -rf node_modules
 
 WORKDIR /client
 RUN yarn install
