@@ -16,7 +16,7 @@ const NavBar = () => {
     <div>
       {!isAuthenticated && (
         <>
-          <a className="btn btn-primary" href={`http://${API_DOMAIN}/api/auth/login`}>
+          <a className="btn btn-primary" href={`${API_DOMAIN}/api/auth/login`}>
             Login
           </a>
         </>

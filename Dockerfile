@@ -7,11 +7,13 @@ COPY . .
 WORKDIR /server
 RUN yarn install
 RUN yarn build
+RUN rm -rf node_modules
 
 WORKDIR /client
 RUN yarn install
 RUN NODE_ENV=production yarn build
-RUN cp -r build/* ../server/build
+RUN cp -r build ../server/build/public
+RUN rm -rf node_modules
 
 WORKDIR /server
 EXPOSE 3000

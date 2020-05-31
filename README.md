@@ -84,6 +84,14 @@ docker run -p 3000:3000 app
 open localhost:3000
 ```
 
+## Push to heroku
+
+```
+heroku container:login
+heroku container:push web
+heroku container:release web
+```
+
 ## Updating api
 
 Bump version in `package.json`

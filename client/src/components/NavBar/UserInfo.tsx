@@ -21,7 +21,7 @@ export class UserInfo extends React.Component<IProps, {}> {
         <a href="/video" className="btn btn-primary">
           Start conference
         </a>
-        <a className="btn btn-primary" href={`http://${API_DOMAIN}/api/auth/logout`}>
+        <a className="btn btn-primary" href={`${API_DOMAIN}/api/auth/logout`}>
           Logout
         </a>
       </>

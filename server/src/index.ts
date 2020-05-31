@@ -28,7 +28,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(SERVER_ROOT, "public")));
+// app.use(express.static(path.join(SERVER_ROOT, "public")));
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

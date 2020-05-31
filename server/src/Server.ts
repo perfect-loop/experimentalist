@@ -7,7 +7,6 @@ import express, { Request, Response, NextFunction } from "express";
 import { BAD_REQUEST } from "http-status-codes";
 import "express-async-errors";
 
-import BaseRouter from "./routes";
 import logger from "./shared/Logger";
 
 // Init express
@@ -31,9 +30,6 @@ if (process.env.NODE_ENV === "production") {
   app.use(helmet());
 }
 
-// Add APIs
-app.use("/", BaseRouter);
-
 // Print API errors
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(err.message, err);
@@ -41,22 +37,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     error: err.message,
   });
 });
-
-/************************************************************************************
- *                              Serve front-end content
- ***********************************************************************************/
-
-// const viewsDir = path.join(__dirname, 'views');
-// app.set('views', viewsDir);
-// const staticDir = path.join(__dirname, 'public');
-// app.use(express.static(staticDir));
-// app.get('*', (req: Request, res: Response) => {
-//     res.sendFile('index.html', {root: viewsDir});
-// });
-
-const viewsDir = path.join(__dirname, "views");
-app.set("views", viewsDir);
-app.set("view engine", "pug");
 
 /******************
  *   Passport
@@ -99,12 +79,30 @@ app.use(userInViews());
 app.use("/api/auth", auth);
 app.use("/", user);
 
-// Development
+/************************************************************************************
+ *                              Development
+ ***********************************************************************************/
 import routeList from "express-routes-catalogue";
 
 if (process.env.NODE_ENV === "development") {
   routeList.web(app, "/route-list");
 }
+
+/************************************************************************************
+ *                              Serve front-end content
+ ***********************************************************************************/
+
+const staticDir = path.join(__dirname, 'public');
+app.use(express.static(staticDir));
+// this is a catch all so must be done last
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile('index.html', {root: staticDir});
+});
+
+// in case html needs to be served by the server
+const viewsDir = path.join(__dirname, "views");
+app.set("views", viewsDir);
+app.set("view engine", "pug");
 
 // Export express instance
 export default app;
