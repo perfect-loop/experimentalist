@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "production") {
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error(err.message, err);
   return res.status(BAD_REQUEST).json({
-    error: err.message,
+    error: err.message
   });
 });
 
@@ -49,8 +49,11 @@ import passport from "./passport/setup";
 import auth from "./routes/auth";
 import user from "./routes/users";
 
-const MONGO_URI = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
-mongoose.connect(MONGO_URI, { useNewUrlParser: true }).catch((err: any) => console.log(err));
+const MONGO_URI =
+  process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
+mongoose
+  .connect(MONGO_URI, { useNewUrlParser: true })
+  .catch((err: any) => console.log(err));
 
 // Bodyparser middleware, extended false does not allow nested payloads
 app.use(express.json());
@@ -63,8 +66,8 @@ app.use(
     secret: process.env.SESSION_SECRET || "session secret",
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  }),
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+  })
 );
 
 // Passport middleware
@@ -92,11 +95,11 @@ if (process.env.NODE_ENV === "development") {
  *                              Serve front-end content
  ***********************************************************************************/
 
-const staticDir = path.join(__dirname, 'public');
+const staticDir = path.join(__dirname, "public");
 app.use(express.static(staticDir));
 // this is a catch all so must be done last
-app.get('*', (req: Request, res: Response) => {
-  res.sendFile('index.html', {root: staticDir});
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile("index.html", { root: staticDir });
 });
 
 // in case html needs to be served by the server

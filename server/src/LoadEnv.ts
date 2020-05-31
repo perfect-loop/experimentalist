@@ -7,14 +7,14 @@ const options = commandLineArgs([
     name: "env",
     alias: "e",
     defaultValue: "production",
-    type: String,
-  },
+    type: String
+  }
 ]);
 
 console.log(`Environment is ${options.env}`);
 // Set the env file
 const result2 = dotenv.config({
-  path: `./env/${options.env}.env`,
+  path: `./env/${options.env}.env`
 });
 
 if (result2.error) {
