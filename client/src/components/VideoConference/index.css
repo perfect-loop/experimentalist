@@ -7,8 +7,13 @@
 
 #dialog-join {
   width: 100% !important;
-} */
+} 
 
 #wc-container-right {
-  /* width: 250px !important; */
+  width: 250px !important;
+}
+*/
+
+.participants-ul .not-hover-list-item {
+  max-width: 300px;
 }
