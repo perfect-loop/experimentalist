@@ -53,7 +53,7 @@ class VideConference extends Component<{}, IState> {
 
   private prepareConference = () => {
     $("#zmmtg-root").show();
-    ZoomMtg.setZoomJSLib("https://source.zoom.us/1.7.7/lib", "/av");
+    ZoomMtg.setZoomJSLib("https://source.zoom.us/1.7.8/lib", "/av");
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareJssdk();
     this.startConference(this.state.role);
