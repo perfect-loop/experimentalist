@@ -97,9 +97,10 @@ class VideConference extends Component<IProps, IState> {
 
   private initializeConference = (meetConfig: IMeetingConfig, res: any) => {
     ZoomMtg.init({
-      loginWindow: {  // optional,
+      loginWindow: {
+        // optional,
         width: 400,
-        height: 380
+        height: 380,
       },
       leaveUrl: SERVER_URL,
       success: () => {
@@ -132,13 +133,13 @@ class VideConference extends Component<IProps, IState> {
     return randomWords({
       exactly: 1,
       wordsPerString: 2,
-      separator: ' '
-    })
+      separator: " ",
+    });
   }
 
   private participantName = () => {
-    return this.state.role == Role.Host ? "PI" : `${this.randomName()} [${this.state.user?.email}]`
-  }
+    return this.state.role == Role.Host ? "PI" : `${this.randomName()} [${this.state.user?.email}]`;
+  };
 
   private customizeOnJoin = () => {
     if (this.state.role == Role.Attendee) {
@@ -160,29 +161,31 @@ class VideConference extends Component<IProps, IState> {
         .parents(".participants-li")
         .find("[title]");
       const currentName = $participant.text();
-      const newName = currentName.replace(/\[.*\]/, ``)
+      const newName = currentName.replace(/\[.*\]/, ``);
       $participant.text(newName);
-    })
+    });
   };
 
   private addCustomEventListener = (selector: any, event: any, handler: any) => {
-    let rootElement = document.querySelector('body');
+    const rootElement = document.querySelector("body");
     //since the root element is set to be body for our current dealings
     if (rootElement) {
-      rootElement.addEventListener(event, function (evt) {
-        var targetElement = evt.target;
-        while (targetElement != null) {
-          if (targetElement.matches(selector)) {
-            handler(evt);
-            return;
+      rootElement.addEventListener(
+        event,
+        function(evt) {
+          let targetElement = evt.target;
+          while (targetElement != null) {
+            if (targetElement.matches(selector)) {
+              handler(evt);
+              return;
+            }
+            targetElement = targetElement.parentElement;
           }
-          targetElement = targetElement.parentElement;
-        }
-      },
-        true
+        },
+        true,
       );
     }
-  }
+  };
 }
 
 export default VideConference;

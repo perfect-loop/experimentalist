@@ -22,7 +22,7 @@ const App: React.FC = () => {
             <VideoConference role={Role.Attendee} user={user} />
           </Route>
           <Route path="/admin/event/conference">
-            <VideoConference role={Role.Host}  />
+            <VideoConference role={Role.Host} />
           </Route>
         </Switch>
       </div>

@@ -19,8 +19,12 @@ export class UserInfo extends React.Component<IProps, {}> {
     return (
       <>
         <div>Logged in as {this.user.email}</div>
-        <Link to="event/conference" className="btn btn-primary">Start conference as Attendee</Link>
-        <Link to="admin/event/conference" className="btn btn-primary">Start conference as Host</Link>
+        <Link to="event/conference" className="btn btn-primary">
+          Start conference as Attendee
+        </Link>
+        <Link to="admin/event/conference" className="btn btn-primary">
+          Start conference as Host
+        </Link>
         <a className="btn btn-primary" href={`${API_DOMAIN}/api/auth/logout`}>
           Logout
         </a>
