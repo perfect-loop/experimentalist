@@ -29,3 +29,13 @@ This project was created using `create-express-typescript-app`
 ### To stop in production
 
     $ yarn stop-prod -- <id>
+
+## Local Development
+
+### Get list of routes
+
+http://localhost:3001/route-list
+
+### Debugging with VSCode
+
+https://github.com/microsoft/vscode-recipes/tree/master/nodemon#nodejs-debugging-in-vs-code-with-nodemon

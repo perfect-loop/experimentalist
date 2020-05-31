@@ -11,6 +11,8 @@ import createAuth0Client, {
   Auth0ClientOptions,
 } from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
+import { Api } from "./api";
+import { AxiosResponse, AxiosError } from "axios";
 
 export interface Auth0RedirectState {
   targetUrl?: string;
@@ -49,61 +51,78 @@ export const Auth0Provider = ({
   const [user, setUser] = useState<Auth0User>();
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
 
+  const getProfile = (): Promise<Auth0User> => {
+    const client = new Api({});
+    return new Promise((resolve, reject) => {
+      client
+        .get<Auth0User>("/user.json")
+        .then((response: AxiosResponse<Auth0User>) => {
+          const { data } = response;
+          const state: Auth0User = {
+            nickname: data.nickname,
+            name: data.name,
+            picture: data.picture,
+            updatedAt: data.updatedAt,
+            email: data.email,
+            emailVerified: data.emailVerified,
+            sub: data.sub,
+          };
+          resolve(state);
+        })
+        .catch((error: AxiosError) => {
+          reject(error);
+        });
+    });
+  };
+
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
       setAuth0Client(auth0FromHook);
 
-      if (window.location.search.includes("code=")) {
-        let appState: RedirectLoginResult = {};
-        try {
-          ({ appState } = await auth0FromHook.handleRedirectCallback());
-        } finally {
-          onRedirectCallback(appState);
-        }
-      }
+      getProfile()
+        .then(userProfile => {
+          if (userProfile) {
+            setIsAuthenticated(true);
+            setIsInitializing(false);
+            console.log(`Setting user ${JSON.stringify(userProfile)}`);
+            setUser(userProfile);
+          }
 
-      const authed = await auth0FromHook.isAuthenticated();
-
-      if (authed) {
-        const userProfile = await auth0FromHook.getUser();
-
-        setIsAuthenticated(true);
-        setUser(userProfile);
-      }
-
-      setIsInitializing(false);
+          setIsInitializing(false);
+        })
+        .catch(error => {
+          console.error("setting user to undefined");
+          setUser(undefined);
+          setIsInitializing(false);
+          console.log(error);
+        });
     };
 
     initAuth0();
   }, []);
 
   const loginWithPopup = async (options?: PopupLoginOptions) => {
-    setIsPopupOpen(true);
-
-    try {
-      await auth0Client!.loginWithPopup(options);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsPopupOpen(false);
-    }
-
-    const userProfile = await auth0Client!.getUser();
-    setUser(userProfile);
-    setIsAuthenticated(true);
+    // setIsPopupOpen(true);
+    // try {
+    //   await auth0Client!.loginWithPopup(options);
+    // } catch (error) {
+    //   console.error(error);
+    // } finally {
+    //   setIsPopupOpen(false);
+    // }
+    // const userProfile = await auth0Client!.getUser();
+    // setUser(userProfile);
+    // setIsAuthenticated(true);
   };
 
   const handleRedirectCallback = async () => {
-    setIsInitializing(true);
-
+    // setIsInitializing(true);
     const result = await auth0Client!.handleRedirectCallback();
     const userProfile = await auth0Client!.getUser();
-
-    setIsInitializing(false);
-    setIsAuthenticated(true);
+    // setIsInitializing(false);
+    // setIsAuthenticated(true);
     setUser(userProfile);
-
     return result;
   };
 
