@@ -39,6 +39,7 @@ interface Auth0ProviderOptions {
 }
 
 export const Auth0Context = React.createContext<Auth0Context | null>(null);
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 export const useAuth0 = () => useContext(Auth0Context)!;
 export const Auth0Provider = ({
   children,
@@ -118,7 +119,9 @@ export const Auth0Provider = ({
 
   const handleRedirectCallback = async () => {
     // setIsInitializing(true);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const result = await auth0Client!.handleRedirectCallback();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const userProfile = await auth0Client!.getUser();
     // setIsInitializing(false);
     // setIsAuthenticated(true);
@@ -126,14 +129,19 @@ export const Auth0Provider = ({
     return result;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const loginWithRedirect = (options?: RedirectLoginOptions) => auth0Client!.loginWithRedirect(options);
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const getTokenSilently = (options?: GetTokenSilentlyOptions) => auth0Client!.getTokenSilently(options);
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const logout = (options?: LogoutOptions) => auth0Client!.logout(options);
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const getIdTokenClaims = (options?: getIdTokenClaimsOptions) => auth0Client!.getIdTokenClaims(options);
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const getTokenWithPopup = (options?: GetTokenWithPopupOptions) => auth0Client!.getTokenWithPopup(options);
 
   return (

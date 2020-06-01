@@ -1,6 +1,7 @@
 import React from "react";
 import { API_DOMAIN } from "../../util/config";
 import { Auth0User } from "../../util/react-auth0-spa";
+import { Link } from "react-router-dom";
 
 interface IProps {
   user: Auth0User;
@@ -18,9 +19,12 @@ export class UserInfo extends React.Component<IProps, {}> {
     return (
       <>
         <div>Logged in as {this.user.email}</div>
-        <a href="/video" className="btn btn-primary">
-          Start conference
-        </a>
+        <Link to="event/conference" className="btn btn-primary">
+          Start conference as Attendee
+        </Link>
+        <Link to="admin/event/conference" className="btn btn-primary">
+          Start conference as Host
+        </Link>
         <a className="btn btn-primary" href={`${API_DOMAIN}/api/auth/logout`}>
           Logout
         </a>

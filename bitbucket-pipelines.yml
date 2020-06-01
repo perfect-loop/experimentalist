@@ -1,4 +1,4 @@
-image: node:12
+image: node:14
 
 test: &test 
   caches:
@@ -8,10 +8,7 @@ test: &test
     - node_modules/eslint/bin/eslint.js src --ext .js,.jsx,.ts,.tsx
     - cd server
     - yarn install
-    - ./node_modules/.bin/tslint -p .
-    - cd ../humor-api
-    - yarn install
-    - node_modules/eslint/bin/eslint.js . --ext .js,.jsx,.ts,.tsx  
+    - node_modules/eslint/bin/eslint.js src --ext .js,.jsx,.ts,.tsx
 
 validate_build: &validate_build
   caches:

@@ -4,11 +4,14 @@ import $ from "jquery";
 
 import "./index.css";
 import FabView from "./FabView";
+import { Auth0User } from "../../util/react-auth0-spa";
+import randomWords from "random-words";
+import { SERVER_URL } from "../../util/config";
 
 const API_KEY = "d9X8t8-HQgi33MzVsdZKcg";
 const API_SECRET = "oBBj6t1iz60wXXCTkHZPNHni19qJCM5LiLdd";
 
-enum Role {
+export enum Role {
   Attendee = 0,
   Host = 1,
   Assistant = 5,
@@ -26,13 +29,20 @@ interface IMeetingConfig {
 
 interface IState {
   role: Role;
+  user?: Auth0User;
 }
 
-class VideConference extends Component<{}, IState> {
-  constructor(props: {}) {
+interface IProps {
+  role: Role;
+  user?: Auth0User;
+}
+
+class VideConference extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
-      role: Role.Attendee,
+      role: props.role || Role.Attendee,
+      user: props.user,
     };
   }
 
@@ -53,10 +63,11 @@ class VideConference extends Component<{}, IState> {
 
   private prepareConference = () => {
     $("#zmmtg-root").show();
-    ZoomMtg.setZoomJSLib("https://source.zoom.us/1.7.7/lib", "/av");
+    ZoomMtg.setZoomJSLib("https://source.zoom.us/1.7.8/lib", "/av");
     ZoomMtg.preLoadWasm();
     ZoomMtg.prepareJssdk();
     this.startConference(this.state.role);
+    this.customizeConference();
   };
 
   private startConference = (role: Role) => {
@@ -64,7 +75,7 @@ class VideConference extends Component<{}, IState> {
       apiKey: API_KEY,
       apiSecret: API_SECRET,
       meetingNumber: 7503424717,
-      userName: "React User",
+      userName: this.participantName(),
       passWord: "1e3AM8",
       leaveUrl: "http://localhost:9999/",
       role: role,
@@ -86,7 +97,12 @@ class VideConference extends Component<{}, IState> {
 
   private initializeConference = (meetConfig: IMeetingConfig, res: any) => {
     ZoomMtg.init({
-      leaveUrl: "http://localhost:3001/",
+      loginWindow: {
+        // optional,
+        width: 400,
+        height: 380,
+      },
+      leaveUrl: SERVER_URL,
       success: () => {
         this.joinConference(meetConfig, res);
       },
@@ -105,7 +121,7 @@ class VideConference extends Component<{}, IState> {
       passWord: meetConfig.passWord,
       success: () => {
         console.log("join meeting success");
-        this.customizeConference();
+        this.customizeOnJoin();
       },
       error(res: any) {
         console.log(res);
@@ -113,13 +129,70 @@ class VideConference extends Component<{}, IState> {
     });
   };
 
-  private customizeConference = () => {
+  private randomName() {
+    return randomWords({
+      exactly: 1,
+      wordsPerString: 2,
+      separator: " ",
+    });
+  }
+
+  private participantName = () => {
+    return this.state.role == Role.Host ? "PI" : `${this.randomName()} [${this.state.user?.email}]`;
+  };
+
+  private customizeOnJoin = () => {
     if (this.state.role == Role.Attendee) {
       $(".img-start-video")
         .parents("button")
         .hide();
     }
   };
+
+  private customizeConference = () => {
+    if (this.state.role === Role.Attendee) {
+      this.renamePaticipants();
+    }
+  };
+
+  private renamePaticipants = () => {
+    this.addCustomEventListener(".participants-li", "load", (event: Event) => {
+      const $participant = $(event.target)
+        .parents(".participants-li")
+        .find("[title]");
+      const currentName = $participant.text();
+      const newName = currentName.replace(/\[.*\]/, ``);
+      $participant.text(newName);
+    });
+  };
+
+  private addCustomEventListener = (selector: any, event: any, handler: any) => {
+    const rootElement = document.querySelector("body");
+    //since the root element is set to be body for our current dealings
+    if (rootElement) {
+      rootElement.addEventListener(
+        event,
+        function(evt) {
+          let targetElement = evt.target;
+          while (targetElement != null) {
+            if (targetElement.matches(selector)) {
+              handler(evt);
+              return;
+            }
+            targetElement = targetElement.parentElement;
+          }
+        },
+        true,
+      );
+    }
+  };
 }
 
 export default VideConference;
+
+// ZoomMtg.getAttendeeslist({
+//   success: function (res) {
+//     console.log(res, "get getAttendeeslist");
+//   }
+// });
+// To be available in version 1.8

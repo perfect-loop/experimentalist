@@ -16,7 +16,7 @@ const debug = debugLib("server");
 
 const accessLogStream = rfs("access.log", {
   interval: "1d", // rotate daily
-  path: path.join(SERVER_ROOT, "log"),
+  path: path.join(SERVER_ROOT, "log")
 });
 
 // const app = express();
@@ -67,7 +67,8 @@ server.on("error", (error: ApplicationError) => {
 server.on("listening", () => {
   const addr = server.address();
   if (addr) {
-    const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+    const bind =
+      typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
     debug("Listening on " + bind);
   } else {
     debug("Unable to create address");

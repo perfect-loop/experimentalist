@@ -20,11 +20,11 @@ dotenv.config();
 router.get(
   "/login",
   passport.authenticate("auth0", {
-    scope: "openid email profile",
+    scope: "openid email profile"
   }),
   (req, res) => {
     res.redirect("/");
-  },
+  }
 );
 
 // Perform the final stage of authentication and redirect to previously requested URL or '/user'
@@ -42,12 +42,8 @@ router.get("/callback", (req, res, next) => {
       if (err) {
         return next(error);
       }
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      const returnTo = req.session.returnTo;
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      delete req.session.returnTo;
+      const returnTo = req.session?.returnTo;
+      delete req.session?.returnTo;
       res.redirect(returnTo || process.env.AUTH0_LOGIN_DEFAULT_RETURN_TO);
     });
   })(req, res, next);
@@ -58,17 +54,16 @@ router.get("/logout", (req, res) => {
   req.logout();
 
   const returnTo = process.env.AUTH0_LOGOUT_RETURN_TO;
-  const logoutURL = new url.URL(util.format("https://%s/v2/logout", process.env.AUTH0_DOMAIN));
+  const logoutURL = new url.URL(
+    util.format("https://%s/v2/logout", process.env.AUTH0_DOMAIN)
+  );
   const searchString = querystring.stringify({
-    // eslint-disable-next-line @typescript-eslint/camelcase
     client_id: process.env.AUTH0_CLIENT_ID,
-    returnTo,
+    returnTo
   });
   logoutURL.search = searchString;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  res.redirect(logoutURL);
+  res.redirect(logoutURL.toString());
 });
 
 export default router;

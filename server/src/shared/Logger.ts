@@ -11,7 +11,7 @@ const { File, Console } = transports;
 
 // Init Logger
 const logger = createLogger({
-  level: "info",
+  level: "info"
 });
 
 /**
@@ -24,11 +24,11 @@ if (process.env.NODE_ENV === "production") {
   const errTransport = new File({
     filename: "./logs/error.log",
     format: fileFormat,
-    level: "error",
+    level: "error"
   });
   const infoTransport = new File({
     filename: "./logs/combined.log",
-    format: fileFormat,
+    format: fileFormat
   });
   logger.add(errTransport);
   logger.add(infoTransport);
@@ -42,7 +42,11 @@ if (process.env.NODE_ENV === "production") {
     return info;
   });
   const consoleTransport = new Console({
-    format: format.combine(format.colorize(), format.simple(), errorStackFormat()),
+    format: format.combine(
+      format.colorize(),
+      format.simple(),
+      errorStackFormat()
+    )
   });
   logger.add(consoleTransport);
 }
