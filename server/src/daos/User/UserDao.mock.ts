@@ -32,7 +32,7 @@ class UserDao extends MockDaoMock implements IUserDao {
       const db = await super.openDb();
       user.id = getRandomInt();
       db.users.push(user);
-      await super.saveDb(db);
+      // await super.saveDb(db);
     } catch (err) {
       throw err;
     }
@@ -44,7 +44,7 @@ class UserDao extends MockDaoMock implements IUserDao {
       for (let i = 0; i < db.users.length; i++) {
         if (db.users[i].id === user.id) {
           db.users[i] = user;
-          await super.saveDb(db);
+          // await super.saveDb(db);
           return;
         }
       }
@@ -60,7 +60,7 @@ class UserDao extends MockDaoMock implements IUserDao {
       for (let i = 0; i < db.users.length; i++) {
         if (db.users[i].id === id) {
           db.users.splice(i, 1);
-          await super.saveDb(db);
+          // await super.saveDb(db);
           return;
         }
       }
