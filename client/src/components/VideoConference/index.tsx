@@ -102,6 +102,7 @@ class VideConference extends Component<IProps, IState> {
         width: 400,
         height: 380,
       },
+      screenShare: false,
       leaveUrl: SERVER_URL,
       success: () => {
         this.joinConference(meetConfig, res);
