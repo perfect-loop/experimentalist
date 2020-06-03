@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar";
 import VideoConference, { Role } from "./components/VideoConference";
 import { useAuth0 } from "./util/react-auth0-spa";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Events from "./components/Events";
 
 const App: React.FC = () => {
   const { isInitializing, user } = useAuth0();
@@ -18,6 +19,9 @@ const App: React.FC = () => {
           <NavBar />
         </header>
         <Switch>
+          <Route path="/events/" >
+            <Events />
+          </Route>
           <Route path="/event/conference">
             <VideoConference role={Role.Attendee} user={user} />
           </Route>

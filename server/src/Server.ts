@@ -48,6 +48,7 @@ import connectMongo from "connect-mongo";
 import passport from "./passport/setup";
 import auth from "./routes/auth";
 import user from "./routes/users";
+import events from "./routes/events";
 
 const MONGO_URI =
   process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
@@ -81,15 +82,7 @@ app.use(userInViews());
 // Routes
 app.use("/api/auth", auth);
 app.use("/", user);
-
-/************************************************************************************
- *                              Development
- ***********************************************************************************/
-import routeList from "express-routes-catalogue";
-
-if (process.env.NODE_ENV === "development") {
-  routeList.web(app, "/route-list");
-}
+app.use("/api", events);
 
 /************************************************************************************
  *                              Serve front-end content
@@ -98,9 +91,23 @@ if (process.env.NODE_ENV === "development") {
 const staticDir = path.join(__dirname, "public");
 app.use(express.static(staticDir));
 // this is a catch all so must be done last
-app.get("*", (req: Request, res: Response) => {
-  res.sendFile("index.html", { root: staticDir });
-});
+
+if (process.env.NODE_ENV != "development") {
+  app.get("*", (req: Request, res: Response) => {
+    res.sendFile("index.html", { root: staticDir });
+  });
+}
+/************************************************************************************
+ *                              Development
+ ***********************************************************************************/
+import routeList from "express-routes-catalogue";
+
+if (process.env.NODE_ENV === "development") {
+  routeList.web(app, "/route-list");
+  app.get("*", (req: Request, res: Response) => {
+    res.redirect('/route-list');
+  })
+}
 
 // in case html needs to be served by the server
 const viewsDir = path.join(__dirname, "views");
