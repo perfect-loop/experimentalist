@@ -105,8 +105,8 @@ import routeList from "express-routes-catalogue";
 if (process.env.NODE_ENV === "development") {
   routeList.web(app, "/route-list");
   app.get("*", (req: Request, res: Response) => {
-    res.redirect('/route-list');
-  })
+    res.redirect("/route-list");
+  });
 }
 
 // in case html needs to be served by the server

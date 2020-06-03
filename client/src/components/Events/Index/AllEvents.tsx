@@ -1,10 +1,10 @@
-import React from 'react';
-import EventsStore from '../storage/EventsStore.ts';
-import EventsTable from './EventsTable';
-import { observer } from 'mobx-react'
+import React from "react";
+import EventsStore from "../storage/EventsStore";
+import EventsTable from "./EventsTable";
+import { observer } from "mobx-react";
 
 interface IProps {
-  eventsStore: EventsStore,
+  eventsStore: EventsStore;
 }
 
 function AllEvents(props: IProps) {
@@ -13,9 +13,7 @@ function AllEvents(props: IProps) {
       return <div>Not ready</div>;
     case "ready":
       const events = props.eventsStore.events;
-      return (
-        <EventsTable events={events} />
-      );
+      return <EventsTable events={events} />;
   }
 }
 

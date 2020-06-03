@@ -106,3 +106,9 @@ In the users of the api
 ```
 yarn upgrade api  
 ```
+
+# External Services
+
+## Mongo
+
+https://www.mongodb.com/cloud/atlas
