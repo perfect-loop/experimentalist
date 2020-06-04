@@ -18,7 +18,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Start server (new tab)
 
-`yarn client`
+`yarn start`
 
 ## Available Scripts
 

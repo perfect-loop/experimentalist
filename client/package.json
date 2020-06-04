@@ -46,15 +46,15 @@
     "@types/react-dom": "^16.9.5",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
+    "http-proxy-middleware": "^1.0.4",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
     "prettier": "^1.19.1"
   },
-  "proxy": "http://localhost:3000",
   "scripts": {
-    "client": "PORT=3001 react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "server": "cd server && yarn start",
     "build": "react-scripts build",
     "test": "react-scripts test",
