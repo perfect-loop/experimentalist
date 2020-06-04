@@ -7,6 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
 import { IEvent } from "api/Events";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   table: {
@@ -47,6 +48,7 @@ export default function EventsTable(props: { events: IEvent[] }) {
           <TableRow>
             <StyledTableCell align="right"> Id </StyledTableCell>
             <StyledTableCell align="right"> Name </StyledTableCell>
+            <StyledTableCell align="right"> Go </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -56,6 +58,9 @@ export default function EventsTable(props: { events: IEvent[] }) {
                 {event._id}
               </StyledTableCell>
               <StyledTableCell align="right"> {event.title} </StyledTableCell>
+              <StyledTableCell align="right">
+                <Link to={`/events/${event._id}`}>go</Link>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

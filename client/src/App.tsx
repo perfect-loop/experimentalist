@@ -5,6 +5,7 @@ import { useAuth0 } from "./util/react-auth0-spa";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Events from "./components/Events";
 import Floaty from "./components/Events/Floaty";
+import Show from "./components/Events/Show";
 
 const App: React.FC = () => {
   const { isInitializing, user } = useAuth0();
@@ -20,6 +21,18 @@ const App: React.FC = () => {
           <NavBar />
         </header>
         <Switch>
+          <Route
+            exact
+            path="/events/:id"
+            component={(props: any) => {
+              return (
+                <>
+                  <Show id={props.match.params.id} />
+                  <Floaty />
+                </>
+              );
+            }}
+          />
           <Route path="/events/">
             <Events />
             <Floaty />
@@ -27,10 +40,10 @@ const App: React.FC = () => {
           <Route path="/event/conference">
             <VideoConference role={Role.Attendee} user={user} />
           </Route>
-          <Route path="/admin/event/conference">
-            <VideoConference role={Role.Host} />
-          </Route>
         </Switch>
+        <Route path="/admin/event/conference">
+          <VideoConference role={Role.Host} />
+        </Route>
       </div>
     </Router>
   );

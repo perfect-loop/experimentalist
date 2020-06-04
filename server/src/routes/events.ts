@@ -11,8 +11,15 @@ router.get("/events.json", secured(), (req, res, next) => {
   });
 });
 
-// router.post("/events.json", secured(), (req, res, next) => {
-router.post("/events.json", (req: any, res: any, next) => {
+router.get("/events/:id.json", secured(), (req, res, next) => {
+  const id = req.params.id;
+  Event.findById(id).then((event: any) => {
+    console.log(event)
+    res.json(event);
+  });
+});
+
+router.post("/events.json", secured(), (req: any, res: any, next) => {
   console.log("got request to create event");
   console.log(`body is ${JSON.stringify(req.body)}`);
   const body = req.body;

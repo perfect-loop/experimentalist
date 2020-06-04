@@ -42,4 +42,21 @@ export default class EventStore {
         });
     });
   };
+
+  @action
+  public get = (id: string) => {
+    const client = new Api({});
+    client
+      .get<IEvent>(`/api/events/${id}.json`)
+      .then((response: AxiosResponse<IEvent>) => {
+        const { data } = response;
+        this.state = {
+          kind: "ready",
+          model: data,
+        }
+      })
+      .catch((error: AxiosError) => {
+        console.error(error.response?.statusText);
+      });
+  };
 }
