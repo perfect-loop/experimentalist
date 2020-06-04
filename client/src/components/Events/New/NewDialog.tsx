@@ -98,6 +98,6 @@ function NewDialog(props: {}) {
       />
     </Paper>
   );
-};
+}
 
 export default NewDialog;

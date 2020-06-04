@@ -18,7 +18,7 @@ export default class Show extends Component<IProps, IState> {
     super(props);
     const eventStore = new EventStore();
     this.state = {
-      eventStore
+      eventStore,
     };
     eventStore.get(props.id);
   }

@@ -35,7 +35,7 @@ export default class EventStore {
             kind: "ready",
             model: data,
           };
-          resolve(data)
+          resolve(data);
         })
         .catch((error: AxiosError) => {
           console.error(error.response?.statusText);
@@ -53,7 +53,7 @@ export default class EventStore {
         this.state = {
           kind: "ready",
           model: data,
-        }
+        };
       })
       .catch((error: AxiosError) => {
         console.error(error.response?.statusText);

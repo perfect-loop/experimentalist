@@ -12,18 +12,16 @@ function ShowEvent(props: IProps) {
     case "not_ready":
       return <div>Not ready</div>;
     case "ready":
-      const event = props.eventStore.state.model
+      const event = props.eventStore.state.model;
       return (
         <>
-          <div>
-            {event.title}
-          </div>
-          <Link to="event/conference" className="btn btn-primary">
+          <div>{event.title}</div>
+          <Link to={`/events/${props.eventStore.state.model._id}/conference`} className="btn btn-primary">
             Start conference as Attendee
-        </Link>
-          <Link to="admin/event/conference" className="btn btn-primary">
+          </Link>
+          <Link to={"/admin/events/${props.eventStore.state.model._id}/conference"} className="btn btn-primary">
             Start conference as Host
-        </Link>
+          </Link>
         </>
       );
   }

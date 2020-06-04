@@ -33,17 +33,17 @@ const App: React.FC = () => {
               );
             }}
           />
-          <Route path="/events/">
+          <Route exact path="/events/">
             <Events />
             <Floaty />
           </Route>
-          <Route path="/event/conference">
+          <Route exact path="/events/:id/conference">
             <VideoConference role={Role.Attendee} user={user} />
           </Route>
+          <Route exact path="/admin/events/:id/conference">
+            <VideoConference role={Role.Host} />
+          </Route>
         </Switch>
-        <Route path="/admin/event/conference">
-          <VideoConference role={Role.Host} />
-        </Route>
       </div>
     </Router>
   );

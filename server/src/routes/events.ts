@@ -14,7 +14,7 @@ router.get("/events.json", secured(), (req, res, next) => {
 router.get("/events/:id.json", secured(), (req, res, next) => {
   const id = req.params.id;
   Event.findById(id).then((event: any) => {
-    console.log(event)
+    console.log(event);
     res.json(event);
   });
 });
