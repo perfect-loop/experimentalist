@@ -2,23 +2,38 @@ import EventsStore from "../storage/EventsStore";
 import { Component } from "react";
 import React from "react";
 import { observer } from "mobx-react";
+import EventStore from "../storage/EventStore";
+import AllParticipants from "./AllParticipants";
+import ParticipantsStore from "../storage/ParticipantsStore";
 
 interface IState {
-  eventsStore: EventsStore;
+  participantsStore: ParticipantsStore;
+  eventStore: EventStore;
 }
 
+interface IProps {
+  eventId: string;
+}
+
+
 @observer
-export default class Index extends Component<{}, IState> {
-  constructor(props: {}) {
+export default class Index extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
-    const events = new EventsStore();
+    const store = new ParticipantsStore(props.eventId);
+    const e = new EventStore();
     this.state = {
-      eventsStore: events,
+      participantsStore: store,
+      eventStore: e
     };
-    events.getEvents();
+    store.get();
+    e.get(props.eventId);
   }
 
   public render() {
-    return <>All Participants</>;
+    return <AllParticipants
+      participantsStore={this.state.participantsStore}
+      eventStore={this.state.eventStore}
+    />;
   }
 }

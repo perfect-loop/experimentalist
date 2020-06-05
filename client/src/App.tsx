@@ -7,6 +7,7 @@ import Events from "./components/Events";
 import Floaty from "./components/Events/Floaty";
 import Show from "./components/Events/Show";
 import Settings from "./components/Events/Settings";
+import Index from "./components/Events/Participants";
 
 const App: React.FC = () => {
   const { isInitializing, user } = useAuth0();
@@ -22,6 +23,18 @@ const App: React.FC = () => {
           <NavBar />
         </header>
         <Switch>
+        <Route
+            exact
+            path="/events/:id/participants"
+            component={(props: any) => {
+              return (
+                <>
+                  <Index eventId={props.match.params.id} />
+                  <Floaty />
+                </>
+              );
+            }}
+          />
           <Route
             exact
             path="/events/:id/settings"

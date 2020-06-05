@@ -10,6 +10,7 @@ import { IEvent } from "api/Events";
 import { Link } from "react-router-dom";
 import SettingsIcon from '@material-ui/icons/Settings';
 import GroupIcon from '@material-ui/icons/Group';
+import { IParticipation } from "api/Participations";
 
 const useStyles = makeStyles({
   table: {
@@ -40,7 +41,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
   }),
 )(TableRow);
 
-export default function EventsTable(props: { events: IEvent[] }) {
+export default function ParticipantsTable(props: { participants: IParticipation[] }) {
   const classes = useStyles();
 
   return (
@@ -48,29 +49,15 @@ export default function EventsTable(props: { events: IEvent[] }) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <StyledTableCell align="right"> Id </StyledTableCell>
-            <StyledTableCell align="right"> Name </StyledTableCell>
-            <StyledTableCell align="right"> Go </StyledTableCell>
-            <StyledTableCell align="right"> Participants </StyledTableCell>
-            <StyledTableCell align="right"> Settings </StyledTableCell>
+            <StyledTableCell align="right"> Email </StyledTableCell>
+            <StyledTableCell align="right"> Role </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.events.map((event: IEvent) => (
-            <StyledTableRow key={event._id}>
-              <StyledTableCell component="th" scope="row">
-                {event._id}
-              </StyledTableCell>
-              <StyledTableCell align="right"> {event.title} </StyledTableCell>
-              <StyledTableCell align="right">
-                <Link to={`/events/${event._id}`}>go</Link>
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <Link to={`/events/${event._id}/participants`}><GroupIcon /></Link>
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <Link to={`/events/${event._id}/settings`}><SettingsIcon /></Link>
-              </StyledTableCell>
+          {props.participants.map((participant: IParticipation) => (
+            <StyledTableRow key={participant._id}>
+              <StyledTableCell align="right"> {participant.email} </StyledTableCell>
+              <StyledTableCell align="right"> {participant.role} </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
