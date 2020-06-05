@@ -1,11 +1,12 @@
-import express, { Application } from "express";
+import express from "express";
 import secured from "../lib/middleware/secured";
-import { IncomingMessage } from "http";
 import { IEvent, Event } from "api/Events";
+import { Participation, IParticipation } from "api/Participations";
+import { Auth0User } from "types/auth0";
 
 const router = express.Router();
 
-router.get("/events.json", secured(), (req, res, next) => {
+router.get("/events.json", secured(), (req: any, res, next) => {
   Event.find().then((events: any) => {
     res.json(events);
   });
@@ -31,12 +32,23 @@ router.post("/events.json", secured(), (req: any, res: any, next) => {
     .save()
     .then((newEvent: IEvent) => {
       console.log(`event is ${newEvent}`);
-      res.json(newEvent);
+      const user: Auth0User = req.user;
+      addParticipation(user.email, newEvent).then(() => {
+        res.json(newEvent);
+      }).catch((reason: any) => {
+        res.status(500).send(reason.message);
+      })
     })
     .catch((reason: any) => {
       console.log(reason.constructor);
       res.status(500).send(reason.message);
     });
 });
+
+function addParticipation(email: string, event: IEvent): Promise<IParticipation> {
+  // TODO: find a way how to use types in the constructor
+  var pNew = new Participation({ email, event, role: "host" })
+  return pNew.save()
+}
 
 export default router;

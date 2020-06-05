@@ -19,7 +19,7 @@
     "outDir": "./build",
     "experimentalDecorators": true
   },
-  "include": ["./src"],
+  "include": ["./src", "scratch.ts"],
   "exclude": [
     "./node_modules",
     "./build"

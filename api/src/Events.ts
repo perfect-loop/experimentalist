@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 import * as mongoose from 'mongoose';
 
-const EventSchema = new mongoose.Schema(
+export const EventSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -24,7 +24,7 @@ export interface IEvent extends Document {
   title: string;
   startAt: Date;
   endAt: string;
-  active: boolean
+  active: boolean;
 }
 
 export const Event = mongoose.model<IEvent>("events", EventSchema);
