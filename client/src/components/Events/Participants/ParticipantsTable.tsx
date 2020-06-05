@@ -17,6 +17,9 @@ const useStyles = makeStyles({
     minWidth: 50,
     maxWidth: 500,
   },
+  container: {
+    maxHeight: 200,
+  },
 });
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -45,8 +48,8 @@ export default function ParticipantsTable(props: { participants: IParticipation[
   const classes = useStyles();
 
   return (
-    <TableContainer>
-      <Table className={classes.table}>
+    <TableContainer className={classes.container}>
+      <Table className={classes.table} stickyHeader>
         <TableHead>
           <TableRow>
             <StyledTableCell align="right"> Email </StyledTableCell>

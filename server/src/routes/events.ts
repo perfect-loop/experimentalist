@@ -20,9 +20,25 @@ router.get("/events/:id.json", secured(), async (req, res, next) => {
 router.get("/events/:id/participants.json", secured(), async (req, res, next) => {
   const id = req.params.id;
   const event = (await Event.findById(id)) as IEvent;
-  const participants = (await Participation.find({ event })) as IParticipation[];
+  console.log(`event is ${event}`)
+  const participants = (await Participation.find({ "event._id": event._id })) as IParticipation[];
   res.json(participants);
 });
+
+router.post("/events/:id/participants.json", secured(), async (req, res, next) => {
+  const id = req.params.id;
+  const data = req.body as IParticipation[]
+  const event = (await Event.findById(id)) as IEvent;
+  const toInsert = data.map((d)=>{
+    d.event = event
+    return d;
+  });
+  console.log(`will insert ${JSON.stringify(toInsert)}`);
+  await Participation.insertMany(data)
+  console.log("Returning")
+  const participants = (await Participation.find({ "event._id": event._id })) as IParticipation[];
+  res.json(participants);
+})
 
 router.post("/events.json", secured(), (req: any, res: any, next) => {
   console.log("got request to create event");
