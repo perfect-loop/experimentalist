@@ -1,14 +1,13 @@
 import React from "react";
 import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
-import MenuBook from "@material-ui/icons/MenuBook";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import New from "../New";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -50,15 +49,8 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
-
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
+export default function NewPopup({ defaultOpen = false }) {
+  const [open, setOpen] = React.useState(defaultOpen);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,24 +61,14 @@ export default function CustomizedDialogs() {
 
   return (
     <div>
-      <MenuBook onClick={handleClickOpen} />
+      <AddCircleOutlineIcon onClick={handleClickOpen} />
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Expriment: Prisoner's Dilema
+          Create New
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            To access the experiment in a new tab, click this link{" "}
-            <a target="_blank" href="http://minty.ssel.caltech.edu:8000/room/OSU2/?participant_label=M70KB97O">
-              http://minty.ssel.caltech.edu:8000/room/OSU2/?participant_label=M70KB97O
-            </a>
-          </Typography>
+          <New />
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );

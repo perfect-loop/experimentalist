@@ -16,7 +16,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": false,
-    "outDir": "./build"
+    "outDir": "./build",
+    "experimentalDecorators": true
   },
   "include": ["./src"],
   "exclude": [

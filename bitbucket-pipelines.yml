@@ -4,9 +4,10 @@ test: &test
   caches:
     - node
   script:
+    - cd client
     - yarn install
     - node_modules/eslint/bin/eslint.js src --ext .js,.jsx,.ts,.tsx
-    - cd server
+    - cd ../server
     - yarn install
     - node_modules/eslint/bin/eslint.js src --ext .js,.jsx,.ts,.tsx
 
@@ -14,7 +15,7 @@ validate_build: &validate_build
   caches:
     - node
   script:
-    - node_modules/.bin/react-scripts build
+    - cd client
 
 pipelines:
   default:

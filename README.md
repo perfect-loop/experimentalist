@@ -18,7 +18,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Start server (new tab)
 
-`yarn client`
+`yarn start`
 
 ## Available Scripts
 
@@ -106,3 +106,9 @@ In the users of the api
 ```
 yarn upgrade api  
 ```
+
+# External Services
+
+## Mongo
+
+https://www.mongodb.com/cloud/atlas

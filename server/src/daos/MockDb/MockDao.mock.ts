@@ -7,7 +7,7 @@ export class MockDaoMock {
     return jsonfile.readFile(this.dbFilePath);
   }
 
-  protected saveDb(db: any): Promise<any> {
-    return jsonfile.writeFile(this.dbFilePath, db);
-  }
+  // protected saveDb(db: any): Promise<any> {
+  //   return jsonfile.writeFile(this.dbFilePath, db);
+  // }
 }

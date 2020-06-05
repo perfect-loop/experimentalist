@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "api": "../api/lib",
     "body-parser": "^1.19.0",
     "command-line-args": "^5.1.1",
     "connect-mongo": "^3.2.0",
