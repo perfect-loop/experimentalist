@@ -8,6 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
 import { IEvent } from "api/Events";
 import { Link } from "react-router-dom";
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles({
   table: {
@@ -49,6 +50,7 @@ export default function EventsTable(props: { events: IEvent[] }) {
             <StyledTableCell align="right"> Id </StyledTableCell>
             <StyledTableCell align="right"> Name </StyledTableCell>
             <StyledTableCell align="right"> Go </StyledTableCell>
+            <StyledTableCell align="right"> Settings </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -60,6 +62,9 @@ export default function EventsTable(props: { events: IEvent[] }) {
               <StyledTableCell align="right"> {event.title} </StyledTableCell>
               <StyledTableCell align="right">
                 <Link to={`/events/${event._id}`}>go</Link>
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                <Link to={`/events/${event._id}/settings`}><SettingsIcon /></Link>
               </StyledTableCell>
             </StyledTableRow>
           ))}

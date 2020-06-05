@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Events from "./components/Events";
 import Floaty from "./components/Events/Floaty";
 import Show from "./components/Events/Show";
+import Settings from "./components/Events/Settings";
 
 const App: React.FC = () => {
   const { isInitializing, user } = useAuth0();
@@ -21,6 +22,18 @@ const App: React.FC = () => {
           <NavBar />
         </header>
         <Switch>
+          <Route
+            exact
+            path="/events/:id/settings"
+            component={(props: any) => {
+              return (
+                <>
+                  <Settings id={props.match.params.id} />
+                  <Floaty />
+                </>
+              );
+            }}
+          />
           <Route
             exact
             path="/events/:id"

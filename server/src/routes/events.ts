@@ -6,18 +6,22 @@ import { Auth0User } from "types/auth0";
 
 const router = express.Router();
 
-router.get("/events.json", secured(), (req: any, res, next) => {
-  Event.find().then((events: any) => {
-    res.json(events);
-  });
+router.get("/events.json", secured(), async (req: any, res, next) => {
+  const events = await Event.find();
+  res.json(events);
 });
 
-router.get("/events/:id.json", secured(), (req, res, next) => {
+router.get("/events/:id.json", secured(), async (req, res, next) => {
   const id = req.params.id;
-  Event.findById(id).then((event: any) => {
-    console.log(event);
-    res.json(event);
-  });
+  const event = await Event.findById(id);
+  res.json(event);
+});
+
+router.get("/events/:id/participants.json", secured(), async (req, res, next) => {
+  const id = req.params.id;
+  const event = (await Event.findById(id)) as IEvent;
+  const participants = (await Participation.find({ event })) as IParticipation[];
+  res.json(participants);
 });
 
 router.post("/events.json", secured(), (req: any, res: any, next) => {
