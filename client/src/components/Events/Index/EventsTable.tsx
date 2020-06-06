@@ -49,7 +49,6 @@ export default function EventsTable(props: { events: IEvent[] }) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <StyledTableCell align="right"> Id </StyledTableCell>
             <StyledTableCell align="right"> Name </StyledTableCell>
             <StyledTableCell align="right"> Go </StyledTableCell>
             <StyledTableCell align="right"> Participants </StyledTableCell>
@@ -59,9 +58,6 @@ export default function EventsTable(props: { events: IEvent[] }) {
         <TableBody>
           {props.events.map((event: IEvent) => (
             <StyledTableRow key={event._id}>
-              <StyledTableCell component="th" scope="row">
-                {event._id}
-              </StyledTableCell>
               <StyledTableCell align="right"> {event.title} </StyledTableCell>
               <StyledTableCell align="right">
                 <Link to={`/events/${event._id}`}><PlayCircleFilledWhiteIcon /></Link>

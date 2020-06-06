@@ -3,6 +3,7 @@ import { Component } from "react";
 import React from "react";
 import AllEvents from "./AllEvents";
 import { observer } from "mobx-react";
+import NewPopup from "../Floaty/NewPopup";
 
 interface IState {
   eventsStore: EventsStore;
@@ -20,6 +21,9 @@ export default class Index extends Component<{}, IState> {
   }
 
   public render() {
-    return <AllEvents eventsStore={this.state.eventsStore} />;
+    return <>
+      <NewPopup />
+      <AllEvents eventsStore={this.state.eventsStore} />
+    </>;
   }
 }

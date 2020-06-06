@@ -1,6 +1,5 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import Floaty from "../Events/Floaty";
 import Settings from "../Events/Settings";
 import Show from "../Events/Show";
 import Events from "../Events";
@@ -16,7 +15,6 @@ export const EventRoutes: React.FC = () => {
           return (
             <>
               <Index eventId={props.match.params.id} />
-              <Floaty />
             </>
           );
         }}
@@ -28,7 +26,6 @@ export const EventRoutes: React.FC = () => {
           return (
             <>
               <Settings id={props.match.params.id} />
-              <Floaty />
             </>
           );
         }}
@@ -40,14 +37,12 @@ export const EventRoutes: React.FC = () => {
           return (
             <>
               <Show id={props.match.params.id} />
-              <Floaty />
             </>
           );
         }}
       />
       <Route exact path="/events/">
         <Events />
-        <Floaty />
       </Route>
     </>
   );

@@ -8,6 +8,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import New from "../New";
+import { Button, Divider } from "@material-ui/core";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -61,7 +62,11 @@ export default function NewPopup({ defaultOpen = false }) {
 
   return (
     <div>
-      <AddCircleOutlineIcon onClick={handleClickOpen} />
+      <Button color="primary" variant="contained" onClick={handleClickOpen}>
+        <AddCircleOutlineIcon />
+        New Event
+      </Button>
+      <Divider />
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Create New
