@@ -19,7 +19,7 @@ function ShowEvent(props: IProps) {
           <Link to={`/events/${props.eventStore.state.model._id}/conference`} className="btn btn-primary">
             Start conference as Attendee
           </Link>
-          <Link to={"/admin/events/${props.eventStore.state.model._id}/conference"} className="btn btn-primary">
+          <Link to={`/events/${props.eventStore.state.model._id}/conference?role=host`} className="btn btn-primary">
             Start conference as Host
           </Link>
         </>

@@ -16,10 +16,14 @@ const App: React.FC = () => {
     <Router>
       <div className="App">
         <Switch>
-          <PersistentDrawerLeft>
             <EventRoutes />
-          </PersistentDrawerLeft>
-          <AdminRoutes />
+          <Route path="*" component={(props: any) => {
+            return (
+              <>
+                404 - Invalid Page
+              </>
+            );
+          }} />
         </Switch>
       </div>
     </Router>

@@ -1,4 +1,3 @@
-import EventsStore from "../storage/EventsStore";
 import { Component } from "react";
 import React from "react";
 import { observer } from "mobx-react";
@@ -6,10 +5,6 @@ import EventStore from "../storage/EventStore";
 import AllParticipants from "./AllParticipants";
 import ParticipantsStore, { IRawUploadedData } from "../storage/ParticipantsStore";
 import { CSVReader } from 'react-papaparse';
-import { ExecFileOptionsWithStringEncoding } from "child_process";
-import { IParticipation } from "api/Participations";
-import { Api } from "../../../util/api";
-import { AxiosResponse, AxiosError } from "axios";
 
 interface IState {
   participantsStore: ParticipantsStore;

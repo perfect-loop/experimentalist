@@ -6,10 +6,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
-import { IEvent } from "api/Events";
-import { Link } from "react-router-dom";
-import SettingsIcon from '@material-ui/icons/Settings';
-import GroupIcon from '@material-ui/icons/Group';
 import { IParticipation } from "api/Participations";
 
 const useStyles = makeStyles({

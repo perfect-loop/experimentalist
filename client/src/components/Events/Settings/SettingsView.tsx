@@ -1,7 +1,6 @@
 import React from "react";
 import EventStore from "../storage/EventStore";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 
 interface IProps {
   eventStore: EventStore;
