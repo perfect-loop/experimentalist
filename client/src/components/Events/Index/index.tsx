@@ -21,9 +21,11 @@ export default class Index extends Component<{}, IState> {
   }
 
   public render() {
-    return <>
-      <NewPopup />
-      <AllEvents eventsStore={this.state.eventsStore} />
-    </>;
+    return (
+      <>
+        <NewPopup />
+        <AllEvents eventsStore={this.state.eventsStore} />
+      </>
+    );
   }
 }

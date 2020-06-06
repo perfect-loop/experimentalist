@@ -17,28 +17,40 @@ router.get("/events/:id.json", secured(), async (req, res, next) => {
   res.json(event);
 });
 
-router.get("/events/:id/participants.json", secured(), async (req, res, next) => {
-  const id = req.params.id;
-  const event = (await Event.findById(id)) as IEvent;
-  console.log(`event is ${event}`)
-  const participants = (await Participation.find({ "event._id": event._id })) as IParticipation[];
-  res.json(participants);
-});
+router.get(
+  "/events/:id/participants.json",
+  secured(),
+  async (req, res, next) => {
+    const id = req.params.id;
+    const event = (await Event.findById(id)) as IEvent;
+    console.log(`event is ${event}`);
+    const participants = (await Participation.find({
+      "event._id": event._id
+    })) as IParticipation[];
+    res.json(participants);
+  }
+);
 
-router.post("/events/:id/participants.json", secured(), async (req, res, next) => {
-  const id = req.params.id;
-  const data = req.body as IParticipation[]
-  const event = (await Event.findById(id)) as IEvent;
-  const toInsert = data.map((d)=>{
-    d.event = event
-    return d;
-  });
-  console.log(`will insert ${JSON.stringify(toInsert)}`);
-  await Participation.insertMany(data)
-  console.log("Returning")
-  const participants = (await Participation.find({ "event._id": event._id })) as IParticipation[];
-  res.json(participants);
-})
+router.post(
+  "/events/:id/participants.json",
+  secured(),
+  async (req, res, next) => {
+    const id = req.params.id;
+    const data = req.body as IParticipation[];
+    const event = (await Event.findById(id)) as IEvent;
+    const toInsert = data.map(d => {
+      d.event = event;
+      return d;
+    });
+    console.log(`will insert ${JSON.stringify(toInsert)}`);
+    await Participation.insertMany(data);
+    console.log("Returning");
+    const participants = (await Participation.find({
+      "event._id": event._id
+    })) as IParticipation[];
+    res.json(participants);
+  }
+);
 
 router.post("/events.json", secured(), (req: any, res: any, next) => {
   console.log("got request to create event");
@@ -53,11 +65,13 @@ router.post("/events.json", secured(), (req: any, res: any, next) => {
     .then((newEvent: IEvent) => {
       console.log(`event is ${newEvent}`);
       const user: Auth0User = req.user;
-      addParticipation(user.email, newEvent).then(() => {
-        res.json(newEvent);
-      }).catch((reason: any) => {
-        res.status(500).send(reason.message);
-      })
+      addParticipation(user.email, newEvent)
+        .then(() => {
+          res.json(newEvent);
+        })
+        .catch((reason: any) => {
+          res.status(500).send(reason.message);
+        });
     })
     .catch((reason: any) => {
       console.log(reason.constructor);
@@ -65,10 +79,13 @@ router.post("/events.json", secured(), (req: any, res: any, next) => {
     });
 });
 
-function addParticipation(email: string, event: IEvent): Promise<IParticipation> {
+function addParticipation(
+  email: string,
+  event: IEvent
+): Promise<IParticipation> {
   // TODO: find a way how to use types in the constructor
-  var pNew = new Participation({ email, event, role: "host" })
-  return pNew.save()
+  const pNew = new Participation({ email, event, role: "host" });
+  return pNew.save();
 }
 
 export default router;

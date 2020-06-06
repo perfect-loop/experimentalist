@@ -1,6 +1,6 @@
-import React from 'react';
-import AuthenticatedIcons from './AuthenticatedIcons';
-import UnAuthenticatedIcons from './UnAuthenticatedIcons';
+import React from "react";
+import AuthenticatedIcons from "./AuthenticatedIcons";
+import UnAuthenticatedIcons from "./UnAuthenticatedIcons";
 
 export default function Icons(props: any) {
   return (

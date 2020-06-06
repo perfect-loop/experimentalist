@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import EventStore from "../storage/EventStore";
 import AllParticipants from "./AllParticipants";
 import ParticipantsStore, { IRawUploadedData } from "../storage/ParticipantsStore";
-import { CSVReader } from 'react-papaparse';
+import { CSVReader } from "react-papaparse";
 
 interface IState {
   participantsStore: ParticipantsStore;
@@ -23,7 +23,7 @@ export default class Index extends Component<IProps, IState> {
     const e = new EventStore();
     this.state = {
       participantsStore: store,
-      eventStore: e
+      eventStore: e,
     };
     store.get();
     e.get(props.eventId);
@@ -31,22 +31,15 @@ export default class Index extends Component<IProps, IState> {
 
   private handleOnDrop = (data: IRawUploadedData[]) => {
     // remove header elements
-    data.shift()
+    data.shift();
     this.state.participantsStore.uploadCVSData(data, this.props.eventId);
-  }
+  };
 
   public render() {
     return (
       <>
-        <AllParticipants
-          participantsStore={this.state.participantsStore}
-          eventStore={this.state.eventStore}
-        />
-        <CSVReader
-          onDrop={this.handleOnDrop}
-          style={{}}
-          config={{}}
-        >
+        <AllParticipants participantsStore={this.state.participantsStore} eventStore={this.state.eventStore} />
+        <CSVReader onDrop={this.handleOnDrop} style={{}} config={{}}>
           <span>Drop CSV file here or click to upload.</span>
         </CSVReader>
       </>

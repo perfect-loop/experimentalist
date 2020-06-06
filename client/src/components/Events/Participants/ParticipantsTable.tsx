@@ -9,8 +9,7 @@ import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
 import { IParticipation } from "api/Participations";
 
 const useStyles = makeStyles({
-  table: {
-  },
+  table: {},
   container: {
     maxHeight: 200,
   },

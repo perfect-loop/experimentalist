@@ -8,9 +8,9 @@ import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
 import { IEvent } from "api/Events";
 import { Link } from "react-router-dom";
-import SettingsIcon from '@material-ui/icons/Settings';
-import GroupIcon from '@material-ui/icons/Group';
-import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
+import SettingsIcon from "@material-ui/icons/Settings";
+import GroupIcon from "@material-ui/icons/Group";
+import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 
 const useStyles = makeStyles({
   table: {
@@ -60,13 +60,19 @@ export default function EventsTable(props: { events: IEvent[] }) {
             <StyledTableRow key={event._id}>
               <StyledTableCell align="right"> {event.title} </StyledTableCell>
               <StyledTableCell align="right">
-                <Link to={`/events/${event._id}`}><PlayCircleFilledWhiteIcon /></Link>
+                <Link to={`/events/${event._id}`}>
+                  <PlayCircleFilledWhiteIcon />
+                </Link>
               </StyledTableCell>
               <StyledTableCell align="right">
-                <Link to={`/events/${event._id}/participants`}><GroupIcon /></Link>
+                <Link to={`/events/${event._id}/participants`}>
+                  <GroupIcon />
+                </Link>
               </StyledTableCell>
               <StyledTableCell align="right">
-                <Link to={`/events/${event._id}/settings`}><SettingsIcon /></Link>
+                <Link to={`/events/${event._id}/settings`}>
+                  <SettingsIcon />
+                </Link>
               </StyledTableCell>
             </StyledTableRow>
           ))}

@@ -7,5 +7,5 @@ export const AdminRoutes: React.FC = () => {
     <Route exact path="/admin/events/:id/conference">
       <VideoConference role={Role.Host} />
     </Route>
-  )
-}
+  );
+};

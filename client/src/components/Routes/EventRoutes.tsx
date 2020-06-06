@@ -12,7 +12,7 @@ function useQuery() {
 }
 
 export const EventRoutes: React.FC = () => {
-  let query = useQuery();
+  const query = useQuery();
   return (
     <>
       <PersistentDrawerLeft>
@@ -59,4 +59,4 @@ export const EventRoutes: React.FC = () => {
       </Route>
     </>
   );
-}
+};

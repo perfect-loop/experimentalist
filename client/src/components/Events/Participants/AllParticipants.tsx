@@ -13,17 +13,12 @@ function AllParticipants(props: IProps) {
   if (props.eventStore.state.kind === "ready" && props.participantsStore.state === "ready") {
     return (
       <>
-        <div onClick={onClick}>click</div>
         <ParticipantsTable participants={props.participantsStore.participations} />
       </>
     );
   } else {
     return <div>Not ready</div>;
   }
-}
-
-function onClick() {
-
 }
 
 export default observer(AllParticipants);

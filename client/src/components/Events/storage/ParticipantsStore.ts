@@ -3,13 +3,13 @@ import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
 import { IParticipation } from "api/Participations";
 
-interface IUploadedData extends Pick<IParticipation, 'email'> {
+interface IUploadedData extends Pick<IParticipation, "email"> {
   email: string;
   instructions: string;
 }
 
 export interface IRawUploadedData {
-  data: [string, string]
+  data: [string, string];
 }
 
 export default class ParticipantsStore {
@@ -45,11 +45,11 @@ export default class ParticipantsStore {
       .map((line: IRawUploadedData) => {
         return {
           email: line.data[0],
-          instructions: line.data[1]
+          instructions: line.data[1],
         };
       });
     const client = new Api({});
-    const url = `/api/events/${eventId}/participants.json`
+    const url = `/api/events/${eventId}/participants.json`;
     this.state = "not_ready";
     client
       .post<IUploadedData[], IUploadedData[], AxiosResponse<IParticipation[]>>(url, uploadData)
@@ -62,5 +62,5 @@ export default class ParticipantsStore {
         console.error(error.response?.statusText);
       });
     console.log(uploadData);
-  }
+  };
 }
