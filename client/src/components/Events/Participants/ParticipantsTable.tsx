@@ -14,8 +14,6 @@ import { IParticipation } from "api/Participations";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 50,
-    maxWidth: 500,
   },
   container: {
     maxHeight: 200,
