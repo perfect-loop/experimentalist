@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "./components/NavBar";
 import { useAuth0 } from "./util/react-auth0-spa";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { EventRoutes } from "./components/Routes/EventRoutes";
@@ -7,7 +6,7 @@ import { AdminRoutes } from "./components/Routes/AdminRoutes";
 import PersistentDrawerLeft from "./components/PersistentDrawerLeft";
 
 const App: React.FC = () => {
-  const { isInitializing, user } = useAuth0();
+  const { isInitializing } = useAuth0();
 
   if (isInitializing) {
     return <div>Loading...</div>;
@@ -16,9 +15,6 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <header>
-          <NavBar />
-        </header>
         <Switch>
           <PersistentDrawerLeft>
             <EventRoutes />

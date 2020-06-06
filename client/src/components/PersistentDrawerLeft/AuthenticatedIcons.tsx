@@ -1,7 +1,6 @@
 import React from 'react';
-import { List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { API_DOMAIN } from '../../util/config';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import { useAuth0 } from '../../util/react-auth0-spa';
@@ -10,7 +9,6 @@ import { Link } from 'react-router-dom';
 export default function AuthenticatedIcons(props: any) {
   const auth0 = useAuth0();
   const isAuthenticated = auth0.isAuthenticated;
-  const logout = auth0.logout;
   const user = auth0.user;
   if (!isAuthenticated) {
     return <></>
