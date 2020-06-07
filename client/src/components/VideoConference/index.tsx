@@ -180,9 +180,24 @@ class VideConference extends Component<IProps, IState> {
       $(".img-start-video")
         .parents("button")
         .hide();
+      this.disableAudio();
     }
     this.getRoomInfo();
     this.getMyInfo();
+  };
+
+  /**
+   * Removes various widgets that disallows users from controlling their audio
+   */
+  private disableAudio = () => {
+    $(".join-audio")
+      .parents(".left-tool-item")
+      .hide();
+
+    this.addCustomEventListener("#wc-container-right", "load", (event: Event) => {
+      $(".participants-footer .ax-outline-blue-important").hide();
+      $(".participants-me .p-mre").hide();
+    });
   };
 
   private getMyInfo = () => {
@@ -194,7 +209,7 @@ class VideConference extends Component<IProps, IState> {
           console.log("getRoomInfo: No userid detected");
           // if info is not yet available, try again in 5 seconds
           interval = setInterval(this.getMyInfo, 5000);
-          return
+          return;
         }
         // stop getting info
         clearInterval(interval);
@@ -205,7 +220,7 @@ class VideConference extends Component<IProps, IState> {
         });
         this.onCurrentUserKnown();
         console.log(`getMyInfo: State is ${JSON.stringify(this.state)}`);
-      }
+      },
     });
   };
 
@@ -213,9 +228,9 @@ class VideConference extends Component<IProps, IState> {
   private onCurrentUserKnown = () => {
     ZoomMtg.mute({
       userId: this.state.currentId,
-      mute: true
+      mute: true,
     });
-  }
+  };
 
   private getRoomInfo = () => {
     console.log("getRoomInfo: Gathering room info");
@@ -292,7 +307,7 @@ class VideConference extends Component<IProps, IState> {
     if (rootElement) {
       rootElement.addEventListener(
         event,
-        function (evt) {
+        function(evt) {
           let targetElement = evt.target;
           while (targetElement != null) {
             if (targetElement.matches(selector)) {
