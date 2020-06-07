@@ -3,7 +3,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
-import { Auth0Provider, useAuth0 } from "./util/react-auth0-spa";
+import { Auth0Provider } from "./util/react-auth0-spa";
 import history from "./util/history";
 import { AUTH0_DOMAIN, AUTH0_CLIENT_ID } from "./util/config";
 import App from "./App";

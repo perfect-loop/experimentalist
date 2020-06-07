@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Event = void 0;
+exports.Event = exports.EventSchema = void 0;
 var mongoose = require("mongoose");
-var EventSchema = new mongoose.Schema({
+exports.EventSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -16,4 +16,4 @@ var EventSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-exports.Event = mongoose.model("events", EventSchema);
+exports.Event = mongoose.model("events", exports.EventSchema);

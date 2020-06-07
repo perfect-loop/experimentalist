@@ -45,7 +45,7 @@ function NewDialog(props: {}) {
     const newEvent = values as IEvent;
     const eventStore = new EventStore();
     eventStore.post(newEvent).then((event: IEvent) => {
-      history.push(`/events/${event._id}`);
+      history.push(`/events/${event._id}/participants`);
     });
   };
 

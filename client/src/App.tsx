@@ -1,14 +1,12 @@
 import React from "react";
-import NavBar from "./components/NavBar";
-import VideoConference, { Role } from "./components/VideoConference";
 import { useAuth0 } from "./util/react-auth0-spa";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Events from "./components/Events";
-import Floaty from "./components/Events/Floaty";
-import Show from "./components/Events/Show";
+import { EventRoutes } from "./components/Routes/EventRoutes";
+import { AdminRoutes } from "./components/Routes/AdminRoutes";
+import PersistentDrawerLeft from "./components/PersistentDrawerLeft";
 
 const App: React.FC = () => {
-  const { isInitializing, user } = useAuth0();
+  const { isInitializing } = useAuth0();
 
   if (isInitializing) {
     return <div>Loading...</div>;
@@ -17,32 +15,14 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <header>
-          <NavBar />
-        </header>
         <Switch>
+          <EventRoutes />
           <Route
-            exact
-            path="/events/:id"
+            path="*"
             component={(props: any) => {
-              return (
-                <>
-                  <Show id={props.match.params.id} />
-                  <Floaty />
-                </>
-              );
+              return <>404 - Invalid Page</>;
             }}
           />
-          <Route exact path="/events/">
-            <Events />
-            <Floaty />
-          </Route>
-          <Route exact path="/events/:id/conference">
-            <VideoConference role={Role.Attendee} user={user} />
-          </Route>
-          <Route exact path="/admin/events/:id/conference">
-            <VideoConference role={Role.Host} />
-          </Route>
         </Switch>
       </div>
     </Router>
