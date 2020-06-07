@@ -38,6 +38,14 @@ interface IAttendee {
   userName: string;
 }
 
+interface IZoomUser {
+  userId: number;
+  participantId: number;
+  userName: string;
+  muted: boolean;
+  audio: string;
+}
+
 interface IAttendeeList {
   attendeesList: IAttendee[];
 }
@@ -52,7 +60,8 @@ interface IZoomResult {
 interface IState {
   role: Role;
   user?: Auth0User;
-  hosts?: IAttendee[];
+  hosts?: IAttendee[]; // list of all hosts for this meeting
+  currentId?: number; // my id from zoom
 }
 
 interface IProps {
@@ -173,7 +182,40 @@ class VideConference extends Component<IProps, IState> {
         .hide();
     }
     this.getRoomInfo();
+    this.getMyInfo();
   };
+
+  private getMyInfo = () => {
+    console.log("getMyInfo: Gathering room info");
+    ZoomMtg.getCurrentUser({
+      success: (res: { result: { currentUser: IZoomUser } }) => {
+        let interval;
+        if (!res.result) {
+          console.log("getRoomInfo: No userid detected");
+          // if info is not yet available, try again in 5 seconds
+          interval = setInterval(this.getMyInfo, 5000);
+          return
+        }
+        // stop getting info
+        clearInterval(interval);
+
+        this.setState({
+          ...this.state,
+          currentId: res.result.currentUser.userId,
+        });
+        this.onCurrentUserKnown();
+        console.log(`getMyInfo: State is ${JSON.stringify(this.state)}`);
+      }
+    });
+  };
+
+  // Make sure that current user is muted
+  private onCurrentUserKnown = () => {
+    ZoomMtg.mute({
+      userId: this.state.currentId,
+      mute: true
+    });
+  }
 
   private getRoomInfo = () => {
     console.log("getRoomInfo: Gathering room info");
@@ -250,7 +292,7 @@ class VideConference extends Component<IProps, IState> {
     if (rootElement) {
       rootElement.addEventListener(
         event,
-        function(evt) {
+        function (evt) {
           let targetElement = evt.target;
           while (targetElement != null) {
             if (targetElement.matches(selector)) {
