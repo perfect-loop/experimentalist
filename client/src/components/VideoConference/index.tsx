@@ -10,6 +10,8 @@ import { SERVER_URL } from "../../util/config";
 
 const API_KEY = "d9X8t8-HQgi33MzVsdZKcg";
 const API_SECRET = "oBBj6t1iz60wXXCTkHZPNHni19qJCM5LiLdd";
+const DISABLED_CHAT_MSG = "You can only send messages to the host and not other recepients";
+const ENABLED_CHAT_MSG = "Type your message to host";
 
 export enum Role {
   Attendee = 0,
@@ -27,9 +29,30 @@ interface IMeetingConfig {
   role: Role;
 }
 
+interface IAttendee {
+  audio: string;
+  isHost: boolean;
+  muted: boolean;
+  participantId: number;
+  userId: number;
+  userName: string;
+}
+
+interface IAttendeeList {
+  attendeesList: IAttendee[];
+}
+
+interface IZoomResult {
+  result?: IAttendeeList;
+  status: boolean;
+  errorCode: number;
+  errorMessage: string;
+}
+
 interface IState {
   role: Role;
   user?: Auth0User;
+  hosts?: IAttendee[];
 }
 
 interface IProps {
@@ -149,12 +172,65 @@ class VideConference extends Component<IProps, IState> {
         .parents("button")
         .hide();
     }
+    this.getRoomInfo();
+  };
+
+  private getRoomInfo = () => {
+    console.log("getRoomInfo: Gathering room info");
+    ZoomMtg.getAttendeeslist({
+      success: (res: IZoomResult) => {
+        let interval;
+        console.log("getRoomInfo: ", res);
+        if (!res.result?.attendeesList) {
+          console.log("getRoomInfo: No attendee detected");
+
+          // if info is not yet available, try again in 5 seconds
+          interval = setInterval(this.getRoomInfo, 5000);
+          return;
+        }
+
+        // stop getting info
+        clearInterval(interval);
+        console.log("getRoomInfo: Setting new state");
+        this.state = {
+          ...this.state,
+          hosts: res.result?.attendeesList.filter(a => a.isHost),
+        };
+        console.log(`getRoomInfo: State is ${JSON.stringify(this.state)}`);
+      },
+    });
+  };
+
+  private removeChatParticipants = () => {
+    this.addCustomEventListener(".chat-container #chat-textarea", "focus", (event: Event) => {
+      // cannot use .data() for some reason
+      const currentRecepient = $("#receiverListDropDownOpen").attr("data-userid");
+      if (currentRecepient) {
+        const present = this.state.hosts?.find(attendee => {
+          return attendee.userId.toString() === currentRecepient.toString();
+        });
+        if (!present) {
+          console.log("removeChatParticipants: Disabling chat");
+          $("#chat-textarea")
+            .attr("readonly", "true")
+            .attr("placeholder", DISABLED_CHAT_MSG);
+        } else {
+          console.log("removeChatParticipants: Enabling chat");
+          $("#chat-textarea")
+            .removeAttr("readonly")
+            .attr("placeholder", ENABLED_CHAT_MSG);
+        }
+      }
+    });
   };
 
   private customizeConference = () => {
+    console.log("Customizing Room");
     if (this.state.role === Role.Attendee) {
       this.renamePaticipants();
+      this.removeChatParticipants();
     }
+    this.getRoomInfo();
   };
 
   private renamePaticipants = () => {
