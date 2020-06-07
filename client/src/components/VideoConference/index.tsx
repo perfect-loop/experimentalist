@@ -38,6 +38,14 @@ interface IAttendee {
   userName: string;
 }
 
+interface IZoomUser {
+  userId: number;
+  participantId: number;
+  userName: string;
+  muted: boolean;
+  audio: string;
+}
+
 interface IAttendeeList {
   attendeesList: IAttendee[];
 }
@@ -52,7 +60,8 @@ interface IZoomResult {
 interface IState {
   role: Role;
   user?: Auth0User;
-  hosts?: IAttendee[];
+  hosts?: IAttendee[]; // list of all hosts for this meeting
+  currentId?: number; // my id from zoom
 }
 
 interface IProps {
@@ -171,8 +180,56 @@ class VideConference extends Component<IProps, IState> {
       $(".img-start-video")
         .parents("button")
         .hide();
+      this.disableAudio();
     }
     this.getRoomInfo();
+    this.getMyInfo();
+  };
+
+  /**
+   * Removes various widgets that disallows users from controlling their audio
+   */
+  private disableAudio = () => {
+    $(".join-audio")
+      .parents(".left-tool-item")
+      .hide();
+
+    this.addCustomEventListener("#wc-container-right", "load", (event: Event) => {
+      $(".participants-footer .ax-outline-blue-important").hide();
+      $(".participants-me .p-mre").hide();
+    });
+  };
+
+  private getMyInfo = () => {
+    console.log("getMyInfo: Gathering room info");
+    ZoomMtg.getCurrentUser({
+      success: (res: { result: { currentUser: IZoomUser } }) => {
+        let interval;
+        if (!res.result) {
+          console.log("getRoomInfo: No userid detected");
+          // if info is not yet available, try again in 5 seconds
+          interval = setInterval(this.getMyInfo, 5000);
+          return;
+        }
+        // stop getting info
+        clearInterval(interval);
+
+        this.setState({
+          ...this.state,
+          currentId: res.result.currentUser.userId,
+        });
+        this.onCurrentUserKnown();
+        console.log(`getMyInfo: State is ${JSON.stringify(this.state)}`);
+      },
+    });
+  };
+
+  // Make sure that current user is muted
+  private onCurrentUserKnown = () => {
+    ZoomMtg.mute({
+      userId: this.state.currentId,
+      mute: true,
+    });
   };
 
   private getRoomInfo = () => {
