@@ -49,6 +49,7 @@ import passport from "./passport/setup";
 import auth from "./routes/auth";
 import user from "./routes/users";
 import events from "./routes/events";
+import participants from "./routes/participants";
 
 const MONGO_URI =
   process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
@@ -83,6 +84,7 @@ app.use(userInViews());
 app.use("/api/auth", auth);
 app.use("/", user);
 app.use("/api", events);
+app.use("/api", participants);
 
 /************************************************************************************
  *                              Serve front-end content

@@ -1,6 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import VideoConference, { Role } from "../VideoConference";
+import VideoConference from "../VideoConference";
+import { Role } from "../VideoConference/ConferenceView";
 
 export const AdminRoutes: React.FC = () => {
   return (

@@ -4,8 +4,9 @@ import Settings from "../Events/Settings";
 import Show from "../Events/Show";
 import Events from "../Events";
 import Index from "../Events/Participants";
-import VideoConference, { Role } from "../VideoConference";
+import VideoConference from "../VideoConference";
 import PersistentDrawerLeft from "../PersistentDrawerLeft";
+import { Role } from "../VideoConference/ConferenceView";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
