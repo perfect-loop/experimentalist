@@ -1,31 +1,23 @@
-import React, { Component } from "react";
-import ConferenceView, { Role } from "./ConferenceView";
-import { Auth0User, useAuth0 } from "../../util/react-auth0-spa";
+import React from "react";
+import { Role } from "./ConferenceView";
+import { useAuth0 } from "../../util/react-auth0-spa";
+import IndeObserverVideoConferencex from "./ObserverVideoConference";
 
 interface IProps {
   role: Role;
+  eventId: string;
 }
 
-// export class VideoConference extends Component<IProps> {
-//   constructor(props: IProps) {
-//     super(props);
-//   }
-
-//   render = () => {
-//     return (
-//       <ConferenceView role={this.props.role} user={this.props.user} />
-//     )
-//   }
-// }
-
-export default function VideoConference(props: IProps) {
+const VideoConference = (props: IProps) => {
   const auth0 = useAuth0();
+
   const isAuthenticated = auth0.isAuthenticated;
   const user = auth0.user;
   if (!isAuthenticated || !user) {
     return <>Not allowed</>;
   } else {
-    console.log(`Logging in as ${JSON.stringify(user)}`);
-    return <ConferenceView role={props.role} user={user} />;
+    return <IndeObserverVideoConferencex user={user} role={props.role} eventId={props.eventId} />
   }
 }
+
+export default VideoConference;
