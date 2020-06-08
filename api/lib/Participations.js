@@ -14,6 +14,9 @@ var ParticipationsSchema = new mongoose.Schema({
         type: String,
         enum: ["attendee", "host"],
         default: "attendee"
+    },
+    anonymousName: {
+        type: String
     }
 }, {
     timestamps: true

@@ -11,7 +11,7 @@ import { IParticipation } from "api/Participations";
 const useStyles = makeStyles({
   table: {},
   container: {
-    maxHeight: 200,
+    maxHeight: 500,
   },
 });
 
@@ -47,6 +47,7 @@ export default function ParticipantsTable(props: { participants: IParticipation[
           <TableRow>
             <StyledTableCell align="right"> Email </StyledTableCell>
             <StyledTableCell align="right"> Role </StyledTableCell>
+            <StyledTableCell align="right"> Anonymized Name </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -54,6 +55,7 @@ export default function ParticipantsTable(props: { participants: IParticipation[
             <StyledTableRow key={participant._id}>
               <StyledTableCell align="right"> {participant.email} </StyledTableCell>
               <StyledTableCell align="right"> {participant.role} </StyledTableCell>
+              <StyledTableCell align="right"> {participant.anonymousName} </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

@@ -4,8 +4,9 @@ import Settings from "../Events/Settings";
 import Show from "../Events/Show";
 import Events from "../Events";
 import Index from "../Events/Participants";
-import VideoConference, { Role } from "../VideoConference";
+import VideoConference from "../VideoConference";
 import PersistentDrawerLeft from "../PersistentDrawerLeft";
+import { Role } from "../VideoConference/ConferenceView";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -53,10 +54,18 @@ export const EventRoutes: React.FC = () => {
           <Events />
         </Route>
       </PersistentDrawerLeft>
-      <Route exact path="/events/:id/conference">
-        {query.get("role") === "host" && <VideoConference role={Role.Host} />}
-        {query.get("role") !== "host" && <VideoConference role={Role.Attendee} />}
-      </Route>
+      <Route
+        exact
+        path="/events/:id/conference"
+        component={(props: any) => {
+          return (
+            <>
+              {query.get("role") === "host" && <VideoConference role={Role.Host} eventId={props.match.params.id} />}
+              {query.get("role") !== "host" && <VideoConference role={Role.Attendee} eventId={props.match.params.id} />}
+            </>
+          );
+        }}
+      ></Route>
     </>
   );
 };

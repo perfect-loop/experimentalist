@@ -6,5 +6,6 @@ export interface IParticipation extends Document {
     email: string;
     event: IEvent;
     role: "attendee" | "host";
+    anonymousName: string;
 }
 export declare const Participation: mongoose.Model<IParticipation, {}>;
