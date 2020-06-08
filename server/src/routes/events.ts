@@ -3,6 +3,8 @@ import secured from "../lib/middleware/secured";
 import { IEvent, Event } from "api/Events";
 import { Participation, IParticipation } from "api/Participations";
 import { Auth0User } from "types/auth0";
+// @ts-ignore
+import randomWords from "random-words";
 
 const router = express.Router();
 
@@ -40,6 +42,13 @@ router.post(
     const event = (await Event.findById(id)) as IEvent;
     const toInsert = data.map(d => {
       d.event = event;
+      const name = randomWords({
+        exactly: 1,
+        wordsPerString: 2,
+        separator: " "
+      }).join("");
+      console.log(name);
+      d.anonymousName = name;
       return d;
     });
     console.log(`will insert ${JSON.stringify(toInsert)}`);

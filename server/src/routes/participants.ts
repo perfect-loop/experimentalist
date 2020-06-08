@@ -9,15 +9,18 @@ const router = express.Router();
 router.get("/participants.json", secured(), async (req: any, res, next) => {
   const id = req.query.eventId;
   const event = (await Event.findById(id)) as IEvent;
+  if (!event) {
+    res.status(404).send("Event not found");
+    return;
+  }
   const user: Auth0User = req.user;
   const params = {
-    "event._id": event!!._id,
-    email: user.email,
-
-  }
+    "event._id": event._id,
+    email: user.email
+  };
   console.log(params);
-  const participation = await Participation.find(params)
-  console.log(`participation is ${JSON.stringify(participation)}`)
+  const participation = await Participation.find(params);
+  console.log(`participation is ${JSON.stringify(participation)}`);
   if (participation.length === 0) {
     res.status(404).send("Event not found for the user");
     return;

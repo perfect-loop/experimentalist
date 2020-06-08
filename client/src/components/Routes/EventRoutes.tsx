@@ -54,18 +54,18 @@ export const EventRoutes: React.FC = () => {
           <Events />
         </Route>
       </PersistentDrawerLeft>
-      <Route exact path="/events/:id/conference"
+      <Route
+        exact
+        path="/events/:id/conference"
         component={(props: any) => {
           return (
             <>
-              {query.get("role") === "host" &&
-                <VideoConference role={Role.Host} eventId={props.match.params.id} />}
-              {query.get("role") !== "host" &&
-                <VideoConference role={Role.Attendee} eventId={props.match.params.id} />}
+              {query.get("role") === "host" && <VideoConference role={Role.Host} eventId={props.match.params.id} />}
+              {query.get("role") !== "host" && <VideoConference role={Role.Attendee} eventId={props.match.params.id} />}
             </>
           );
-        }}>
-      </Route>
+        }}
+      ></Route>
     </>
   );
 };

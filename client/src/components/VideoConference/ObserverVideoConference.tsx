@@ -9,8 +9,8 @@ interface IState {
 }
 
 interface IProps {
-  user: Auth0User
-  role: Role
+  user: Auth0User;
+  role: Role;
   eventId: string;
 }
 
@@ -19,8 +19,8 @@ export default class IndeObserverVideoConferencex extends Component<IProps, ISta
   constructor(props: IProps) {
     super(props);
     this.state = {
-      participationsStore: new ParticipantsStore(this.props.eventId)
-    }
+      participationsStore: new ParticipantsStore(this.props.eventId),
+    };
     this.state.participationsStore.get();
   }
 
@@ -28,20 +28,21 @@ export default class IndeObserverVideoConferencex extends Component<IProps, ISta
     switch (this.state.participationsStore.state.kind) {
       case "not_ready": {
         console.log("It is NOT ready");
-        return <div>Not ready</div>
+        return <div>Not ready</div>;
       }
       case "ready": {
         console.log("It is ready");
-        const participant = this.state.participationsStore.state.models.find((a) => a.role === "attendee");
-        const host = this.state.participationsStore.state.models.find((a) => a.role === "host");
+        const participant = this.state.participationsStore.state.models.find(a => a.role === "attendee");
+        const host = this.state.participationsStore.state.models.find(a => a.role === "host");
         if (this.props.role === Role.Host && host) {
-          return <ConferenceView role={Role.Host} user={this.props.user} />;
-        } else if (this.props.role === Role.Attendee && (host || participant)) {
-          return <ConferenceView role={Role.Attendee} user={this.props.user} />;
+          return <ConferenceView role={Role.Host} user={this.props.user} participant={host} />;
+        } else if (this.props.role === Role.Attendee && host) {
+          return <ConferenceView role={Role.Attendee} user={this.props.user} participant={host} />;
+        } else if (this.props.role === Role.Attendee && participant) {
+          return <ConferenceView role={Role.Attendee} user={this.props.user} participant={participant} />;
         } else {
           return <div>Not allowed</div>;
         }
-
       }
     }
   }

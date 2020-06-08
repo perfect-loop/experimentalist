@@ -15,6 +15,9 @@ const ParticipationsSchema = new mongoose.Schema(
       type: String,
       enum: ["attendee", "host"],
       default: "attendee"
+    },
+    anonymousName: {
+      type: String
     }
   },
   {
@@ -28,6 +31,7 @@ export interface IParticipation extends Document {
   email: string;
   event: IEvent;
   role: "attendee" | "host";
+  anonymousName: string;
 }
 
 export const Participation = mongoose.model<IParticipation>("participation", ParticipationsSchema);

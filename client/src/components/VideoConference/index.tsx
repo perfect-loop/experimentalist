@@ -16,8 +16,8 @@ const VideoConference = (props: IProps) => {
   if (!isAuthenticated || !user) {
     return <>Not allowed</>;
   } else {
-    return <IndeObserverVideoConferencex user={user} role={props.role} eventId={props.eventId} />
+    return <IndeObserverVideoConferencex user={user} role={props.role} eventId={props.eventId} />;
   }
-}
+};
 
 export default VideoConference;
