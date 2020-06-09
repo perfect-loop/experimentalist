@@ -9,7 +9,7 @@ import randomWords from "random-words";
 const router = express.Router();
 
 router.get("/events.json", secured(), async (req: any, res, next) => {
-  const events = await Event.find();
+  const events = await Event.find().sort('-startAt');
   res.json(events);
 });
 

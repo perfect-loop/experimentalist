@@ -5,18 +5,22 @@ import { Form, Field } from "react-final-form";
 import EventStore from "../storage/EventStore";
 import { IEvent } from "api/Events";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
-        width: "25ch",
+        width: "80%",
       },
     },
     paper: {
       width: "400px",
     },
+    input: {
+      width: "200",
+    }
   }),
 );
 
@@ -74,7 +78,8 @@ function NewDialog(props: {}) {
                 type="datetime-local"
                 label="Start Time"
                 required={true}
-                defaultValue="2020-06-15T19:00"
+                className={classes.input}
+                defaultValue={moment().format("YYYY-MM-DDThh:mm")}
                 placeholder="Start Time"
                 InputLabelProps={{
                   shrink: true,
@@ -92,7 +97,6 @@ function NewDialog(props: {}) {
                 Reset
               </Button>
             </div>
-            <pre>{JSON.stringify(values)}</pre>
           </form>
         )}
       />
