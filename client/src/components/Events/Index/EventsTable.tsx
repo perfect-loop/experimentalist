@@ -11,11 +11,12 @@ import { Link } from "react-router-dom";
 import SettingsIcon from "@material-ui/icons/Settings";
 import GroupIcon from "@material-ui/icons/Group";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
+import moment from "moment";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 50,
-    maxWidth: 500,
+    maxWidth: 600,
   },
 });
 
@@ -49,16 +50,20 @@ export default function EventsTable(props: { events: IEvent[] }) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <StyledTableCell align="right"> Name </StyledTableCell>
-            <StyledTableCell align="right"> Go </StyledTableCell>
-            <StyledTableCell align="right"> Participants </StyledTableCell>
-            <StyledTableCell align="right"> Settings </StyledTableCell>
+            <StyledTableCell align="center"> Name </StyledTableCell>
+            <StyledTableCell align="center"> Start Time </StyledTableCell>
+            <StyledTableCell align="center"> Go </StyledTableCell>
+            <StyledTableCell align="center"> Participants </StyledTableCell>
+            <StyledTableCell align="center"> Settings </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.events.map((event: IEvent) => (
             <StyledTableRow key={event._id}>
               <StyledTableCell align="right"> {event.title} </StyledTableCell>
+              <StyledTableCell align="right">
+                {moment(event.startAt).format('MMMM Do YYYY, h:mm:ss a')}
+              </StyledTableCell>
               <StyledTableCell align="right">
                 <Link to={`/events/${event._id}`}>
                   <PlayCircleFilledWhiteIcon />
