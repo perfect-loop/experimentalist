@@ -49,7 +49,7 @@ import passport from "./passport/setup";
 import auth from "./routes/auth";
 import user from "./routes/users";
 import events from "./routes/events";
-import participants from "./routes/participants";
+import participants from "./routes/events/participants";
 
 const MONGO_URI =
   process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
