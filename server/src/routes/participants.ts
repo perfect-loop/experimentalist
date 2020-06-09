@@ -6,7 +6,7 @@ import { Auth0User } from "types/auth0";
 
 const router = express.Router();
 
-router.get("/participants.json", secured(), async (req: any, res, next) => {
+router.get("/my/participants.json", secured(), async (req: any, res, next) => {
   const id = req.query.eventId;
   const event = (await Event.findById(id)) as IEvent;
   if (!event) {
