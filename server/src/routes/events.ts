@@ -10,9 +10,11 @@ const router = express.Router();
 
 router.get("/events.json", secured(), async (req: any, res, next) => {
   const email = req.user.email;
-  const participantEvents = await Participation.find({ email }).populate('events').then((participations) => {
-    return participations.map((p) => p.event);
-  })
+  const participantEvents = await Participation.find({ email })
+    .populate("events")
+    .then(participations => {
+      return participations.map(p => p.event);
+    });
   res.json(participantEvents);
 });
 
@@ -25,14 +27,21 @@ router.get("/events/:id.json", secured(), async (req, res, next) => {
 router.get(
   "/events/:id/participants.json",
   secured(),
-  async (req, res, next) => {
+  async (req: any, res, next) => {
     const id = req.params.id;
     const event = (await Event.findById(id)) as IEvent;
     console.log(`event is ${event}`);
-    const participants = (await Participation.find({
-      "event._id": event._id
-    })) as IParticipation[];
-    res.json(participants);
+
+    const user = req.user;
+    if (!(await isHost(user, event))) {
+      res.status(403).send("Unauthorized");
+      return;
+    } else {
+      const participants = (await Participation.find({
+        "event._id": event._id
+      })) as IParticipation[];
+      res.json(participants);
+    }
   }
 );
 
@@ -98,6 +107,16 @@ function addParticipation(
   // TODO: find a way how to use types in the constructor
   const pNew = new Participation({ email, event, role: "host" });
   return pNew.save();
+}
+
+async function isHost(user: Auth0User, event: IEvent) {
+  const params = {
+    "event._id": event.id,
+    email: user.email
+  };
+  const participations = await Participation.find(params);
+  const ishost = participations.some(p => p.role === "host");
+  return ishost;
 }
 
 export default router;

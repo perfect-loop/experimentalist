@@ -12,7 +12,9 @@ router.get("/my/participants.json", secured(), async (req: any, res, next) => {
 
   console.log(`Event id is ${eventId}`);
 
-  const participations = eventId ? await participationsWithEvent(eventId, user) : await participationsWithoutEvent(user);
+  const participations = eventId
+    ? await participationsWithEvent(eventId, user)
+    : await participationsWithoutEvent(user);
 
   if (participations.length === 0) {
     res.status(404).send("Not events found");
@@ -24,7 +26,7 @@ router.get("/my/participants.json", secured(), async (req: any, res, next) => {
 async function participationsWithEvent(eventId: string, user: any) {
   const event = (await Event.findById(eventId)) as IEvent;
   if (!event) {
-    return []
+    return [];
   }
   const params = {
     "event._id": event._id,
