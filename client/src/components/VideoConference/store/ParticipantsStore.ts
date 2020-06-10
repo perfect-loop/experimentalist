@@ -29,7 +29,7 @@ export default class ParticipantsStore {
   public get = () => {
     const client = new Api({});
     client
-      .get<IParticipation[]>(`/api/participants.json?eventId=${this.eventId}`)
+      .get<IParticipation[]>(`/api/my/participants.json?eventId=${this.eventId}`)
       .then((response: AxiosResponse<IParticipation[]>) => {
         const { data } = response;
         this.state = {

@@ -9,8 +9,11 @@ import randomWords from "random-words";
 const router = express.Router();
 
 router.get("/events.json", secured(), async (req: any, res, next) => {
-  const events = await Event.find().sort('-startAt');
-  res.json(events);
+  const email = req.user.email;
+  const participantEvents = await Participation.find({ email }).populate('events').then((participations) => {
+    return participations.map((p) => p.event);
+  })
+  res.json(participantEvents);
 });
 
 router.get("/events/:id.json", secured(), async (req, res, next) => {
