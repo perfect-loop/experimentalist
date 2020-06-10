@@ -88,7 +88,21 @@ open localhost:3000
 
 ```
 heroku container:login
-heroku container:push web
+```
+
+### QA
+
+```
+heroku git:remote -a iep-prod
+heroku container:push web --arg ENV=qa
+heroku container:release web
+```
+
+### Prod
+
+```
+heroku git:remote -a experimentalist
+heroku container:push web --arg ENV=production
 heroku container:release web
 ```
 
