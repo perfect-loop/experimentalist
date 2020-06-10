@@ -7,25 +7,45 @@ import { Auth0User } from "types/auth0";
 const router = express.Router();
 
 router.get("/my/participants.json", secured(), async (req: any, res, next) => {
-  const id = req.query.eventId;
-  const event = (await Event.findById(id)) as IEvent;
-  if (!event) {
-    res.status(404).send("Event not found");
+  const eventId = req.query.eventId;
+  const user: Auth0User = req.user;
+
+  console.log(`Event id is ${eventId}`);
+
+  const participations = eventId
+    ? await participationsWithEvent(eventId, user)
+    : await participationsWithoutEvent(user);
+
+  if (participations.length === 0) {
+    res.status(404).send("Not events found");
     return;
   }
-  const user: Auth0User = req.user;
+  res.json(participations);
+});
+
+async function participationsWithEvent(eventId: string, user: any) {
+  const event = (await Event.findById(eventId)) as IEvent;
+  if (!event) {
+    return [];
+  }
   const params = {
     "event._id": event._id,
     email: user.email
   };
   console.log(params);
-  const participation = await Participation.find(params);
-  console.log(`participation is ${JSON.stringify(participation)}`);
-  if (participation.length === 0) {
-    res.status(404).send("Event not found for the user");
-    return;
-  }
-  res.json(participation);
-});
+  const participations = await Participation.find(params);
+  console.log(`participation is ${JSON.stringify(participations)}`);
+  return participations;
+}
+
+async function participationsWithoutEvent(user: any) {
+  const params = {
+    email: user.email
+  };
+  console.log(params);
+  const participations = await Participation.find(params);
+  console.log(`participation is ${JSON.stringify(participations)}`);
+  return participations;
+}
 
 export default router;

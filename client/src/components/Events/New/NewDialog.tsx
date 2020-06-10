@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       width: "200",
-    }
+    },
   }),
 );
 

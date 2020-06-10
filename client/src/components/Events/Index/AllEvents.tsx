@@ -1,19 +1,19 @@
 import React from "react";
-import EventsStore from "../storage/EventsStore";
 import EventsTable from "./EventsTable";
 import { observer } from "mobx-react";
+import ParticipantsStore from "../../VideoConference/store/ParticipantsStore";
 
 interface IProps {
-  eventsStore: EventsStore;
+  participationsStore: ParticipantsStore;
 }
 
 function AllEvents(props: IProps) {
-  switch (props.eventsStore.state) {
+  switch (props.participationsStore.state.kind) {
     case "not_ready":
       return <div>Not ready</div>;
     case "ready":
-      const events = props.eventsStore.events;
-      return <EventsTable events={events} />;
+      const participations = props.participationsStore.state.models;
+      return <EventsTable participations={participations} />;
   }
 }
 

@@ -16,9 +16,9 @@ type IState = IStateReady | IStateNotReady;
 
 export default class ParticipantsStore {
   @observable public state: IState;
-  private eventId: string;
+  private eventId: string | undefined;
 
-  constructor(eventId: string) {
+  constructor(eventId?: string) {
     this.state = {
       kind: "not_ready",
     };
@@ -29,7 +29,7 @@ export default class ParticipantsStore {
   public get = () => {
     const client = new Api({});
     client
-      .get<IParticipation[]>(`/api/my/participants.json?eventId=${this.eventId}`)
+      .get<IParticipation[]>(this.url())
       .then((response: AxiosResponse<IParticipation[]>) => {
         const { data } = response;
         this.state = {
@@ -40,5 +40,13 @@ export default class ParticipantsStore {
       .catch((error: AxiosError) => {
         console.error(error.response?.statusText);
       });
+  };
+
+  public url = () => {
+    if (this.eventId) {
+      return `/api/my/participants.json?eventId=${this.eventId}`;
+    } else {
+      return `/api/my/participants.json`;
+    }
   };
 }
