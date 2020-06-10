@@ -6,12 +6,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
-import { IEvent } from "api/Events";
-import { Link } from "react-router-dom";
-import SettingsIcon from "@material-ui/icons/Settings";
-import GroupIcon from "@material-ui/icons/Group";
-import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
-import moment from "moment";
+import { IParticipation } from "api/Participations";
+import HostEvent from "./HostEvent";
+import AttendeeEvent from "./AttendeeEvent";
+import HostHeader from "./HostHeader";
+import AttendeeHeader from "./AttendeeHeader";
 
 const useStyles = makeStyles({
   table: {
@@ -20,67 +19,33 @@ const useStyles = makeStyles({
   },
 });
 
-const StyledTableCell = withStyles((theme: Theme) =>
-  createStyles({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }),
-)(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "&:nth-of-type(odd)": {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }),
-)(TableRow);
-
-export default function EventsTable(props: { events: IEvent[] }) {
+export default function EventsTable(props: { participations: IParticipation[] }) {
   const classes = useStyles();
+  const isHost = props.participations.some((p: IParticipation) => p.role === "host");
+  const header = isHost ? <HostHeader /> : <AttendeeHeader />;
 
   return (
     <TableContainer>
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>
-            <StyledTableCell align="center"> Name </StyledTableCell>
-            <StyledTableCell align="center"> Start Time </StyledTableCell>
-            <StyledTableCell align="center"> Go </StyledTableCell>
-            <StyledTableCell align="center"> Participants </StyledTableCell>
-            <StyledTableCell align="center"> Settings </StyledTableCell>
-          </TableRow>
+          <TableRow>{header}</TableRow>
         </TableHead>
         <TableBody>
-          {props.events.map((event: IEvent) => (
-            <StyledTableRow key={event._id}>
-              <StyledTableCell align="right"> {event.title} </StyledTableCell>
-              <StyledTableCell align="right">
-                {moment(event.startAt).format('MMMM Do YYYY, h:mm:ss a')}
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <Link to={`/events/${event._id}`}>
-                  <PlayCircleFilledWhiteIcon />
-                </Link>
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <Link to={`/events/${event._id}/participants`}>
-                  <GroupIcon />
-                </Link>
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <Link to={`/events/${event._id}/settings`}>
-                  <SettingsIcon />
-                </Link>
-              </StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {props.participations.map((participation: IParticipation) => {
+            // const p: IParticipation = participation;
+            const p = {
+              _id: participation._id,
+              email: participation.email,
+              event: participation.event,
+              role: participation.role,
+              anonymousName: participation.anonymousName,
+            };
+            if (participation.role === "host") {
+              return <HostEvent participation={p} classes={classes} />;
+            } else {
+              return <AttendeeEvent participation={p} classes={classes} />;
+            }
+          })}
         </TableBody>
       </Table>
     </TableContainer>
