@@ -33,13 +33,7 @@ export default function EventsTable(props: { participations: IParticipation[] })
         <TableBody>
           {props.participations.map((participation: IParticipation) => {
             // const p: IParticipation = participation;
-            const p = {
-              _id: participation._id,
-              email: participation.email,
-              event: participation.event,
-              role: participation.role,
-              anonymousName: participation.anonymousName,
-            };
+            const p = participation;
             if (participation.role === "host") {
               return <HostEvent participation={p} classes={classes} />;
             } else {

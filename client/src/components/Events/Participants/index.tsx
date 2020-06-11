@@ -40,18 +40,23 @@ export default class Index extends Component<IProps, IState> {
   public render() {
     return (
       <>
-        {this.state.participantsStore.state === "error" &&
+        {this.state.participantsStore.state === "error" && (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
             Unable to upload participants. Please make sure there are no duplicate entries
-        </Alert>
-        }
+          </Alert>
+        )}
         <AllParticipants participantsStore={this.state.participantsStore} eventStore={this.state.eventStore} />
-        <CSVReader onDrop={this.handleOnDrop} style={{}} config={{
-          header: false, error: (e: any) => {
-            console.error("Unable to open file", e);
-          }
-        }} >
+        <CSVReader
+          onDrop={this.handleOnDrop}
+          style={{}}
+          config={{
+            header: false,
+            error: (e: any) => {
+              console.error("Unable to open file", e);
+            },
+          }}
+        >
           <span>Drop CSV file here or click to upload.</span>
         </CSVReader>
       </>
