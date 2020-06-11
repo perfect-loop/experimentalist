@@ -39,6 +39,7 @@ export default class EventStore {
         })
         .catch((error: AxiosError) => {
           console.error(error.response?.statusText);
+          reject(error);
         });
     });
   };
