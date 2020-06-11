@@ -17,6 +17,9 @@ var ParticipationsSchema = new mongoose.Schema({
     },
     anonymousName: {
         type: String
+    },
+    instructions: {
+        type: String
     }
 }, {
     timestamps: true

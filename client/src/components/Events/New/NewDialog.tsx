@@ -6,6 +6,7 @@ import EventStore from "../storage/EventStore";
 import { IEvent } from "api/Events";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,18 +45,29 @@ const TextFieldAdapter = ({ input, meta, ...rest }: { input: any; meta: any }) =
 function NewDialog(props: {}) {
   const classes = useStyles();
   const history = useHistory();
+  const [alert, setAlert] = React.useState(false);
 
   const onSubmit = (values: any) => {
     const newEvent = values as IEvent;
     const eventStore = new EventStore();
-    eventStore.post(newEvent).then((event: IEvent) => {
-      history.push(`/events/${event._id}/participants`);
-    });
+    eventStore
+      .post(newEvent)
+      .then((event: IEvent) => {
+        history.push(`/events/${event._id}/participants`);
+      })
+      .catch(error => {
+        setAlert(true);
+      });
   };
 
-  // const history = useHistory();
   return (
     <Paper elevation={4} className={classes.paper}>
+      {alert && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Unable to create event. Please try again.
+        </Alert>
+      )}
       <Form
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, values }) => (

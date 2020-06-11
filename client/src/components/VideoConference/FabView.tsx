@@ -7,6 +7,7 @@ import Fab from "@material-ui/core/Fab";
 import { green } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
 import CustomizedDialogs from "./CustomizedDialogs";
+import { IParticipation } from "api/Participations";
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
@@ -53,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function FloatingActionButtonZoom() {
+export default function FloatingActionButtonZoom(props: { participant: IParticipation }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -66,7 +67,7 @@ export default function FloatingActionButtonZoom() {
     <div className={classes.root}>
       <Zoom key="primary" in={true} timeout={transitionDuration} unmountOnExit>
         <Fab aria-label="Add" className={classes.fab} color="primary">
-          <CustomizedDialogs />
+          <CustomizedDialogs participant={props.participant} />
         </Fab>
       </Zoom>
     </div>

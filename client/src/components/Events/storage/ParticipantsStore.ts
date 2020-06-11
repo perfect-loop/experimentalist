@@ -14,7 +14,7 @@ export interface IRawUploadedData {
 
 export default class ParticipantsStore {
   @observable public participations: IParticipation[];
-  @observable public state: "not_ready" | "ready";
+  @observable public state: "not_ready" | "ready" | "error";
   private eventId: string;
 
   constructor(eventId: string) {
@@ -60,6 +60,7 @@ export default class ParticipantsStore {
       })
       .catch((error: AxiosError) => {
         console.error(error.response?.statusText);
+        this.state = "error";
       });
     console.log(uploadData);
   };

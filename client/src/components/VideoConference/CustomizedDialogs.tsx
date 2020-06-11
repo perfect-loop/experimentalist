@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import MenuBook from "@material-ui/icons/MenuBook";
+import { IParticipation } from "api/Participations";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -57,7 +58,7 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs() {
+export default function CustomizedDialogs(props: { participant: IParticipation }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -72,13 +73,13 @@ export default function CustomizedDialogs() {
       <MenuBook onClick={handleClickOpen} />
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Expriment: Prisoner's Dilema
+          {props.participant.event.title}
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
             To access the experiment in a new tab, click this link{" "}
-            <a target="_blank" href="http://minty.ssel.caltech.edu:8000/room/OSU2/?participant_label=M70KB97O">
-              http://minty.ssel.caltech.edu:8000/room/OSU2/?participant_label=M70KB97O
+            <a target="_blank" href={props.participant.instructions}>
+              {props.participant.instructions}
             </a>
           </Typography>
         </DialogContent>

@@ -16,8 +16,11 @@ function AllParticipants(props: IProps) {
         <ParticipantsTable participants={props.participantsStore.participations} />
       </>
     );
+  }
+  if (props.participantsStore.state === "error") {
+    return <ParticipantsTable participants={props.participantsStore.participations} />;
   } else {
-    return <div>Not ready</div>;
+    return <>Loading</>;
   }
 }
 
