@@ -7,6 +7,7 @@ import Index from "../Events/Participants";
 import VideoConference from "../VideoConference";
 import PersistentDrawerLeft from "../PersistentDrawerLeft";
 import { Role } from "../VideoConference/ConferenceView";
+import FirstPage from "../FirstPage";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -17,6 +18,9 @@ export const EventRoutes: React.FC = () => {
   return (
     <>
       <PersistentDrawerLeft>
+        <Route exact path="/">
+          <FirstPage />
+        </Route>
         <Route
           exact
           path="/events/:id/participants"
@@ -65,7 +69,13 @@ export const EventRoutes: React.FC = () => {
             </>
           );
         }}
-      ></Route>
+      />
+      <Route
+        path="*"
+        component={(props: any) => {
+          return <>404 - Invalid Page</>;
+        }}
+      />
     </>
   );
 };

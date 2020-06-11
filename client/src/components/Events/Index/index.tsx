@@ -1,4 +1,3 @@
-import EventsStore from "../storage/EventsStore";
 import { Component } from "react";
 import React from "react";
 import AllEvents from "./AllEvents";

@@ -33,7 +33,9 @@ async function participationsWithEvent(eventId: string, user: any) {
     email: user.email
   };
   console.log(params);
-  const participations = await Participation.find(params).sort("-event.startAt");
+  const participations = await Participation.find(params).sort(
+    "-event.startAt"
+  );
   console.log(`participation is ${JSON.stringify(participations)}`);
   return participations;
 }
@@ -43,7 +45,9 @@ async function participationsWithoutEvent(user: any) {
     email: user.email
   };
   console.log(params);
-  const participations = await Participation.find(params).sort("-event.startAt");
+  const participations = await Participation.find(params).sort(
+    "-event.startAt"
+  );
   console.log(`participation is ${JSON.stringify(participations)}`);
   return participations;
 }

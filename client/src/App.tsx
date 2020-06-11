@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth0 } from "./util/react-auth0-spa";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { EventRoutes } from "./components/Routes/EventRoutes";
 
 const App: React.FC = () => {
@@ -15,12 +15,6 @@ const App: React.FC = () => {
       <div className="App">
         <Switch>
           <EventRoutes />
-          <Route
-            path="*"
-            component={(props: any) => {
-              return <>404 - Invalid Page</>;
-            }}
-          />
         </Switch>
       </div>
     </Router>

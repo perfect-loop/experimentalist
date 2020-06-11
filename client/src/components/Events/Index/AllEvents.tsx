@@ -10,7 +10,7 @@ interface IProps {
 function AllEvents(props: IProps) {
   switch (props.participationsStore.state.kind) {
     case "not_ready":
-      return <div>Not ready</div>;
+      return <div></div>;
     case "ready":
       const participations = props.participationsStore.state.models;
       return <EventsTable participations={participations} />;
