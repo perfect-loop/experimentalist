@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SettingsIcon from "@material-ui/icons/Settings";
-import GroupIcon from "@material-ui/icons/Group";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 import moment from "moment";
 import { IParticipation } from "api/Participations";
