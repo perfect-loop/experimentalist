@@ -21,20 +21,20 @@ const FirstPage = () => {
   const isAuthenticated = auth0.isAuthenticated;
 
   if (isAuthenticated) {
-    return <Redirect to="/events" />
+    return <Redirect to="/events" />;
   } else {
     return (
       <Paper elevation={1} className={classes.paper}>
         <img height="200" src="/images/logo.png" alt="Logo" />
         <div />
         <a href={`${API_DOMAIN}/api/auth/login`}>
-          <Button color="primary" variant="contained" >
+          <Button color="primary" variant="contained">
             Log in
-            </Button>
+          </Button>
         </a>
       </Paper>
     );
   }
-}
+};
 
 export default FirstPage;
