@@ -18,9 +18,18 @@ router.get("/events.json", secured(), async (req: any, res, next) => {
   res.json(participantEvents);
 });
 
-router.get("/events/:id.json", secured(), async (req, res, next) => {
+router.get("/events/:id.json", secured(), async (req: any, res, next) => {
   const id = req.params.id;
+  const user = req.user;
   const event = await Event.findById(id);
+  if (!event) {
+    res.status(404).send("Not found");
+    return;
+  }
+  if (!(await isHost(user, event))) {
+    res.status(403).send("Unauthorized");
+    return;
+  }
   res.json(event);
 });
 
