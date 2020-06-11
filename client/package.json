@@ -28,6 +28,7 @@
     "react-final-form": "^6.5.0",
     "react-papaparse": "^3.3.0",
     "react-redux": "7.1.0",
+    "react-rnd": "^10.1.10",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "3.7.2",
