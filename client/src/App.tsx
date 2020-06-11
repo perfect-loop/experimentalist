@@ -15,12 +15,6 @@ const App: React.FC = () => {
       <div className="App">
         <Switch>
           <EventRoutes />
-          <Route
-            path="*"
-            component={(props: any) => {
-              return <>404 - Invalid Page</>;
-            }}
-          />
         </Switch>
       </div>
     </Router>

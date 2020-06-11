@@ -20,8 +20,6 @@ export default function AttendeeEvent(props: { participation: IParticipation; cl
           <PlayCircleFilledWhiteIcon />
         </Link>
       </StyledTableCell>
-      <StyledTableCell />
-      <StyledTableCell />
     </StyledTableRow>
   );
 }
