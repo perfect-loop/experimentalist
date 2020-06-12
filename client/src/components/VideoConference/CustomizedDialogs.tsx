@@ -76,6 +76,7 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
           {props.participant.event.title}
         </DialogTitle>
         <DialogContent dividers>
+          <Typography gutterBottom>{props.participant.event.instructions}</Typography>
           <Typography gutterBottom>
             To access the experiment in a new tab, click this link{" "}
             <a target="_blank" href={props.participant.instructions} rel="noopener noreferrer">

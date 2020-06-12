@@ -101,6 +101,18 @@ function NewDialog(props: {}) {
                 }}
               />
             </div>
+            <div>
+              <Field
+                name="instructions"
+                component={TextFieldAdapter}
+                multiline
+                rows={4}
+                type="Instructions"
+                label="Instructions"
+                required={true}
+                placeholder="Instructions"
+              />
+            </div>
             <div className="buttons">
               <Button variant="contained" disabled={submitting} type="submit" color="primary">
                 Create

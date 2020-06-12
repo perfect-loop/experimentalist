@@ -5,6 +5,7 @@ export interface IEvent extends Document {
     _id: string;
     title: string;
     startAt: Date;
+    instructions: String;
     endAt: string;
     active: boolean;
 }

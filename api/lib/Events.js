@@ -11,6 +11,9 @@ exports.EventSchema = new mongoose.Schema({
         type: Date,
         require: true
     },
+    instructions: {
+        type: String,
+    },
     endAt: Date,
     active: Boolean
 }, {
