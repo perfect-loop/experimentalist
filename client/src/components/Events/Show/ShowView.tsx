@@ -2,6 +2,8 @@ import React from "react";
 import EventStore from "../storage/EventStore";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
+import { ZOOM_MEETING_ID, ZOOM_PASSWORD, ZOOM_SUBDOMAIN } from "../../VideoConference/ConferenceView";
+import Button from "@material-ui/core/Button";
 
 interface IProps {
   eventStore: EventStore;
@@ -16,12 +18,25 @@ function ShowEvent(props: IProps) {
       return (
         <>
           <div>{event.title}</div>
-          <Link to={`/events/${props.eventStore.state.model._id}/conference`} className="btn btn-primary">
-            Start conference as Attendee
+          <Link to={`/events/${props.eventStore.state.model._id}/conference`}>
+            <Button color="primary" variant="contained">
+              Start conference as Attendee
+            </Button>
           </Link>
-          <Link to={`/events/${props.eventStore.state.model._id}/conference?role=host`} className="btn btn-primary">
-            Start conference as Host
+          <Link to={`/events/${props.eventStore.state.model._id}/conference?role=host`}>
+            <Button color="primary" variant="contained">
+              Start conference as Host
+            </Button>
           </Link>
+          <a
+            href={`https://${ZOOM_SUBDOMAIN}.zoom.us/j/${ZOOM_MEETING_ID}?pwd=${ZOOM_PASSWORD}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button color="primary" variant="contained">
+              Open Zoom App
+            </Button>
+          </a>
         </>
       );
   }
