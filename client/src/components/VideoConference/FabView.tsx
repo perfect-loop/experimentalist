@@ -8,6 +8,7 @@ import { green } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
 import CustomizedDialogs from "./CustomizedDialogs";
 import { IParticipation } from "api/Participations";
+import { Rnd } from "react-rnd";
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
@@ -34,7 +35,7 @@ TabPanel.propTypes = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
     width: "90%",
     position: "absolute",
     minHeight: "80%",
@@ -64,12 +65,28 @@ export default function FloatingActionButtonZoom(props: { participant: IParticip
   };
 
   return (
-    <div className={classes.root}>
-      <Zoom key="primary" in={true} timeout={transitionDuration} unmountOnExit>
-        <Fab aria-label="Add" className={classes.fab} color="primary">
-          <CustomizedDialogs participant={props.participant} />
-        </Fab>
-      </Zoom>
-    </div>
+    <>
+      <Rnd
+        default={{
+          x: 1400,
+          y: 600,
+          width: 80,
+          height: 80,
+        }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(240, 240, 240, 0)",
+          zIndex: 100,
+        }}
+      >
+        <div className={classes.root}>
+          <Fab aria-label="Add" className={classes.fab} color="primary">
+            <CustomizedDialogs participant={props.participant} />
+          </Fab>
+        </div>
+      </Rnd>
+    </>
   );
 }
