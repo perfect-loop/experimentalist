@@ -7,9 +7,12 @@ export const EventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    startAt: { 
+    startAt: {
       type: Date,
       require: true
+    },
+    instructions: {
+      type: String,
     },
     endAt: Date,
     active: Boolean
@@ -23,6 +26,7 @@ export interface IEvent extends Document {
   _id: string;
   title: string;
   startAt: Date;
+  instructions: String;
   endAt: string;
   active: boolean;
 }
