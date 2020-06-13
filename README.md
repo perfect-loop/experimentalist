@@ -79,3 +79,9 @@ heroku container:release web
 ## Mongo
 
 https://www.mongodb.com/cloud/atlas
+
+## Debugging
+
+```
+DEBUG=enine,socket.io* yarn start
+```

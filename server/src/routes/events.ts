@@ -5,6 +5,8 @@ import { Participation, IParticipation } from "api/Participations";
 import { Auth0User } from "types/auth0";
 // @ts-ignore
 import randomWords from "random-words";
+import { Api } from "api/Socket";
+import { io } from "../index";
 
 const router = express.Router();
 
@@ -32,6 +34,29 @@ router.get("/events/:id.json", secured(), async (req: any, res, next) => {
   }
   res.json(event);
 });
+
+router.put(
+  "/events/:id/activate.json",
+  secured(),
+  async (req: any, res, next) => {
+    console.log("Get put event");
+    const id = req.params.id;
+    const user = req.user;
+    const event = await Event.findById(id);
+    if (!event) {
+      res.status(404).send("Not found");
+      return;
+    }
+    if (!(await isHost(user, event))) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+    event.state = "active";
+    await event.save();
+    console.log("About to emit ", event);
+    io.emit(Api.Socket.EVENT_UPDATED_NAME, { event });
+  }
+);
 
 router.get(
   "/events/:id/participants.json",

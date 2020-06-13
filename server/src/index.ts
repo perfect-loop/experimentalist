@@ -1,6 +1,5 @@
 import "./LoadEnv"; // Must be the first import
 
-import express from "express";
 import morgan from "morgan";
 import path from "path";
 import rfs from "rotating-file-stream";
@@ -75,8 +74,43 @@ server.on("listening", () => {
   }
 });
 
+// import sockets from "./sockets";
+// sockets(server);
+/************************************************************************************
+ *                             Socket
+ ***********************************************************************************/
+
+import socket, { Socket } from "socket.io";
+import { Api } from "api/Socket";
+export const io = socket(server, { origins: "*:*" });
+io.on("connection", (scket: any) => {
+  scket.on("disconnect", (data: any) => {
+    console.log("disconnecting");
+  });
+});
+
+function handleEventEvent(scket: socket.Socket): (...args: any[]) => void {
+  return (message: Api.Socket.ISocket) => {
+    console.log(`[handleEventEvent] ${JSON.stringify(message)}`);
+    scket.broadcast.emit(Api.Socket.EVENT_UPDATED_NAME, message);
+  };
+}
+
+function handleDisconnect(): (...args: any[]) => void {
+  return () => {
+    console.log("user disconnected");
+  };
+}
+
+io.on("connection", (scket: Socket) => {
+  scket.on(Api.Socket.EVENT_UPDATED_NAME, handleEventEvent(scket));
+  scket.on("disconnect", handleDisconnect());
+});
+
 (async () => {
   console.log("Starting application server");
   server.listen(port);
   console.log(`Server is up @ http://localhost:${port}`);
 })();
+
+export default app;

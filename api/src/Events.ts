@@ -15,7 +15,12 @@ export const EventSchema = new mongoose.Schema(
       type: String,
     },
     endAt: Date,
-    active: Boolean
+    active: Boolean,
+    state: {
+      type: String,
+      enum: ["not_started", "started", "active", "ended"],
+      default: "not_started"
+    }
   },
   {
     timestamps: true
@@ -29,6 +34,7 @@ export interface IEvent extends Document {
   instructions: String;
   endAt: string;
   active: boolean;
+  state: "not_started" | "started" | "active" | "ended";
 }
 
 export const Event = mongoose.model<IEvent>("events", EventSchema);
