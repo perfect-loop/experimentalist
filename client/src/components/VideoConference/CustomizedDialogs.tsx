@@ -10,6 +10,9 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import MenuBook from "@material-ui/icons/MenuBook";
 import { IParticipation } from "api/Participations";
+import { useAppContext } from "../../context/AppContext";
+import { Api } from "api/Socket";
+import { IEvent } from "api/Events";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -59,14 +62,18 @@ const DialogActions = withStyles((theme: Theme) => ({
 }))(MuiDialogActions);
 
 export default function CustomizedDialogs(props: { participant: IParticipation }) {
+  const app = useAppContext();
   const [open, setOpen] = React.useState(false);
-
+  const [eventActive, setEventActive] = React.useState(props.participant.event.state === "active");
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  app.socket.on(Api.Socket.EVENT_UPDATED_NAME, (response: { event: IEvent }) => {
+    setEventActive(response.event.state === "active");
+  });
 
   return (
     <div>
@@ -77,12 +84,14 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>{props.participant.event.instructions}</Typography>
-          <Typography gutterBottom>
-            To access the experiment in a new tab, click this link{" "}
-            <a target="_blank" href={props.participant.instructions} rel="noopener noreferrer">
-              {props.participant.instructions}
-            </a>
-          </Typography>
+          {eventActive && (
+            <Typography gutterBottom>
+              To access the experiment in a new tab, click this link{" "}
+              <a target="_blank" href={props.participant.instructions} rel="noopener noreferrer">
+                {props.participant.instructions}
+              </a>
+            </Typography>
+          )}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
