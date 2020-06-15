@@ -2,7 +2,7 @@ import React from "react";
 import EventStore from "../storage/EventStore";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { ZOOM_MEETING_ID, ZOOM_PASSWORD, ZOOM_SUBDOMAIN } from "../../VideoConference/ConferenceView";
+import { ZOOM_MEETING_ID, ZOOM_PERSINAL_MEETING_PASSWORD, ZOOM_SUBDOMAIN } from "../../VideoConference/ConferenceView";
 import Button from "@material-ui/core/Button";
 
 interface IProps {
@@ -29,7 +29,7 @@ function ShowEvent(props: IProps) {
             </Button>
           </Link>
           <a
-            href={`https://${ZOOM_SUBDOMAIN}.zoom.us/j/${ZOOM_MEETING_ID}?pwd=${ZOOM_PASSWORD}`}
+            href={`https://${ZOOM_SUBDOMAIN}.zoom.us/j/${ZOOM_MEETING_ID}?pwd=${ZOOM_PERSINAL_MEETING_PASSWORD}`}
             target="_blank"
             rel="noopener noreferrer"
           >
