@@ -51,8 +51,17 @@ import user from "./routes/users";
 import events from "./routes/events";
 import participants from "./routes/participants";
 
-const MONGO_URI =
-  process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
+let MONGO_URI;
+
+if (process.env.NODE_ENV === "development") {
+  const url =
+    process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
+  MONGO_URI = url.replace("development", `dev_${process.env.USER}`)
+} else {
+  MONGO_URI =
+    process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
+}
+
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true })
   .catch((err: any) => console.log(err));
