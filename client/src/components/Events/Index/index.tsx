@@ -24,7 +24,7 @@ export default class Index extends Component<{}, IState> {
   public render() {
     switch (this.state.participationsStore.state.kind) {
       case "not_ready": {
-        return <div>Loading</div>
+        return <div>Loading</div>;
       }
       case "ready": {
         if (this.state.participationsStore.state.models.length > 0) {
@@ -38,10 +38,10 @@ export default class Index extends Component<{}, IState> {
           return (
             <Alert severity="error">
               <AlertTitle>Error</AlertTitle>
-              There are no experiments associated with this email address.
-              Please login with the email address you provided during experiment registration.
+              There are no experiments associated with this email address. Please login with the email address you
+              provided during experiment registration.
             </Alert>
-          )
+          );
         }
       }
     }
