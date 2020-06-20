@@ -69,6 +69,22 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+/************************************************************************************
+ *                              HTTPS
+ ***********************************************************************************/
+if (process.env.NODE_ENV != "development") {
+  app.use(function (req, res, next) {
+    if (req.secure) {
+      // request was via https, so do no special handling
+      next();
+    } else {
+      console.log("Redirecting to https")
+      // request was via http, so redirect to https
+      res.redirect('https://' + req.headers.host + req.url);
+    }
+  });
+}
+
 const MongoStore = connectMongo(session);
 
 app.use(
