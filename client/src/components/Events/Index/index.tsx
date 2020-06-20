@@ -4,6 +4,7 @@ import AllEvents from "./AllEvents";
 import { observer } from "mobx-react";
 import NewPopup from "../Floaty/NewPopup";
 import ParticipantsStore from "../../VideoConference/store/ParticipantsStore";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 interface IState {
   participationsStore: ParticipantsStore;
@@ -21,11 +22,28 @@ export default class Index extends Component<{}, IState> {
   }
 
   public render() {
-    return (
-      <>
-        <NewPopup />
-        <AllEvents participationsStore={this.state.participationsStore} />
-      </>
-    );
+    switch (this.state.participationsStore.state.kind) {
+      case "not_ready": {
+        return <div>Loading</div>
+      }
+      case "ready": {
+        if (this.state.participationsStore.state.models.length > 0) {
+          return (
+            <>
+              <NewPopup />
+              <AllEvents participationsStore={this.state.participationsStore} />
+            </>
+          );
+        } else {
+          return (
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+              There are no experiments associated with this email address.
+              Please login with the email address you provided during experiment registration.
+            </Alert>
+          )
+        }
+      }
+    }
   }
 }
