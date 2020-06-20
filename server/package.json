@@ -61,7 +61,7 @@
     "typescript": "^3.9"
   },
   "scripts": {
-    "start": "nodemon --exec \"ts-node\" ./src/index.ts --env=development",
+    "start": "nodemon --exec \"ts-node\" ./src/index.ts",
     "start-prod": "pm2 start ./build/index.js start-prod --no-daemon -f",
     "stop-prod": "pm2 stop",
     "build": "rimraf -fR && tsc && cp -r src/views build"

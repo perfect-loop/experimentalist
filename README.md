@@ -136,8 +136,8 @@ heroku stack:set container
 ## Docker Locally
 
 ```
-docker build . -t app
-docker run -it app /bin/bash
+docker build --build-arg ENV=qa . -t app
+docker run -e NODE_ENV=production -it app sh
 docker run -p 3000:3000 app
 ```
 
