@@ -9,6 +9,8 @@ import CustomizedDialogs from "./CustomizedDialogs";
 import { Api } from "../../util/api";
 import { IEvent } from "api/Events";
 import { AxiosResponse } from "axios";
+import Broadcast from "../Broadcast";
+import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function SpeedDialTooltipOpen(props: { participant: IParticipation }) {
+export default function SpeedDialTooltipOpen(props: { participant: IParticipation; handleBroadcastClickOpen: any }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [hidden] = React.useState(false);
@@ -70,6 +72,14 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
             tooltipTitle="Instructions"
             tooltipOpen
           />
+          {props.participant.role === "host" && (
+            <SpeedDialAction
+              key="Broadcast"
+              icon={<RecordVoiceOverIcon onClick={props.handleBroadcastClickOpen} />}
+              tooltipTitle="Broadcast"
+              tooltipOpen
+            />
+          )}
           {props.participant.role === "host" && (
             <SpeedDialAction
               key="Start"
