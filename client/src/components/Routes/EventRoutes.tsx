@@ -2,10 +2,10 @@ import React from "react";
 import { Route, useLocation, Switch } from "react-router-dom";
 import VideoConference from "../VideoConference";
 import PersistentDrawerLeft from "../PersistentDrawerLeft";
-import { Role } from "../VideoConference/ConferenceView";
 import FirstPage from "../FirstPage";
 import { EventManagementRoutes } from "./EventManagementRoutes";
 import { CatchAllRoute } from "./CatchAllRoute";
+import { Role } from "api/Zoom";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);

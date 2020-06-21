@@ -1,8 +1,9 @@
 import { observer } from "mobx-react";
 import React, { Component } from "react";
-import ConferenceView, { Role } from "./ConferenceView";
+import ConferenceView from "./ConferenceView";
 import { Auth0User } from "../../util/react-auth0-spa";
 import ParticipantsStore from "./store/ParticipantsStore";
+import { Role } from "api/Zoom";
 
 interface IState {
   participationsStore: ParticipantsStore;
@@ -11,6 +12,7 @@ interface IState {
 interface IProps {
   user: Auth0User;
   role: Role;
+
   eventId: string;
 }
 
