@@ -1,11 +1,11 @@
 import React from "react";
-import { Role } from "./ConferenceView";
 import { useAuth0 } from "../../util/react-auth0-spa";
 import IndeObserverVideoConferencex from "./ObserverVideoConference";
 import { Api } from "api/Socket";
 import { Snackbar, makeStyles, Theme, createStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useAppContext } from "../../context/AppContext";
+import { Role } from "api/Zoom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
