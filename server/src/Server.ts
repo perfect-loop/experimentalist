@@ -48,6 +48,7 @@ import connectMongo from "connect-mongo";
 import passport from "./passport/setup";
 import auth from "./routes/auth";
 import user from "./routes/users";
+import profile from "./routes/profile";
 import events from "./routes/events";
 import participants from "./routes/participants";
 import healthcheck from "./routes/healthcheck";
@@ -114,6 +115,7 @@ app.use("/api", events);
 app.use("/api", participants);
 app.use("/api", healthcheck);
 app.use("/api", zoom);
+app.use("/api", profile);
 
 /************************************************************************************
  *                              Serve front-end content
