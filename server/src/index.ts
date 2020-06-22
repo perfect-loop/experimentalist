@@ -96,6 +96,13 @@ function handleEventEvent(scket: socket.Socket): (...args: any[]) => void {
   };
 }
 
+function handleBroadcastEvent(scket: socket.Socket): (...args: any[]) => void {
+  return (message: Api.Socket.ISocket) => {
+    console.log(`[handleBroadcastEvent] ${JSON.stringify(message)}`);
+    scket.broadcast.emit(Api.Socket.EVENT_BROADCAST_NAME, message);
+  };
+}
+
 function handleDisconnect(): (...args: any[]) => void {
   return () => {
     console.log("user disconnected");
@@ -104,6 +111,7 @@ function handleDisconnect(): (...args: any[]) => void {
 
 io.on("connection", (scket: Socket) => {
   scket.on(Api.Socket.EVENT_UPDATED_NAME, handleEventEvent(scket));
+  scket.on(Api.Socket.EVENT_BROADCAST_NAME, handleBroadcastEvent(scket));
   scket.on("disconnect", handleDisconnect());
 });
 

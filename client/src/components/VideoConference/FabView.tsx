@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import { IParticipation } from "api/Participations";
 import { Rnd } from "react-rnd";
 import SpeedDialTooltipOpen from "./SpeedDialTooltipOpen";
+import Broadcast from "../Broadcast";
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
@@ -30,8 +31,19 @@ TabPanel.propTypes = {
 };
 
 export default function FloatingActionButtonZoom(props: { participant: IParticipation }) {
+  const [broadcastOpen, setBroadcastOpen] = React.useState(false);
+
+  const handleBroadcastClickOpen = () => {
+    setBroadcastOpen(true);
+  };
+
+  const handleBroadcastClickClose = () => {
+    setBroadcastOpen(false);
+  };
+
   return (
     <>
+      <Broadcast defaultOpen={broadcastOpen} handleBroadcastClickClose={handleBroadcastClickClose} />
       <Rnd
         default={{
           x: 350,
@@ -44,10 +56,10 @@ export default function FloatingActionButtonZoom(props: { participant: IParticip
           alignItems: "center",
           justifyContent: "center",
           background: "rgba(240, 240, 240, 0)",
-          zIndex: 100,
+          zIndex: 50,
         }}
       >
-        <SpeedDialTooltipOpen participant={props.participant} />
+        <SpeedDialTooltipOpen participant={props.participant} handleBroadcastClickOpen={handleBroadcastClickOpen} />
       </Rnd>
     </>
   );

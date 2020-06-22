@@ -6,6 +6,7 @@ import { Snackbar, makeStyles, Theme, createStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useAppContext } from "../../context/AppContext";
 import { Role } from "api/Zoom";
+import PersistenNotication from "./notifications/Persistent";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,6 +21,11 @@ interface IProps {
   eventId: string;
 }
 
+enum Severity {
+  S = "success",
+  W = "warning",
+}
+
 const VideoConference = (props: IProps) => {
   const auth0 = useAuth0();
   const app = useAppContext();
@@ -28,10 +34,23 @@ const VideoConference = (props: IProps) => {
   const user = auth0.user;
 
   const [snackOpen, setSnackOpen] = React.useState(false);
+  const [snackText, setsnackText] = React.useState("");
+  const [persistentText, setPersistentText] = React.useState("");
+  const [persistentOpen, setPersistentOpen] = React.useState(false);
+  const [snackSeverity, setSnackSeverity] = React.useState(Severity.S);
+
   const classes = useStyles();
   app.socket.on(Api.Socket.EVENT_UPDATED_NAME, (response: any) => {
     // console.log(`message from server is ${response.data}`);
+    setsnackText("This event is now active!");
+    setSnackSeverity(Severity.S);
     setSnackOpen(true);
+  });
+
+  app.socket.on(Api.Socket.EVENT_BROADCAST_NAME, (response: any) => {
+    console.log(`message from server using ${Api.Socket.EVENT_BROADCAST_NAME} is ${response}`);
+    setPersistentText(response);
+    setPersistentOpen(true);
   });
 
   if (!isAuthenticated || !user) {
@@ -41,7 +60,7 @@ const VideoConference = (props: IProps) => {
       <>
         <div>
           <Snackbar
-            autoHideDuration={4000}
+            autoHideDuration={5000}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             open={snackOpen}
             onClose={() => {
@@ -49,10 +68,11 @@ const VideoConference = (props: IProps) => {
             }}
             key={"nokey"}
           >
-            <Alert severity="success" className={classes.alert}>
-              This event is now active!
+            <Alert severity={snackSeverity} className={classes.alert}>
+              {snackText}
             </Alert>
           </Snackbar>
+          <PersistenNotication open={persistentOpen} text={persistentText} />
         </div>
         <IndeObserverVideoConferencex user={user} role={props.role} eventId={props.eventId} />
       </>

@@ -5,6 +5,7 @@ import { observer } from "mobx-react";
 import NewPopup from "../Floaty/NewPopup";
 import ParticipantsStore from "../../VideoConference/store/ParticipantsStore";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import Broadcast from "../../Broadcast";
 
 interface IState {
   participationsStore: ParticipantsStore;
