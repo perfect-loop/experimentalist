@@ -53,6 +53,10 @@ const VideoConference = (props: IProps) => {
     setPersistentOpen(true);
   });
 
+  const handleClose = () => {
+    setPersistentOpen(false);
+  };
+
   if (!isAuthenticated || !user) {
     return <>Not allowed</>;
   } else {
@@ -72,7 +76,7 @@ const VideoConference = (props: IProps) => {
               {snackText}
             </Alert>
           </Snackbar>
-          <PersistenNotication open={persistentOpen} text={persistentText} />
+          <PersistenNotication open={persistentOpen} text={persistentText} handleClose={handleClose} />
         </div>
         <IndeObserverVideoConferencex user={user} role={props.role} eventId={props.eventId} />
       </>
