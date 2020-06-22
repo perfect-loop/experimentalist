@@ -6,6 +6,7 @@ import FirstPage from "../FirstPage";
 import { EventManagementRoutes } from "./EventManagementRoutes";
 import { CatchAllRoute } from "./CatchAllRoute";
 import { Role } from "api/Zoom";
+import { ProfileRoutes } from "./ProfileRoutes";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -35,6 +36,7 @@ export const EventRoutes: React.FC = () => {
             <FirstPage />
           </Route>
           <EventManagementRoutes />
+          <ProfileRoutes />
         </PersistentDrawerLeft>
         <CatchAllRoute />
       </Switch>
