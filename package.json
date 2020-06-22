@@ -3,8 +3,5 @@
   "version": "0.0.1",
   "scripts": {
     "start": "(cd server && yarn start) & (cd client && yarn start)"
-  },
-  "dependencies": {
-    "@sentry/browser": "^5.17.0"
   }
 }
