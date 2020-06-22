@@ -9,7 +9,6 @@ import CustomizedDialogs from "./CustomizedDialogs";
 import { Api } from "../../util/api";
 import { IEvent } from "api/Events";
 import { AxiosResponse } from "axios";
-import Broadcast from "../Broadcast";
 import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 
 const useStyles = makeStyles((theme: Theme) =>
