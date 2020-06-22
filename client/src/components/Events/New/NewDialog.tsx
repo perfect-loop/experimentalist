@@ -1,5 +1,5 @@
-import React, { SyntheticEvent } from "react";
-import { makeStyles, Theme, createStyles, TextField, Button } from "@material-ui/core";
+import React from "react";
+import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import EventStore from "../storage/EventStore";
@@ -7,6 +7,7 @@ import { IEvent } from "api/Events";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,23 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const TextFieldAdapter = ({ input, meta, ...rest }: { input: any; meta: any }) => {
-  return (
-    <TextField
-      {...input}
-      {...rest}
-      onChange={(event: SyntheticEvent) => {
-        const target = event.target as HTMLTextAreaElement;
-        const value = target.value;
-        console.log(`value is ${value}`);
-        input.onChange(value);
-      }}
-      errorText={meta.touched ? meta.error : ""}
-    />
-  );
-};
-
-// const NewDialog = () => {
 function NewDialog(props: {}) {
   const classes = useStyles();
   const history = useHistory();
@@ -80,7 +64,6 @@ function NewDialog(props: {}) {
                 label="Event Title"
                 required={true}
                 placeholder="Event Title"
-                defaultValue="Event Title"
               />
             </div>
             <div>
