@@ -18,18 +18,26 @@
 
 ## Updating api
 
-Bump version in `package.json`
+After updating models in the api, 
 
 ```
 cd api
 yarn build
 ```
 
-In the users of the api
+Upgrade both client and server
 
 ```
+cd client
 yarn upgrade api
 ```
+
+```
+cd server
+yarn upgrade api
+```
+
+Restart the servers
 
 ## Component development
 
