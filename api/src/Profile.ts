@@ -7,7 +7,7 @@ const STATES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
   "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
   "WI", "WY"]
 
-export const UserProfileSchema = new mongoose.Schema(
+export const ProfileSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -47,7 +47,7 @@ export const UserProfileSchema = new mongoose.Schema(
   }
 );
 
-export interface IUserProfile extends Document {
+export interface IProfile extends Document {
   _id: string;
   firstName: string;
   lastName: string;
@@ -59,4 +59,4 @@ export interface IUserProfile extends Document {
   zip: number;
 }
 
-export const Event = mongoose.model<IUserProfile>("profiles", UserProfileSchema);
+export const Event = mongoose.model<IProfile>("profiles", UserProfileSchema);
