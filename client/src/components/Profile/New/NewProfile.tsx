@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Theme, createStyles, Button, InputLabel, MenuItem } from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 // import EventStore from "../storage/EventStore";
@@ -8,9 +8,9 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
-import SelectAdapter from "../../Forms/SelectAdapter";
 import { STATES } from "./states";
 
+//PROFILE FORM 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -24,10 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       width: "200",
-    },
-    select: {
-      margin: theme.spacing(1),
-      width: "80%",
     },
   }),
 );
@@ -124,13 +120,20 @@ function NewProfile(props: {}) {
               />
             </div>
             <div>
-              <Field name="state" className={classes.select} component={SelectAdapter} label="State" required={true} options={STATES}/>
+              <Field
+                name="states"
+                component={TextFieldAdapter}
+                type="text"
+                label="States"
+                required={true}
+                placeholder="States"
+              />
             </div>
             <div>
               <Field
                 name="zip"
                 component={TextFieldAdapter}
-                type="number"
+                type="text"
                 label="Zip"
                 required={true}
                 placeholder="Zip"

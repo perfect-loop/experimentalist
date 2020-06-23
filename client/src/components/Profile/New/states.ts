@@ -1,3 +1,4 @@
+// options for selecting states in profile form
 export const STATES = [
   "AL",
   "AK",
