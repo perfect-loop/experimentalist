@@ -2,13 +2,12 @@ import React from "react";
 import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
-// import EventStore from "../storage/EventStore";
+import ProfileStore from "../storage/ProfileStore";
 import { IProfile } from "api/Profiles";
 import { useHistory } from "react-router-dom";
-import moment from "moment";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
-import { STATES } from "./states";
+// import { STATES } from "./states";
 
 //PROFILE FORM 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,15 +35,17 @@ function NewProfile(props: {}) {
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
     console.log(newProfile);
-    // const eventStore = new EventStore();
-    // eventStore
-    //   .post(newEvent)
-    //   .then((event: IEvent) => {
-    //     history.push(`/events/${event._id}/participants`);
-    //   })
-    //   .catch(error => {
-    //     setAlert(true);
-    //   });
+    const profileStore = new ProfileStore();
+    profileStore
+      .post(newProfile)
+      .then((event: IProfile) => {
+        console.log("Profile has been created");
+        // history.push(`/events/${event._id}/participants`);
+      })
+      .catch(error => {
+        console.log(error);
+        // setAlert(true);
+      });
   };
 
   return (
@@ -104,9 +105,9 @@ function NewProfile(props: {}) {
                 name="phone"
                 component={TextFieldAdapter}
                 type="text"
-                label="Last Name"
+                label="Phone"
                 required={true}
-                placeholder="Last Name"
+                placeholder="Phone"
               />
             </div>
             <div>
@@ -121,12 +122,12 @@ function NewProfile(props: {}) {
             </div>
             <div>
               <Field
-                name="states"
+                name="state"
                 component={TextFieldAdapter}
                 type="text"
-                label="States"
+                label="State"
                 required={true}
-                placeholder="States"
+                placeholder="State"
               />
             </div>
             <div>
