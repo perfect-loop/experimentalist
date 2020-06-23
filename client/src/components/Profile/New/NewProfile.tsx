@@ -1,5 +1,5 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
+import React from "react";
+import { makeStyles, Theme, createStyles, Button, InputLabel, MenuItem } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 // import EventStore from "../storage/EventStore";
@@ -8,6 +8,8 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
+import SelectAdapter from "../../Forms/SelectAdapter";
+import { STATES } from "./states";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +25,10 @@ const useStyles = makeStyles((theme: Theme) =>
     input: {
       width: "200",
     },
+    select: {
+      margin: theme.spacing(1),
+      width: "80%",
+    },
   }),
 );
 
@@ -33,7 +39,7 @@ function NewProfile(props: {}) {
 
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
-    console.log(newProfile)
+    console.log(newProfile);
     // const eventStore = new EventStore();
     // eventStore
     //   .post(newEvent)
@@ -72,29 +78,62 @@ function NewProfile(props: {}) {
                 name="lastName"
                 component={TextFieldAdapter}
                 type="text"
-                label="lastName"
+                label="Last Name"
                 required={true}
-                className={classes.input}
-                defaultValue={moment().format("YYYY-MM-DDThh:mm")}
-                placeholder="lastName"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  step: 300,
-                }}
+                placeholder="Last Name"
               />
             </div>
             <div>
               <Field
-                name="instructions"
+                name="venmoId"
                 component={TextFieldAdapter}
-                multiline
-                rows={4}
-                type="Instructions"
-                label="Instructions"
+                type="text"
+                label="Venmo Id"
                 required={true}
-                placeholder="Instructions"
+                placeholder="Venmo Id"
+              />
+            </div>
+            <div>
+              <Field
+                name="studentId"
+                component={TextFieldAdapter}
+                type="text"
+                label="Student Id"
+                required={true}
+                placeholder="Student Id"
+              />
+            </div>
+            <div>
+              <Field
+                name="phone"
+                component={TextFieldAdapter}
+                type="text"
+                label="Last Name"
+                required={true}
+                placeholder="Last Name"
+              />
+            </div>
+            <div>
+              <Field
+                name="street"
+                component={TextFieldAdapter}
+                type="text"
+                label="Street"
+                required={true}
+                placeholder="Street"
+              />
+            </div>
+            <div>
+              <Field name="state" className={classes.select} component={SelectAdapter} label="State" required={true} options={STATES}/>
+            </div>
+            <div>
+              <Field
+                name="zip"
+                component={TextFieldAdapter}
+                type="number"
+                label="Zip"
+                required={true}
+                placeholder="Zip"
               />
             </div>
             <div className="buttons">
@@ -109,4 +148,7 @@ function NewProfile(props: {}) {
         )}
       />
     </Paper>
+  );
 }
+
+export default NewProfile;
