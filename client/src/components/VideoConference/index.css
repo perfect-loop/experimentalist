@@ -17,3 +17,8 @@
 .participants-ul .not-hover-list-item {
   max-width: 300px;
 }
+
+.chat-privately {
+  font-size: 8px;
+  display: inline;
+}
