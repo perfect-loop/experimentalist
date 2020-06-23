@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 import * as mongoose from 'mongoose';
-export declare const UserProfileSchema: mongoose.Schema<any>;
-export interface IUserProfile extends Document {
+export declare const ProfileSchema: mongoose.Schema<any>;
+export interface IProfile extends Document {
     _id: string;
     firstName: string;
     lastName: string;
@@ -12,4 +12,4 @@ export interface IUserProfile extends Document {
     state: string;
     zip: number;
 }
-export declare const Event: mongoose.Model<IUserProfile, {}>;
+export declare const Event: mongoose.Model<IProfile, {}>;
