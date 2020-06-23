@@ -83,6 +83,7 @@ exports.ProfileSchema = new mongoose.Schema({
     state: {
         type: String,
         enum: STATES,
+        require: true
     },
     zip: {
         type: Number,
