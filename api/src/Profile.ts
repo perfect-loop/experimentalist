@@ -1,11 +1,59 @@
 import { Document } from "mongoose";
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
 
-const STATES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
-  "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
-  "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH",
-  "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
-  "WI", "WY"]
+const STATES = [
+  "AL",
+  "AK",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "DC",
+  "FL",
+  "GA",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "OH",
+  "OK",
+  "OR",
+  "PA",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
+];
 
 export const ProfileSchema = new mongoose.Schema(
   {
@@ -15,23 +63,23 @@ export const ProfileSchema = new mongoose.Schema(
     },
     lastName: {
       type: String,
-      require: true
+      require: true,
     },
     venmoId: {
       type: String,
-      require: true
+      require: true,
     },
     studentId: {
       type: Number,
-      require: true
+      require: true,
     },
     phone: {
       type: Number,
-      require: true
+      require: true,
     },
     street: {
       type: String,
-      require: true
+      require: true,
     },
     state: {
       type: String,
@@ -39,11 +87,15 @@ export const ProfileSchema = new mongoose.Schema(
     },
     zip: {
       type: Number,
-      require: true
+      require: true,
+    },
+    userId: {
+      type: String,
+      require: true,
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
@@ -57,6 +109,7 @@ export interface IProfile extends Document {
   street: string;
   state: string;
   zip: number;
+  userId: string
 }
 
 export const Profile = mongoose.model<IProfile>("profiles", ProfileSchema);
