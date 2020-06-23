@@ -6,11 +6,11 @@ import { Auth0User } from "types/auth0";
 const router = express.Router();
 
 router.get("/profile", secured(), async (req: any, res, next) => {
-  const email = req.user.email;
-  console.log("requesting profile")
+  const user: Auth0User = req.user;
+  console.log(user._id)
+  res.status(200).send(`user id is ${user._id}`);
   // const profile = await Profile.find({email})
   // console.log(profile); 
-  res.status(200).send("Pong");
 });
 
 router.post("/profile", async (req: any, res, next) => {
@@ -36,12 +36,5 @@ router.post("/profile", async (req: any, res, next) => {
   //   });
   console.log(profile);
 });
-// router.get("/profile", secured(), (req: any, res, next) => {
-
-// });
-
-// router.post("/profile", secured(), (req, res, next) => {
-//   res.status(200).send("Pong");
-// });
 
 export default router;
