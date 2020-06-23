@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Event = exports.ProfileSchema = void 0;
+exports.Profile = exports.ProfileSchema = void 0;
 var mongoose = require("mongoose");
 var STATES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL",
     "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
@@ -43,4 +43,4 @@ exports.ProfileSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-exports.Event = mongoose.model("profiles", exports.ProfileSchema);
+exports.Profile = mongoose.model("profiles", exports.ProfileSchema);

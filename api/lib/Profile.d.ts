@@ -12,4 +12,4 @@ export interface IProfile extends Document {
     state: string;
     zip: number;
 }
-export declare const Event: mongoose.Model<IProfile, {}>;
+export declare const Profile: mongoose.Model<IProfile, {}>;

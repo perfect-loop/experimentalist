@@ -59,4 +59,4 @@ export interface IProfile extends Document {
   zip: number;
 }
 
-export const Event = mongoose.model<IProfile>("profiles", ProfileSchema);
+export const Profile = mongoose.model<IProfile>("profiles", ProfileSchema);
