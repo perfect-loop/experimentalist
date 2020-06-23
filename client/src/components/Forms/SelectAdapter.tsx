@@ -1,4 +1,4 @@
-// Select element, work with react-final-form
+// Select element, to be implemment with react-final-form
 
 
 // import React from "react";
