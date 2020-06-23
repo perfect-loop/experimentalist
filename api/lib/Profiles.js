@@ -89,7 +89,8 @@ exports.ProfileSchema = new mongoose.Schema({
         require: true,
     },
     userId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users_profiles",
         require: true,
     },
 }, {

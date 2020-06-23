@@ -90,7 +90,8 @@ export const ProfileSchema = new mongoose.Schema(
       require: true,
     },
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users_profiles",
       require: true,
     },
   },
@@ -109,7 +110,7 @@ export interface IProfile extends Document {
   street: string;
   state: string;
   zip: number;
-  userId: string
+  userId: string;
 }
 
 export const Profile = mongoose.model<IProfile>("profiles", ProfileSchema);
