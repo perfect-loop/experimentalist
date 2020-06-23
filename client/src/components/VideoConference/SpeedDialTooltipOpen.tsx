@@ -10,6 +10,7 @@ import { Api } from "../../util/api";
 import { IEvent } from "api/Events";
 import { AxiosResponse } from "axios";
 import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
+import AdmitAll from "./speeddial/AdmitAll";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,13 +25,16 @@ const useStyles = makeStyles((theme: Theme) =>
       background: "none",
     },
     speedDial: {
+      fontSize: "10px",
       position: "absolute",
       background: "none",
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
-    alert: {
-      width: "200px",
+    tooltip: {
+      fontSize: "60px",
+      maxWidth: 500,
+      background: "red",
     },
   }),
 );
@@ -86,6 +90,15 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               tooltipTitle="Start"
               onClick={handleEventActivate}
               tooltipOpen
+            />
+          )}
+          {props.participant.role === "host" && (
+            <SpeedDialAction
+              key="AdmitAll"
+              icon={<AdmitAll />}
+              tooltipTitle="Admit Everyone"
+              tooltipOpen
+              TooltipClasses={classes}
             />
           )}
         </SpeedDial>

@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import { IParticipation } from "api/Participations";
 import { Rnd } from "react-rnd";
 import SpeedDialTooltipOpen from "./SpeedDialTooltipOpen";
-import Broadcast from "../Broadcast";
+import Broadcast from "./speeddial/Broadcast";
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
