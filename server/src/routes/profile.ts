@@ -18,6 +18,8 @@ router.post("/profile", async (req: any, res, next) => {
   console.log("got request to create profile");
   const body = req.body;
 
+  const user: Auth0User = req.user;
+  res.status(200).send(`user id is ${user._id}`);
   console.log(`profilAttr is ${JSON.stringify(body)}`);
 
   const profile = new Profile(body) as IProfile;
@@ -34,5 +36,12 @@ router.post("/profile", async (req: any, res, next) => {
   //   });
   console.log(profile);
 });
+// router.get("/profile", secured(), (req: any, res, next) => {
+
+// });
+
+// router.post("/profile", secured(), (req, res, next) => {
+//   res.status(200).send("Pong");
+// });
 
 export default router;
