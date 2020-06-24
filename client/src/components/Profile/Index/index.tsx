@@ -1,21 +1,38 @@
-import { Component } from "react";
-import React from "react";
+import React, { Component } from "react";
 import { observer } from "mobx-react";
+import ProfileStore from "../storage/ProfileStore";
+import ShowProfile from "../Show/ShowView";
+import NewProfile from "../New/NewProfile";
 
 interface IState {
-  dummy: boolean;
+  profileStore: ProfileStore;
 }
 
 @observer
 export default class Index extends Component<{}, IState> {
   constructor(props: {}) {
     super(props);
+    const profileStore = new ProfileStore();
     this.state = {
-      dummy: false,
+      profileStore,
     };
+    profileStore.get();
   }
 
   public render() {
-    return <div>Profile Code Goes Here</div>;
+    switch (this.state.profileStore.state.kind) {
+      case "ready":
+        return (
+          <>
+            <ShowProfile profileStore={this.state.profileStore}/>
+          </>
+        )
+      case "not_ready":
+        return (
+          <>
+            <NewProfile />
+          </>
+        );
+    }
   }
 }

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function NewProfile(props: {}) {
   const classes = useStyles();
   const history = useHistory();
-  // const [alert, setAlert] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
 
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
@@ -40,11 +40,10 @@ function NewProfile(props: {}) {
       .post(newProfile)
       .then((event: IProfile) => {
         console.log("Profile has been created");
-        // history.push(`/events/${event._id}/participants`);
       })
       .catch(error => {
-        console.log(error);
-        // setAlert(true);
+        // console.log("frontend received ", error);
+        setAlert(true);
       });
   };
 
