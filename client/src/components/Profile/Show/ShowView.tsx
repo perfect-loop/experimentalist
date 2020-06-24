@@ -2,8 +2,7 @@ import React from "react";
 import ProfileStore from "../storage/ProfileStore";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-// import { ZOOM_MEETING_ID, ZOOM_PERSINAL_MEETING_PASSWORD, ZOOM_SUBDOMAIN } from "../../VideoConference/ConferenceView";
-// import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core";
 
 interface IProps {
   profileStore: ProfileStore;
@@ -17,7 +16,7 @@ function ShowProfile(props: IProps) {
       const profile = props.profileStore.state.model;
       return (
         <>
-          <h1>{profile.firstName}</h1>
+          <div>{profile.firstName}</div>
           <div>{profile.lastName}</div>
         </>
       );
