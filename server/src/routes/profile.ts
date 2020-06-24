@@ -1,40 +1,44 @@
 import express from "express";
 import secured from "../lib/middleware/secured";
-import { IProfile, Profile } from "api/Profile"
+import { IProfile, Profile } from "api/Profiles"
 import { Auth0User } from "types/auth0";
 
 const router = express.Router();
 
-router.get("/profile", secured(), async (req: any, res, next) => {
+router.get("/profile.json", secured(), async (req: any, res, next) => {
   const user: Auth0User = req.user;
-  console.log(user._id)
-  res.status(200).send(`user id is ${user._id}`);
-  // const profile = await Profile.find({email})
-  // console.log(profile); 
+  const userId = user._id;
+  // finding profiles based on userId 
+  const profile = await Profile.findOne({userId})
+  console.log(`Profile has been fetched ${profile}`); 
+  if (!profile) {
+    res.status(404).send("Profile not found!")
+    return
+  }
+
+  res.status(200).json(profile);
 });
 
-router.post("/profile", async (req: any, res, next) => {
-  // const id = req.parms.id;
+router.post("/profile.json", secured(), async (req: any, res, next) => {
   console.log("got request to create profile");
   const body = req.body;
-
   const user: Auth0User = req.user;
-  res.status(200).send(`user id is ${user._id}`);
+
   console.log(`profilAttr is ${JSON.stringify(body)}`);
 
   const profile = new Profile(body) as IProfile;
+  profile.userId = user._id
 
-  // profile
-  //   .save()
-  //   .then((newProfile: IProfile) => {
-  //     console.log(`profile is ${newProfile}`);
-  //     res.json(newProfile);
-  //   })
-  //   .catch((reason: any) => {
-  //     console.log(reason.constructor);
-  //     res.status(500).send(reason.message);
-  //   });
-  console.log(profile);
+  profile
+    .save()
+    .then((newProfile: IProfile) => {
+      console.log(`profile is ${newProfile}`);
+      res.json(newProfile);
+    })
+    .catch((reason: any) => {
+      console.log(reason.constructor);
+      res.status(500).send(reason.message);
+    });
 });
 
 export default router;
