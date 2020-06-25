@@ -1,8 +1,7 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Profile from "../Profile";
 import NewProfile from "../Profile/New/NewProfile";
-import { AnyObject } from "final-form";
 
 export const ProfileRoutes: React.FC = () => {
   return (

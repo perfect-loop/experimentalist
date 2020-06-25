@@ -3,6 +3,7 @@ import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
 import { IProfile } from "api/Profiles";
 import { resolve } from "path";
+import { rejects } from "assert";
 
 interface IStateReady {
   kind: "ready";
@@ -12,8 +13,11 @@ interface IStateReady {
 interface IStateNotReady {
   kind: "not_ready";
 }
+interface IStateEmpty {
+  kind: "empty";
+}
 
-type IState = IStateReady | IStateNotReady;
+type IState = IStateReady | IStateNotReady | IStateEmpty;
 
 export default class ProfileStore {
   @observable public state: IState;
@@ -52,13 +56,16 @@ export default class ProfileStore {
       .get<IProfile>(`/api/profile.json`)
       .then((response: AxiosResponse<IProfile>) => {
         const { data } = response;
-        console.log(data);
+
         this.state = {
           kind: "ready",
           model: data,
         };
       })
       .catch((error: AxiosError) => {
+        this.state = {
+          kind: "empty",
+        };
         console.error(error.response?.statusText);
       });
   };

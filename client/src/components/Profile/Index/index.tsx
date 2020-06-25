@@ -5,16 +5,13 @@ import ShowProfile from "../Show/ShowView";
 import NewProfile from "../New/NewProfile";
 import { Redirect } from "react-router-dom";
 
-interface IProps {
-  updateUrl(url: string): void;
-}
 interface IState {
   profileStore: ProfileStore;
 }
 
 @observer
-class Index extends Component<IProps, IState> {
-  constructor(props: any) {
+class Index extends Component<{}, IState> {
+  constructor(props: {}) {
     super(props);
     const profileStore = new ProfileStore();
     this.state = {
@@ -25,16 +22,22 @@ class Index extends Component<IProps, IState> {
 
   public render() {
     switch (this.state.profileStore.state.kind) {
-      case "ready":
+      case "empty":
         return (
           <>
-            <ShowProfile profileStore={this.state.profileStore} />
+            <Redirect to="/profile/new" />
           </>
         );
       case "not_ready":
         return (
           <>
-            <Redirect to="/profile/new" />
+            <div>Loading</div>
+          </>
+        );
+      case "ready":
+        return (
+          <>
+            <ShowProfile profileStore={this.state.profileStore} />
           </>
         );
     }

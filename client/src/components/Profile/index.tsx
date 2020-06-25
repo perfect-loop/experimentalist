@@ -1,15 +1,14 @@
 import React from "react";
 import Index from "./Index/index";
-import { withRouter } from "react-router-dom";
-import ProfileStore from "./storage/ProfileStore";
 
 // Pass in push function for updating url in <index> 
 const Profile = (props: any) => {
+  debugger;
   return (
     <div>
-      <Index updateUrl={props.history.push}/>
+      <Index />
     </div>
   );
 };
 
-export default withRouter(Profile);
+export default Profile;

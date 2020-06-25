@@ -33,18 +33,17 @@ function NewProfile(props: {}) {
   const [alert, setAlert] = React.useState(false);
   const onSubmit = (values: any) => {
     
-    // const newProfile = values as IProfile;
-    // const profileStore = new ProfileStore();
-    // profileStore
-    //   .post(newProfile)
-    //   .then((event: IProfile) => {
-    //     console.log("Profile has been created");
-    //     history.push("/profile")
-    //   })
-    //   .catch(error => {
-    //     // console.log("frontend received ", error);
-    //     setAlert(true);
-    //   });
+    const newProfile = values as IProfile;
+    const profileStore = new ProfileStore();
+    profileStore
+      .post(newProfile)
+      .then((event: IProfile) => {
+        console.log("Profile has been created");
+        history.push("/profile")
+      })
+      .catch(error => {
+        setAlert(true);
+      });
   };
 
   return (

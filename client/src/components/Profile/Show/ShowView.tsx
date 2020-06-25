@@ -12,6 +12,8 @@ function ShowProfile(props: IProps) {
   switch (props.profileStore.state.kind) {
     case "not_ready":
       return <div>Not ready</div>;
+    case "empty":
+      return <div>Profile not found</div>
     case "ready":
       const profile = props.profileStore.state.model;
       return (
