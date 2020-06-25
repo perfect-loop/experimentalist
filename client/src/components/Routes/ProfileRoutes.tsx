@@ -6,12 +6,12 @@ import NewProfile from "../Profile/New/NewProfile";
 export const ProfileRoutes: React.FC = () => {
   return (
     <>
-        <Route exact path="/profile/new">
-          <NewProfile />
-        </Route>
-        <Route exact path="/profile"> 
-          <Profile />
-        </Route>
+      <Route exact path="/profile/new">
+        <NewProfile />
+      </Route>
+      <Route exact path="/profile">
+        <Profile />
+      </Route>
     </>
   );
 };

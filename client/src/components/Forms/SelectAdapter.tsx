@@ -1,10 +1,20 @@
-
 import React from "react";
 import { SyntheticEvent } from "react";
 import { Select, InputLabel, MenuItem } from "@material-ui/core";
 
 // <Select> element, to be implemmented with react-final-form
-const SelectAdapter = ({ input, meta, label, options, ...rest }: { input: any; label: any; options: any; meta: any }) => {
+const SelectAdapter = ({
+  input,
+  meta,
+  label,
+  options,
+  ...rest
+}: {
+  input: any;
+  label: any;
+  options: any;
+  meta: any;
+}) => {
   return (
     <>
       <InputLabel id={label + "-label"}>{label}</InputLabel>
