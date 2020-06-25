@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       width: "400px",
     },
-    div: {
+    input: {
       width: "200",
     },
   }),
@@ -32,13 +32,13 @@ function ShowProfile(props: IProps) {
   const classes = useStyles();
 
   const onSubmit = () => {
-    return
-  }
+    return;
+  };
   switch (props.profileStore.state.kind) {
     case "not_ready":
       return <div>Not ready</div>;
     case "empty":
-      return <div>Profile not found</div>
+      return <div>Profile not found</div>;
     case "ready":
       const profile = props.profileStore.state.model;
       return (
@@ -53,10 +53,13 @@ function ShowProfile(props: IProps) {
                       name="firstName"
                       component={TextFieldAdapter}
                       type="text"
-                      label={profile.firstName}
+                      label="First Name"
+                      defaultValue={profile.firstName}
                       // required={true}
-                      disabled={true}
-                      placeholder={profile.firstName}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      placeholder="First Name"
                     />
                   </div>
                   <div>
@@ -64,10 +67,16 @@ function ShowProfile(props: IProps) {
                       name="lastName"
                       component={TextFieldAdapter}
                       type="text"
+                      label="Last Name"
                       // required={true}
-                      disabled={true}
-                      label={profile.lastName}
-                      placeholder={profile.lastName}
+                      InputProps={{
+                        readOnly: true,
+                        style: {
+                          cursor: "default",
+                        },
+                      }}
+                      defaultValue={profile.lastName}
+                      placeholder="Last Name"
                     />
                   </div>
                   <div>
@@ -75,10 +84,13 @@ function ShowProfile(props: IProps) {
                       name="venmoId"
                       component={TextFieldAdapter}
                       type="text"
-                      label={profile.venmoId}
+                      label="Venmo Id"
+                      defaultValue={profile.venmoId}
                       // required={true}
-                      disabled={true}
-                      placeholder={profile.venmoId}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      placeholder="Venmo Id"
                     />
                   </div>
                   <div>
@@ -86,10 +98,13 @@ function ShowProfile(props: IProps) {
                       name="studentId"
                       component={TextFieldAdapter}
                       type="text"
-                      label={profile.studentId}
+                      label="Student Id"
+                      defaultValue={profile.studentId}
                       // required={true}
-                      disabled={true}
-                      placeholder={profile.studentId}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      placeholder="Student Id"
                     />
                   </div>
                   <div>
@@ -97,10 +112,13 @@ function ShowProfile(props: IProps) {
                       name="phone"
                       component={TextFieldAdapter}
                       type="text"
-                      label={profile.phone}
+                      label="Phone"
+                      defaultValue={profile.phone}
                       // required={true}
-                      disabled={true}
-                      placeholder={profile.phone}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      placeholder="Phone"
                     />
                   </div>
                   <div>
@@ -108,10 +126,13 @@ function ShowProfile(props: IProps) {
                       name="street"
                       component={TextFieldAdapter}
                       type="text"
-                      label={profile.street}
+                      label="Street"
+                      defaultValue={profile.street}
                       // required={true}
-                      disabled={true}
-                      placeholder={profile.street}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      placeholder="Street"
                     />
                   </div>
                   <div>
@@ -119,10 +140,13 @@ function ShowProfile(props: IProps) {
                       name="state"
                       component={TextFieldAdapter}
                       type="text"
-                      label={profile.state}
+                      label="State"
+                      defaultValue={profile.state}
                       // required={true}
-                      disabled={true}
-                      placeholder={profile.state}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      placeholder="State"
                     />
                   </div>
                   <div>
@@ -130,10 +154,14 @@ function ShowProfile(props: IProps) {
                       name="zip"
                       component={TextFieldAdapter}
                       type="text"
-                      label={profile.zip}
+                      label="Zip"
                       // required={true}
-                      disabled={true}
-                      placeholder={profile.zip}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      defaultValue={profile.zip}
+                      // disabled={true}
+                      placeholder="Zip"
                     />
                   </div>
                 </form>
