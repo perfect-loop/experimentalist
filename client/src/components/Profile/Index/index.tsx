@@ -3,14 +3,18 @@ import { observer } from "mobx-react";
 import ProfileStore from "../storage/ProfileStore";
 import ShowProfile from "../Show/ShowView";
 import NewProfile from "../New/NewProfile";
+import { Redirect } from "react-router-dom";
 
+interface IProps {
+  updateUrl(url: string): void;
+}
 interface IState {
   profileStore: ProfileStore;
 }
 
 @observer
-export default class Index extends Component<{}, IState> {
-  constructor(props: {}) {
+class Index extends Component<IProps, IState> {
+  constructor(props: any) {
     super(props);
     const profileStore = new ProfileStore();
     this.state = {
@@ -24,15 +28,17 @@ export default class Index extends Component<{}, IState> {
       case "ready":
         return (
           <>
-            <ShowProfile profileStore={this.state.profileStore}/>
+            <ShowProfile profileStore={this.state.profileStore} />
           </>
-        )
+        );
       case "not_ready":
         return (
           <>
-            <NewProfile />
+            <Redirect to="/profile/new" />
           </>
         );
     }
   }
 }
+
+export default Index;

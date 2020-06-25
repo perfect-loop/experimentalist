@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
@@ -9,7 +9,7 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 // import { STATES } from "./states";
 
-//PROFILE FORM 
+//PROFILE FORM
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -31,20 +31,20 @@ function NewProfile(props: {}) {
   const classes = useStyles();
   const history = useHistory();
   const [alert, setAlert] = React.useState(false);
-
   const onSubmit = (values: any) => {
-    const newProfile = values as IProfile;
-    console.log(newProfile);
-    const profileStore = new ProfileStore();
-    profileStore
-      .post(newProfile)
-      .then((event: IProfile) => {
-        console.log("Profile has been created");
-      })
-      .catch(error => {
-        // console.log("frontend received ", error);
-        setAlert(true);
-      });
+    
+    // const newProfile = values as IProfile;
+    // const profileStore = new ProfileStore();
+    // profileStore
+    //   .post(newProfile)
+    //   .then((event: IProfile) => {
+    //     console.log("Profile has been created");
+    //     history.push("/profile")
+    //   })
+    //   .catch(error => {
+    //     // console.log("frontend received ", error);
+    //     setAlert(true);
+    //   });
   };
 
   return (
