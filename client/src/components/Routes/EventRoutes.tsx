@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, useLocation, Switch } from "react-router-dom";
+import { Route, useLocation, Switch, useHistory } from "react-router-dom";
 import VideoConference from "../VideoConference";
 import PersistentDrawerLeft from "../PersistentDrawerLeft";
 import FirstPage from "../FirstPage";
@@ -7,6 +7,7 @@ import { EventManagementRoutes } from "./EventManagementRoutes";
 import { CatchAllRoute } from "./CatchAllRoute";
 import { Role } from "api/Zoom";
 import { ProfileRoutes } from "./ProfileRoutes";
+import { useAuth0 } from "../../util/react-auth0-spa";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -14,6 +15,14 @@ function useQuery() {
 
 export const EventRoutes: React.FC = () => {
   const query = useQuery();
+  const { isAuthenticated, hasDetailedProfile } = useAuth0();
+  const history = useHistory();
+  const location = useLocation();
+
+  if (isAuthenticated && !hasDetailedProfile && location.pathname !== "/profile/new") {
+    history.push("/profile/new");
+  }
+
   return (
     <>
       <Switch>
