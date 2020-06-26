@@ -1,13 +1,13 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Settings from "../Events/Settings";
 import Show from "../Events/Show";
-import Events from "../Events";
 import Index from "../Events/Participants";
+import EventsIndex from "../Events/Index/";
 
 export const EventManagementRoutes: React.FC = () => {
   return (
-    <>
+    <Switch>
       <Route
         exact
         path="/events/:id/participants"
@@ -30,6 +30,16 @@ export const EventManagementRoutes: React.FC = () => {
           );
         }}
       />
+      <Route exact path="/events/new/" component={(props: any) => {
+        return (
+          <EventsIndex createDialogOpen={true} />
+        );
+      }} />
+      <Route exact path="/events/" component={(props: any) => {
+        return (
+          <EventsIndex createDialogOpen={false} />
+        );
+      }} />
       <Route
         exact
         path="/events/:id"
@@ -41,9 +51,6 @@ export const EventManagementRoutes: React.FC = () => {
           );
         }}
       />
-      <Route exact path="/events/">
-        <Events />
-      </Route>
-    </>
+    </Switch>
   );
 };

@@ -6,9 +6,8 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import New from "../New";
-import { Button, Divider } from "@material-ui/core";
+import New from "../NewForm";
+import { useHistory } from "react-router-dom";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -51,22 +50,15 @@ const DialogContent = withStyles((theme: Theme) => ({
 }))(MuiDialogContent);
 
 export default function NewPopup({ defaultOpen = false }) {
-  const [open, setOpen] = React.useState(defaultOpen);
+  const history = useHistory();
+  const [open] = React.useState(defaultOpen);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
-    setOpen(false);
+    history.push("/events/");
   };
 
   return (
     <div>
-      <Button color="primary" variant="contained" onClick={handleClickOpen}>
-        <AddCircleOutlineIcon />
-        New Event
-      </Button>
-      <Divider />
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Create New
