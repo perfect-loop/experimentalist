@@ -30,16 +30,20 @@ export const EventManagementRoutes: React.FC = () => {
           );
         }}
       />
-      <Route exact path="/events/new/" component={(props: any) => {
-        return (
-          <EventsIndex createDialogOpen={true} />
-        );
-      }} />
-      <Route exact path="/events/" component={(props: any) => {
-        return (
-          <EventsIndex createDialogOpen={false} />
-        );
-      }} />
+      <Route
+        exact
+        path="/events/new/"
+        component={(props: any) => {
+          return <EventsIndex createDialogOpen={true} />;
+        }}
+      />
+      <Route
+        exact
+        path="/events/"
+        component={(props: any) => {
+          return <EventsIndex createDialogOpen={false} />;
+        }}
+      />
       <Route
         exact
         path="/events/:id"

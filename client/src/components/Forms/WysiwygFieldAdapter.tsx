@@ -17,8 +17,7 @@ const defaultTheme: Theme = createMuiTheme({
 Object.assign(defaultTheme, {
   overrides: {
     MUIRichTextEditor: {
-      root: {
-      },
+      root: {},
       container: {
         display: "flex",
         flexDirection: "column-reverse",

@@ -42,7 +42,7 @@ export default class EventsIndex extends Component<IProps, IState> {
                 <Button color="primary" variant="contained">
                   <AddCircleOutlineIcon />
                   New Event
-                  </Button>
+                </Button>
               </Link>
               <NewPopup defaultOpen={this.props.createDialogOpen} />
               <AllEvents participationsStore={this.state.participationsStore} />

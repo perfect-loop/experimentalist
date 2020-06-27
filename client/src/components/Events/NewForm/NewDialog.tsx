@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     wysiwyg: {
       height: "100px",
-    }
+    },
   }),
 );
 

@@ -52,14 +52,14 @@ const DialogContent = withStyles((theme: Theme) => ({
 const MyDialog = withStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(2),
-    width: "100%"
+    width: "100%",
   },
   paper: {
     "max-width": "800px",
-    "width": "800px",
+    width: "800px",
     height: "600px",
-  }
-}))(Dialog)
+  },
+}))(Dialog);
 
 export default function NewPopup({ defaultOpen = false }) {
   const history = useHistory();
@@ -71,7 +71,7 @@ export default function NewPopup({ defaultOpen = false }) {
 
   return (
     <div>
-      <MyDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} >
+      <MyDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Create New
         </DialogTitle>
