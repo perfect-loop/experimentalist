@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
+import WysiwygFieldAdapter from "../../Forms/WysiwygFieldAdapter";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,11 +19,15 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     paper: {
-      width: "400px",
+      width: "700px",
+      height: "400px",
     },
     input: {
       width: "200",
     },
+    wysiwyg: {
+      height: "100px",
+    }
   }),
 );
 
@@ -33,15 +38,16 @@ function NewDialog(props: {}) {
 
   const onSubmit = (values: any) => {
     const newEvent = values as IEvent;
-    const eventStore = new EventStore();
-    eventStore
-      .post(newEvent)
-      .then((event: IEvent) => {
-        history.push(`/events/${event._id}/participants`);
-      })
-      .catch(error => {
-        setAlert(true);
-      });
+    console.log(newEvent);
+    // const eventStore = new EventStore();
+    // eventStore
+    //   .post(newEvent)
+    //   .then((event: IEvent) => {
+    //     history.push(`/events/${event._id}/participants`);
+    //   })
+    //   .catch(error => {
+    //     setAlert(true);
+    //   });
   };
 
   return (
@@ -87,9 +93,9 @@ function NewDialog(props: {}) {
             <div>
               <Field
                 name="instructions"
-                component={TextFieldAdapter}
+                component={WysiwygFieldAdapter}
                 multiline
-                rows={4}
+                className={classes.wysiwyg}
                 type="Instructions"
                 label="Instructions"
                 required={true}
