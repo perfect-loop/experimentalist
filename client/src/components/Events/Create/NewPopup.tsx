@@ -6,12 +6,12 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
-import New from "../NewForm";
 import { useHistory } from "react-router-dom";
+import NewDialog from "../NewForm/NewDialog";
 
 const styles = (theme: Theme) =>
   createStyles({
-    root: {
+    title: {
       margin: 0,
       padding: theme.spacing(2),
     },
@@ -32,7 +32,7 @@ export interface DialogTitleProps extends WithStyles<typeof styles> {
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+    <MuiDialogTitle disableTypography className={classes.title} {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
         <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
@@ -49,6 +49,18 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
+const MyDialog = withStyles((theme: Theme) => ({
+  root: {
+    padding: theme.spacing(2),
+    width: "100%"
+  },
+  paper: {
+    "max-width": "800px",
+    "width": "800px",
+    height: "600px",
+  }
+}))(Dialog)
+
 export default function NewPopup({ defaultOpen = false }) {
   const history = useHistory();
   const [open] = React.useState(defaultOpen);
@@ -59,14 +71,14 @@ export default function NewPopup({ defaultOpen = false }) {
 
   return (
     <div>
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+      <MyDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Create New
         </DialogTitle>
         <DialogContent dividers>
-          <New />
+          <NewDialog />
         </DialogContent>
-      </Dialog>
+      </MyDialog>
     </div>
   );
 }

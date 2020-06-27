@@ -3,16 +3,6 @@ import { SyntheticEvent } from "react";
 import { TextField } from "@material-ui/core";
 import { FieldMetaState } from "react-final-form";
 
-// interface IValue {
-//   checked: boolean;
-//   name: string;
-//   onBlur: () => void;
-//   onChange: (value: any) => void;
-//   onFocus: () =>void;
-//   type: string;
-//   value: string;
-// }
-
 const TextFieldAdapter = ({ input, meta, ...rest }: { input: any; meta: FieldMetaState<any> }) => {
   return (
     <TextField

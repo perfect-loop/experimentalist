@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       width: "700px",
-      height: "400px",
+      height: "100%",
     },
     input: {
       width: "200",

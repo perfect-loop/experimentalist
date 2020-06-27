@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import MUIRichTextEditor from "mui-rte";
 import { Editor, EditorState } from "draft-js";
 import { convertFromHTML, ContentState, convertToRaw } from "draft-js";
