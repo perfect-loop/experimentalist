@@ -13,6 +13,8 @@ import { IParticipation } from "api/Participations";
 import { useAppContext } from "../../context/AppContext";
 import { Api } from "api/Socket";
 import { IEvent } from "api/Events";
+import MUIRichTextEditor from "mui-rte";
+import { convertFromRaw } from "draft-js";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -83,7 +85,7 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
           {props.participant.event.title}
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>{props.participant.event.instructions}</Typography>
+          <MUIRichTextEditor defaultValue={props.participant.event.instructions} readOnly controls={[]} />
           {eventActive && (
             <Typography gutterBottom>
               To access the experiment in a new tab, click this link{" "}

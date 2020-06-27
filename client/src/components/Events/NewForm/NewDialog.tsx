@@ -39,15 +39,15 @@ function NewDialog(props: {}) {
   const onSubmit = (values: any) => {
     const newEvent = values as IEvent;
     console.log(newEvent);
-    // const eventStore = new EventStore();
-    // eventStore
-    //   .post(newEvent)
-    //   .then((event: IEvent) => {
-    //     history.push(`/events/${event._id}/participants`);
-    //   })
-    //   .catch(error => {
-    //     setAlert(true);
-    //   });
+    const eventStore = new EventStore();
+    eventStore
+      .post(newEvent)
+      .then((event: IEvent) => {
+        history.push(`/events/${event._id}/participants`);
+      })
+      .catch(error => {
+        setAlert(true);
+      });
   };
 
   return (
@@ -94,7 +94,6 @@ function NewDialog(props: {}) {
               <Field
                 name="instructions"
                 component={WysiwygFieldAdapter}
-                multiline
                 className={classes.wysiwyg}
                 type="Instructions"
                 label="Instructions"
