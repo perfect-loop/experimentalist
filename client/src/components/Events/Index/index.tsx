@@ -2,17 +2,25 @@ import { Component } from "react";
 import React from "react";
 import AllEvents from "./AllEvents";
 import { observer } from "mobx-react";
-import NewPopup from "../Floaty/NewPopup";
+import NewPopup from "../Create/NewPopup";
 import ParticipantsStore from "../../VideoConference/store/ParticipantsStore";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { Button, Divider } from "@material-ui/core";
+import history from "../../../util/history";
+import { Link } from "react-router-dom";
 
 interface IState {
   participationsStore: ParticipantsStore;
 }
 
+interface IProps {
+  createDialogOpen: boolean;
+}
+
 @observer
-export default class Index extends Component<{}, IState> {
-  constructor(props: {}) {
+export default class EventsIndex extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     const participationsStore = new ParticipantsStore();
     this.state = {
@@ -30,7 +38,13 @@ export default class Index extends Component<{}, IState> {
         if (this.state.participationsStore.state.models.length > 0) {
           return (
             <>
-              <NewPopup />
+              <Link to="/events/new">
+                <Button color="primary" variant="contained">
+                  <AddCircleOutlineIcon />
+                  New Event
+                </Button>
+              </Link>
+              <NewPopup defaultOpen={this.props.createDialogOpen} />
               <AllEvents participationsStore={this.state.participationsStore} />
             </>
           );

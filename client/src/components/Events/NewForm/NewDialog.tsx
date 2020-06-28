@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
+import WysiwygFieldAdapter from "../../Forms/WysiwygFieldAdapter";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,10 +19,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     paper: {
-      width: "400px",
+      width: "700px",
+      height: "100%",
     },
     input: {
       width: "200",
+    },
+    wysiwyg: {
+      height: "100px",
     },
   }),
 );
@@ -33,6 +38,7 @@ function NewDialog(props: {}) {
 
   const onSubmit = (values: any) => {
     const newEvent = values as IEvent;
+    console.log(newEvent);
     const eventStore = new EventStore();
     eventStore
       .post(newEvent)
@@ -87,9 +93,8 @@ function NewDialog(props: {}) {
             <div>
               <Field
                 name="instructions"
-                component={TextFieldAdapter}
-                multiline
-                rows={4}
+                component={WysiwygFieldAdapter}
+                className={classes.wysiwyg}
                 type="Instructions"
                 label="Instructions"
                 required={true}
