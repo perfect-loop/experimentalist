@@ -19,9 +19,14 @@ const FirstPage = () => {
   const classes = useStyles();
   const auth0 = useAuth0();
   const isAuthenticated = auth0.isAuthenticated;
+  const hasProfile = auth0.hasDetailedProfile;
 
   if (isAuthenticated) {
-    return <Redirect to="/events" />;
+    if (hasProfile) {
+      return <Redirect to="/events" />;
+    } else {
+      return <Redirect to="/profile/new" />;
+    }
   } else {
     return (
       <Paper elevation={1} className={classes.paper}>

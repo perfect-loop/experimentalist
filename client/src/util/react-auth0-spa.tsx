@@ -13,6 +13,7 @@ import createAuth0Client, {
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
 import { Api } from "./api";
 import { AxiosResponse, AxiosError } from "axios";
+import { IProfile } from "api/Profiles";
 
 export interface Auth0RedirectState {
   targetUrl?: string;
@@ -23,6 +24,7 @@ export type Auth0User = Omit<IdToken, "__raw">;
 interface Auth0Context {
   user?: Auth0User;
   isAuthenticated: boolean;
+  hasDetailedProfile: boolean;
   isInitializing: boolean;
   isPopupOpen: boolean;
   loginWithPopup(o?: PopupLoginOptions): Promise<void>;
@@ -32,6 +34,7 @@ interface Auth0Context {
   getTokenSilently(o?: GetTokenSilentlyOptions): Promise<string | undefined>;
   getTokenWithPopup(o?: GetTokenWithPopupOptions): Promise<string | undefined>;
   logout(o?: LogoutOptions): void;
+  updateProfile(o?: boolean): void;
 }
 interface Auth0ProviderOptions {
   children: React.ReactElement;
@@ -47,6 +50,7 @@ export const Auth0Provider = ({
   ...initOptions
 }: Auth0ProviderOptions & Auth0ClientOptions) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasDetailedProfile, setHasDetailedProfile] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [user, setUser] = useState<Auth0User>();
@@ -76,6 +80,25 @@ export const Auth0Provider = ({
     });
   };
 
+  const getDetailedProfile = (): Promise<IProfile> => {
+    const client = new Api({});
+    return new Promise((resolve, reject) => {
+      client
+        .get<IProfile>("/api/profile.json")
+        .then((response: AxiosResponse<IProfile>) => {
+          const { data } = response;
+          resolve(data);
+        })
+        .catch((error: AxiosError) => {
+          reject(error);
+        });
+    });
+  };
+
+  const updateProfile = (): void => {
+    setHasDetailedProfile(true);
+  };
+
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
@@ -85,18 +108,29 @@ export const Auth0Provider = ({
         .then(userProfile => {
           if (userProfile) {
             setIsAuthenticated(true);
-            setIsInitializing(false);
             console.log(`Setting user ${JSON.stringify(userProfile)}`);
             setUser(userProfile);
           }
-
-          setIsInitializing(false);
         })
         .catch(error => {
           console.error("setting user to undefined");
           setUser(undefined);
-          setIsInitializing(false);
           console.log(error);
+        });
+
+      // fetch user profile upon login
+      getDetailedProfile()
+        .then(res => {
+          if (res) {
+            setHasDetailedProfile(true);
+            setIsInitializing(false);
+          }
+          setIsInitializing(false);
+        })
+        .catch(error => {
+          console.log(error);
+          setIsInitializing(false);
+          setHasDetailedProfile(false);
         });
     };
 
@@ -149,6 +183,7 @@ export const Auth0Provider = ({
       value={{
         user,
         isAuthenticated,
+        hasDetailedProfile,
         isInitializing,
         isPopupOpen,
         loginWithPopup,
@@ -158,6 +193,7 @@ export const Auth0Provider = ({
         handleRedirectCallback,
         getIdTokenClaims,
         getTokenWithPopup,
+        updateProfile,
       }}
     >
       {children}

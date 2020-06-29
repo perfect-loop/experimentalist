@@ -7,7 +7,7 @@ import { IProfile } from "api/Profiles";
 import { useHistory } from "react-router-dom";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
-// import { STATES } from "./states";
+import { Auth0Context, useAuth0 } from "../../../util/react-auth0-spa";
 
 //PROFILE FORM
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,13 +31,16 @@ function NewProfile(props: {}) {
   const classes = useStyles();
   const history = useHistory();
   const [alert, setAlert] = React.useState(false);
+  const { updateProfile } = useAuth0();
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
     const profileStore = new ProfileStore();
+
     profileStore
       .post(newProfile)
       .then((event: IProfile) => {
         console.log("Profile has been created");
+        updateProfile(true);
         history.push("/profile");
       })
       .catch(error => {
