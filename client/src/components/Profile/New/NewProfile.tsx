@@ -41,7 +41,7 @@ function NewProfile(props: {}) {
       .then((event: IProfile) => {
         console.log("Profile has been created");
         updateProfile(true);
-        history.push("/profile");
+        history.push("/events");
       })
       .catch(error => {
         setAlert(true);
