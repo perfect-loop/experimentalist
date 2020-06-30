@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 import { IEvent, EventSchema } from "./Events";
 import { IUserSchema, UserSchema } from "./Users";
 
-const ParticipationsSchema = new mongoose.Schema(
+export const ParticipationsSchema = new mongoose.Schema(
   {
     email: {
       type: String,
