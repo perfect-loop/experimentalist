@@ -112,6 +112,7 @@ app.use(userInViews());
 // Routes
 app.use("/api/auth", auth);
 app.use("/", user);
+app.use("/api", attendance);
 app.use("/api", events);
 app.use("/api", participants);
 app.use("/api", healthcheck);
