@@ -9,7 +9,8 @@ const ParticipationsSchema = new mongoose.Schema(
       type: String,
     },
     event: {
-      type: EventSchema,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "events"
     },
     role: {
       type: String,
@@ -21,13 +22,16 @@ const ParticipationsSchema = new mongoose.Schema(
     },
     instructions: {
       type: String
+    },
+    attendedAt: {
+      type: Date
     }
   },
   {
     timestamps: true
   }
 );
-ParticipationsSchema.index({ "email": 1, "event._id": 1, role: 1 }, { unique: true });
+ParticipationsSchema.index({ "email": 1, "event": 1, role: 1 }, { unique: true });
 
 export interface IParticipation extends Document {
   _id: string;
@@ -36,6 +40,7 @@ export interface IParticipation extends Document {
   role: "attendee" | "host";
   anonymousName: string;
   instructions: string;
+  attendedAt?: Date;
 }
 
 export const Participation = mongoose.model<IParticipation>("participation", ParticipationsSchema);

@@ -72,7 +72,7 @@ router.get(
       return;
     } else {
       const participants = (await Participation.find({
-        "event._id": event._id
+        event: event.id
       })) as IParticipation[];
       res.json(participants);
     }
@@ -101,7 +101,7 @@ router.post(
     await Participation.insertMany(data);
     console.log("Returning");
     const participants = (await Participation.find({
-      "event._id": event._id
+      event: event.id
     })) as IParticipation[];
     res.json(participants);
   }
@@ -125,6 +125,7 @@ router.post("/events.json", secured(), (req: any, res: any, next) => {
           res.json(newEvent);
         })
         .catch((reason: any) => {
+          console.log(`Unable to create participation ${reason}`);
           res.status(500).send(reason.message);
         });
     })
@@ -138,14 +139,19 @@ function addParticipation(
   email: string,
   event: IEvent
 ): Promise<IParticipation> {
-  // TODO: find a way how to use types in the constructor
-  const pNew = new Participation({ email, event, role: "host" });
+  const params = {
+    email,
+    event: event.id,
+    role: "host"
+  };
+  console.log(`Creating host participant ${JSON.stringify(params)}`);
+  const pNew = new Participation(params);
   return pNew.save();
 }
 
 async function isHost(user: Auth0User, event: IEvent) {
   const params = {
-    "event._id": event.id,
+    event: event.id,
     email: user.email
   };
   const participations = await Participation.find(params);

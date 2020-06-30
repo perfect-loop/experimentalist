@@ -50,6 +50,7 @@ import auth from "./routes/auth";
 import user from "./routes/users";
 import profile from "./routes/profile";
 import events from "./routes/events";
+import attendance from "./routes/attendance";
 import participants from "./routes/participants";
 import healthcheck from "./routes/healthcheck";
 import zoom from "./routes/zoom";
