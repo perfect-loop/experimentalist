@@ -6,6 +6,7 @@ import { Auth0User } from "types/auth0";
 // @ts-ignore
 import randomWords from "random-words";
 import EventsController from "../controllers/EventsController";
+import { ICompensation, Compensation } from "api/Compensations";
 
 const router = express.Router();
 
@@ -74,6 +75,19 @@ router.post(
     const id = req.params.id;
     const data = req.body as IParticipation[];
     const event = (await Event.findById(id)) as IEvent;
+    const DEFAULT_COMPENSATION = 0;
+    // Fetching host participation in event
+    const hostParticipation: IParticipation | null = await Participation.findOne(
+      {
+        $and: [{ role: "host" }, { "event._id": event._id }]
+      }
+    );
+
+    // If host cannot be found, terminate
+    if (hostParticipation === null) {
+      res.status(404).json("Host not found");
+      return;
+    }
     const toInsert = data.map(d => {
       d.event = event;
       const name = randomWords({
@@ -86,8 +100,32 @@ router.post(
       return d;
     });
     console.log(`will insert ${JSON.stringify(toInsert)}`);
-    await Participation.insertMany(data);
+
+    // Get all the inserted participation
+    const participation: any = await Participation.insertMany(data);
+    // const participants = (await Participation.find({
+    //   "event._id": event._id
+    // })) as IParticipation[];
+
+    // create compensation documents based on newly inserted participations
+    const insertCompensations = participation.map((p: any) => ({
+      amount: DEFAULT_COMPENSATION,
+      senderId: hostParticipation._id,
+      receiverId: p.id
+    }));
+
+    // adding host as participation
+    participation.push(hostParticipation);
+    const compensation: any = await Compensation.insertMany(
+      insertCompensations
+    );
+
+    // for debugging use
+    // console.log("all participants", participation);
+    // console.log("new compensation", compensation);
     console.log("Returning");
+    // res.json(participation);
+
     const participants = (await Participation.find({
       event: event.id
     })) as IParticipation[];
@@ -136,6 +174,14 @@ function addParticipation(
   const pNew = new Participation(params);
   return pNew.save();
 }
+
+// function addCompensation(
+//   senderId: string,
+//   receiverId: string[],
+//   amount: number = 0
+// ): Promise<ICompensation> {
+//   const cNew = new Compensation
+// };
 
 async function isHost(user: Auth0User, event: IEvent) {
   const params = {
