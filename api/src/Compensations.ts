@@ -12,15 +12,19 @@ const CompensationsSchema = new mongoose.Schema({
     enum: ["Unpaid", "Paid"],
     default: "Unpaid",
   },
-  sender: {
-    type: ParticipationsSchema,
+  senderId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "participation",
+    require: true,
   },
-  receiver: {
-    type: ParticipationsSchema,
+  receiverId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "participation",
+    require: true,
   },
 });
 CompensationsSchema.index(
-  { "sender._id": 1, "receiver._id": 1 },
+  { senderId: 1, receiverId: 1 },
   { unique: true }
 );
 
@@ -28,8 +32,8 @@ export interface ICompensation extends Document {
   _id: string;
   amount: number;
   status: string;
-  sender: IParticipation;
-  receiver: IParticipation;
+  sender: mongoose.Schema.Types.ObjectId;
+  receiver: mongoose.Schema.Types.ObjectId;
 }
 
 export const Compensation = mongoose.model<ICompensation>(
