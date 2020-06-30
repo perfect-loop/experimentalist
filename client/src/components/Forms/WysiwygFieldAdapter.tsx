@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import MUIRichTextEditor from "mui-rte";
-import { Editor, EditorState } from "draft-js";
-import { convertFromHTML, ContentState, convertToRaw } from "draft-js";
+import { EditorState } from "draft-js";
+import { convertToRaw } from "draft-js";
 import { MuiThemeProvider, Theme, createMuiTheme } from "@material-ui/core";
 
 // https://github.com/niuware/mui-rte/tree/master/examples
@@ -55,7 +55,6 @@ interface IValue {
 }
 
 function WysiwygFieldAdapter({ input, meta, ...rest }: { input: IValue; meta: any }) {
-  const [value, setValue] = useState("");
   return (
     <>
       <MuiThemeProvider theme={defaultTheme}>

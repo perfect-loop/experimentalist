@@ -6,8 +6,7 @@ import NewPopup from "../Create/NewPopup";
 import ParticipantsStore from "../../VideoConference/store/ParticipantsStore";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import { Button, Divider } from "@material-ui/core";
-import history from "../../../util/history";
+import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 interface IState {
