@@ -137,7 +137,7 @@ export default class ParticipantsStore {
 ## One time setup
 
 ```
-heroku git:remote -a app
+heroku git:remote -a iep-prod
 heroku stack:set container
 ```
 

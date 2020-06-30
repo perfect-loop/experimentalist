@@ -53,6 +53,7 @@ import events from "./routes/events";
 import participants from "./routes/participants";
 import healthcheck from "./routes/healthcheck";
 import zoom from "./routes/zoom";
+import devRoutes from "./routes/development";
 
 let MONGO_URI;
 
@@ -116,6 +117,9 @@ app.use("/api", participants);
 app.use("/api", healthcheck);
 app.use("/api", zoom);
 app.use("/api", profile);
+if (process.env.NODE_ENV === "development") {
+  app.use("/api", devRoutes);
+}
 
 /************************************************************************************
  *                              Serve front-end content
