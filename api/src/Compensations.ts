@@ -15,7 +15,6 @@ const CompensationsSchema = new mongoose.Schema({
   senderId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "participation",
-    require: true,
   },
   receiverId: {
     type: mongoose.Schema.Types.ObjectId,
