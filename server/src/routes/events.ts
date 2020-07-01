@@ -76,18 +76,7 @@ router.post(
     const data = req.body as IParticipation[];
     const event = (await Event.findById(id)) as IEvent;
     const DEFAULT_COMPENSATION = 0;
-    // Fetching host participation in event
-    const hostParticipation: IParticipation | null = await Participation.findOne(
-      {
-        $and: [{ role: "host" }, { "event._id": event._id }]
-      }
-    );
-
-    // If host cannot be found, terminate
-    if (hostParticipation === null) {
-      res.status(404).json("Host not found");
-      return;
-    }
+    
     const toInsert = data.map(d => {
       d.event = event;
       const name = randomWords({
@@ -103,19 +92,17 @@ router.post(
 
     // Get all the inserted participation
     const participation: any = await Participation.insertMany(data);
-    // const participants = (await Participation.find({
-    //   "event._id": event._id
-    // })) as IParticipation[];
+    const participants = (await Participation.find({
+      "event._id": event._id
+    })) as IParticipation[];
 
     // create compensation documents based on newly inserted participations
     const insertCompensations = participation.map((p: any) => ({
       amount: DEFAULT_COMPENSATION,
-      senderId: hostParticipation._id,
       receiverId: p.id
     }));
 
     // adding host as participation
-    participation.push(hostParticipation);
     const compensation: any = await Compensation.insertMany(
       insertCompensations
     );
@@ -126,9 +113,6 @@ router.post(
     console.log("Returning");
     // res.json(participation);
 
-    const participants = (await Participation.find({
-      event: event.id
-    })) as IParticipation[];
     res.json(participants);
   }
 );
