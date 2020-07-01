@@ -8,6 +8,7 @@ import { CatchAllRoute } from "./CatchAllRoute";
 import { Role } from "api/Zoom";
 import { ProfileRoutes } from "./ProfileRoutes";
 import { useAuth0 } from "../../util/react-auth0-spa";
+import Conference from "../Events/Conference";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -32,10 +33,8 @@ export const EventRoutes: React.FC = () => {
           component={(props: any) => {
             return (
               <>
-                {query.get("role") === "host" && <VideoConference role={Role.Host} eventId={props.match.params.id} />}
-                {query.get("role") !== "host" && (
-                  <VideoConference role={Role.Attendee} eventId={props.match.params.id} />
-                )}
+                {query.get("role") === "host" && <Conference role={Role.Host} eventId={props.match.params.id} />}
+                {query.get("role") !== "host" && <Conference role={Role.Attendee} eventId={props.match.params.id} />}
               </>
             );
           }}

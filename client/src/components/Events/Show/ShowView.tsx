@@ -17,7 +17,7 @@ function ShowEvent(props: IProps) {
       return <div>Not ready</div>;
     case "ready":
       const event = props.eventStore.state.model;
-      return <HostOptions event={event} />
+      return <HostOptions event={event} />;
   }
 }
 

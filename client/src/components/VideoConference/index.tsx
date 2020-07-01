@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth0 } from "../../util/react-auth0-spa";
+import { useAuth0, Auth0User } from "../../util/react-auth0-spa";
 import IndeObserverVideoConferencex from "./ObserverVideoConference";
 import { Api } from "api/Socket";
 import { Snackbar, makeStyles, Theme, createStyles } from "@material-ui/core";
@@ -7,6 +7,8 @@ import { Alert } from "@material-ui/lab";
 import { useAppContext } from "../../context/AppContext";
 import { Role } from "api/Zoom";
 import PersistenNotication from "./notifications/Persistent";
+import ParticipantsStore from "./store/ParticipantsStore";
+import { IParticipation } from "api/Participations";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IProps {
   role: Role;
   eventId: string;
+  user: Auth0User;
+  hostParticition?: IParticipation;
+  attendeeParticipation?: IParticipation;
 }
 
 enum Severity {
@@ -27,11 +32,7 @@ enum Severity {
 }
 
 const VideoConference = (props: IProps) => {
-  const auth0 = useAuth0();
   const app = useAppContext();
-
-  const isAuthenticated = auth0.isAuthenticated;
-  const user = auth0.user;
 
   const [snackOpen, setSnackOpen] = React.useState(false);
   const [snackText, setsnackText] = React.useState("");
@@ -57,31 +58,33 @@ const VideoConference = (props: IProps) => {
     setPersistentOpen(false);
   };
 
-  if (!isAuthenticated || !user) {
-    return <>Not allowed</>;
-  } else {
-    return (
-      <>
-        <div>
-          <Snackbar
-            autoHideDuration={5000}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            open={snackOpen}
-            onClose={() => {
-              setSnackOpen(false);
-            }}
-            key={"nokey"}
-          >
-            <Alert severity={snackSeverity} className={classes.alert}>
-              {snackText}
-            </Alert>
-          </Snackbar>
-          <PersistenNotication open={persistentOpen} text={persistentText} handleClose={handleClose} />
-        </div>
-        <IndeObserverVideoConferencex user={user} role={props.role} eventId={props.eventId} />
-      </>
-    );
-  }
+  return (
+    <>
+      <div>
+        <Snackbar
+          autoHideDuration={5000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={snackOpen}
+          onClose={() => {
+            setSnackOpen(false);
+          }}
+          key={"nokey"}
+        >
+          <Alert severity={snackSeverity} className={classes.alert}>
+            {snackText}
+          </Alert>
+        </Snackbar>
+        <PersistenNotication open={persistentOpen} text={persistentText} handleClose={handleClose} />
+      </div>
+      <IndeObserverVideoConferencex
+        hostParticipation={props.hostParticition}
+        attendeeParticipation={props.attendeeParticipation}
+        user={props.user}
+        role={props.role}
+        eventId={props.eventId}
+      />
+    </>
+  );
 };
 
 export default VideoConference;

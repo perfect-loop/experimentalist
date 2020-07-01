@@ -4,6 +4,7 @@ import Settings from "../Events/Settings";
 import Show from "../Events/Show";
 import Index from "../Events/Participants";
 import EventsIndex from "../Events/Index/";
+import Unavailable from "../Events/Unavailable";
 
 export const EventManagementRoutes: React.FC = () => {
   return (
@@ -51,6 +52,17 @@ export const EventManagementRoutes: React.FC = () => {
           return (
             <>
               <Show id={props.match.params.id} />
+            </>
+          );
+        }}
+      />
+      <Route
+        exact
+        path="/events/:id/unavailable"
+        component={(props: any) => {
+          return (
+            <>
+              <Unavailable eventId={props.match.params.id} />
             </>
           );
         }}

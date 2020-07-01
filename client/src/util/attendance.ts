@@ -18,3 +18,16 @@ export function registerAttendance(participant: IParticipation): Promise<IPartic
       });
   });
 }
+
+/**
+ * Determines if the user is too late to attend the meeting
+ *
+ * @param participant
+ */
+export function isLateToMeeting(participant: IParticipation): boolean {
+  if(participant.event.state !== "not_started" && !participant.attendedAt) {
+    return true;
+  }
+
+  return false;
+}
