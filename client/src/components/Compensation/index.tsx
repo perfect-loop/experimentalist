@@ -1,8 +1,8 @@
 import React from "react";
 import Index from "./Index/index";
+import Profile from "../Profile";
 
-// Pass in push function for updating url in <index>
-const Profile = () => {
+const Compensation = () => {
   return (
     <div>
       <Index />
@@ -10,4 +10,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Compensation;

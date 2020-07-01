@@ -7,6 +7,7 @@ import { EventManagementRoutes } from "./EventManagementRoutes";
 import { CatchAllRoute } from "./CatchAllRoute";
 import { Role } from "api/Zoom";
 import { ProfileRoutes } from "./ProfileRoutes";
+import { CompensationRoutes } from "./CompensationRoutes";
 import { useAuth0 } from "../../util/react-auth0-spa";
 import Conference from "../Events/Conference";
 
@@ -44,6 +45,7 @@ export const EventRoutes: React.FC = () => {
             <FirstPage />
           </Route>
           <EventManagementRoutes />
+          <CompensationRoutes />
           <ProfileRoutes />
         </PersistentDrawerLeft>
         <CatchAllRoute />
