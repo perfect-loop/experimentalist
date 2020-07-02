@@ -70,7 +70,7 @@ export default class CompensationsController {
     // base on the compensation, get all receiverIds, fetch their email from
     // participation, then fetch their email and corresponding id
     // map email to corresponding total compensation
-    const emailMap: {[identifier: string]: any} = {};
+    const emailMap: { [identifier: string]: any } = {};
     const emails = adminCompensation.map((c: any) => c.receiverId.email);
 
     adminCompensation.forEach((compensation: any) => {

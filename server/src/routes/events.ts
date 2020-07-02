@@ -76,7 +76,7 @@ router.post(
     const data = req.body as IParticipation[];
     const event = (await Event.findById(id)) as IEvent;
     const DEFAULT_COMPENSATION = 0;
-    
+
     const toInsert = data.map(d => {
       d.event = event;
       const name = randomWords({
