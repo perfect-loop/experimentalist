@@ -1,5 +1,6 @@
 import { Document } from "mongoose";
 import * as mongoose from 'mongoose';
+import { isStarted, isLocked } from "./Helpers";
 
 export const EventSchema = new mongoose.Schema(
   {
@@ -18,7 +19,7 @@ export const EventSchema = new mongoose.Schema(
     active: Boolean,
     state: {
       type: String,
-      enum: ["not_started", "started", "active", "ended"],
+      enum: ["not_started", "started", "active", "locked", "ended"],
       default: "not_started"
     }
   },
@@ -27,6 +28,14 @@ export const EventSchema = new mongoose.Schema(
   }
 );
 
+EventSchema.methods.isLocked = function() {
+  return isLocked(this as IEvent);
+}
+
+EventSchema.methods.isStarted = function() {
+  return isStarted(this as IEvent);
+}
+
 export interface IEvent extends Document {
   _id: string;
   title: string;
@@ -34,7 +43,7 @@ export interface IEvent extends Document {
   instructions: String;
   endAt: string;
   active: boolean;
-  state: "not_started" | "started" | "active" | "ended";
+  state: "not_started" | "started" | "active" | "ended" | "locked";
 }
 
 export const Event = mongoose.model<IEvent>("events", EventSchema);

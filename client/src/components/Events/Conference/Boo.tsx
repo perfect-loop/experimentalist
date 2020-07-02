@@ -15,10 +15,8 @@ interface IProps {
   eventId: string;
 }
 
-interface IState {}
-
 @observer
-export default class Boo extends Component<IProps, IState> {
+export default class Boo extends Component<IProps, {}> {
   constructor(props: IProps) {
     super(props);
     this.props.participationsStore.get();
@@ -41,7 +39,7 @@ export default class Boo extends Component<IProps, IState> {
               <VideoConference
                 hostParticition={host}
                 attendeeParticipation={participant}
-                user={this.props.user!!}
+                user={this.props.user}
                 role={this.props.role}
                 eventId={this.props.eventId}
               />

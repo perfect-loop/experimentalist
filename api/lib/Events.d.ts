@@ -8,6 +8,6 @@ export interface IEvent extends Document {
     instructions: String;
     endAt: string;
     active: boolean;
-    state: "not_started" | "started" | "active" | "ended";
+    state: "not_started" | "started" | "active" | "ended" | "locked";
 }
 export declare const Event: mongoose.Model<IEvent, {}>;

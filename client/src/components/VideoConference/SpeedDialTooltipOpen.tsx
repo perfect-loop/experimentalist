@@ -8,9 +8,11 @@ import { IParticipation } from "api/Participations";
 import CustomizedDialogs from "./CustomizedDialogs";
 import { Api } from "../../util/api";
 import { IEvent } from "api/Events";
+import { isLocked, isStarted } from "api/Helpers";
 import { AxiosResponse } from "axios";
 import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 import AdmitAll from "./speeddial/AdmitAll";
+import Lock from "./speeddial/Lock";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,6 +45,8 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [hidden] = React.useState(false);
+  const [showActivate, setShowActivate] = React.useState(!isStarted(props.participant.event));
+  const [showLock, setShowLock] = React.useState(!isLocked(props.participant.event));
 
   const handleVisibility = () => {
     setOpen(prevOpen => !prevOpen);
@@ -54,7 +58,22 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
       .put<IEvent, IEvent>(`/api/events/${props.participant.event._id}/activate.json`)
       .then((response: AxiosResponse<IEvent>) => {
         const event = response.data;
+        setShowActivate(false);
         console.log(event);
+      });
+  };
+
+  const handleLockClick = () => {
+    const api = new Api();
+    api
+      .put<IEvent, IEvent>(`/api/events/${props.participant.event._id}/lock.json`)
+      .then((response: AxiosResponse<IEvent>) => {
+        const event = response.data;
+        setShowLock(false);
+        console.log(event);
+      })
+      .catch(error => {
+        console.error(error);
       });
   };
 
@@ -83,7 +102,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               tooltipOpen
             />
           )}
-          {props.participant.role === "host" && (
+          {props.participant.role === "host" && showActivate && (
             <SpeedDialAction
               key="Start"
               icon={<PlayCircleFilledWhiteIcon />}
@@ -98,6 +117,17 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               icon={<AdmitAll />}
               tooltipTitle="Admit Everyone"
               tooltipOpen
+              TooltipClasses={classes}
+            />
+          )}
+          {props.participant.role === "host" && showLock && (
+            <SpeedDialAction
+              key="Lock"
+              icon={<Lock />}
+              tooltipTitle="Lock Meeting"
+              tooltipOpen
+              open={true}
+              onClick={handleLockClick}
               TooltipClasses={classes}
             />
           )}

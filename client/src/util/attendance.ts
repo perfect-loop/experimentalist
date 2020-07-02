@@ -25,7 +25,7 @@ export function registerAttendance(participant: IParticipation): Promise<IPartic
  * @param participant
  */
 export function isLateToMeeting(participant: IParticipation): boolean {
-  if(participant.event.state !== "not_started" && !participant.attendedAt) {
+  if (participant.event.state !== "not_started" && !participant.attendedAt) {
     return true;
   }
 
