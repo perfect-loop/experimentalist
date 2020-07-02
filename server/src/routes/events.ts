@@ -99,10 +99,10 @@ router.post(
     // create compensation documents based on newly inserted participations
     const insertCompensations = participation.map((p: any) => ({
       amount: DEFAULT_COMPENSATION,
+      senderId: "5efad9489d5295ff86c1dd71",
       receiverId: p.id
     }));
 
-    // adding host as participation
     const compensation: any = await Compensation.insertMany(
       insertCompensations
     );
