@@ -4,10 +4,18 @@ import { AxiosResponse, AxiosError } from "axios";
 import { ICompensation } from "api/Compensations";
 import { IUserCompensation } from "../Index/AdminCompensations";
 
-// interface IUplodatedData extends Pick<ICompensation>{
-//   amount: number;
-//   name: string;
-// }
+interface IUplodatedData extends Pick<ICompensation, "amount"> {
+  email: string;
+  amount: number;
+}
+
+interface IProcessedData {
+  [i: string]: number;
+}
+
+export interface IRawUploadedData {
+  data: [string, number];
+}
 
 export default class CompensationsStore {
   @observable public state: "not_ready" | "ready" | "error";
@@ -21,22 +29,30 @@ export default class CompensationsStore {
   }
 
   @action
-  public uploadedCSVData = (data: IRawUploadedData[], eventId: string) => {
-    // email maps to the amount 
-    const emailMap:{ [i: string]: number} = {}
+  public uploadCSVData = (data: IRawUploadedData[], eventId: string) => {
+    // email maps to the amount
+    const emailMap: IProcessedData = {};
     data
-      .filter((line: IRawUploadedData) => line.data[0] && line.data[1]);
+      .filter((line: IRawUploadedData) => line.data[0] && line.data[1])
       .forEach((line: IRawUploadedData) => {
-            emailMap[line.data[0]] = line.data[1]
-      })
-    
-    const client = new Api({});
-    const url = `/api/compensation/${eventId}.json`
-    this.state = "not_ready";
-    
- 
+        emailMap[line.data[0]] = line.data[1];
+      });
 
-  }
+    const client = new Api({});
+    const url = `/api/compensation/${eventId}.json`;
+    this.state = "not_ready";
+    console.log(emailMap);
+    // client
+    //   .post<IUplodatedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
+    //   .then((response: AxiosResponse<IUserCompensation[]>) => {
+    //     const { data } = response;
+    //     console.log(data);
+    //   })
+    //   .catch((error: AxiosError) => {
+    //     console.error(error.response?.statusText);
+    //     this.state = "error";
+    //   });
+  };
 
   @action
   public getAdmin = () => {
@@ -49,7 +65,7 @@ export default class CompensationsStore {
         this.state = "ready";
       })
       .catch((error: AxiosError) => {
-        this.state =  "error";
+        this.state = "error";
         console.error(error.response?.statusText);
       });
   };

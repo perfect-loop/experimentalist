@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import CompensationsStore from "../storage/CompensationsStore";
+import CompensationsStore, { IRawUploadedData } from "../storage/CompensationsStore";
 import { ICompensation } from "api/Compensations";
 import { IProfile } from "api/Profiles";
 import { CSVReader } from "react-papaparse";
@@ -33,11 +33,12 @@ class AdminCompensation extends Component<IProps, IState> {
     compensationsStore.getAdmin();
   }
 
-  // private handleOnDrop = (data: IRawUploadedData[]) => {
-  //   // remove header elements
-  //   data.shift();
-  //   this.state.participantsStore.uploadCVSData(data, this.props.eventId);
-  // };
+  private handleOnDrop = (data: IRawUploadedData[]) => {
+    // remove header elements
+    data.shift();
+    console.log(data)
+    this.state.compensationsStore.uploadCSVData(data, this.props.eventId);
+  };
 
   public render() {
     if (this.state.compensationsStore.state === "error") {
@@ -52,7 +53,7 @@ class AdminCompensation extends Component<IProps, IState> {
         <>
           <CompensationsTable compensations={this.state.compensationsStore.compensations} />
           <CSVReader
-            // onDrop={this.handleOnDrop}
+            onDrop={this.handleOnDrop}
             style={{}}
             config={{
               header: false,
