@@ -2,7 +2,6 @@ import { observer } from "mobx-react";
 import React, { Component } from "react";
 import ConferenceView from "./ConferenceView";
 import { Auth0User } from "../../util/react-auth0-spa";
-import ParticipantsStore from "./store/ParticipantsStore";
 import { Role } from "api/Zoom";
 import { IParticipation } from "api/Participations";
 
