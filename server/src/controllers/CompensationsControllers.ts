@@ -6,6 +6,12 @@ import { ICompensation, Compensation } from "api/Compensations";
 import { IEvent, Event } from "api/Events";
 import { Auth0User } from "types/auth0";
 
+export interface IUserCompensation {
+  profile: IProfile;
+  compensation: ICompensation;
+  email: string;
+}
+
 export default class CompensationsController {
   public async userCompensation(
     req: Request,
@@ -13,6 +19,7 @@ export default class CompensationsController {
     next: NextFunction
   ) {
     const user: Auth0User | undefined = req.user;
+    const email: string = user?.email;
     if (user === undefined) return;
 
     const event = await this.getEvent(req.params.id);
@@ -36,7 +43,21 @@ export default class CompensationsController {
 
     const profile = await Profile.findOne({ userId: user._id });
 
-    res.status(200).json([{ profile, compensation }]);
+    if (profile === null || compensation === null || email === null) {
+      res.status(404).send("Error! Compensation cannot be loaded");
+      return;
+    }
+    const resObj: IUserCompensation = {
+      profile,
+      compensation,
+      email
+    };
+    res.status(200).json([resObj]);
+
+    //reset DB for testing
+    // await Participation.deleteMany({ role: "attendee" });
+    // await Compensation.deleteMany({});
+    // res.status(200).send("deleted");
   }
 
   public async adminCompensation(
@@ -53,7 +74,9 @@ export default class CompensationsController {
     }
 
     const adminParticipation: IParticipation | null = await Participation.findOne(
-      { $and: [{ "event._id": event._id }, { email: user.email }] }
+      {
+        $and: [{ "event._id": event._id }, { email: user.email }]
+      }
     );
 
     if (adminParticipation === null) {
@@ -83,17 +106,38 @@ export default class CompensationsController {
     const userId = (await User.find({ email: { $in: emails } })).map(
       u => u._id
     );
-    const profiles = await Profile.find({ userId: { $in: userId } }).populate(
-      "userId"
-    );
+    const profiles = await Profile.find({
+      userId: { $in: userId }
+    }).populate("userId");
     profiles.forEach((p: any) => {
       const email = p.userId.email;
       p.userId = p.userId._id;
       emailMap[email].profile = p;
+      emailMap[email].email = email;
     });
 
-    const result = Object.values(emailMap);
+    const result: IUserCompensation[] = Object.values(emailMap);
     res.status(200).json(result);
+  }
+
+  // [
+  //   { email: 'anson2@aa.io', instructions: 'http://google.com' },
+  //   { email: 'anson1@aa.io', instructions: 'http://google.com' }
+  // ]
+
+  public async createCompensation(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const event = await this.getEvent(req.params.id);
+    const emails = req.body.emails;
+
+    const participation = await Participation.find({
+      $and: [{ email: { $in: emails } }, {"event._id": event._id}]
+    });
+    console.log(participation);
+    res.json(participation);
   }
 
   private async getEvent(id: string) {
