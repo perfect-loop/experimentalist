@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth0, Auth0User } from "../../util/react-auth0-spa";
+import { Auth0User } from "../../util/react-auth0-spa";
 import IndeObserverVideoConferencex from "./ObserverVideoConference";
 import { Api } from "api/Socket";
 import { Snackbar, makeStyles, Theme, createStyles } from "@material-ui/core";
@@ -7,7 +7,6 @@ import { Alert } from "@material-ui/lab";
 import { useAppContext } from "../../context/AppContext";
 import { Role } from "api/Zoom";
 import PersistenNotication from "./notifications/Persistent";
-import ParticipantsStore from "./store/ParticipantsStore";
 import { IParticipation } from "api/Participations";
 
 const useStyles = makeStyles((theme: Theme) =>

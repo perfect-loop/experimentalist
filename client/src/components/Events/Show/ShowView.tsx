@@ -1,10 +1,6 @@
 import React from "react";
 import EventStore from "../storage/EventStore";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
-import { ZOOM_MEETING_ID, ZOOM_PERSINAL_MEETING_PASSWORD, ZOOM_SUBDOMAIN } from "../../VideoConference/ConferenceView";
-import Button from "@material-ui/core/Button";
-import { IEvent } from "api/Events";
 import { HostOptions } from "./AdminOptions";
 
 interface IProps {

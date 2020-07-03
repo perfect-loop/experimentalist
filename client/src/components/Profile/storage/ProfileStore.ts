@@ -54,7 +54,6 @@ export default class ProfileStore {
       .get<IProfile>(`/api/profile.json`)
       .then((response: AxiosResponse<IProfile>) => {
         const { data } = response;
-
         this.state = {
           kind: "ready",
           model: data,
