@@ -132,6 +132,14 @@ export default class ParticipantsStore {
 }
 ```
 
+## Data Models
+
+To make sure that all latest Mongoose indeces are used, do this
+
+```
+Model.syncIndexes()
+```
+
 ## Deploy
 
 ## One time setup
