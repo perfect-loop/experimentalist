@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Participation = void 0;
+exports.Participation = exports.ParticipationsSchema = void 0;
 var mongoose = require("mongoose");
-var ParticipationsSchema = new mongoose.Schema({
+var Events_1 = require("./Events");
+exports.ParticipationsSchema = new mongoose.Schema({
     email: {
         type: String,
     },
@@ -27,5 +28,5 @@ var ParticipationsSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-ParticipationsSchema.index({ "email": 1, "event": 1, role: 1 }, { unique: true });
-exports.Participation = mongoose.model("participation", ParticipationsSchema);
+exports.ParticipationsSchema.index({ "email": 1, "event._id": 1, role: 1 }, { unique: true });
+exports.Participation = mongoose.model("participation", exports.ParticipationsSchema);
