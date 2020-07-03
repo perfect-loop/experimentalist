@@ -5,8 +5,7 @@ import { Participation, IParticipation } from "api/Participations";
 import { Auth0User } from "types/auth0";
 // @ts-ignore
 import randomWords from "random-words";
-import { Api } from "api/Socket";
-import { io } from "../index";
+import EventsController from "../controllers/EventsController";
 
 const router = express.Router();
 
@@ -35,26 +34,15 @@ router.get("/events/:id.json", secured(), async (req: any, res, next) => {
   res.json(event);
 });
 
+router.put("/events/:id/lock.json", secured(), async (req: any, res, next) => {
+  new EventsController().lock(req, res, next);
+});
+
 router.put(
   "/events/:id/activate.json",
   secured(),
   async (req: any, res, next) => {
-    console.log("Get put event");
-    const id = req.params.id;
-    const user = req.user;
-    const event = await Event.findById(id);
-    if (!event) {
-      res.status(404).send("Not found");
-      return;
-    }
-    if (!(await isHost(user, event))) {
-      res.status(403).send("Unauthorized");
-      return;
-    }
-    event.state = "active";
-    await event.save();
-    console.log("About to emit ", event);
-    io.emit(Api.Socket.EVENT_UPDATED_NAME, { event });
+    new EventsController().activate(req, res, next);
   }
 );
 
@@ -72,7 +60,7 @@ router.get(
       return;
     } else {
       const participants = (await Participation.find({
-        "event._id": event._id
+        event: event.id
       })) as IParticipation[];
       res.json(participants);
     }
@@ -101,7 +89,7 @@ router.post(
     await Participation.insertMany(data);
     console.log("Returning");
     const participants = (await Participation.find({
-      "event._id": event._id
+      event: event.id
     })) as IParticipation[];
     res.json(participants);
   }
@@ -125,6 +113,7 @@ router.post("/events.json", secured(), (req: any, res: any, next) => {
           res.json(newEvent);
         })
         .catch((reason: any) => {
+          console.log(`Unable to create participation ${reason}`);
           res.status(500).send(reason.message);
         });
     })
@@ -138,14 +127,19 @@ function addParticipation(
   email: string,
   event: IEvent
 ): Promise<IParticipation> {
-  // TODO: find a way how to use types in the constructor
-  const pNew = new Participation({ email, event, role: "host" });
+  const params = {
+    email,
+    event: event.id,
+    role: "host"
+  };
+  console.log(`Creating host participant ${JSON.stringify(params)}`);
+  const pNew = new Participation(params);
   return pNew.save();
 }
 
 async function isHost(user: Auth0User, event: IEvent) {
   const params = {
-    "event._id": event.id,
+    event: event.id,
     email: user.email
   };
   const participations = await Participation.find(params);

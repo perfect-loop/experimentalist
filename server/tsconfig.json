@@ -1,4 +1,10 @@
 {
+  "ts-node": {
+    "ignoreDiagnostics": [
+      "2454",
+      "2403"
+    ]
+  },
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

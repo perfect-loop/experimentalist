@@ -12,8 +12,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const PersistenNotication = (props: { open: boolean; text: string; handleClose: () => void }) => {
-  const [snackOpen, setSnackOpen] = React.useState(props.open);
-
   // React.useEffect(() => {
   //   setSnackOpen(props.open);
   //   props.open = false;

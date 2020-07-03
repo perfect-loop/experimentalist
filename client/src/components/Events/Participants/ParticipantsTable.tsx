@@ -7,6 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
 import { IParticipation } from "api/Participations";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const useStyles = makeStyles({
   table: {},
@@ -45,19 +46,21 @@ export default function ParticipantsTable(props: { participants: IParticipation[
       <Table className={classes.table} stickyHeader>
         <TableHead>
           <TableRow>
-            <StyledTableCell align="right"> Email </StyledTableCell>
-            <StyledTableCell align="right"> Role </StyledTableCell>
-            <StyledTableCell align="right"> Anonymized Name </StyledTableCell>
-            <StyledTableCell align="right"> Instructions </StyledTableCell>
+            <StyledTableCell align="center"> Email </StyledTableCell>
+            <StyledTableCell align="center"> Role </StyledTableCell>
+            <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
+            <StyledTableCell align="center"> Attended </StyledTableCell>
+            <StyledTableCell align="center"> Instructions </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.participants.map((participant: IParticipation) => (
             <StyledTableRow key={participant._id}>
-              <StyledTableCell align="right"> {participant.email} </StyledTableCell>
-              <StyledTableCell align="right"> {participant.role} </StyledTableCell>
-              <StyledTableCell align="right"> {participant.anonymousName} </StyledTableCell>
-              <StyledTableCell align="right"> {participant.instructions} </StyledTableCell>
+              <StyledTableCell align="center"> {participant.email} </StyledTableCell>
+              <StyledTableCell align="center"> {participant.role} </StyledTableCell>
+              <StyledTableCell align="center"> {participant.anonymousName} </StyledTableCell>
+              <StyledTableCell align="center">{!!participant.attendedAt && <CheckCircleIcon />}</StyledTableCell>
+              <StyledTableCell align="center"> {participant.instructions} </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

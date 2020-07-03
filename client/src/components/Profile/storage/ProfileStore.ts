@@ -2,8 +2,6 @@ import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
 import { IProfile } from "api/Profiles";
-import { resolve } from "path";
-import { rejects } from "assert";
 
 interface IStateReady {
   kind: "ready";

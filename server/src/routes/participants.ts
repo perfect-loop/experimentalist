@@ -1,7 +1,7 @@
 import express from "express";
 import secured from "../lib/middleware/secured";
 import { IEvent, Event } from "api/Events";
-import { Participation } from "api/Participations";
+import { Participation, IParticipation } from "api/Participations";
 import { Auth0User } from "types/auth0";
 
 const router = express.Router();
@@ -25,13 +25,11 @@ async function participationsWithEvent(eventId: string, user: any) {
     return [];
   }
   const params = {
-    "event._id": event._id,
+    event: event.id,
     email: user.email
   };
   console.log(params);
-  const participations = await Participation.find(params).sort(
-    "-event.startAt"
-  );
+  const participations = await Participation.find(params).populate("event");
   console.log(`participation is ${JSON.stringify(participations)}`);
   return participations;
 }
@@ -41,11 +39,13 @@ async function participationsWithoutEvent(user: any) {
     email: user.email
   };
   console.log(params);
-  const participations = await Participation.find(params).sort(
-    "-event.startAt"
-  );
-  console.log(`participation is ${JSON.stringify(participations)}`);
-  return participations;
+  const participations = await Participation.find(params).populate({
+    path: "event"
+  });
+  // https://github.com/Automattic/mongoose/issues/2202
+  return participations.sort((lhs: IParticipation, rhs: IParticipation) => {
+    return rhs.event.startAt.getTime() - lhs.event.startAt.getTime();
+  });
 }
 
 export default router;

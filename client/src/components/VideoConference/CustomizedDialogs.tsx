@@ -14,7 +14,6 @@ import { useAppContext } from "../../context/AppContext";
 import { Api } from "api/Socket";
 import { IEvent } from "api/Events";
 import MUIRichTextEditor from "mui-rte";
-import { convertFromRaw } from "draft-js";
 
 const styles = (theme: Theme) =>
   createStyles({

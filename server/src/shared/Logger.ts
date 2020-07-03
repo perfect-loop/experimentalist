@@ -11,7 +11,7 @@ const { File, Console } = transports;
 
 // Init Logger
 const logger = createLogger({
-  level: "info"
+  level: process.env.NODE_ENV === "development" ? "debug" : "info"
 });
 
 /**

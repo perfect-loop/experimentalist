@@ -5,7 +5,6 @@ import { Form, Field } from "react-final-form";
 import { Paper } from "@material-ui/core";
 import { observer } from "mobx-react";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
