@@ -10,14 +10,26 @@ export const MockProvider = (props: any) => {
         isInitializing: true,
         isPopupOpen: false,
         hasDetailedProfile: true,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
-        loginWithPopup: () => {},
+        loginWithPopup: () => {
+          console.log("TOD");
+        },
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
-        handleRedirectCallback: () => {},
+        handleRedirectCallback: () => {
+          console.log("TODO");
+        },
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
-        getIdTokenClaims: () => {},
+        getIdTokenClaims: () => {
+          console.log("TODO");
+        },
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
-        loginWithRedirect: () => {},
+        loginWithRedirect: () => {
+          console.log("TODO");
+        },
       }}
     >
       {props.children}

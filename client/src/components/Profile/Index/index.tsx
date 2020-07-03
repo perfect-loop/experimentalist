@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import ProfileStore from "../storage/ProfileStore";
-import ShowProfile from "../Show/ShowView";
-import { Redirect } from "react-router-dom";
+import ProfileIndex from "./ProfileIndex";
 
 interface IState {
   profileStore: ProfileStore;
@@ -20,14 +19,7 @@ class Index extends Component<{}, IState> {
   }
 
   public render() {
-    switch (this.state.profileStore.state.kind) {
-      case "empty":
-        return <Redirect to="/profile/new" />;
-      case "not_ready":
-        return <div>Loading</div>;
-      case "ready":
-        return <ShowProfile profileStore={this.state.profileStore} />;
-    }
+    return <ProfileIndex profileStore={this.state.profileStore} />;
   }
 }
 

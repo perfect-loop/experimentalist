@@ -11,7 +11,6 @@ test("Renders text", () => {
   //     <Conference role={Role.Host} eventId={"1234"} />
   //   </MockProvider>,
   // );
-
   // TODO: jquery fails
   // console.log(a.text());
 });
