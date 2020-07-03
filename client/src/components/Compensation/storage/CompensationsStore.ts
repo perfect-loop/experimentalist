@@ -20,26 +20,23 @@ export default class CompensationsStore {
     this.eventId = eventId;
   }
 
-  // @action
-  // public post = (data: IProfile): Promise<IProfile> => {
-  //   return new Promise((resolve, reject) => {
-  //     const client = new Api({});
-  //     client
-  //       .post<IProfile, IProfile>("/api/profile.json", data)
-  //       .then((response: AxiosResponse<IProfile>) => {
-  //         const { data } = response;
-  //         this.state = {
-  //           kind: "ready",
-  //           model: data,
-  //         };
-  //         resolve(data);
-  //       })
-  //       .catch((error: AxiosError) => {
-  //         console.error(error.response?.statusText);
-  //         reject(error);
-  //       });
-  //   });
-  // };
+  @action
+  public uploadedCSVData = (data: IRawUploadedData[], eventId: string) => {
+    // email maps to the amount 
+    const emailMap:{ [i: string]: number} = {}
+    data
+      .filter((line: IRawUploadedData) => line.data[0] && line.data[1]);
+      .forEach((line: IRawUploadedData) => {
+            emailMap[line.data[0]] = line.data[1]
+      })
+    
+    const client = new Api({});
+    const url = `/api/compensation/${eventId}.json`
+    this.state = "not_ready";
+    
+ 
+
+  }
 
   @action
   public getAdmin = () => {
