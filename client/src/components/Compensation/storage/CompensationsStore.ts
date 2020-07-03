@@ -2,30 +2,22 @@ import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
 import { ICompensation } from "api/Compensations";
-import { resolve } from "path";
-import { rejects } from "assert";
+import { IUserCompensation } from "../Index/AdminCompensations";
 
-interface IStateReady {
-  kind: "ready";
-  model: ICompensation[];
-}
+// interface IUplodatedData extends Pick<ICompensation>{
+//   amount: number;
+//   name: string;
+// }
 
-interface IStateNotReady {
-  kind: "not_ready";
-}
-interface IStateEmpty {
-  kind: "empty";
-}
+export default class CompensationsStore {
+  @observable public state: "not_ready" | "ready" | "error";
+  @observable public compensations: IUserCompensation[];
+  private eventId: string;
 
-type IState = IStateReady | IStateNotReady | IStateEmpty;
-
-export default class CompensationStore {
-  @observable public state: IState;
-
-  constructor() {
-    this.state = {
-      kind: "not_ready",
-    };
+  constructor(eventId: string) {
+    this.state = "not_ready";
+    this.compensations = [];
+    this.eventId = eventId;
   }
 
   // @action
@@ -50,22 +42,17 @@ export default class CompensationStore {
   // };
 
   @action
-  public get = () => {
+  public getAdmin = () => {
     const client = new Api({});
     client
-      .get<ICompensation>(`/api/compensation.json`)
-      .then((response: AxiosResponse<ICompensation>) => {
+      .get<IUserCompensation[]>(`/api/my/compensations/${this.eventId}.json`)
+      .then((response: AxiosResponse<IUserCompensation[]>) => {
         const { data } = response;
-        console.log(data)
-        // this.state = {
-        //   kind: "ready",
-        //   model: data,
-        // };
+        this.compensations = data;
+        this.state = "ready";
       })
       .catch((error: AxiosError) => {
-        this.state = {
-          kind: "empty",
-        };
+        this.state =  "error";
         console.error(error.response?.statusText);
       });
   };

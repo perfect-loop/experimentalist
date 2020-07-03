@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import CompensationStore from "../storage/CompensationStore";
+import CompensationStore from "../storage/CompensationsStore";
 
 @observer
 class Index extends Component<{}, {}> {
   constructor(props: {}) {
     super(props);
-    const compensationStore = new CompensationStore();
-    compensationStore.get();
+    // const compensationStore = new CompensationStore();
+    // compensationStore.get();
   }
 
   public render() {
-    return (
-    <div>testing</div>)
+    return <div>testing</div>;
   }
 }
 
-export default Index; 
+export default Index;
