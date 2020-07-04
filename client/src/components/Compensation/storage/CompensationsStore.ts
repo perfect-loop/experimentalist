@@ -41,17 +41,16 @@ export default class CompensationsStore {
     const client = new Api({});
     const url = `/api/compensation/${eventId}.json`;
     this.state = "not_ready";
-    console.log(emailMap);
-    // client
-    //   .post<IUplodatedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
-    //   .then((response: AxiosResponse<IUserCompensation[]>) => {
-    //     const { data } = response;
-    //     console.log(data);
-    //   })
-    //   .catch((error: AxiosError) => {
-    //     console.error(error.response?.statusText);
-    //     this.state = "error";
-    //   });
+
+    client
+      .post<IUplodatedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
+      .then((response: AxiosResponse<IUserCompensation[]>) => {
+        this.getAdmin();
+      })
+      .catch((error: AxiosError) => {
+        console.error(error.response?.statusText);
+        this.state = "error";
+      });
   };
 
   @action

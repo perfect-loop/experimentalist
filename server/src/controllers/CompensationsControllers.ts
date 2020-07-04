@@ -5,6 +5,7 @@ import { User } from "api/Users";
 import { ICompensation, Compensation } from "api/Compensations";
 import { IEvent, Event } from "api/Events";
 import { Auth0User } from "types/auth0";
+import { Schema } from "mongoose";
 
 export interface IUserCompensation {
   profile: IProfile;
@@ -66,7 +67,10 @@ export default class CompensationsController {
     next: NextFunction
   ) {
     const user: Auth0User | undefined = req.user;
-    if (user === undefined) return;
+    if (!user) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
 
     const event = await this.getEvent(req.params.id);
     if (event === null) {
@@ -120,24 +124,48 @@ export default class CompensationsController {
     res.status(200).json(result);
   }
 
-  // [
-  //   { email: 'anson2@aa.io', instructions: 'http://google.com' },
-  //   { email: 'anson1@aa.io', instructions: 'http://google.com' }
-  // ]
-
   public async createCompensation(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
-    const event = await this.getEvent(req.params.id);
-    const emails = req.body.emails;
-
-    const participation = await Participation.find({
-      $and: [{ email: { $in: emails } }, {"event._id": event._id}]
+    // req.body => {email: amount}
+    const event: IEvent = await this.getEvent(req.params.id);
+    const user: Auth0User | undefined = req.user;
+    if (!user) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+    const senderParticipation = await Participation.findOne({
+      email: user.email
     });
-    console.log(participation);
-    res.json(participation);
+
+    if (!senderParticipation) {
+      res.status(404).send("Participation not found");
+      return;
+    }
+
+    const data = req.body;
+    const emails: string[] = Object.keys(data);
+
+    const participation: IParticipation[] = await Participation.find({
+      $and: [{ email: { $in: emails } }, { "event._id": event._id }]
+    });
+
+    const participationIds: any[] = participation.map(p => p._id);
+    const compensation: ICompensation[] = await Compensation.find({
+      receiverId: { $in: participationIds }
+    }).populate("receiverId", "email");
+    
+    compensation.forEach((c: any) => {
+      const email = c.receiverId.email;
+      c.amount = data[email];
+      c.receiverId = c.receiverId._id;
+      c.senderId = senderParticipation._id;
+      c.save();
+    });
+
+    res.json(compensation);
   }
 
   private async getEvent(id: string) {

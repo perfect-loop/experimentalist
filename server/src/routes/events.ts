@@ -74,46 +74,45 @@ router.post(
   async (req, res, next) => {
     const id = req.params.id;
     const data = req.body as IParticipation[];
-    console.log(data);
-    // const event = (await Event.findById(id)) as IEvent;
-    // const DEFAULT_COMPENSATION = 0;
 
-    // const toInsert = data.map(d => {
-    //   d.event = event;
-    //   const name = randomWords({
-    //     exactly: 1,
-    //     wordsPerString: 2,
-    //     separator: " "
-    //   }).join("");
-    //   console.log(name);
-    //   d.anonymousName = name;
-    //   return d;
-    // });
-    // console.log(`will insert ${JSON.stringify(toInsert)}`);
+    const event = (await Event.findById(id)) as IEvent;
+    const DEFAULT_COMPENSATION = 0;
 
-    // // Get all the inserted participation
-    // const participation: any = await Participation.insertMany(data);
-    // const participants = (await Participation.find({
-    //   "event._id": event._id
-    // })) as IParticipation[];
+    const toInsert = data.map(d => {
+      d.event = event;
+      const name = randomWords({
+        exactly: 1,
+        wordsPerString: 2,
+        separator: " "
+      }).join("");
+      console.log(name);
+      d.anonymousName = name;
+      return d;
+    });
+    console.log(`will insert ${JSON.stringify(toInsert)}`);
 
-    // // create compensation documents based on newly inserted participations
-    // const insertCompensations = participation.map((p: any) => ({
-    //   amount: DEFAULT_COMPENSATION,
-    //   senderId: "5efad9489d5295ff86c1dd71",
-    //   receiverId: p.id
-    // }));
+    // Get all the inserted participation
+    const participation: any = await Participation.insertMany(data);
+    const participants = (await Participation.find({
+      "event._id": event._id
+    })) as IParticipation[];
 
-    // const compensation: any = await Compensation.insertMany(
-    //   insertCompensations
-    // );
+    // create compensation documents based on newly inserted participations
+    const insertCompensations = participation.map((p: any) => ({
+      amount: DEFAULT_COMPENSATION,
+      receiverId: p.id
+    }));
 
-    // // for debugging use
-    // // console.log("all participants", participation);
-    // // console.log("new compensation", compensation);
-    // console.log("Returning");
+    const compensation: any = await Compensation.insertMany(
+      insertCompensations
+    );
 
-    // res.json(participants);
+    // for debugging use
+    // console.log("all participants", participation);
+    // console.log("new compensation", compensation);
+    console.log("Returning");
+
+    res.json(participants);
     res.json([]);
   }
 );
@@ -159,14 +158,6 @@ function addParticipation(
   const pNew = new Participation(params);
   return pNew.save();
 }
-
-// function addCompensation(
-//   senderId: string,
-//   receiverId: string[],
-//   amount: number = 0
-// ): Promise<ICompensation> {
-//   const cNew = new Compensation
-// };
 
 async function isHost(user: Auth0User, event: IEvent) {
   const params = {

@@ -19,9 +19,12 @@ router.get(
   }
 );
 
-router.post("/compensation.json", secured(), async (req: any, res, next) => {
-  const email = req.user.email;
-  res.json(email);
-});
+router.post(
+  "/compensation/:id.json",
+  secured(),
+  async (req: any, res, next) => {
+    new CompensationsController().createCompensation(req, res, next);
+  }
+);
 
 export default router;
