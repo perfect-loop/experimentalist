@@ -5,6 +5,7 @@ import moment from "moment";
 import { IParticipation } from "api/Participations";
 import { StyledTableRow } from "./StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
+import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 
 export default function AttendeeEvent(props: { participation: IParticipation; classes: Record<"table", string> }) {
   return (
