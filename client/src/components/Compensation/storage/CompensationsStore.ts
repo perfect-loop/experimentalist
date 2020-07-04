@@ -68,4 +68,20 @@ export default class CompensationsStore {
         console.error(error.response?.statusText);
       });
   };
+
+  @action
+  public getUser = () => {
+    const client = new Api({});
+    client
+      .get<IUserCompensation[]>(`/api/compensations/${this.eventId}.json`)
+      .then((response: AxiosResponse<IUserCompensation[]>) => {
+        const { data } = response;
+        this.compensations = data;
+        this.state = "ready";
+      })
+      .catch((error: AxiosError) => {
+        this.state = "error";
+        console.error(error.response?.statusText);
+      });
+  };
 }
