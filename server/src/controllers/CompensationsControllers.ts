@@ -77,10 +77,9 @@ export default class CompensationsController {
       res.status(404).send("Event not found");
     }
 
-    const adminParticipation: IParticipation | null = await Participation.findOne(
-      {
-        $and: [{ "event._id": event._id }, { email: user.email }]
-      }
+    const adminParticipation: IParticipation | null = await this.getAdminParticipation(
+      event,
+      user
     );
 
     if (adminParticipation === null) {
@@ -136,9 +135,7 @@ export default class CompensationsController {
       res.status(403).send("Unauthorized");
       return;
     }
-    const senderParticipation = await Participation.findOne({
-      email: user.email
-    });
+    const senderParticipation = await this.getAdminParticipation(event, user);
 
     if (!senderParticipation) {
       res.status(404).send("Participation not found");
@@ -172,4 +169,12 @@ export default class CompensationsController {
     const event = (await Event.findById(id)) as IEvent;
     return event;
   }
+
+  private async getAdminParticipation(event: IEvent, user: Auth0User) {
+    return await Participation.findOne(
+          {
+            $and: [{ "event._id": event._id }, { email: user.email }]
+          }
+        );
+      }
 }
