@@ -40,7 +40,7 @@ class AdminCompensation extends Component<IProps, IState> {
   };
 
   public render() {
-    const {state} = this.state.compensationsStore;
+    const { state } = this.state.compensationsStore;
     if (state.kind === "error") {
       return (
         <Alert severity="error">

@@ -82,7 +82,7 @@ export default class CompensationsStore {
         const { data } = response;
         this.state = {
           kind: "ready",
-          model: data
+          model: data,
         };
       })
       .catch((error: AxiosError) => {
