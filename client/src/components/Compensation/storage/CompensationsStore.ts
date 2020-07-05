@@ -16,15 +16,30 @@ interface IProcessedData {
 export interface IRawUploadedData {
   data: [string, number];
 }
+interface IStateReady {
+  kind: "ready";
+  model: IUserCompensation[];
+}
+
+interface IStateNotReady {
+  kind: "not_ready";
+}
+interface IStateError {
+  kind: "error";
+  model: string | undefined;
+}
+
+type IState = IStateReady | IStateNotReady | IStateError;
 
 export default class CompensationsStore {
-  @observable public state: "not_ready" | "ready" | "error";
-  @observable public compensations: IUserCompensation[];
+  @observable public state: IState;
+  // @observable public compensations: IUserCompensation[];
   private eventId: string;
 
   constructor(eventId: string) {
-    this.state = "not_ready";
-    this.compensations = [];
+    this.state = {
+      kind: "not_ready",
+    };
     this.eventId = eventId;
   }
 
@@ -40,7 +55,9 @@ export default class CompensationsStore {
 
     const client = new Api({});
     const url = `/api/compensation/${eventId}.json`;
-    this.state = "not_ready";
+    this.state = {
+      kind: "not_ready",
+    };
 
     client
       .post<IUplodatedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
@@ -49,7 +66,10 @@ export default class CompensationsStore {
       })
       .catch((error: AxiosError) => {
         console.error(error.response?.statusText);
-        this.state = "error";
+        this.state = {
+          kind: "error",
+          model: error.response?.data,
+        };
       });
   };
 
@@ -60,11 +80,16 @@ export default class CompensationsStore {
       .get<IUserCompensation[]>(`/api/my/compensations/${this.eventId}.json`)
       .then((response: AxiosResponse<IUserCompensation[]>) => {
         const { data } = response;
-        this.compensations = data;
-        this.state = "ready";
+        this.state = {
+          kind: "ready",
+          model: data
+        };
       })
       .catch((error: AxiosError) => {
-        this.state = "error";
+        this.state = {
+          kind: "error",
+          model: error.response?.data,
+        };
         console.error(error.response?.statusText);
       });
   };
@@ -76,11 +101,16 @@ export default class CompensationsStore {
       .get<IUserCompensation[]>(`/api/compensations/${this.eventId}.json`)
       .then((response: AxiosResponse<IUserCompensation[]>) => {
         const { data } = response;
-        this.compensations = data;
-        this.state = "ready";
+        this.state = {
+          kind: "ready",
+          model: data,
+        };
       })
       .catch((error: AxiosError) => {
-        this.state = "error";
+        this.state = {
+          kind: "error",
+          model: error.response?.data,
+        };
         console.error(error.response?.statusText);
       });
   };

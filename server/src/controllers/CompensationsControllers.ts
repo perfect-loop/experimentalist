@@ -29,7 +29,7 @@ export default class CompensationsController {
     }
 
     const participation: IParticipation | null = await Participation.findOne({
-      $and: [{ email: user.email }, { "event._id": event._id }]
+      $and: [{ email: user.email }, { "event": event.id }]
     });
 
     if (participation === null) {
@@ -96,7 +96,6 @@ export default class CompensationsController {
         receiver: {$in: ids}
       }).populate("receiver");
       
-      console.log(emails);
       compensations.forEach((compensation: any) => {
         const email: string = compensation.receiver.email;
         emailMap[email] = {} as IUserCompensation;
@@ -145,7 +144,7 @@ export default class CompensationsController {
     const emails: string[] = Object.keys(data);
 
     const participation: IParticipation[] = await Participation.find({
-      $and: [{ email: { $in: emails } }, { "event._id": event._id }]
+      $and: [{ email: { $in: emails } }, { event: event.id }]
     });
 
     const participationIds: any[] = participation.map(p => p._id);

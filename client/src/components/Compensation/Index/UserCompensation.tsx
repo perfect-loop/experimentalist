@@ -24,21 +24,21 @@ class UserCompensation extends Component<IProps, IState> {
     compensationsStore.getUser();
   }
 
-
   public render() {
-    if (this.state.compensationsStore.state === "error") {
+    if (this.state.compensationsStore.state.kind === "error") {
+      const { model } = this.state.compensationsStore.state;
       return (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          Unable to load compensation. Please make sure there are no duplicate entries
+          {model}
         </Alert>
       );
-    } else if (this.state.compensationsStore.state === "ready") {
+    } else if (this.state.compensationsStore.state.kind === "ready") {
       return (
         <>
           <div>
             <h2>Compensation</h2>
-            <h3>Your Compensation ${this.state.compensationsStore.compensations[0].compensation.amount}</h3>
+            <h3>Your Compensation ${this.state.compensationsStore.state.model[0].compensation.amount}</h3>
           </div>
         </>
       );
