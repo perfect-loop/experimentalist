@@ -85,7 +85,7 @@ router.post(
         wordsPerString: 2,
         separator: " "
       }).join("");
-      console.log(name);
+      // console.log(name);
       d.anonymousName = name;
       return d;
     });
