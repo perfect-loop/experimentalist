@@ -37,9 +37,9 @@ export default class CompensationsController {
       return;
     }
     // for normal user, fetch all compensation he can receive
-    const receiverId: any = participation?._id;
+    const receiver: any = participation?._id;
     const compensation: ICompensation | null = await Compensation.findOne({
-      receiverId
+      receiver
     });
 
     const profile = await Profile.findOne({ userId: user._id });
@@ -79,7 +79,7 @@ export default class CompensationsController {
 
       // find all compensations of the specific event
       const allParticipations: IParticipation[] = await Participation.find({
-        event: eventId
+        $and: [{event: eventId}, {role: "attendee"}]
       });
 
       if (allParticipations.length === 0) {
@@ -95,9 +95,10 @@ export default class CompensationsController {
         receiver: {$in: ids}
       }).populate("receiver");
       
-      console.log(compensations);
+      console.log(emails);
       compensations.forEach((compensation: any) => {
         const email: string = compensation.receiver.email;
+        emailMap[email] = {} as IUserCompensation;
         emailMap[email].email = email;
         compensation.receiver = compensation.receiver._id;
         emailMap[email].compensation = compensation;
@@ -106,6 +107,7 @@ export default class CompensationsController {
       const userId = (await User.find({ email: { $in: emails } })).map(
         u => u._id
       );
+
       const profiles = await Profile.find({
         userId: { $in: userId }
       }).populate("userId");
@@ -147,13 +149,13 @@ export default class CompensationsController {
 
     const participationIds: any[] = participation.map(p => p._id);
     const compensation: ICompensation[] = await Compensation.find({
-      receiverId: { $in: participationIds }
-    }).populate("receiverId", "email");
+      receiver: { $in: participationIds }
+    }).populate("receiver", "email");
 
     compensation.forEach((c: any) => {
-      const email = c.receiverId.email;
+      const email = c.receiver.email;
       c.amount = data[email];
-      c.receiverId = c.receiverId._id;
+      c.receiver = c.receiver._id;
       c.sender = senderParticipation._id;
       c.save();
     });
