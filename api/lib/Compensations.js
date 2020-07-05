@@ -12,15 +12,15 @@ var CompensationsSchema = new mongoose.Schema({
         enum: ["Unpaid", "Paid"],
         default: "Unpaid",
     },
-    senderId: {
+    sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "participation",
     },
-    receiverId: {
+    receiver: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "participation",
         require: true,
     },
 });
-CompensationsSchema.index({ senderId: 1, receiverId: 1 }, { unique: true });
+CompensationsSchema.index({ sender: 1, receiver: 1 }, { unique: true });
 exports.Compensation = mongoose.model("compensation", CompensationsSchema);
