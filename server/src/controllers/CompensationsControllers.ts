@@ -66,6 +66,7 @@ export default class CompensationsController {
     res: Response,
     next: NextFunction
   ) {
+      // 4 queries were made, looking for optmisation 
       const user: Auth0User | undefined = req.user;
       if (!user) {
         res.status(403).send("Unauthorized");

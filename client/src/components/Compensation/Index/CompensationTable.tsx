@@ -52,11 +52,13 @@ export default function CompensationsTable(props: { compensations: IUserCompensa
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.compensations.map(({profile, compensation, email}) => (
+          {props.compensations.map(({ profile, compensation, email }) => (
             <StyledTableRow key={compensation._id}>
-              <StyledTableCell align="right"> {profile ? profile.firstName + " " + profile.lastName : ""} </StyledTableCell>
-              <StyledTableCell align="right"> {email} </StyledTableCell>
-              <StyledTableCell align="right"> {compensation.amount} </StyledTableCell>
+              <StyledTableCell align="right">
+                {profile ? profile.firstName + " " + profile.lastName : "/"}
+              </StyledTableCell>
+              <StyledTableCell align="right">{email}</StyledTableCell>
+              <StyledTableCell align="right">{compensation.amount}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
