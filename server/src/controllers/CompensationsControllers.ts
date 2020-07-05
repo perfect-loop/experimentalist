@@ -45,7 +45,7 @@ export default class CompensationsController {
     const profile = await Profile.findOne({ userId: user._id });
 
     if (profile === null || compensation === null || email === null) {
-      res.status(404).send("Error! Compensation cannot be loaded");
+      res.status(404).send("Error! Compensation cannot be found");
       return;
     }
     const resObj: IUserCompensation = {
