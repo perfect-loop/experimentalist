@@ -53,8 +53,8 @@ export default function CompensationsTable(props: { compensations: IUserCompensa
         </TableHead>
         <TableBody>
           {props.compensations.map(({profile, compensation, email}) => (
-            <StyledTableRow key={profile._id}>
-              <StyledTableCell align="right"> {profile.firstName + " " + profile.lastName} </StyledTableCell>
+            <StyledTableRow key={compensation._id}>
+              <StyledTableCell align="right"> {profile ? profile.firstName + " " + profile.lastName : ""} </StyledTableCell>
               <StyledTableCell align="right"> {email} </StyledTableCell>
               <StyledTableCell align="right"> {compensation.amount} </StyledTableCell>
             </StyledTableRow>

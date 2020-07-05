@@ -36,7 +36,6 @@ class AdminCompensation extends Component<IProps, IState> {
   private handleOnDrop = (data: IRawUploadedData[]) => {
     // remove header elements
     data.shift();
-    console.log(data)
     this.state.compensationsStore.uploadCSVData(data, this.props.eventId);
   };
 

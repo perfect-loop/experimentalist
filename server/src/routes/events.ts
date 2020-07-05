@@ -94,26 +94,20 @@ router.post(
     // Get all the inserted participation
     const participation: any = await Participation.insertMany(data);
     const participants = (await Participation.find({
-      "event._id": event._id
+      "event._id": event.id
     })) as IParticipation[];
 
     // create compensation documents based on newly inserted participations
     const insertCompensations = participation.map((p: any) => ({
       amount: DEFAULT_COMPENSATION,
-      receiverId: p.id
+      receiver: p.id
     }));
 
-    const compensation: any = await Compensation.insertMany(
-      insertCompensations
-    );
+    await Compensation.insertMany(insertCompensations);
 
-    // for debugging use
-    // console.log("all participants", participation);
-    // console.log("new compensation", compensation);
     console.log("Returning");
 
     res.json(participants);
-    res.json([]);
   }
 );
 
