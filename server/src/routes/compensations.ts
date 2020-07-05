@@ -3,7 +3,7 @@ import secured from "../lib/middleware/secured";
 import CompensationsController from "../controllers/CompensationsControllers";
 import { Compensation } from "api/Compensations";
 import { Participation } from "api/Participations";
-import {Event } from "api/Events"
+import { Event } from "api/Events";
 
 const router = express.Router();
 
