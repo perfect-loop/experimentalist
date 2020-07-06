@@ -34,7 +34,7 @@ export default class EventsIndex extends Component<IProps, IState> {
         return <div>Loading</div>;
       }
       case "ready": {
-        if (this.state.participationsStore.state.models.length > 0) {
+        if (this.state.participationsStore.state.models.length >= 0) {
           return (
             <>
               <Link to="/events/new">
