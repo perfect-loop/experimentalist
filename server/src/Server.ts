@@ -8,10 +8,16 @@ import { BAD_REQUEST } from "http-status-codes";
 import "express-async-errors";
 
 import logger from "./shared/Logger";
+import * as Sentry from "@sentry/node";
 
 // Init express
 const app = express();
 
+/************************************************************************************
+ *                             Error Tracking
+ * The request handler must be the first middleware on the app
+ ***********************************************************************************/
+app.use(Sentry.Handlers.requestHandler() as express.RequestHandler);
 /************************************************************************************
  *                              Set basic express settings
  ***********************************************************************************/
@@ -152,6 +158,16 @@ if (process.env.NODE_ENV === "development") {
 const viewsDir = path.join(__dirname, "views");
 app.set("views", viewsDir);
 app.set("view engine", "pug");
+
+/************************************************************************************
+ *                             Error Tracking
+ * The error handler must be before any other error middleware and after all controllers
+ ***********************************************************************************/
+Sentry.init({
+  dsn:
+    "https://6f3e52ab8656444b9e762560bffa8b85@o56372.ingest.sentry.io/5310821"
+});
+app.use(Sentry.Handlers.errorHandler() as express.ErrorRequestHandler);
 
 // Export express instance
 export default app;
