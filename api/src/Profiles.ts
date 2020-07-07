@@ -101,6 +101,10 @@ export const ProfileSchema = new mongoose.Schema(
   }
 );
 
+ProfileSchema.path("venmoId").validate((value: string)  => {
+  return (value.match(/www.venmo.com\/.*/));
+}, "must be of the form www.venmo.com/Your-Id. Login to https://venmo.com/account/settings/profile to check your id.");
+
 export interface IProfile extends Document {
   _id: string;
   firstName: string;

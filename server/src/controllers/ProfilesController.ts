@@ -20,7 +20,7 @@ export default class ProfilesController {
         res.json(newProfile);
       })
       .catch((reason: any) => {
-        logger.info("Error is ", reason.message);
+        logger.info(`Error is ${reason.message}`);
         const error: Api.Error = {
           message: reason.message
         };

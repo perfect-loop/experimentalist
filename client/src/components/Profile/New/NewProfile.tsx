@@ -88,9 +88,9 @@ function NewProfile(props: {}) {
                 name="venmoId"
                 component={TextFieldAdapter}
                 type="text"
-                label="Venmo Id"
+                placeholder="www.venmo.com/Your-Id"
                 required={true}
-                placeholder="Venmo Id"
+                label="Venmo Id"
               />
             </div>
             <div>
