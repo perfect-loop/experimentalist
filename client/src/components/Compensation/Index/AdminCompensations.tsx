@@ -42,10 +42,11 @@ class AdminCompensation extends Component<IProps, IState> {
   public render() {
     const { state } = this.state.compensationsStore;
     if (state.kind === "error") {
+      const {model} = state;
       return (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          Unable to load compensation. Please make sure there are no duplicate entries
+          {model}
         </Alert>
       );
     } else if (state.kind === "ready") {

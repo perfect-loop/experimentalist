@@ -7,6 +7,7 @@ import { Auth0User } from "types/auth0";
 import randomWords from "random-words";
 import EventsController from "../controllers/EventsController";
 import { ICompensation, Compensation } from "api/Compensations";
+import { User } from "api/Users";
 
 const router = express.Router();
 
@@ -76,6 +77,23 @@ router.post(
     const data = req.body as IParticipation[];
 
     const event = (await Event.findById(id)) as IEvent;
+
+    const user: Auth0User | undefined = req.user;
+
+    if (!user) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+
+    const hostParticipation: IParticipation | null = await Participation.findOne(
+      { $and: [{ email: user.email }, { event: event.id }] }
+    );
+
+    if (hostParticipation === null) {
+      res.status(404).send("Participation not found!");
+      return;
+    }
+
     const DEFAULT_COMPENSATION = 0;
 
     const toInsert = data.map(d => {
@@ -92,10 +110,9 @@ router.post(
     console.log(`will insert ${JSON.stringify(toInsert)}`);
 
     // Get all the inserted participation
-    const participation: any = await Participation.insertMany(data);
-    const participants = (await Participation.find({
-      "event._id": event.id
-    })) as IParticipation[];
+    const participation: IParticipation[] = await Participation.insertMany(
+      data
+    );
 
     // create compensation documents based on newly inserted participations
     const insertCompensations = participation.map((p: any) => ({
@@ -107,7 +124,7 @@ router.post(
 
     console.log("Returning");
 
-    res.json(participants);
+    res.json([hostParticipation].concat(participation));
   }
 );
 

@@ -77,7 +77,22 @@ export default class CompensationsController {
     if (eventId === null) {
       res.status(404).send("Event not found");
     }
-
+    const adminParticipation = await this.getAdminParticipation(eventId, user);
+    // console.log(eventId);
+    // console.log(user.email);
+    // const test = await Participation.findOne({
+    //   $and: [ { email: user.email }, { role: "host" }]
+    // });
+    // res.json(test)
+    // return
+    if (adminParticipation === null) {
+      res
+        .status(403)
+        .send(
+          "Participation not found! Please make sure you are the host of the event"
+        );
+      return;
+    }
     // find all compensations of the specific event
     const allParticipations: IParticipation[] = await Participation.find({
       $and: [{ event: eventId }, { role: "attendee" }]
@@ -100,7 +115,6 @@ export default class CompensationsController {
       const email: string = compensation.receiver.email;
       emailMap[email] = {} as IUserCompensation;
       emailMap[email].email = email;
-      compensation.receiver = compensation.receiver._id;
       emailMap[email].compensation = compensation;
     });
 
@@ -127,13 +141,16 @@ export default class CompensationsController {
     next: NextFunction
   ) {
     // req.body => {email: amount}
-    const event: IEvent = await this.getEvent(req.params.id);
+    // const event: IEvent = await this.getEvent(req.params.id);
     const user: Auth0User | undefined = req.user;
     if (!user) {
       res.status(403).send("Unauthorized");
       return;
     }
-    const senderParticipation = await this.getAdminParticipation(event, user);
+    const senderParticipation = await this.getAdminParticipation(
+      req.params.id,
+      user
+    );
 
     if (!senderParticipation) {
       res.status(404).send("Participation not found");
@@ -142,12 +159,13 @@ export default class CompensationsController {
 
     const data = req.body;
     const emails: string[] = Object.keys(data);
+    const eventId: any = req.params.id; 
 
     const participation: IParticipation[] = await Participation.find({
-      $and: [{ email: { $in: emails } }, { event: event.id }]
+      $and: [{ email: { $in: emails } }, { event: eventId }]
     });
 
-    const participationIds: any[] = participation.map(p => p._id);
+    const participationIds: string[] = participation.map(p => p._id);
     const compensation: ICompensation[] = await Compensation.find({
       receiver: { $in: participationIds }
     }).populate("receiver", "email");
@@ -168,9 +186,9 @@ export default class CompensationsController {
     return event;
   }
 
-  private async getAdminParticipation(event: IEvent, user: Auth0User) {
+  private async getAdminParticipation(eventId: any, user: Auth0User) {
     return await Participation.findOne({
-      $and: [{ event: event.id }, { email: user.email }]
+      $and: [{ event: eventId }, { email: user.email }, { role: "host" }]
     });
   }
 }

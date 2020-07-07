@@ -31,8 +31,8 @@ export interface ICompensation extends Document {
   _id: string;
   amount: number;
   status: string;
-  sender: mongoose.Schema.Types.ObjectId;
-  receiver: mongoose.Schema.Types.ObjectId;
+  sender: string;
+  receiver: string;
 }
 
 export const Compensation = mongoose.model<ICompensation>(
