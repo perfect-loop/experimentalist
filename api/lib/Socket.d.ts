@@ -12,4 +12,7 @@ export declare module Api {
         }
         function sendEventEvent(socket: SocketIOClient.Socket, event: IEvent): void;
     }
+    interface Error {
+        message: string;
+    }
 }

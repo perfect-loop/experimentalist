@@ -1,9 +1,9 @@
 import { define, random } from "cooky-cutter";
+import { Auth0User } from "types/auth0";
 import faker from "faker";
-import { IProfile } from "api/Profiles";
 
-export const ProfileFactory = define<IProfile>({
-  _id: "",
+export const UserFactory = define<Auth0User>({
+  _id: "234245",
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
   venmoId: "1234",
@@ -12,5 +12,5 @@ export const ProfileFactory = define<IProfile>({
   street: faker.address.streetAddress(),
   state: faker.address.state(),
   zip: "9411",
-  userId: "123123",
+  userId: "123123"
 });

@@ -70,7 +70,7 @@ export const ProfileSchema = new mongoose.Schema(
       require: true,
     },
     studentId: {
-      type: Number,
+      type: String,
       require: true,
     },
     phone: {
@@ -86,7 +86,7 @@ export const ProfileSchema = new mongoose.Schema(
       require: true,
     },
     zip: {
-      type: Number,
+      type: String,
       require: true,
     },
     userId: {
@@ -101,16 +101,20 @@ export const ProfileSchema = new mongoose.Schema(
   }
 );
 
+ProfileSchema.path("venmoId").validate((value: string)  => {
+  return (value.match(/www.venmo.com\/.*/));
+}, "must be of the form www.venmo.com/Your-Id. Login to https://venmo.com/account/settings/profile to check your id.");
+
 export interface IProfile extends Document {
   _id: string;
   firstName: string;
   lastName: string;
   venmoId: string;
-  studentId: number;
-  phone: number;
+  studentId: string;
+  phone: string;
   street: string;
   state: string;
-  zip: number;
+  zip: string;
   userId: string;
 }
 

@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import { Auth0Context, useAuth0 } from "../../../util/react-auth0-spa";
+import { Api } from "api/Socket";
 
 //PROFILE FORM
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function NewProfile(props: {}) {
   const classes = useStyles();
   const history = useHistory();
+  const [alertText, setAlertText] = React.useState("");
   const [alert, setAlert] = React.useState(false);
   const { updateProfile } = useAuth0();
   const onSubmit = (values: any) => {
@@ -43,7 +45,8 @@ function NewProfile(props: {}) {
         updateProfile(true);
         history.push("/events");
       })
-      .catch(error => {
+      .catch((error: Api.Error) => {
+        setAlertText(error.message);
         setAlert(true);
       });
   };
@@ -53,7 +56,7 @@ function NewProfile(props: {}) {
       {alert && (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          Unable to create profile. Please try again.
+          {alertText}
         </Alert>
       )}
       <Form
@@ -85,9 +88,9 @@ function NewProfile(props: {}) {
                 name="venmoId"
                 component={TextFieldAdapter}
                 type="text"
-                label="Venmo Id"
+                placeholder="www.venmo.com/Your-Id"
                 required={true}
-                placeholder="Venmo Id"
+                label="Venmo Id"
               />
             </div>
             <div>

@@ -2,6 +2,7 @@ import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
 import { IProfile } from "api/Profiles";
+import { Api as API } from "api/Socket";
 
 interface IStateReady {
   kind: "ready";
@@ -40,9 +41,9 @@ export default class ProfileStore {
           };
           resolve(data);
         })
-        .catch((error: AxiosError) => {
-          console.error(error.response?.statusText);
-          reject(error);
+        .catch((error: AxiosError<API.Error>) => {
+          const data = error.response?.data;
+          reject(data);
         });
     });
   };
