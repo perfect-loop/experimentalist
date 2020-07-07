@@ -10,19 +10,17 @@ export default class ProfilesController {
     const body = req.body;
     const user: Auth0User = req.user as Auth0User;
 
-    console.log(`profilAttr is ${JSON.stringify(body)}`);
-
     const profile = new Profile(body) as IProfile;
     profile.userId = user._id;
 
-    profile
+    await profile
       .save()
       .then((newProfile: IProfile) => {
-        console.log(`profile is ${newProfile}`);
+        logger.info(`Created profile ${newProfile}`);
         res.json(newProfile);
       })
       .catch((reason: any) => {
-        logger.error(reason.message);
+        logger.info("Error is ", reason.message);
         const error: Api.Error = {
           message: reason.message
         };
