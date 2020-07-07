@@ -2,6 +2,7 @@ import express from "express";
 import secured from "../lib/middleware/secured";
 import { IProfile, Profile } from "api/Profiles";
 import { Auth0User } from "types/auth0";
+import ProfilesController from "../controllers/ProfilesController";
 
 const router = express.Router();
 
@@ -20,25 +21,7 @@ router.get("/profile.json", secured(), async (req: any, res, next) => {
 });
 
 router.post("/profile.json", secured(), async (req: any, res, next) => {
-  console.log("got request to create profile");
-  const body = req.body;
-  const user: Auth0User = req.user;
-
-  console.log(`profilAttr is ${JSON.stringify(body)}`);
-
-  const profile = new Profile(body) as IProfile;
-  profile.userId = user._id;
-
-  profile
-    .save()
-    .then((newProfile: IProfile) => {
-      console.log(`profile is ${newProfile}`);
-      res.json(newProfile);
-    })
-    .catch((reason: any) => {
-      console.log(reason.constructor);
-      res.status(500).send(reason.message);
-    });
+  new ProfilesController().post(req, res, next);
 });
 
 export default router;

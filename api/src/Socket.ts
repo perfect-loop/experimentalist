@@ -15,4 +15,8 @@ export module Api {
       socket.emit(EVENT_UPDATED_NAME, { event });
     }
   }
+
+  export interface Error {
+    message: string;
+  }
 }

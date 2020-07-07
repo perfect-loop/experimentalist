@@ -6,11 +6,11 @@ export interface IProfile extends Document {
     firstName: string;
     lastName: string;
     venmoId: string;
-    studentId: number;
-    phone: number;
+    studentId: string;
+    phone: string;
     street: string;
     state: string;
-    zip: number;
+    zip: string;
     userId: string;
 }
 export declare const Profile: mongoose.Model<IProfile, {}>;

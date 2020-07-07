@@ -70,7 +70,7 @@ export const ProfileSchema = new mongoose.Schema(
       require: true,
     },
     studentId: {
-      type: Number,
+      type: String,
       require: true,
     },
     phone: {
@@ -86,7 +86,7 @@ export const ProfileSchema = new mongoose.Schema(
       require: true,
     },
     zip: {
-      type: Number,
+      type: String,
       require: true,
     },
     userId: {
@@ -106,11 +106,11 @@ export interface IProfile extends Document {
   firstName: string;
   lastName: string;
   venmoId: string;
-  studentId: number;
-  phone: number;
+  studentId: string;
+  phone: string;
   street: string;
   state: string;
-  zip: number;
+  zip: string;
   userId: string;
 }
 

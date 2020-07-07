@@ -69,7 +69,7 @@ exports.ProfileSchema = new mongoose.Schema({
         require: true,
     },
     studentId: {
-        type: Number,
+        type: String,
         require: true,
     },
     phone: {
@@ -85,7 +85,7 @@ exports.ProfileSchema = new mongoose.Schema({
         require: true,
     },
     zip: {
-        type: Number,
+        type: String,
         require: true,
     },
     userId: {

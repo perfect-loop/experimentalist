@@ -7,10 +7,10 @@ export const ProfileFactory = define<IProfile>({
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
   venmoId: "1234",
-  studentId: 1234,
-  phone: 91233432,
+  studentId: "1234",
+  phone: "91233432",
   street: faker.address.streetAddress(),
   state: faker.address.state(),
-  zip: 9411,
+  zip: "9411",
   userId: "123123",
 });
