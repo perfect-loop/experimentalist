@@ -55,10 +55,6 @@ export default class CompensationsController {
     };
     res.status(200).json([resObj]);
 
-    //reset DB for testing
-    // await Participation.deleteMany({ role: "attendee" });
-    // await Compensation.deleteMany({});
-    // res.status(200).send("deleted");
   }
 
   public async adminCompensation(
@@ -66,7 +62,6 @@ export default class CompensationsController {
     res: Response,
     next: NextFunction
   ) {
-    // 4 queries were made, looking for optmisation
     const user: Auth0User | undefined = req.user;
     if (!user) {
       res.status(403).send("Unauthorized");
@@ -78,13 +73,7 @@ export default class CompensationsController {
       res.status(404).send("Event not found");
     }
     const adminParticipation = await this.getAdminParticipation(eventId, user);
-    // console.log(eventId);
-    // console.log(user.email);
-    // const test = await Participation.findOne({
-    //   $and: [ { email: user.email }, { role: "host" }]
-    // });
-    // res.json(test)
-    // return
+
     if (adminParticipation === null) {
       res
         .status(403)
