@@ -1,6 +1,7 @@
 import { Document } from "mongoose";
 import * as mongoose from 'mongoose';
 import { IEvent } from "./Events";
+export declare const ParticipationsSchema: mongoose.Schema<any>;
 export interface IParticipation extends Document {
     _id: string;
     email: string;

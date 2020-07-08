@@ -59,6 +59,7 @@ import events from "./routes/events";
 import attendance from "./routes/attendance";
 import participants from "./routes/participants";
 import healthcheck from "./routes/healthcheck";
+import compensation from "./routes/compensations";
 import zoom from "./routes/zoom";
 import devRoutes from "./routes/development";
 
@@ -128,6 +129,7 @@ app.use("/api", profile);
 if (process.env.NODE_ENV === "development") {
   app.use("/api", devRoutes);
 }
+app.use("/api", compensation);
 
 /************************************************************************************
  *                              Serve front-end content

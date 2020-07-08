@@ -8,4 +8,5 @@ module.exports = {
     "^.+\\.(ts|tsx)$": "ts-jest"
   },
   testEnvironment: 'node',
+  setupFilesAfterEnv: ['<rootDir>/test/testHelper.ts'],
 };
