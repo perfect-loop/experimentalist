@@ -87,7 +87,7 @@ export default class CompensationsController {
     });
 
     if (allParticipations.length === 0) {
-      res.status(404).send("Participation not found!");
+      res.status(404).send("This event does not have any participants");
       return;
     }
 

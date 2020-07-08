@@ -1,6 +1,5 @@
 import ProfilesController from "../ProfilesController";
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 import { Profile, IProfile } from "api/Profiles";
 
 describe("insert", () => {
@@ -10,19 +9,6 @@ describe("insert", () => {
     status: jest.fn(httpStatus => status)
   } as any) as Response;
   const mNext = jest.fn();
-
-  beforeAll(async () => {
-    const url = `mongodb+srv://dbUser:dbPassword@cluster0-55vit.azure.mongodb.net/test?retryWrites=true&w=majority`;
-    await mongoose.connect(url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: false
-    });
-  });
-
-  afterAll(async () => {
-    await Profile.collection.drop();
-    await Profile.db.close();
-  });
 
   it("should insert a profile", async (done: any) => {
     const mReq = ({

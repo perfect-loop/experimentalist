@@ -25,7 +25,7 @@
     "outDir": "./build",
     "experimentalDecorators": true
   },
-  "include": ["./src"],
+  "include": ["./src", "test/testHelper.ts"],
   "exclude": [
     "./node_modules",
     "./build"
