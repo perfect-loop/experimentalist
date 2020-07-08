@@ -54,7 +54,6 @@ export default class CompensationsController {
       email
     };
     res.status(200).json([resObj]);
-
   }
 
   public async adminCompensation(
@@ -148,7 +147,7 @@ export default class CompensationsController {
 
     const data = req.body;
     const emails: string[] = Object.keys(data);
-    const eventId: any = req.params.id; 
+    const eventId: any = req.params.id;
 
     const participation: IParticipation[] = await Participation.find({
       $and: [{ email: { $in: emails } }, { event: eventId }]
