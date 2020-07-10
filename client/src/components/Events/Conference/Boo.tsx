@@ -32,6 +32,17 @@ export default class Boo extends Component<IProps, {}> {
         const participant = this.props.participationsStore.state.models.find(a => a.role === "attendee");
         const host = this.props.participationsStore.state.models.find(a => a.role === "host");
         if (participant || host) {
+          if (host) {
+            return (
+              <VideoConference
+                hostParticition={host}
+                attendeeParticipation={participant}
+                user={this.props.user}
+                role={this.props.role}
+                eventId={this.props.eventId}
+              />
+            );
+          }
           if (participant && isLateToMeeting(participant)) {
             return <Redirect to={`/events/${this.props.eventId}/unavailable`} />;
           } else {
