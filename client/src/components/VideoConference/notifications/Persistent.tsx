@@ -12,14 +12,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const PersistenNotication = (props: { open: boolean; text: string; handleClose: () => void }) => {
-  // React.useEffect(() => {
-  //   setSnackOpen(props.open);
-  //   props.open = false;
-  // }, [props.open]);
-
-  // console.log(`PersistenNotication: snackOpen is ${snackOpen}`);
-  // console.log(`PersistenNotication: props.open is ${props.open}`);
-
   const classes = useStyles();
   return (
     <div className="broadcastNotifications">
@@ -27,6 +19,7 @@ const PersistenNotication = (props: { open: boolean; text: string; handleClose: 
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={props.open}
         key={"Persistent Notification"}
+        style={{ top: "45%" }}
       >
         <Alert
           severity="warning"

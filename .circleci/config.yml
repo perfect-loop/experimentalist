@@ -7,6 +7,10 @@ jobs:
       name: node/default
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - client-node-modules-{{ checksum "client/yarn.lock" }}
+            - server-node-modules-{{ checksum "server/yarn.lock" }}
       - node/with-cache:
           steps:
             - run: cd client && yarn install
@@ -14,6 +18,14 @@ jobs:
             - run: cd client && yarn test
             - run: cd server && yarn install
             - run: cd server && node_modules/eslint/bin/eslint.js src --ext .js,.jsx,.ts,.tsx
+      - save_cache:
+          key: client-node-modules-{{ checksum "client/yarn.lock" }}
+          paths:
+            - client/node_modules
+      - save_cache:
+          key: server-node-modules-{{ checksum "server/yarn.lock" }}
+          paths:
+            - server/node_modules
 workflows:
     build-and-test:
       jobs:
