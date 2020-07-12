@@ -6,7 +6,7 @@ Join before host: False
 Mute participants upon entry: True
 Chat: True
   Prevent participants from saving chat: True
-Private Chat: True
+Private Chat: False
 Screen sharing: True
   Who can share?: Host Only
 Annotation: False
