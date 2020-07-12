@@ -44,7 +44,7 @@ async function participationsWithoutEvent(user: any) {
   });
   // https://github.com/Automattic/mongoose/issues/2202
   return participations.sort((lhs: IParticipation, rhs: IParticipation) => {
-    return rhs.event.startAt.getTime() - lhs.event.startAt.getTime();
+    return rhs.event.createdAt.getTime() - lhs.event.createdAt.getTime();
   });
 }
 
