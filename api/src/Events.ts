@@ -44,6 +44,8 @@ export interface IEvent extends Document {
   endAt: string;
   active: boolean;
   state: "not_started" | "started" | "active" | "ended" | "locked";
+  createdAt: Date;
+  updatedAt: Date ;
 }
 
 export const Event = mongoose.model<IEvent>("events", EventSchema);

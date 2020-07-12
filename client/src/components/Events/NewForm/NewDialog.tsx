@@ -74,24 +74,6 @@ function NewDialog(props: {}) {
             </div>
             <div>
               <Field
-                name="startAt"
-                component={TextFieldAdapter}
-                type="datetime-local"
-                label="Start Time"
-                required={true}
-                className={classes.input}
-                defaultValue={moment().format("YYYY-MM-DDThh:mm")}
-                placeholder="Start Time"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  step: 300,
-                }}
-              />
-            </div>
-            <div>
-              <Field
                 name="instructions"
                 component={WysiwygFieldAdapter}
                 className={classes.wysiwyg}
