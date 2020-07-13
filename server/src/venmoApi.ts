@@ -122,7 +122,7 @@ export class VenmoApi {
       client_id: 1
     };
     return new Promise((resolve, reject) => {
-      this.post(resourcePath, {}, headers, params)
+      this.post(resourcePath, {}, headers)
         .then((response: AxiosResponse<any>) => {
           const { data } = response;
           logger.info("Access token is ", data.access_token);
@@ -263,7 +263,6 @@ export class VenmoApi {
     url: string,
     data: any,
     headers?: any,
-    params?: any
   ): Promise<R> {
     const hders = Object.assign({}, this.defaultHeaders, headers);
     logger.info("headers are", hders);

@@ -11,7 +11,6 @@ const TextFieldAdapter = ({ input, meta, ...rest }: { input: any; meta: FieldMet
       onChange={(event: SyntheticEvent) => {
         const target = event.target as HTMLTextAreaElement;
         const value = target.value;
-        console.log(`value is ${value}`);
         input.onChange(value);
       }}
       errorText={meta.touched ? meta.error : ""}

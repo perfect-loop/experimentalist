@@ -6,6 +6,7 @@ import { CSVReader } from "react-papaparse";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
 import CompensationsTable from "./CompensationTable";
+import VenmoLoginPopup from "./VenmoLogin";
 
 interface IProps {
   eventId: string;
@@ -61,6 +62,7 @@ class AdminCompensation extends Component<IProps, IState> {
     } else if (state === "ready") {
       return (
         <>
+          <VenmoLoginPopup />
           <CompensationsTable compensations={compensations} pay={this.pay} />
           <CSVReader
             onDrop={this.handleOnDrop}

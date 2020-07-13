@@ -194,3 +194,15 @@ https://www.mongodb.com/cloud/atlas
 ```
 DEBUG=enine,socket.io* yarn start
 ```
+
+## Server
+
+```
+yarn dev
+```
+
+Open in Chrome
+
+```
+chrome://inspect
+```
