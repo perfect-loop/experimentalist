@@ -205,7 +205,10 @@ export default class CompensationsController {
     const compensationId = req.params.id;
     const data = req.body;
     const { venmoId, amount, event } = data;
-    const venmoUsers: IVenmoUser[] = await venmoApi.userSearch(venmoId, access_token);
+    const venmoUsers: IVenmoUser[] = await venmoApi.userSearch(
+      venmoId,
+      access_token
+    );
     if (venmoUsers.length === 0) {
       res.json(404).send("Venmo User not found!");
       return;

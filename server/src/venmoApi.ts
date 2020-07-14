@@ -1,6 +1,5 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-import logger from "./shared/Logger";
-import StrategyInternal from "passport-auth0";
+import logger from "../src/shared/Logger";
 
 export type PaymentRole = "default" | "backup";
 
@@ -110,17 +109,23 @@ export class VenmoApi {
     });
   }
 
-  public mfaAuthenticate(otpSecret: string, otpCode: string): Promise<string> {
-    const resourcePath = `/oauth/access_token?client_id=1`;
+  public mfaAuthenticate(
+    otpSecret: string,
+    otpCode: string
+  ): Promise<string> {
+    const resourcePath = "/oauth/access_token";
     const headers = {
       "venmo-otp-secret": otpSecret,
       "venmo-otp": otpCode
     };
+    const params = {
+      client_id: 1
+    };
     return new Promise((resolve, reject) => {
-      this.post(resourcePath, {}, headers)
+      this.post(resourcePath, {}, headers, params)
         .then((response: AxiosResponse<any>) => {
           const { data } = response;
-          logger.info(`Access token is ${data.access_token}`);
+          logger.info("Access token is ", data.access_token);
           resolve(data.access_token);
         })
         .catch((error: AxiosError) => {
@@ -159,7 +164,7 @@ export class VenmoApi {
         })
         .catch((error: any) => {
           if (!error.response) {
-            logger.error("Unexpected response from venmo");
+            logger.error("Unexepcted reposnse from venmo");
             resolve(undefined);
           }
 
@@ -257,9 +262,11 @@ export class VenmoApi {
   private post<T, R = AxiosResponse<T>>(
     url: string,
     data: any,
-    headers?: any
+    headers?: any,
+    params?: any
   ): Promise<R> {
     const hders = Object.assign({}, this.defaultHeaders, headers);
+    logger.info("headers are", hders);
     data = JSON.stringify(data);
 
     const api = axios.create({
