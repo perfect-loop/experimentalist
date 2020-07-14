@@ -25,4 +25,8 @@ router.post("/compensations/:id/pay", secured(), async (req, res, next) => {
   new CompensationsController().pay(req, res, next);
 });
 
+router.post("/compensations/:id/pay", secured(), async (req, res, next) => {
+  new CompensationsController().pay(req, res, next);
+});
+
 export default router;
