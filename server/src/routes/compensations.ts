@@ -7,28 +7,22 @@ import { Event } from "api/Events";
 
 const router = express.Router();
 
-router.get(
-  "/compensations/:id.json",
-  secured(),
-  async (req: any, res, next) => {
-    new CompensationsController().userCompensation(req, res, next);
-  }
-);
+// refractor required. id refers to EventId (should be put in event routes)
+router.get("/compensations/:id.json", secured(), async (req, res, next) => {
+  new CompensationsController().userCompensation(req, res, next);
+});
 
-router.get(
-  "/my/compensations/:id.json",
-  secured(),
-  async (req: any, res, next) => {
-    new CompensationsController().adminCompensation(req, res, next);
-  }
-);
+router.get("/my/compensations/:id.json", secured(), async (req, res, next) => {
+  new CompensationsController().adminCompensation(req, res, next);
+});
 
-router.post(
-  "/compensation/:id.json",
-  secured(),
-  async (req: any, res, next) => {
-    new CompensationsController().createCompensation(req, res, next);
-  }
-);
+router.post("/compensations/:id.json", secured(), async (req, res, next) => {
+  new CompensationsController().createCompensation(req, res, next);
+});
+
+// id => compensationId
+router.post("/compensations/:id/pay", secured(), async (req, res, next) => {
+  new CompensationsController().pay(req, res, next);
+});
 
 export default router;

@@ -2,7 +2,9 @@ import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
 import { ICompensation } from "api/Compensations";
-import { IUserCompensation } from "../Index/AdminCompensations";
+import { IUserCompensation } from "api/Compensations";
+import { Api as API } from "api/Socket";
+import { ITransaction } from "api/Transactions";
 
 interface IUplodatedData extends Pick<ICompensation, "amount"> {
   email: string;
@@ -16,30 +18,17 @@ interface IProcessedData {
 export interface IRawUploadedData {
   data: [string, number];
 }
-interface IStateReady {
-  kind: "ready";
-  model: IUserCompensation[];
-}
-
-interface IStateNotReady {
-  kind: "not_ready";
-}
-interface IStateError {
-  kind: "error";
-  model: string | undefined;
-}
-
-type IState = IStateReady | IStateNotReady | IStateError;
 
 export default class CompensationsStore {
-  @observable public state: IState;
-  // @observable public compensations: IUserCompensation[];
+  @observable public state: "ready" | "not_ready" | "error";
+  @observable public compensations: IUserCompensation[];
+  @observable public error: string;
   private eventId: string;
 
   constructor(eventId: string) {
-    this.state = {
-      kind: "not_ready",
-    };
+    this.state = "not_ready";
+    this.compensations = [];
+    this.error = "";
     this.eventId = eventId;
   }
 
@@ -54,10 +43,8 @@ export default class CompensationsStore {
       });
 
     const client = new Api({});
-    const url = `/api/compensation/${eventId}.json`;
-    this.state = {
-      kind: "not_ready",
-    };
+    const url = `/api/compensations/${eventId}.json`;
+    this.state = "not_ready";
 
     client
       .post<IUplodatedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
@@ -66,10 +53,8 @@ export default class CompensationsStore {
       })
       .catch((error: AxiosError) => {
         console.error(error.response?.statusText);
-        this.state = {
-          kind: "error",
-          model: error.response?.data,
-        };
+        this.state = "error";
+        this.error = error.response?.data;
       });
   };
 
@@ -80,16 +65,12 @@ export default class CompensationsStore {
       .get<IUserCompensation[]>(`/api/my/compensations/${this.eventId}.json`)
       .then((response: AxiosResponse<IUserCompensation[]>) => {
         const { data } = response;
-        this.state = {
-          kind: "ready",
-          model: data,
-        };
+        this.compensations = data;
+        this.state = "ready";
       })
       .catch((error: AxiosError) => {
-        this.state = {
-          kind: "error",
-          model: error.response?.data,
-        };
+        this.state = "error";
+        this.error = error.response?.data;
         console.error(error.response?.statusText);
       });
   };
@@ -101,17 +82,38 @@ export default class CompensationsStore {
       .get<IUserCompensation[]>(`/api/compensations/${this.eventId}.json`)
       .then((response: AxiosResponse<IUserCompensation[]>) => {
         const { data } = response;
-        this.state = {
-          kind: "ready",
-          model: data,
-        };
+        this.compensations = data;
+        this.state = "ready";
       })
       .catch((error: AxiosError) => {
-        this.state = {
-          kind: "error",
-          model: error.response?.data,
-        };
+        this.state = "error";
+        this.error = error.response?.data;
         console.error(error.response?.statusText);
       });
+  };
+
+  @action
+  public pay = (data: any) => {
+    return new Promise((resolve, reject) => {
+      const client = new Api({});
+      client
+        .post(`/api/compensations/${data.compensationId}/pay`, data)
+        .then((response: AxiosResponse) => {
+          const { data } = response;
+          for (let i = 0; i < this.compensations.length; i++) {
+            const originalCompensation = this.compensations[i];
+            if (originalCompensation.compensation._id === data.compensation) {
+              this.compensations[i].transactions.push(data);
+            }
+          }
+
+          // resolve(data);
+        })
+        .catch((error: AxiosError) => {
+          this.state = "error";
+          this.error = error.response?.data || "Payment error";
+          // reject(data);
+        });
+    });
   };
 }

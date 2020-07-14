@@ -2,16 +2,15 @@ import { Request, Response, NextFunction } from "express";
 import { IParticipation, Participation } from "api/Participations";
 import { Profile, IProfile } from "api/Profiles";
 import { User } from "api/Users";
-import { ICompensation, Compensation } from "api/Compensations";
+import {
+  ICompensation,
+  Compensation,
+  IUserCompensation
+} from "api/Compensations";
+import { ITransaction, Transaction } from "api/Transactions";
 import { IEvent, Event } from "api/Events";
 import { Auth0User } from "types/auth0";
-import { Schema } from "mongoose";
-
-export interface IUserCompensation {
-  profile: IProfile;
-  compensation: ICompensation;
-  email: string;
-}
+import { VenmoApi, IVenmoUser } from "../venmoApi";
 
 export default class CompensationsController {
   public async userCompensation(
@@ -42,6 +41,10 @@ export default class CompensationsController {
       receiver
     });
 
+    const transactions: ITransaction[] = await Transaction.find({
+      compensation: compensation?.id
+    });
+
     const profile = await Profile.findOne({ userId: user._id });
 
     if (profile === null || compensation === null || email === null) {
@@ -51,7 +54,8 @@ export default class CompensationsController {
     const resObj: IUserCompensation = {
       profile,
       compensation,
-      email
+      email,
+      transactions
     };
     res.status(200).json([resObj]);
   }
@@ -91,7 +95,9 @@ export default class CompensationsController {
       return;
     }
 
-    const emailMap: { [identifier: string]: IUserCompensation } = {};
+    const emailMap: {
+      [identifier: string]: IUserCompensation;
+    } = {};
 
     const emails = allParticipations.map((p: IParticipation) => p.email);
     const ids = allParticipations.map((p: IParticipation) => p.id);
@@ -99,11 +105,25 @@ export default class CompensationsController {
       receiver: { $in: ids }
     }).populate("receiver");
 
+    const compensationIds = compensations.map(c => c.id);
+    const transactions = await Transaction.find({
+      compensation: { $in: compensationIds }
+    });
+
+    const transactionMap: { [i: string]: ITransaction[] } = {};
+    transactions.forEach(t => {
+      if (!(t.compensation in transactionMap)) {
+        transactionMap[t.compensation] = [];
+      }
+      transactionMap[t.compensation].push(t);
+    });
+
     compensations.forEach((compensation: any) => {
       const email: string = compensation.receiver.email;
       emailMap[email] = {} as IUserCompensation;
       emailMap[email].email = email;
       emailMap[email].compensation = compensation;
+      emailMap[email].transactions = transactionMap[compensation.id] || [];
     });
 
     const userId = (await User.find({ email: { $in: emails } })).map(
@@ -128,8 +148,6 @@ export default class CompensationsController {
     res: Response,
     next: NextFunction
   ) {
-    // req.body => {email: amount}
-    // const event: IEvent = await this.getEvent(req.params.id);
     const user: Auth0User | undefined = req.user;
     if (!user) {
       res.status(403).send("Unauthorized");
@@ -167,6 +185,53 @@ export default class CompensationsController {
     });
 
     res.json(compensation);
+  }
+
+  public async pay(req: Request, res: Response, next: NextFunction) {
+    const access_token = process.env.VENMO_ACCESS_TOKEN;
+    if (access_token === undefined) {
+      res.status(403).send("Invalid Venmo access token ");
+      return;
+    }
+
+    const venmoApi = new VenmoApi(access_token);
+    const user: Auth0User | undefined = req.user;
+
+    if (!user) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+
+    const compensationId = req.params.id;
+    const data = req.body;
+    const { venmoId, amount, event } = data;
+    const venmoUsers: IVenmoUser[] = await venmoApi.userSearch(venmoId);
+    if (venmoUsers.length === 0) {
+      res.json(404).send("Venmo User not found!");
+      return;
+    }
+    const title = (await Event.findById(event))?.title;
+    const note = `Payment for ${title} from ${user.email}`;
+    //Getting the first query result
+    const venmoUser = venmoUsers[0];
+    // choose default payment
+    venmoApi
+      .pay(venmoUser.id, amount, "default", note)
+      .then(transaction => {
+        const { id, date_completed } = transaction.payment;
+        const newTransaction = new Transaction({
+          transactionId: id,
+          date: date_completed,
+          method: "venmo",
+          compensation: compensationId
+        });
+        newTransaction.save();
+        res.status(200).json(newTransaction);
+      })
+      .catch(error => {
+        console.log(error.data);
+        res.status(404).json(error.data);
+      });
   }
 
   private async getEvent(id: string) {

@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
 
 export type PaymentRole = "default" | "backup";
 
-interface IVenmoUser {
+export interface IVenmoUser {
   username: string;
   profile_picture_url: string;
   id: string;
@@ -31,7 +31,7 @@ interface IPayment {
   actor: IVenmoUser;
 }
 
-interface IPaymentDetail {
+export interface IPaymentDetail {
   balance: string;
   payment: IPayment;
   redirect_url: string;

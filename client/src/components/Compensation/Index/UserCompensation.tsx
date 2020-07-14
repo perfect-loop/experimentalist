@@ -4,6 +4,7 @@ import CompensationsStore from "../storage/CompensationsStore";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
 import CompensationsTable from "./CompensationTable";
+import { ITransaction } from "api/Transactions";
 
 interface IProps {
   eventId: string;
@@ -25,20 +26,32 @@ class UserCompensation extends Component<IProps, IState> {
   }
 
   public render() {
-    if (this.state.compensationsStore.state.kind === "error") {
-      const { model } = this.state.compensationsStore.state;
+    const { state, compensations, error } = this.state.compensationsStore;
+    if (state === "error") {
       return (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          {model}
+          {error}
         </Alert>
       );
-    } else if (this.state.compensationsStore.state.kind === "ready") {
+    } else if (state === "ready") {
       return (
         <>
           <div>
             <h2>Compensation</h2>
-            <h3>Your Compensation ${this.state.compensationsStore.state.model[0].compensation.amount}</h3>
+            <h3>Your Compensation ${compensations[0].compensation.amount}</h3>
+          </div>
+          <div className="">
+            <h2>Transactions</h2>
+            {compensations[0].transactions.map((t: ITransaction) => {
+              return (
+                <>
+                  <h3>{t.date.split("T")[0]}</h3>
+                  <h3>{t._id}</h3>
+                  <h3>{t.method}</h3>
+                </>
+              );
+            })}
           </div>
         </>
       );

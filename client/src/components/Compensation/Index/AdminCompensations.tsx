@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import CompensationsStore, { IRawUploadedData } from "../storage/CompensationsStore";
-import { ICompensation } from "api/Compensations";
-import { IProfile } from "api/Profiles";
+import { IUserCompensation } from "api/Compensations";
 import { CSVReader } from "react-papaparse";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
@@ -16,12 +15,6 @@ interface IState {
   compensationsStore: CompensationsStore;
 }
 
-export interface IUserCompensation {
-  profile: IProfile;
-  compensation: ICompensation;
-  email: string;
-}
-
 @observer
 class AdminCompensation extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -33,6 +26,22 @@ class AdminCompensation extends Component<IProps, IState> {
     compensationsStore.getAdmin();
   }
 
+  private pay = (compensation: IUserCompensation) => {
+    // const data = {
+    //   venmoId: "ilya-katz",
+    //   amount: "0.1",
+    //   event: this.props.eventId,
+    //   compensationId: compensation.compensation._id
+    // }
+    const data = {
+      venmoId: compensation.profile.venmoId.split("/")[1],
+      amount: compensation.compensation.amount,
+      event: this.props.eventId,
+      compensationId: compensation.compensation._id,
+    };
+    this.state.compensationsStore.pay(data);
+  };
+
   private handleOnDrop = (data: IRawUploadedData[]) => {
     // remove header elements
     data.shift();
@@ -40,19 +49,19 @@ class AdminCompensation extends Component<IProps, IState> {
   };
 
   public render() {
-    const { state } = this.state.compensationsStore;
-    if (state.kind === "error") {
-      const { model } = state;
+    const { state, compensations } = this.state.compensationsStore;
+    if (state === "error") {
+      const { error } = this.state.compensationsStore;
       return (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          {model}
+          {error}
         </Alert>
       );
-    } else if (state.kind === "ready") {
+    } else if (state === "ready") {
       return (
         <>
-          <CompensationsTable compensations={state.model} />
+          <CompensationsTable compensations={compensations} pay={this.pay} />
           <CSVReader
             onDrop={this.handleOnDrop}
             style={{}}
