@@ -194,7 +194,7 @@ export default class CompensationsController {
       return;
     }
 
-    const venmoApi = new VenmoApi(access_token);
+    const venmoApi = new VenmoApi();
     const user: Auth0User | undefined = req.user;
 
     if (!user) {
@@ -205,7 +205,7 @@ export default class CompensationsController {
     const compensationId = req.params.id;
     const data = req.body;
     const { venmoId, amount, event } = data;
-    const venmoUsers: IVenmoUser[] = await venmoApi.userSearch(venmoId);
+    const venmoUsers: IVenmoUser[] = await venmoApi.userSearch(venmoId, access_token);
     if (venmoUsers.length === 0) {
       res.json(404).send("Venmo User not found!");
       return;
@@ -216,7 +216,7 @@ export default class CompensationsController {
     const venmoUser = venmoUsers[0];
     // choose default payment
     venmoApi
-      .pay(venmoUser.id, amount, "default", note)
+      .pay(access_token, venmoUser.id, amount, "default", note)
       .then(transaction => {
         const { id, date_completed } = transaction.payment;
         const newTransaction = new Transaction({

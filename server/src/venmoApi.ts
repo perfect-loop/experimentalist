@@ -1,4 +1,6 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
+import logger from "./shared/Logger";
+import StrategyInternal from "passport-auth0";
 
 export type PaymentRole = "default" | "backup";
 
@@ -45,31 +47,28 @@ export interface IPaymentDetail {
 // }
 
 export class VenmoApi {
-  authToken: string | null;
   configuration: any;
   defaultHeaders: any;
+  deviceId: string;
 
   /**
    * AuthToken is a long term token, we don't currently need a help function to generate it using venmo auth flow
    */
 
-  constructor(authToken: string) {
-    this.authToken = this.validateToken(authToken);
+  constructor() {
     this.configuration = { host: "https://api.venmo.com/v1" };
-    // this.deviceId = "";
+    this.deviceId = "";
     this.defaultHeaders = {
-      "User-Agent": "Venmo/7.44.0 (iPhone; iOS 13.0; Scale/2.0)"
+      "User-Agent": "Venmo/7.44.0 (iPhone; iOS 13.0; Scale/2.0)",
     };
-    if (this.authToken) {
-      this.defaultHeaders["Authorization"] = this.authToken;
-    }
   }
 
   /**
    * Returns a list of venmo users with basic info (name, profile image)
    */
-  public userSearch(query: string): Promise<IVenmoUser[]> {
+  public userSearch(query: string, authToken: string): Promise<IVenmoUser[]> {
     const url = `/users?query=${query}`;
+    this.defaultHeaders["Authorization"] = authToken;
     return new Promise((resolve, reject) => {
       this.get(url)
         .then((response: AxiosResponse) => {
@@ -83,18 +82,114 @@ export class VenmoApi {
   }
 
   /**
+   * Request 2FA code to be sent to the user
+   *
+   * @param token
+   */
+  public authenticate2Factor(authtoken: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const resourcePath = "/account/two-factor/token";
+      const body = {
+        via: "sms",
+        client_id: "1"
+      };
+      const headers = {
+        "venmo-otp-secret": authtoken,
+        "Content-Type": "application/json"
+      };
+
+      this.post(resourcePath, body, headers)
+        .then((response: AxiosResponse<any>) => {
+          resolve(true);
+        })
+        .catch((error: AxiosError) => {
+          logger.error("Unable to send 2FA request");
+          logger.error(error.message);
+          reject(false);
+        });
+    });
+  }
+
+  public mfaAuthenticate(otpSecret: string, otpCode: string): Promise<string> {
+    const resourcePath = `/oauth/access_token?client_id=1`;
+    const headers = {
+      "venmo-otp-secret": otpSecret,
+      "venmo-otp": otpCode
+    };
+    return new Promise((resolve, reject) => {
+      this.post(resourcePath, {}, headers)
+        .then((response: AxiosResponse<any>) => {
+          const { data } = response;
+          logger.info(`Access token is ${data.access_token}`);
+          resolve(data.access_token);
+        })
+        .catch((error: AxiosError) => {
+          logger.error("Unable to do mfaAuthenticate");
+          logger.error(`${JSON.stringify(error.response?.data)}`);
+          reject(undefined);
+        });
+    });
+  }
+  /**
+   *
+   * Take a note of your device id to avoid 2-Factor-Authentication for your next login
+   *
+   * @param username
+   * @param password
+   */
+  public login(
+    username: string,
+    password: string
+  ): Promise<string | undefined> {
+    const body = {
+      phone_email_or_username: username,
+      client_id: "1",
+      password: password
+    };
+    const resourcePath = "/oauth/access_token";
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    return new Promise((resolve, reject) => {
+      this.post(resourcePath, body, headers)
+        .then((response: AxiosResponse<any>) => {
+          logger.error("Didn't get anything useful from venmo");
+          logger.error(response);
+          reject(undefined);
+        })
+        .catch((error: any) => {
+          if (!error.response) {
+            logger.error("Unexpected response from venmo");
+            resolve(undefined);
+          }
+
+          const { data } = error.response;
+          if (data["error"]["code"] === 81109) {
+            logger.info("Need to get 2FA");
+            const headers = error.response.headers;
+            const venmoOtpSecret = headers["venmo-otp-secret"];
+            resolve(venmoOtpSecret);
+            return;
+          }
+        });
+    });
+  }
+
+  /**
    * Pay to the user
    * Should return an object containing at least the transaction id.
    * This will later be saved into database and shown on the compensation
    *
    */
   public async pay(
+    authToken: string,
     targetUserId: string,
     amount: number,
     chosenMethod: PaymentRole,
     note?: string,
     fundingSourceId?: string
   ): Promise<IPaymentDetail> {
+    this.defaultHeaders["Authorization"] = authToken;
     if (!fundingSourceId) {
       const paymentMethods: IPaymentMethod[] = await this.getPaymentMethods();
       // get default payment method
@@ -146,16 +241,6 @@ export class VenmoApi {
     });
   }
 
-  private validateToken(authToken: string) {
-    if (!authToken || authToken.length === 0) return null;
-
-    if (authToken.slice(0, 8) != "Bearer: ") {
-      return `Bearer: ${authToken}`;
-    }
-
-    return authToken;
-  }
-
   private get<T, R = AxiosResponse<T>>(
     url: string,
     config?: AxiosRequestConfig
@@ -172,16 +257,14 @@ export class VenmoApi {
   private post<T, R = AxiosResponse<T>>(
     url: string,
     data: any,
-    config?: AxiosRequestConfig
+    headers?: any
   ): Promise<R> {
-    const headers = Object.assign({}, this.defaultHeaders, {
-      "Content-Type": "application/json"
-    });
+    const hders = Object.assign({}, this.defaultHeaders, headers);
     data = JSON.stringify(data);
+
     const api = axios.create({
       baseURL: this.configuration.host,
-      headers: headers,
-      ...config
+      headers: hders,
     });
 
     return api.post(url, data);
