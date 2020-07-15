@@ -1,10 +1,7 @@
 import React from "react";
 import { Role } from "api/Zoom";
-import VideoConference from "../../VideoConference";
-import { Redirect } from "react-router-dom";
 import { useAuth0 } from "../../../util/react-auth0-spa";
 import ParticipantsStore from "../../VideoConference/store/ParticipantsStore";
-import { observer } from "mobx-react";
 import Boo from "./Boo";
 
 function Conference(props: { role: Role; eventId: string }) {

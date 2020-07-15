@@ -8,10 +8,6 @@ interface IProps {
 }
 
 export default class Unavailable extends Component<IProps, {}> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
   public render() {
     return (
       <div>

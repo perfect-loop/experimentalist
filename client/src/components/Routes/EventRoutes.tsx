@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, useLocation, Switch, useHistory } from "react-router-dom";
-import VideoConference from "../VideoConference";
 import PersistentDrawerLeft from "../PersistentDrawerLeft";
 import FirstPage from "../FirstPage";
 import { EventManagementRoutes } from "./EventManagementRoutes";

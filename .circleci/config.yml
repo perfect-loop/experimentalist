@@ -9,8 +9,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - client-node-modules-{{ checksum "client/yarn.lock" }}
             - server-node-modules-{{ checksum "server/yarn.lock" }}
+            # if cache for exact version is not present then load any most recent one
+            - server-node-modules-
+      - restore_cache:
+          keys:
+            - client-node-modules-{{ checksum "client/yarn.lock" }}
+            - client-node-modules-
       - node/with-cache:
           steps:
             - run: cd client && yarn install
