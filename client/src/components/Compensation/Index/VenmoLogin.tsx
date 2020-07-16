@@ -16,7 +16,7 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
 import VenmoLogin from "../../Venmo/Login";
-import classes from "*.module.css";
+import { useFeature } from "flagged";
 
 const useStyles = makeStyles({
   avatar: {
@@ -77,6 +77,7 @@ const MyDialog = withStyles((theme: Theme) => ({
 }))(Dialog);
 
 export default function VenmoLoginPopup({ defaultOpen = false }) {
+  const venmoLogin = useFeature("venmoLogin");
   const classes = useStyles();
   const [open, setOpen] = React.useState(defaultOpen);
   const onClose = () => {
@@ -86,6 +87,10 @@ export default function VenmoLoginPopup({ defaultOpen = false }) {
   const onClick = () => {
     setOpen(true);
   };
+
+  if (!venmoLogin) {
+    return <></>;
+  }
 
   return (
     <div>

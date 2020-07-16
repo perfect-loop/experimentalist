@@ -56,9 +56,10 @@ export class VenmoApi {
 
   constructor() {
     this.configuration = { host: "https://api.venmo.com/v1" };
-    this.deviceId = "";
+    this.deviceId = this.randomDeviceId();
     this.defaultHeaders = {
       "User-Agent": "Venmo/7.44.0 (iPhone; iOS 13.0; Scale/2.0)",
+      "device-id": this.deviceId
     };
   }
 
@@ -109,23 +110,17 @@ export class VenmoApi {
     });
   }
 
-  public mfaAuthenticate(
-    otpSecret: string,
-    otpCode: string
-  ): Promise<string> {
-    const resourcePath = "/oauth/access_token";
+  public mfaAuthenticate(otpSecret: string, otpCode: string): Promise<string> {
+    const resourcePath = `/oauth/access_token?client_id=1`;
     const headers = {
       "venmo-otp-secret": otpSecret,
       "venmo-otp": otpCode
-    };
-    const params = {
-      client_id: 1
     };
     return new Promise((resolve, reject) => {
       this.post(resourcePath, {}, headers)
         .then((response: AxiosResponse<any>) => {
           const { data } = response;
-          logger.info("Access token is ", data.access_token);
+          logger.info(`Access token is ${data.access_token}`);
           resolve(data.access_token);
         })
         .catch((error: AxiosError) => {
@@ -164,7 +159,7 @@ export class VenmoApi {
         })
         .catch((error: any) => {
           if (!error.response) {
-            logger.error("Unexepcted reposnse from venmo");
+            logger.error("Unexepcted response from venmo");
             resolve(undefined);
           }
 
@@ -262,7 +257,7 @@ export class VenmoApi {
   private post<T, R = AxiosResponse<T>>(
     url: string,
     data: any,
-    headers?: any,
+    headers?: any
   ): Promise<R> {
     const hders = Object.assign({}, this.defaultHeaders, headers);
     logger.info("headers are", hders);
@@ -270,9 +265,14 @@ export class VenmoApi {
 
     const api = axios.create({
       baseURL: this.configuration.host,
-      headers: hders,
+      headers: hders
     });
 
     return api.post(url, data);
+  }
+
+  private randomDeviceId(): string {
+    const BASE_DEVICE_ID = "88884261-05O3-8U81-58I1-2WA76F357GR9";
+    return BASE_DEVICE_ID;
   }
 }
