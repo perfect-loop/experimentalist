@@ -140,7 +140,6 @@ export default class CompensationsController {
     });
 
     const result: IUserCompensation[] = Object.values(emailMap);
-    console.log(result);
     res.status(200).json(result);
   }
 

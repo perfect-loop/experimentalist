@@ -106,7 +106,7 @@ export default class CompensationsStore {
               this.compensations[i].transactions.push(data);
             }
           }
-
+          
           // resolve(data);
         })
         .catch((error: AxiosError) => {
