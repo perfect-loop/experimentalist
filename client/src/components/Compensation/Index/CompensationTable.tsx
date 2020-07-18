@@ -10,7 +10,6 @@ import { IUserCompensation } from "api/Compensations";
 import PublishSharpIcon from "@material-ui/icons/PublishSharp";
 import { Button } from "@material-ui/core";
 
-
 const useStyles = makeStyles({
   table: {},
   container: {
