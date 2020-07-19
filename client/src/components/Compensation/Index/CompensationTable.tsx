@@ -10,6 +10,10 @@ import { IUserCompensation } from "api/Compensations";
 import PublishSharpIcon from "@material-ui/icons/PublishSharp";
 import { Button } from "@material-ui/core";
 
+import { IProfile } from "api/Profiles";
+import { ICompensation } from "api/Compensations";
+import VenmoLoginPopup from "./VenmoLogin";
+
 const useStyles = makeStyles({
   table: {},
   container: {

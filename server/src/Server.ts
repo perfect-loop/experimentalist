@@ -55,6 +55,7 @@ import passport from "./passport/setup";
 import auth from "./routes/auth";
 import user from "./routes/users";
 import profile from "./routes/profile";
+import venmo from "./routes/venmo";
 import events from "./routes/events";
 import attendance from "./routes/attendance";
 import participants from "./routes/participants";
@@ -80,6 +81,14 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+/************************************************************************************
+ *                              CORS
+ *  Needed for storybook
+ ***********************************************************************************/
+import cors from "cors";
+if (process.env.NODE_ENV == "development") {
+  app.use(cors());
+}
 /************************************************************************************
  *                              HTTPS
  ***********************************************************************************/
@@ -126,6 +135,7 @@ app.use("/api", participants);
 app.use("/api", healthcheck);
 app.use("/api", zoom);
 app.use("/api", profile);
+app.use("/api", venmo);
 if (process.env.NODE_ENV === "development") {
   app.use("/api", devRoutes);
 }

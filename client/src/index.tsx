@@ -8,6 +8,7 @@ import history from "./util/history";
 import { AUTH0_DOMAIN, AUTH0_CLIENT_ID } from "./util/config";
 import App from "./App";
 import * as Sentry from "@sentry/browser";
+import { FlagsProvider } from "flagged";
 
 // A function that routes the user to the right place
 // after login
@@ -27,7 +28,9 @@ ReactDOM.render(
     redirect_uri={window.location.origin}
     onRedirectCallback={onRedirectCallback}
   >
-    <App />
+    <FlagsProvider features={{ venmoLogin: true }}>
+      <App />
+    </FlagsProvider>
   </Auth0Provider>,
   document.getElementById("root"),
 );

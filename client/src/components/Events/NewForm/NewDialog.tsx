@@ -5,7 +5,6 @@ import { Form, Field } from "react-final-form";
 import EventStore from "../storage/EventStore";
 import { IEvent } from "api/Events";
 import { useHistory } from "react-router-dom";
-import moment from "moment";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import WysiwygFieldAdapter from "../../Forms/WysiwygFieldAdapter";
