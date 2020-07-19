@@ -68,14 +68,16 @@ export class VenmoApi {
    */
   public userSearch(query: string, authToken: string): Promise<IVenmoUser[]> {
     const url = `/users?query=${query}`;
-    this.defaultHeaders["Authorization"] = authToken;
+    this.defaultHeaders["Authorization"] = `Bearer: ${authToken}`;
     return new Promise((resolve, reject) => {
       this.get(url)
         .then((response: AxiosResponse) => {
           const { data } = response;
+          logger.info(`[userSearch] Found users ${JSON.stringify(data)}`);
           resolve(data.data);
         })
         .catch((error: AxiosError) => {
+          logger.error(`[userSearch] Error occurred ${error.message}`);
           reject(error);
         });
     });
@@ -120,11 +122,11 @@ export class VenmoApi {
       this.post(resourcePath, {}, headers)
         .then((response: AxiosResponse<any>) => {
           const { data } = response;
-          logger.info(`Access token is ${data.access_token}`);
+          logger.info(`[mfaAuthenticate] Access token is ${data.access_token}`);
           resolve(data.access_token);
         })
         .catch((error: AxiosError) => {
-          logger.error("Unable to do mfaAuthenticate");
+          logger.error("[mfaAuthenticate] Unable to do mfaAuthenticate");
           logger.error(`${JSON.stringify(error.response?.data)}`);
           reject(undefined);
         });
@@ -191,7 +193,9 @@ export class VenmoApi {
   ): Promise<IPaymentDetail> {
     this.defaultHeaders["Authorization"] = authToken;
     if (!fundingSourceId) {
-      const paymentMethods: IPaymentMethod[] = await this.getPaymentMethods();
+      const paymentMethods: IPaymentMethod[] = await this.getPaymentMethods(
+        authToken
+      );
       // get default payment method
       for (const method of paymentMethods) {
         if (method.peer_payment_role === chosenMethod) {
@@ -203,6 +207,7 @@ export class VenmoApi {
       }
     }
     const url = "/payments";
+    logger.info(`[pay] fundingSourceId is ${fundingSourceId}`);
 
     const data = {
       user_id: targetUserId,
@@ -213,26 +218,36 @@ export class VenmoApi {
     };
 
     return new Promise((resolve, reject) => {
-      this.post(url, data)
+      const headers = {
+        "Content-Type": "application/json"
+      };
+      this.post(url, data, headers)
         .then((response: AxiosResponse) => {
           const { data } = response;
           if ("error_code" in data.data) {
+            logger.warn(`[pay] Error code returned ${JSON.stringify(data)}`);
             reject(data.data);
           }
           resolve(data.data);
         })
         .catch((error: AxiosError) => {
+          logger.error(`[pay] Unable to pay: ${error.message}`);
+          logger.error(`[pay] data is ${JSON.stringify(error.response?.data)}`);
           reject(error.response);
         });
     });
   }
 
-  public getPaymentMethods(): Promise<IPaymentMethod[]> {
+  public getPaymentMethods(authToken: string): Promise<IPaymentMethod[]> {
     const url = "/payment-methods";
+    this.defaultHeaders["Authorization"] = `Bearer: ${authToken}`;
     return new Promise((resolve, reject) => {
       this.get(url)
         .then((response: AxiosResponse) => {
           const { data } = response;
+          logger.info(
+            `[getPaymentMethods] got results ${JSON.stringify(data)}`
+          );
           resolve(data.data);
         })
         .catch((error: AxiosError) => {
@@ -260,8 +275,9 @@ export class VenmoApi {
     headers?: any
   ): Promise<R> {
     const hders = Object.assign({}, this.defaultHeaders, headers);
-    logger.info("headers are", hders);
+    logger.info("[post]headers are", hders);
     data = JSON.stringify(data);
+    logger.info(`[post] data is ${data}`);
 
     const api = axios.create({
       baseURL: this.configuration.host,

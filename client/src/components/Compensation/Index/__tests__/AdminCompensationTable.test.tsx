@@ -23,10 +23,8 @@ describe("Compensation Table", () => {
         getAdmin: () => {
           // nothing here
         },
-        state: {
-          kind: "ready",
-          model: [],
-        },
+        state: "ready",
+        compensations: [],
       };
     });
   });

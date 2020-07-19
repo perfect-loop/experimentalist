@@ -11,6 +11,8 @@ import { ITransaction, Transaction } from "api/Transactions";
 import { IEvent, Event } from "api/Events";
 import { Auth0User } from "types/auth0";
 import { VenmoApi, IVenmoUser } from "../venmoApi";
+import logger from "../shared/Logger";
+import { AxiosError } from "axios";
 
 export default class CompensationsController {
   public async userCompensation(
@@ -188,7 +190,13 @@ export default class CompensationsController {
   }
 
   public async pay(req: Request, res: Response, next: NextFunction) {
-    const access_token = process.env.VENMO_ACCESS_TOKEN;
+    const session = req.session;
+    if (!session) {
+      res.status(403).send("Unable to find venmo info");
+      return;
+    }
+
+    const access_token = session.venmoAccessToken;
     if (access_token === undefined) {
       res.status(403).send("Invalid Venmo access token ");
       return;
@@ -217,6 +225,7 @@ export default class CompensationsController {
     const note = `Payment for ${title} from ${user.email}`;
     //Getting the first query result
     const venmoUser = venmoUsers[0];
+    logger.info(`Going to pay to ${JSON.stringify(venmoUser)}`);
     // choose default payment
     venmoApi
       .pay(access_token, venmoUser.id, amount, "default", note)
@@ -231,9 +240,9 @@ export default class CompensationsController {
         newTransaction.save();
         res.status(200).json(newTransaction);
       })
-      .catch(error => {
-        console.log(error.data);
-        res.status(404).json(error.data);
+      .catch((error: AxiosError) => {
+        console.log(error.message);
+        res.status(404).json(error.message);
       });
   }
 
