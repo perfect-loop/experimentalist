@@ -1,6 +1,8 @@
 import { Document } from "mongoose";
 import * as mongoose from "mongoose";
 import { IParticipation, ParticipationsSchema } from "./Participations";
+import { IProfile } from "./Profiles";
+import { ITransaction } from "./Transactions";
 
 const CompensationsSchema = new mongoose.Schema({
   amount: {
@@ -33,6 +35,13 @@ export interface ICompensation extends Document {
   status: string;
   sender: string;
   receiver: string;
+}
+
+export interface IUserCompensation {
+  profile: IProfile;
+  compensation: ICompensation;
+  email: string;
+  transactions: ITransaction[];
 }
 
 export const Compensation = mongoose.model<ICompensation>(
