@@ -1,5 +1,7 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-import logger from "../src/shared/Logger";
+
+// TODO: change to Logger but need to move API into src
+const logger = console;
 
 export type PaymentRole = "default" | "backup";
 
