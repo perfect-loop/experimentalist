@@ -78,7 +78,12 @@ export default function CompensationsTable(props: {
               <StyledTableCell align="center">{compensation.amount}</StyledTableCell>
               <StyledTableCell align="center"> {profile ? profile.venmoId : "N/A"} </StyledTableCell>
               <StyledTableCell align="center">
-                <Button data-idx={idx} color="primary" disabled={compensation.amount == 0} onClick={handleClick}>
+                <Button
+                  data-idx={idx}
+                  color="primary"
+                  disabled={compensation.amount === 0 || compensation.status === "Paid"}
+                  onClick={handleClick}
+                >
                   <PublishSharpIcon />
                 </Button>
               </StyledTableCell>

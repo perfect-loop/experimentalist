@@ -24,7 +24,7 @@ export default class CompensationsController {
     const email: string = user?.email;
     if (user === undefined) return;
 
-    const event = await this.getEvent(req.params.id);
+    const event = await this.getEvent(req.params.eventId);
     if (event === null) {
       res.status(404).send("Event not found");
     }
@@ -73,7 +73,7 @@ export default class CompensationsController {
       return;
     }
 
-    const eventId: any = req.params.id;
+    const eventId: any = req.params.eventId;
     if (eventId === null) {
       res.status(404).send("Event not found");
     }
@@ -156,7 +156,7 @@ export default class CompensationsController {
       return;
     }
     const senderParticipation = await this.getAdminParticipation(
-      req.params.id,
+      req.params.eventId,
       user
     );
 
@@ -167,7 +167,7 @@ export default class CompensationsController {
 
     const data = req.body;
     const emails: string[] = Object.keys(data);
-    const eventId: any = req.params.id;
+    const eventId: any = req.params.eventId;
 
     const participation: IParticipation[] = await Participation.find({
       $and: [{ email: { $in: emails } }, { event: eventId }]
@@ -218,7 +218,7 @@ export default class CompensationsController {
       access_token
     );
     if (venmoUsers.length === 0) {
-      res.json(404).send("Venmo User not found!");
+      res.status(404).send("Venmo User not found!");
       return;
     }
     const title = (await Event.findById(event))?.title;
@@ -229,7 +229,7 @@ export default class CompensationsController {
     // choose default payment
     venmoApi
       .pay(access_token, venmoUser.id, amount, "default", note)
-      .then(transaction => {
+      .then(async transaction => {
         const { id, date_completed } = transaction.payment;
         const newTransaction = new Transaction({
           transactionId: id,
@@ -237,12 +237,19 @@ export default class CompensationsController {
           method: "venmo",
           compensation: compensationId
         });
-        newTransaction.save();
+        const compensation = await Compensation.findById(compensationId);
+        if (compensation === null) {
+          res.status(422).send("Unable to update compensation");
+          return;
+        }
+        compensation.status = "Paid";
+        await compensation.save();
+        await newTransaction.save();
         res.status(200).json(newTransaction);
       })
-      .catch((error: AxiosError) => {
-        console.log(error.message);
-        res.status(404).json(error.message);
+      .catch(({ error }) => {
+        const errorMessage = error ? error.message : "Payment Error";
+        res.status(404).send(errorMessage);
       });
   }
 

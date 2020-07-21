@@ -235,7 +235,7 @@ export class VenmoApi {
         .catch((error: AxiosError) => {
           logger.error(`[pay] Unable to pay: ${error.message}`);
           logger.error(`[pay] data is ${JSON.stringify(error.response?.data)}`);
-          reject(error.response);
+          reject(error.response?.data);
         });
     });
   }

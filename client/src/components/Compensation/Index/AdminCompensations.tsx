@@ -7,6 +7,7 @@ import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
 import CompensationsTable from "./CompensationTable";
 import VenmoLoginPopup from "./VenmoLogin";
+import { CircularProgress } from "@material-ui/core";
 
 interface IProps {
   eventId: string;
@@ -28,14 +29,8 @@ class AdminCompensation extends Component<IProps, IState> {
   }
 
   private pay = (compensation: IUserCompensation) => {
-    // const data = {
-    //   venmoId: "ilya-katz",
-    //   amount: "0.1",
-    //   event: this.props.eventId,
-    //   compensationId: compensation.compensation._id
-    // }
     const data = {
-      venmoId: compensation.profile.venmoId.split("/")[1],
+      venmoId: compensation.profile.venmoId.split(/www.venmo.com\//)[1],
       amount: compensation.compensation.amount,
       event: this.props.eventId,
       compensationId: compensation.compensation._id,
@@ -78,8 +73,10 @@ class AdminCompensation extends Component<IProps, IState> {
           </CSVReader>
         </>
       );
+    } else if (state === "paying") {
+      return <CircularProgress />;
     } else {
-      return <>Loading</>;
+      return <CircularProgress />;
     }
   }
 }
