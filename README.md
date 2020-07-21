@@ -1,5 +1,6 @@
 ## Install
 
+- Install Mongodb (https://docs.mongodb.com/manual/administration/install-community/)
 - Install nvm (https://github.com/nvm-sh/nvm)
 - Download correct version of node
 

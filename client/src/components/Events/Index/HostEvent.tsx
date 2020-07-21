@@ -7,6 +7,7 @@ import { IParticipation } from "api/Participations";
 import { StyledTableRow } from "./StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
+import EventStatus from "./EventStatus";
 
 export default function HostEvent(props: { participation: IParticipation; classes: Record<"table", string> }) {
   return (
@@ -16,6 +17,9 @@ export default function HostEvent(props: { participation: IParticipation; classe
         <Link to={`/events/${props.participation.event._id}`}>
           <PlayCircleFilledWhiteIcon />
         </Link>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <EventStatus event={props.participation.event} />
       </StyledTableCell>
       <StyledTableCell align="right">
         <Link to={`/events/${props.participation.event._id}/participants`}>

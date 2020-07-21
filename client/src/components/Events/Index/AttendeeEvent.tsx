@@ -4,6 +4,7 @@ import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite"
 import { IParticipation } from "api/Participations";
 import { StyledTableRow } from "./StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
+import EventStatus from "./EventStatus";
 
 export default function AttendeeEvent(props: { participation: IParticipation; classes: Record<"table", string> }) {
   return (
@@ -15,6 +16,9 @@ export default function AttendeeEvent(props: { participation: IParticipation; cl
         <Link to={`/events/${props.participation.event._id}/conference`}>
           <PlayCircleFilledWhiteIcon />
         </Link>
+      </StyledTableCell>
+      <StyledTableCell align="center">
+        <EventStatus event={props.participation.event} />
       </StyledTableCell>
     </StyledTableRow>
   );
