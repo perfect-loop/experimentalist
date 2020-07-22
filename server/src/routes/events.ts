@@ -3,11 +3,7 @@ import secured from "../lib/middleware/secured";
 import { IEvent, Event } from "api/Events";
 import { Participation, IParticipation } from "api/Participations";
 import { Auth0User } from "types/auth0";
-// @ts-ignore
-import randomWords from "random-words";
 import EventsController from "../controllers/EventsController";
-import { ICompensation, Compensation } from "api/Compensations";
-import { User } from "api/Users";
 
 const router = express.Router();
 
@@ -73,58 +69,7 @@ router.post(
   "/events/:id/participants.json",
   secured(),
   async (req, res, next) => {
-    const id = req.params.id;
-    const data = req.body as IParticipation[];
-
-    const event = (await Event.findById(id)) as IEvent;
-
-    const user: Auth0User | undefined = req.user;
-
-    if (!user) {
-      res.status(403).send("Unauthorized");
-      return;
-    }
-
-    const hostParticipation: IParticipation | null = await Participation.findOne(
-      { $and: [{ email: user.email }, { event: event.id }] }
-    );
-
-    if (hostParticipation === null) {
-      res.status(404).send("Participation not found!");
-      return;
-    }
-
-    const DEFAULT_COMPENSATION = 0;
-
-    const toInsert = data.map(d => {
-      d.event = event;
-      const name = randomWords({
-        exactly: 1,
-        wordsPerString: 2,
-        separator: " "
-      }).join("");
-      // console.log(name);
-      d.anonymousName = name;
-      return d;
-    });
-    console.log(`will insert ${JSON.stringify(toInsert)}`);
-
-    // Get all the inserted participation
-    const participation: IParticipation[] = await Participation.insertMany(
-      data
-    );
-
-    // create compensation documents based on newly inserted participations
-    const insertCompensations = participation.map((p: any) => ({
-      amount: DEFAULT_COMPENSATION,
-      receiver: p.id
-    }));
-
-    await Compensation.insertMany(insertCompensations);
-
-    console.log("Returning");
-
-    res.json([hostParticipation].concat(participation));
+    new EventsController().uploadParticipants(req, res, next);
   }
 );
 

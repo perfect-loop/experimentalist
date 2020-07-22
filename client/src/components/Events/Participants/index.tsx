@@ -7,6 +7,7 @@ import ParticipantsStore, { IRawUploadedData } from "../storage/ParticipantsStor
 import { CSVReader } from "react-papaparse";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
+import { Example } from "./Example";
 
 interface IState {
   participantsStore: ParticipantsStore;
@@ -43,7 +44,7 @@ export default class Index extends Component<IProps, IState> {
         {this.state.participantsStore.state === "error" && (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
-            Unable to upload participants. Please make sure there are no duplicate entries
+            Unable to upload participants. Please contact support
           </Alert>
         )}
         <AllParticipants participantsStore={this.state.participantsStore} eventStore={this.state.eventStore} />
@@ -59,6 +60,7 @@ export default class Index extends Component<IProps, IState> {
         >
           <span>Drop CSV file here or click to upload.</span>
         </CSVReader>
+        <Example />
       </>
     );
   }

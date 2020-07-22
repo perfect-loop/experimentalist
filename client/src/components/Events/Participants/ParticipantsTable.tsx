@@ -5,9 +5,10 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
+import { makeStyles, withStyles, Theme, createStyles, Badge, Tooltip } from "@material-ui/core";
 import { IParticipation } from "api/Participations";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import PeopleIcon from "@material-ui/icons/People";
 
 const useStyles = makeStyles({
   table: {},
@@ -42,29 +43,36 @@ export default function ParticipantsTable(props: { participants: IParticipation[
   const classes = useStyles();
 
   return (
-    <TableContainer className={classes.container}>
-      <Table className={classes.table} stickyHeader>
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center"> Email </StyledTableCell>
-            <StyledTableCell align="center"> Role </StyledTableCell>
-            <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
-            <StyledTableCell align="center"> Attended </StyledTableCell>
-            <StyledTableCell align="center"> Instructions </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.participants.map((participant: IParticipation) => (
-            <StyledTableRow key={participant._id}>
-              <StyledTableCell align="center"> {participant.email} </StyledTableCell>
-              <StyledTableCell align="center"> {participant.role} </StyledTableCell>
-              <StyledTableCell align="center"> {participant.anonymousName} </StyledTableCell>
-              <StyledTableCell align="center">{!!participant.attendedAt && <CheckCircleIcon />}</StyledTableCell>
-              <StyledTableCell align="center"> {participant.instructions} </StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <Tooltip title={`There are ${props.participants.length} participants in this event (including hosts)`}>
+        <Badge badgeContent={props.participants.length} color="primary">
+          <PeopleIcon />
+        </Badge>
+      </Tooltip>
+      <TableContainer className={classes.container}>
+        <Table className={classes.table} stickyHeader>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center"> Email </StyledTableCell>
+              <StyledTableCell align="center"> Role </StyledTableCell>
+              <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
+              <StyledTableCell align="center"> Attended </StyledTableCell>
+              <StyledTableCell align="center"> Instructions </StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.participants.map((participant: IParticipation) => (
+              <StyledTableRow key={participant._id}>
+                <StyledTableCell align="center"> {participant.email} </StyledTableCell>
+                <StyledTableCell align="center"> {participant.role} </StyledTableCell>
+                <StyledTableCell align="center"> {participant.anonymousName} </StyledTableCell>
+                <StyledTableCell align="center">{!!participant.attendedAt && <CheckCircleIcon />}</StyledTableCell>
+                <StyledTableCell align="center"> {participant.instructions} </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
