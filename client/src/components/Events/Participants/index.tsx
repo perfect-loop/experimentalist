@@ -43,7 +43,7 @@ export default class Index extends Component<IProps, IState> {
         {this.state.participantsStore.state === "error" && (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
-            Unable to upload participants. Please make sure there are no duplicate entries
+            Unable to upload participants. Please contact support
           </Alert>
         )}
         <AllParticipants participantsStore={this.state.participantsStore} eventStore={this.state.eventStore} />

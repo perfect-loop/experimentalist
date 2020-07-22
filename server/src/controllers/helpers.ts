@@ -1,6 +1,6 @@
 import { Auth0User } from "types/auth0";
 import { IEvent } from "api/Events";
-import { Participation } from "api/Participations";
+import { Participation, IParticipation } from "api/Participations";
 
 export async function isHost(user: Auth0User, event: IEvent) {
   const params = {

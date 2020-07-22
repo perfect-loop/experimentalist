@@ -74,11 +74,11 @@
   },
   "scripts": {
     "start": "nodemon --exec \"ts-node\" ./src/index.ts",
-    "dev": "nodemon --exec \"node --inspect -r ts-node/register ./src/index.ts\"",
+    "dev": "nodemon --exec \"node --inspect -r ts-node/register ./src/index.ts\" -e ts,json",
     "start-prod": "pm2 start ./build/index.js start-prod --no-daemon -f",
     "stop-prod": "pm2 stop",
     "build": "rimraf -fR && tsc && cp -r src/views build",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "engines": {
     "node": ">= 14"
