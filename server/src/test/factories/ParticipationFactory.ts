@@ -3,7 +3,7 @@ import { EventFactory } from "./EventFactory";
 import { IParticipation, Participation } from "api/Participations";
 
 interface ParticipationFactory {
-  Attendee: () => IParticipation;
+  Attendee: (params: any) => IParticipation;
 }
 export const ParticipationFactory: ParticipationFactory = {
   Attendee: (params = {}): IParticipation => {

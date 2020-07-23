@@ -23,6 +23,7 @@ jobs:
             - run: cd client && yarn test
             - run: cd server && yarn install
             - run: cd server && node_modules/eslint/bin/eslint.js src --ext .js,.jsx,.ts,.tsx
+            - run: cd server && ./node_modules/.bin/tsc
             # - run: cd server && ./node_modules/.bin/jest
       - save_cache:
           key: client-node-modules-{{ checksum "client/yarn.lock" }}
