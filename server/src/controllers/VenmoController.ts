@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import logger from "../shared/Logger";
 import { VenmoApi } from "../venmoApi";
+import { Venmo } from "models/Venmo";
 import { Auth0User } from "types/auth0";
 import Api from "models/Venmo";
 import { session } from "passport";
@@ -140,6 +141,28 @@ export default class VenmoController {
       })
       .catch(() => {
         res.status(500).send("unable to get token");
+      });
+  }
+
+  public search(req: Request, res: Response, next: NextFunction) {
+    const userId = req.body.userId;
+    logger.info("Searching Venmo user", userId);
+
+    const api = new VenmoApi();
+    const accessToken = process.env.VENMO_ACCESS_TOKEN;
+
+    if (accessToken === undefined) {
+      res.status(500).send("Token is undefined");
+      return;
+    }
+    api
+      .userSearch(userId, accessToken)
+      .then((result: Venmo.IVenmoUser[]) => {
+        res.json(result[0]);
+      })
+      .catch(error => {
+        res.status(500).json(error);
+        // res.status(500).send("unable to find user");
       });
   }
 }

@@ -7,6 +7,7 @@ export const ProfileFactory = define<IProfile>({
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
   venmoId: "1234",
+  venmoHandle: "CherryLam",
   studentId: "1234",
   phone: "91233432",
   street: faker.address.streetAddress(),

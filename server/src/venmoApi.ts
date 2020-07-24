@@ -1,10 +1,7 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
 import Api from "models/Venmo";
-import Axios from "axios";
-import { OnUnhandledRejection } from "@sentry/node/dist/integrations";
-
-// TODO: change to Logger but need to move API into src
-const logger = console;
+import { Venmo } from "models/Venmo";
+import logger from "./shared/Logger";
 
 interface IVenmoAccountInfo {
   username: string;
@@ -16,16 +13,6 @@ export interface IVenmoAccount {
   balance: string;
 }
 
-export interface IVenmoUser {
-  username: string;
-  profile_picture_url: string;
-  id: string;
-  date_joined: string;
-  about: string;
-  display_name: string;
-  email: string;
-}
-
 interface IPayment {
   status: string;
   id: string;
@@ -33,7 +20,7 @@ interface IPayment {
   note?: string;
   amount: number;
   target: any;
-  actor: IVenmoUser;
+  actor: Venmo.IVenmoUser;
 }
 
 export interface IPaymentDetail {
@@ -70,7 +57,10 @@ export class VenmoApi {
   /**
    * Returns a list of venmo users with basic info (name, profile image)
    */
-  public userSearch(query: string, authToken: string): Promise<IVenmoUser[]> {
+  public userSearch(
+    query: string,
+    authToken: string
+  ): Promise<Venmo.IVenmoUser[]> {
     const url = `/users?query=${query}`;
     this.defaultHeaders["Authorization"] = `Bearer: ${authToken}`;
     return new Promise((resolve, reject) => {

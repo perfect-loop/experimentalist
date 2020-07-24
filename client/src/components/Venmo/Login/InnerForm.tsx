@@ -6,8 +6,8 @@ import { observer } from "mobx-react";
 import MFAForm from "./MFAForm";
 import LoginCard from "./LoginCard";
 import { Success } from "./Success";
-import { Error } from "./Error";
 import Methods from "./Mehods";
+import { Error } from "../Error";
 
 const InnerForm = (props: { storage: VenmoStorage }): JSX.Element => {
   switch (props.storage.state.kind) {

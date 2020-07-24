@@ -62,7 +62,6 @@ function ShowProfile(props: IProps) {
                       type="text"
                       label="First Name"
                       defaultValue={profile.firstName}
-                      // required={true}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -88,16 +87,16 @@ function ShowProfile(props: IProps) {
                   </div>
                   <div>
                     <Field
-                      name="venmoId"
+                      name="venmoHandle"
                       component={TextFieldAdapter}
                       type="text"
-                      label="Venmo Id"
-                      defaultValue={profile.venmoId}
+                      label="Venmo Handle"
+                      defaultValue={profile.venmoHandle}
                       // required={true}
                       InputProps={{
                         readOnly: true,
                       }}
-                      placeholder="Venmo Id"
+                      placeholder="Venmo Handle"
                     />
                   </div>
                 </form>

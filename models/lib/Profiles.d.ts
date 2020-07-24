@@ -6,6 +6,7 @@ export interface IProfile extends Document {
     firstName: string;
     lastName: string;
     venmoId: string;
+    venmoHandle: string;
     studentId: string;
     phone: string;
     street: string;

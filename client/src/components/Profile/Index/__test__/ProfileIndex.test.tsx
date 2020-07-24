@@ -28,6 +28,7 @@ test("Redirect to create new profile", () => {
     state: "CA",
     zip: 94110,
     venmoId: "1234",
+    venmoHandle: "CherryLam",
     studentId: 12343124,
     userId: "5eec18e8ece613509513f80a",
     createdAt: "2020-06-29T05:21:11.549Z",

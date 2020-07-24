@@ -33,7 +33,13 @@ function IntroductionView(props: { participant: IParticipation; eventSettingsSto
             </DialogTitleWithClose>
             <DialogContent dividers>
               {settings.introVideo && (
-                <iframe src={settings.introVideo} width="480" height="270" allow="autoplay"></iframe>
+                <iframe
+                  src={settings.introVideo}
+                  title="Introductory Video"
+                  width="480"
+                  height="270"
+                  allow="autoplay"
+                ></iframe>
               )}
             </DialogContent>
             <DialogActions>

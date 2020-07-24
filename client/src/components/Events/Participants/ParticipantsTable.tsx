@@ -71,7 +71,7 @@ export default function ParticipantsTable(props: { participants: IParticipationP
                 <StyledTableCell align="center"> {participant.email} </StyledTableCell>
                 <StyledTableCell>
                   {participant.verificationImageUrl && (
-                    <a href={participant.verificationImageUrl} target="_blank">
+                    <a href={participant.verificationImageUrl} target="_blank" rel="noopener noreferrer">
                       <PhotoCameraIcon></PhotoCameraIcon>
                     </a>
                   )}
