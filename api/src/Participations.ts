@@ -1,5 +1,5 @@
 import { Document } from "mongoose";
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
 import { IEvent, EventSchema } from "./Events";
 import { IUserSchema, UserSchema } from "./Users";
 
@@ -10,28 +10,33 @@ export const ParticipationsSchema = new mongoose.Schema(
     },
     event: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "events"
+      ref: "events",
     },
     role: {
       type: String,
       enum: ["attendee", "host"],
-      default: "attendee"
+      default: "attendee",
     },
     anonymousName: {
-      type: String
+      type: String,
     },
     instructions: {
-      type: String
+      type: String,
     },
     attendedAt: {
-      type: Date
-    }
+      type: Date,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
-ParticipationsSchema.index({ "email": 1, "event": 1, role: 1 }, { unique: true });
+ParticipationsSchema.index({ email: 1, event: 1, role: 1 }, { unique: true });
+ParticipationsSchema.pre("save", function (next: any) {
+  // @ts-ignore
+  this.anonymousName = Math.trunc(Math.random() * 1000000).toString();
+  next();
+});
 
 export interface IParticipation extends Document {
   _id: string;
@@ -43,4 +48,7 @@ export interface IParticipation extends Document {
   attendedAt?: Date;
 }
 
-export const Participation = mongoose.model<IParticipation>("participation", ParticipationsSchema);
+export const Participation = mongoose.model<IParticipation>(
+  "participation",
+  ParticipationsSchema
+);
