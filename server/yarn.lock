@@ -5858,13 +5858,6 @@ random-bytes@~1.0.0:
   resolved "https://registry.yarnpkg.com/random-bytes/-/random-bytes-1.0.0.tgz#4f68a1dc0ae58bd3fb95848c30324db75d64360b"
   integrity sha1-T2ih3Arli9P7lYSMMDJNt11kNgs=
 
-random-words@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/random-words/-/random-words-1.1.1.tgz#62e34be74c7cd5e5f78b537875d30e2eab258ecc"
-  integrity sha512-Rdk5EoQePyt9Tz3RjeMELi2BSaCI+jDiOkBr4U+3fyBRiiW3qqEuaegGAUMOZ4yGWlQscFQGqQpdic3mAbNkrw==
-  dependencies:
-    mocha "^7.1.1"
-
 range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"

@@ -28,7 +28,6 @@
     "passport-auth0": "^1.3.2",
     "pm2": "^4.4.0",
     "pug": "^3.0.0",
-    "random-words": "^1.1.1",
     "rotating-file-stream": "^1.4.1",
     "socket.io": "^2.3.0",
     "winston": "^3.2.1"

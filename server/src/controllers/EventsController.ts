@@ -8,8 +8,6 @@ import { IParticipation, Participation } from "api/Participations";
 import { Auth0User } from "types/auth0";
 import BulkWriteError from "types/mongodb";
 import { Compensation } from "api/Compensations";
-// @ts-ignore
-import randomWords from "random-words";
 
 export default class EventsController {
   public async activate(req: Request, res: Response, next: NextFunction) {
@@ -100,13 +98,7 @@ export default class EventsController {
 
     const toInsert = data.map(d => {
       d.event = event;
-      const name = randomWords({
-        exactly: 1,
-        wordsPerString: 2,
-        separator: " "
-      }).join("");
-      // console.log(name);
-      d.anonymousName = name;
+      d.anonymousName = Math.trunc(Math.random() * 1000000).toString();
       return d;
     });
     logger.info(`will insert ${JSON.stringify(toInsert)}`);

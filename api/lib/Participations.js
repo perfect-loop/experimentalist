@@ -8,24 +8,29 @@ exports.ParticipationsSchema = new mongoose.Schema({
     },
     event: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "events"
+        ref: "events",
     },
     role: {
         type: String,
         enum: ["attendee", "host"],
-        default: "attendee"
+        default: "attendee",
     },
     anonymousName: {
-        type: String
+        type: String,
     },
     instructions: {
-        type: String
+        type: String,
     },
     attendedAt: {
-        type: Date
-    }
+        type: Date,
+    },
 }, {
-    timestamps: true
+    timestamps: true,
 });
-exports.ParticipationsSchema.index({ "email": 1, "event": 1, role: 1 }, { unique: true });
+exports.ParticipationsSchema.index({ email: 1, event: 1, role: 1 }, { unique: true });
+exports.ParticipationsSchema.pre("save", function (next) {
+    // @ts-ignore
+    this.anonymousName = Math.trunc(Math.random() * 1000000).toString();
+    next();
+});
 exports.Participation = mongoose.model("participation", exports.ParticipationsSchema);
