@@ -113,36 +113,6 @@ function NewProfile(props: {}) {
                 placeholder="Phone"
               />
             </div>
-            <div>
-              <Field
-                name="street"
-                component={TextFieldAdapter}
-                type="text"
-                label="Street"
-                required={true}
-                placeholder="Street"
-              />
-            </div>
-            <div>
-              <Field
-                name="state"
-                component={TextFieldAdapter}
-                type="text"
-                label="State"
-                required={true}
-                placeholder="State"
-              />
-            </div>
-            <div>
-              <Field
-                name="zip"
-                component={TextFieldAdapter}
-                type="text"
-                label="Zip"
-                required={true}
-                placeholder="Zip"
-              />
-            </div>
             <div className="buttons">
               <Button variant="contained" disabled={submitting} type="submit" color="primary">
                 Create
