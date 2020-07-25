@@ -120,49 +120,6 @@ function ShowProfile(props: IProps) {
                       placeholder="Phone"
                     />
                   </div>
-                  <div>
-                    <Field
-                      name="street"
-                      component={TextFieldAdapter}
-                      type="text"
-                      label="Street"
-                      defaultValue={profile.street}
-                      // required={true}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      placeholder="Street"
-                    />
-                  </div>
-                  <div>
-                    <Field
-                      name="state"
-                      component={TextFieldAdapter}
-                      type="text"
-                      label="State"
-                      defaultValue={profile.state}
-                      // required={true}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      placeholder="State"
-                    />
-                  </div>
-                  <div>
-                    <Field
-                      name="zip"
-                      component={TextFieldAdapter}
-                      type="text"
-                      label="Zip"
-                      // required={true}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      defaultValue={profile.zip}
-                      // disabled={true}
-                      placeholder="Zip"
-                    />
-                  </div>
                 </form>
               )}
             />
