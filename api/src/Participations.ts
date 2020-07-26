@@ -26,17 +26,23 @@ export const ParticipationsSchema = new mongoose.Schema(
     attendedAt: {
       type: Date,
     },
+    verificationImageUrl: {
+      type: String,
+    },
   },
   {
     timestamps: true,
   }
 );
 ParticipationsSchema.index({ email: 1, event: 1, role: 1 }, { unique: true });
-ParticipationsSchema.pre("save", function (next: any) {
-  // @ts-ignore
-  this.anonymousName = Math.trunc(Math.random() * 1000000).toString();
-  next();
-});
+// ParticipationsSchema.pre("save", function (next: any) {
+//   // @ts-ignore
+//   this.anonymousName = Math.trunc(Math.random() * 1000000).toString();
+//   next();
+// });
+ParticipationsSchema.path("verificationImageUrl").validate((value: string)  => {
+  return (value.match(/https?:\/\/.*/));
+}, "Image must be valid url");
 
 export interface IParticipation extends Document {
   _id: string;
@@ -46,6 +52,7 @@ export interface IParticipation extends Document {
   anonymousName: string;
   instructions: string;
   attendedAt?: Date;
+  verificationImageUrl?: string;
 }
 
 export const Participation = mongoose.model<IParticipation>(

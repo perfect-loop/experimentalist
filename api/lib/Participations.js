@@ -24,13 +24,19 @@ exports.ParticipationsSchema = new mongoose.Schema({
     attendedAt: {
         type: Date,
     },
+    verificationImageUrl: {
+        type: String,
+    },
 }, {
     timestamps: true,
 });
 exports.ParticipationsSchema.index({ email: 1, event: 1, role: 1 }, { unique: true });
-exports.ParticipationsSchema.pre("save", function (next) {
-    // @ts-ignore
-    this.anonymousName = Math.trunc(Math.random() * 1000000).toString();
-    next();
-});
+// ParticipationsSchema.pre("save", function (next: any) {
+//   // @ts-ignore
+//   this.anonymousName = Math.trunc(Math.random() * 1000000).toString();
+//   next();
+// });
+exports.ParticipationsSchema.path("verificationImageUrl").validate(function (value) {
+    return (value.match(/https?:\/\/.*/));
+}, "Image must be valid url");
 exports.Participation = mongoose.model("participation", exports.ParticipationsSchema);

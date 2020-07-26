@@ -11,7 +11,6 @@ import {
   Avatar,
   makeStyles,
 } from "@material-ui/core";
-import NewDialog from "../../Events/NewForm/NewDialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";

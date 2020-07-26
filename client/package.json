@@ -14,6 +14,7 @@
     "@zoomus/websdk": "1.7.8",
     "api": "../api/lib",
     "axios": "^0.19.2",
+    "cloudinary-react": "^1.6.2",
     "env-cmd": "^10.1.0",
     "final-form": "^4.20.0",
     "flagged": "^2.0.1",

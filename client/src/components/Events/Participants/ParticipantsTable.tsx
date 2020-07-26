@@ -9,6 +9,7 @@ import { makeStyles, withStyles, Theme, createStyles, Badge, Tooltip } from "@ma
 import { IParticipation } from "api/Participations";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import PeopleIcon from "@material-ui/icons/People";
+import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 
 const useStyles = makeStyles({
   table: {},
@@ -54,6 +55,7 @@ export default function ParticipantsTable(props: { participants: IParticipation[
           <TableHead>
             <TableRow>
               <StyledTableCell align="center"> Email </StyledTableCell>
+              <StyledTableCell align="center"> Id </StyledTableCell>
               <StyledTableCell align="center"> Role </StyledTableCell>
               <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
               <StyledTableCell align="center"> Attended </StyledTableCell>
@@ -64,6 +66,13 @@ export default function ParticipantsTable(props: { participants: IParticipation[
             {props.participants.map((participant: IParticipation) => (
               <StyledTableRow key={participant._id}>
                 <StyledTableCell align="center"> {participant.email} </StyledTableCell>
+                <StyledTableCell>
+                  {participant.verificationImageUrl && (
+                    <a href={participant.verificationImageUrl} target="_blank">
+                      <PhotoCameraIcon></PhotoCameraIcon>
+                    </a>
+                  )}
+                </StyledTableCell>
                 <StyledTableCell align="center"> {participant.role} </StyledTableCell>
                 <StyledTableCell align="center"> {participant.anonymousName} </StyledTableCell>
                 <StyledTableCell align="center">{!!participant.attendedAt && <CheckCircleIcon />}</StyledTableCell>

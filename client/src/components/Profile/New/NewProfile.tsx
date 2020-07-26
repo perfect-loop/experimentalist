@@ -7,7 +7,7 @@ import { IProfile } from "api/Profiles";
 import { useHistory } from "react-router-dom";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
-import { Auth0Context, useAuth0 } from "../../../util/react-auth0-spa";
+import { useAuth0 } from "../../../util/react-auth0-spa";
 import { Api } from "api/Socket";
 
 //PROFILE FORM

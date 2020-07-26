@@ -5,6 +5,7 @@ import Show from "../Events/Show";
 import Index from "../Events/Participants";
 import EventsIndex from "../Events/Index/";
 import Unavailable from "../Events/Unavailable";
+import Verify from "../Events/Verify";
 
 export const EventManagementRoutes: React.FC = () => {
   return (
@@ -67,6 +68,18 @@ export const EventManagementRoutes: React.FC = () => {
           );
         }}
       />
+      <Route
+        exact
+        path="/events/:id/verify/:participationId"
+        component={(props: any) => {
+          return (
+            <>
+              <Verify participationId={props.match.params.participationId} eventId={props.match.params.id} />
+            </>
+          );
+        }}
+      />
+      path="/events/:id/conference"
     </Switch>
   );
 };

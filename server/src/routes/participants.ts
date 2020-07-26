@@ -3,8 +3,17 @@ import secured from "../lib/middleware/secured";
 import { IEvent, Event } from "api/Events";
 import { Participation, IParticipation } from "api/Participations";
 import { Auth0User } from "types/auth0";
+import ParticipantsController from "../controllers/ParticipantsController";
 
 const router = express.Router();
+
+router.patch(
+  "/my/participants/:id.json",
+  secured(),
+  async (req: any, res, next) => {
+    new ParticipantsController().patch(req, res, next);
+  }
+);
 
 router.get("/my/participants.json", secured(), async (req: any, res, next) => {
   const eventId = req.query.eventId;
