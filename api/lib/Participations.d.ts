@@ -10,5 +10,6 @@ export interface IParticipation extends Document {
     anonymousName: string;
     instructions: string;
     attendedAt?: Date;
+    verificationImageUrl?: string;
 }
 export declare const Participation: mongoose.Model<IParticipation, {}>;

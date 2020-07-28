@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from "react";
+import React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -9,10 +9,6 @@ import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
 import { IUserCompensation } from "api/Compensations";
 import PublishSharpIcon from "@material-ui/icons/PublishSharp";
 import { Button } from "@material-ui/core";
-
-import { IProfile } from "api/Profiles";
-import { ICompensation } from "api/Compensations";
-import VenmoLoginPopup from "./VenmoLogin";
 
 const useStyles = makeStyles({
   table: {},

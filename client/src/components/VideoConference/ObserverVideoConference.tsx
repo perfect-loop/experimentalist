@@ -15,10 +15,6 @@ interface IProps {
 
 @observer
 export default class IndeObserverVideoConferencex extends Component<IProps, {}> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
   public render() {
     if (this.props.role === Role.Host && this.props.hostParticipation) {
       return <ConferenceView role={Role.Host} user={this.props.user} participant={this.props.hostParticipation} />;

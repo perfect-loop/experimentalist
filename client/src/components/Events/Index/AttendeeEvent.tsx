@@ -6,14 +6,23 @@ import { StyledTableRow } from "./StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 import EventStatus from "./EventStatus";
 
-export default function AttendeeEvent(props: { participation: IParticipation; classes: Record<"table", string> }) {
+function nextUrl(participation: IParticipation): string {
+  if (participation.verificationImageUrl) {
+    return `/events/${participation.event._id}/conference`;
+  } else {
+    return `/events/${participation.event._id}/verify/${participation._id}`;
+  }
+}
+
+export default function AttendeeEvent(props: { participation: IParticipation }) {
+  const url = nextUrl(props.participation);
   return (
     <StyledTableRow key={props.participation.event._id}>
       <StyledTableCell align="center">
-        <Link to={`/events/${props.participation.event._id}/conference`}>{props.participation.event.title}</Link>
+        <Link to={url}>{props.participation.event.title}</Link>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <Link to={`/events/${props.participation.event._id}/conference`}>
+        <Link to={url}>
           <PlayCircleFilledWhiteIcon />
         </Link>
       </StyledTableCell>

@@ -3,8 +3,11 @@ import { shallow, mount } from "enzyme";
 import ParticipantsStore from "../../../VideoConference/store/ParticipantsStore";
 import AllEvents from "../AllEvents";
 import { PartcipantFactory } from "../../../../test/factories/ParticipantFactory";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Link } from "react-router-dom";
 import { EventFactory } from "../../../../test/factories/EventFactory";
+import EventsTable from "../EventsTable";
+import AttendeeEvent from "../AttendeeEvent";
+import { makeStyles } from "@material-ui/core/styles";
 
 describe("Events", () => {
   test("Show events", () => {

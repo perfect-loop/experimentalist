@@ -10,10 +10,6 @@ interface IProps {
 
 @observer
 class ProfileIndex extends Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
   public render() {
     switch (this.props.profileStore.state.kind) {
       case "empty":

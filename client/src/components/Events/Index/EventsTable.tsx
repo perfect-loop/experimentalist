@@ -10,6 +10,7 @@ import HostEvent from "./HostEvent";
 import AttendeeEvent from "./AttendeeEvent";
 import HostHeader from "./HostHeader";
 import AttendeeHeader from "./AttendeeHeader";
+import ImageUpload from "../../ImageUpload";
 
 const useStyles = makeStyles({
   table: {
@@ -36,7 +37,7 @@ export default function EventsTable(props: { participations: IParticipation[] })
             if (participation.role === "host") {
               return <HostEvent participation={p} classes={classes} />;
             } else {
-              return <AttendeeEvent participation={p} classes={classes} />;
+              return <AttendeeEvent participation={p} />;
             }
           })}
         </TableBody>
