@@ -1,9 +1,20 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
+import Api from "api/Venmo";
+import Axios from "axios";
+import { OnUnhandledRejection } from "@sentry/node/dist/integrations";
 
 // TODO: change to Logger but need to move API into src
 const logger = console;
 
-export type PaymentRole = "default" | "backup";
+interface IVenmoAccountInfo {
+  username: string;
+  profile_picture_url: string;
+  id: string;
+}
+export interface IVenmoAccount {
+  user: IVenmoAccountInfo;
+  balance: string;
+}
 
 export interface IVenmoUser {
   username: string;
@@ -13,15 +24,6 @@ export interface IVenmoUser {
   about: string;
   display_name: string;
   email: string;
-}
-
-interface IPaymentMethod {
-  id: string;
-  name: string;
-  peer_payment_role: PaymentRole;
-  last_four: string;
-  type: string;
-  image_url?: string;
 }
 
 interface IPayment {
@@ -189,25 +191,25 @@ export class VenmoApi {
     authToken: string,
     targetUserId: string,
     amount: number,
-    chosenMethod: PaymentRole,
+    chosenMethod: Api.Venmo.PaymentRole,
     note?: string,
-    fundingSourceId?: string
+    selectedFundingSourceId?: string
   ): Promise<IPaymentDetail> {
     this.defaultHeaders["Authorization"] = authToken;
+
+    const fundingSourceId = await this.pickFundingSource(
+      authToken,
+      selectedFundingSourceId,
+      chosenMethod,
+      amount
+    );
+
     if (!fundingSourceId) {
-      const paymentMethods: IPaymentMethod[] = await this.getPaymentMethods(
-        authToken
-      );
-      // get default payment method
-      for (const method of paymentMethods) {
-        if (method.peer_payment_role === chosenMethod) {
-          fundingSourceId = method.id;
-        }
-      }
-      if (paymentMethods.length === 0) {
-        console.log("No payment method found");
-      }
+      return new Promise((resolve, reject) => {
+        reject("Funding source is not valid");
+      });
     }
+
     const url = "/payments";
     logger.info(`[pay] fundingSourceId is ${fundingSourceId}`);
 
@@ -216,7 +218,7 @@ export class VenmoApi {
       audience: "private",
       amount,
       note,
-      funding_source_id: fundingSourceId
+      finding_source_id: fundingSourceId,
     };
 
     return new Promise((resolve, reject) => {
@@ -240,16 +242,85 @@ export class VenmoApi {
     });
   }
 
-  public getPaymentMethods(authToken: string): Promise<IPaymentMethod[]> {
+  /**
+   *
+   * @param selectedFundingSourceId funding source selected by the user
+   */
+  private async pickFundingSource(
+    authToken: string,
+    selectedFundingSourceId: string | undefined,
+    chosenMethod: string,
+    amount: number
+  ): Promise<string | undefined> {
+    // For some reason, even if fundingSource is provided,
+    // venmo seems to require reading paymentMethod
+    const paymentMethods: Api.Venmo.IPaymentMethod[] = await this.getPaymentMethods(
+      authToken
+    );
+
+    let fundingSourceId: string | undefined = undefined;
+
+    //  get default payment method
+    for (const method of paymentMethods) {
+      if (method.peer_payment_role === chosenMethod) {
+        fundingSourceId = method.id;
+      }
+    }
+    if (paymentMethods.length === 0) {
+      logger.error("No payment method found");
+    }
+
+    if (selectedFundingSourceId) {
+      // if amount to be paid is more than the balance, use the provided funding source
+      // as the backup
+      const balance = await this.getCurrentBalance(authToken);
+      if (balance && balance > amount) {
+        logger.info("[pickFundingSource] Using selected funding source");
+        fundingSourceId = selectedFundingSourceId;
+      }
+    }
+
+    logger.info("[pickFundingSource] Final fundingSource is ", fundingSourceId);
+    return fundingSourceId;
+  }
+
+  public getPaymentMethods(
+    authToken: string
+  ): Promise<Api.Venmo.IPaymentMethod[]> {
     const url = "/payment-methods";
     this.defaultHeaders["Authorization"] = `Bearer: ${authToken}`;
     return new Promise((resolve, reject) => {
       this.get(url)
         .then((response: AxiosResponse) => {
           const { data } = response;
-          logger.info(
-            `[getPaymentMethods] got results ${JSON.stringify(data)}`
-          );
+          resolve(data.data);
+        })
+        .catch((error: AxiosError) => {
+          reject(error);
+        });
+    });
+  }
+
+  public getCurrentBalance(authToken: string): number | undefined {
+    this.getAccount(authToken)
+      .then((account: IVenmoAccount) => {
+        logger.info("[getCurrentBalance] balance is ", account.balance);
+        return parseInt(account.balance);
+      })
+      .catch((error: AxiosError) => {
+        logger.error("[getCurrentBalance] Error ", error.message);
+        return undefined;
+      });
+    return undefined;
+  }
+
+  public getAccount(authToken: string): Promise<IVenmoAccount> {
+    const url = "/account";
+    this.defaultHeaders["Authorization"] = `Bearer: ${authToken}`;
+    return new Promise((resolve, reject) => {
+      this.get(url)
+        .then((response: AxiosResponse) => {
+          const { data } = response;
           resolve(data.data);
         })
         .catch((error: AxiosError) => {

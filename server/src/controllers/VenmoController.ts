@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import logger from "../shared/Logger";
 import { VenmoApi } from "../venmoApi";
+import { Auth0User } from "types/auth0";
+import Api from "api/Venmo";
+import { session } from "passport";
 
 export default class VenmoController {
   public mfa(req: Request, res: Response, next: NextFunction) {
@@ -16,13 +19,94 @@ export default class VenmoController {
       .then((accessToken: string) => {
         logger.info("Saving venmoAccessToken into session");
         session.venmoAccessToken = accessToken;
-        res.status(200).send(`Done`);
+        this.methods(req, res, next);
       })
       .catch(() => {
         res.status(500).send("Token is undefined");
       });
   }
 
+  public selectMethod(req: Request, res: Response, next: NextFunction) {
+    const methodId = req.params.id;
+    if (!methodId) {
+      res.status(402).send("Invalid method");
+    }
+
+    const user: Auth0User | undefined = req.user;
+    if (!user) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+
+    const session = req.session;
+    if (session) {
+      logger.info(`Setting methodId ${methodId}`);
+      session.venmoPaymentMethodId = methodId;
+    }
+    res.status(200).send("Done");
+  }
+
+  public methods(req: Request, res: Response, next: NextFunction) {
+    const session = req.session;
+    if (!session) {
+      res.status(403).send("Unable to find venmo info");
+      return;
+    }
+
+    const accessToken = session.venmoAccessToken;
+    if (accessToken === undefined) {
+      res.status(403).send("Invalid Venmo access token ");
+      return;
+    }
+
+    const venmoApi = new VenmoApi();
+    const user: Auth0User | undefined = req.user;
+
+    if (!user) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+
+    venmoApi
+      .getPaymentMethods(accessToken)
+      .then((p: Api.Venmo.IPaymentMethod[]) => {
+        res.json(p).status(200);
+      })
+      .catch(() => {
+        res.status(500).send("Unable to get payment methods");
+      });
+  }
+
+  public account(req: Request, res: Response, next: NextFunction) {
+    const session = req.session;
+    if (!session) {
+      res.status(403).send("Unable to find venmo info");
+      return;
+    }
+
+    const accessToken = session.venmoAccessToken;
+    if (accessToken === undefined) {
+      res.status(403).send("Invalid Venmo access token ");
+      return;
+    }
+
+    const venmoApi = new VenmoApi();
+    const user: Auth0User | undefined = req.user;
+
+    if (!user) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+
+    venmoApi
+      .getAccount(accessToken)
+      .then(accountInfo => {
+        res.json(accountInfo).status(200);
+      })
+      .catch(() => {
+        res.status(500).send("Unable to get payment methods");
+      });
+  }
   public login(req: Request, res: Response, next: NextFunction) {
     const user = req.body.username;
     const password = req.body.password;

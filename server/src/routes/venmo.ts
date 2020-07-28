@@ -20,4 +20,28 @@ router.post(
   }
 );
 
+router.get(
+  "/venmo/methods.json",
+  secured(),
+  (req: Request, res: Response, next: NextFunction) => {
+    new VenmoController().methods(req, res, next);
+  }
+);
+
+router.get(
+  "/venmo/account.json",
+  secured(),
+  (req: Request, res: Response, next: NextFunction) => {
+    new VenmoController().account(req, res, next);
+  }
+);
+
+router.post(
+  "/venmo/methods/:id.json",
+  secured(),
+  (req: Request, res: Response, next: NextFunction) => {
+    new VenmoController().selectMethod(req, res, next);
+  }
+);
+
 export default router;
