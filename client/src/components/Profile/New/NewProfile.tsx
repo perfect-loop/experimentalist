@@ -103,16 +103,6 @@ function NewProfile(props: {}) {
                 placeholder="Student Id"
               />
             </div>
-            <div>
-              <Field
-                name="phone"
-                component={TextFieldAdapter}
-                type="text"
-                label="Phone"
-                required={true}
-                placeholder="Phone"
-              />
-            </div>
             <div className="buttons">
               <Button variant="contained" disabled={submitting} type="submit" color="primary">
                 Create

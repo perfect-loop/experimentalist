@@ -106,20 +106,6 @@ function ShowProfile(props: IProps) {
                       placeholder="Student Id"
                     />
                   </div>
-                  <div>
-                    <Field
-                      name="phone"
-                      component={TextFieldAdapter}
-                      type="text"
-                      label="Phone"
-                      defaultValue={profile.phone}
-                      // required={true}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      placeholder="Phone"
-                    />
-                  </div>
                 </form>
               )}
             />
