@@ -1,9 +1,7 @@
 import React from "react";
-import { Form, Field } from "react-final-form";
-import TextFieldAdapter from "../../Forms/TextFieldAdapter";
+import { Form } from "react-final-form";
 import VenmoStorage from "./storage/VenmoStorage";
 import {
-  Button,
   Typography,
   makeStyles,
   Theme,
@@ -12,14 +10,10 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Link,
 } from "@material-ui/core";
-import InboxIcon from "@material-ui/icons/Inbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import Badge from '@material-ui/core/Badge';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
+import Badge from "@material-ui/core/Badge";
+import MonetizationOnOutlinedIcon from "@material-ui/icons/MonetizationOnOutlined";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,7 +46,7 @@ const Methods = (props: { venmoStorage: VenmoStorage }) => {
     return (
       <Form
         onSubmit={onSubmit}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
+        render={() => (
           <>
             <Typography variant="body1" color="textPrimary" component="p">
               Select payment method to use as backup
@@ -63,17 +57,13 @@ const Methods = (props: { venmoStorage: VenmoStorage }) => {
                   return (
                     <ListItem button onClick={() => selectPaymentMethod(props.venmoStorage, method.id)}>
                       <ListItemIcon>
-                        <img src={method.assets?.thumbnail} width="40" height="24" />
+                        {method.assets && (
+                          <img src={method.assets?.thumbnail} alt={method.name} width="40" height="24" />
+                        )}
                       </ListItemIcon>
-                      {method.last_four &&
-                        <ListItemText primary={`${method.name} x${method.last_four}`} />
-                      }
-                      {!method.last_four &&
-                        <ListItemText primary={`${method.name}`} />
-                      }
-                      {method.fee &&
-                        <Badge badgeContent={<MonetizationOnOutlinedIcon />} color="primary" />
-                      }
+                      {method.last_four && <ListItemText primary={`${method.name} x${method.last_four}`} />}
+                      {!method.last_four && <ListItemText primary={`${method.name}`} />}
+                      {method.fee && <Badge badgeContent={<MonetizationOnOutlinedIcon />} color="primary" />}
                     </ListItem>
                   );
                 })}

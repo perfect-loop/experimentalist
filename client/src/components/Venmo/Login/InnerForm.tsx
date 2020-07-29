@@ -18,9 +18,8 @@ const InnerForm = (props: { storage: VenmoStorage }): JSX.Element => {
         </LoginCard>
       );
     }
-    case "logging_in": 
-    case "2fa_submitted":
-    {
+    case "logging_in":
+    case "2fa_submitted": {
       return (
         <LoginCard>
           <div>Logging in to Venmo</div>

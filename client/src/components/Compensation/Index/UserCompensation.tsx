@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import CompensationsStore from "../storage/CompensationsStore";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
-import CompensationsTable from "./CompensationTable";
 import { ITransaction } from "api/Transactions";
 
 interface IProps {

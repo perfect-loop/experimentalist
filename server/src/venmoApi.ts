@@ -218,7 +218,7 @@ export class VenmoApi {
       audience: "private",
       amount,
       note,
-      finding_source_id: fundingSourceId,
+      finding_source_id: fundingSourceId
     };
 
     return new Promise((resolve, reject) => {
