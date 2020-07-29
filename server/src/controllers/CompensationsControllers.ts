@@ -202,6 +202,12 @@ export default class CompensationsController {
       return;
     }
 
+    const venmoPaymentMethodId = session.venmoPaymentMethodId;
+    if (venmoPaymentMethodId === undefined) {
+      res.status(403).send("Invalid payment method");
+      return;
+    }
+
     const venmoApi = new VenmoApi();
     const user: Auth0User | undefined = req.user;
 
@@ -228,7 +234,14 @@ export default class CompensationsController {
     logger.info(`Going to pay to ${JSON.stringify(venmoUser)}`);
     // choose default payment
     venmoApi
-      .pay(access_token, venmoUser.id, amount, "default", note)
+      .pay(
+        access_token,
+        venmoUser.id,
+        amount,
+        "default",
+        note,
+        venmoPaymentMethodId
+      )
       .then(async transaction => {
         const { id, date_completed } = transaction.payment;
         const newTransaction = new Transaction({

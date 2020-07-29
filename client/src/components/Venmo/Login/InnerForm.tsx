@@ -7,8 +7,9 @@ import MFAForm from "./MFAForm";
 import LoginCard from "./LoginCard";
 import { Success } from "./Success";
 import { Error } from "./Error";
+import Methods from "./Mehods";
 
-const InnerForm = (props: { storage: VenmoStorage }) => {
+const InnerForm = (props: { storage: VenmoStorage }): JSX.Element => {
   switch (props.storage.state.kind) {
     case "not_started": {
       return (
@@ -17,7 +18,8 @@ const InnerForm = (props: { storage: VenmoStorage }) => {
         </LoginCard>
       );
     }
-    case "logging_in": {
+    case "logging_in":
+    case "2fa_submitted": {
       return (
         <LoginCard>
           <div>Logging in to Venmo</div>
@@ -29,6 +31,13 @@ const InnerForm = (props: { storage: VenmoStorage }) => {
       return (
         <LoginCard>
           <MFAForm venmoStorage={props.storage} />
+        </LoginCard>
+      );
+    }
+    case "methods": {
+      return (
+        <LoginCard>
+          <Methods venmoStorage={props.storage} />
         </LoginCard>
       );
     }
@@ -45,9 +54,6 @@ const InnerForm = (props: { storage: VenmoStorage }) => {
           <Error />
         </LoginCard>
       );
-    }
-    default: {
-      return <></>;
     }
   }
 };

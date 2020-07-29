@@ -77,7 +77,7 @@ export default function CompensationsTable(props: {
                 <Button
                   data-idx={idx}
                   color="primary"
-                  disabled={compensation.amount === 0 || compensation.status === "Paid"}
+                  disabled={compensation.amount === 0 || compensation.status === "Paid" || !profile?.venmoId}
                   onClick={handleClick}
                 >
                   <PublishSharpIcon />

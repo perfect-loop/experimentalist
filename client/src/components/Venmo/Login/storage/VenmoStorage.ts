@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import { Api } from "../../../../util/api";
+import { Venmo } from "api/Venmo";
 
 interface IStateLogin {
   kind: "not_started";
@@ -25,7 +26,19 @@ interface IStateError {
   kind: "error";
 }
 
-type IState = IStateLogin | IStateLoggingIn | IState2FARequested | IState2FASubmitted | IStateDone | IStateError;
+interface IStateMethods {
+  kind: "methods";
+  methods: Venmo.IPaymentMethod[];
+}
+
+type IState =
+  | IStateLogin
+  | IStateLoggingIn
+  | IState2FARequested
+  | IState2FASubmitted
+  | IStateMethods
+  | IStateDone
+  | IStateError;
 
 export default class VenmoStorage {
   @observable public state: IState;
@@ -36,6 +49,29 @@ export default class VenmoStorage {
     this.state = {
       kind: "not_started",
     };
+  }
+
+  @action
+  public selectMethod(id: string) {
+    this.state = {
+      kind: "logging_in",
+    };
+
+    const body = {
+      id,
+    };
+    this.api
+      .post(`/api/venmo/methods/${id}.json`, body)
+      .then(() => {
+        this.state = {
+          kind: "done",
+        };
+      })
+      .catch(() => {
+        this.state = {
+          kind: "error",
+        };
+      });
   }
 
   @action
@@ -70,10 +106,11 @@ export default class VenmoStorage {
       venmoOtp: code,
     };
     this.api
-      .post("/api/venmo/mfa.json", body)
-      .then(() => {
+      .post<Venmo.IPaymentMethod[], {}>("/api/venmo/mfa.json", body)
+      .then(data => {
         this.state = {
-          kind: "done",
+          kind: "methods",
+          methods: data.data,
         };
       })
       .catch(() => {
