@@ -92,20 +92,6 @@ function ShowProfile(props: IProps) {
                       placeholder="Venmo Id"
                     />
                   </div>
-                  <div>
-                    <Field
-                      name="studentId"
-                      component={TextFieldAdapter}
-                      type="text"
-                      label="Student Id"
-                      defaultValue={profile.studentId}
-                      // required={true}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      placeholder="Student Id"
-                    />
-                  </div>
                 </form>
               )}
             />

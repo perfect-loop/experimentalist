@@ -93,16 +93,6 @@ function NewProfile(props: {}) {
                 label="Venmo Id"
               />
             </div>
-            <div>
-              <Field
-                name="studentId"
-                component={TextFieldAdapter}
-                type="text"
-                label="Student Id"
-                required={true}
-                placeholder="Student Id"
-              />
-            </div>
             <div className="buttons">
               <Button variant="contained" disabled={submitting} type="submit" color="primary">
                 Create
