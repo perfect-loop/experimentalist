@@ -31,6 +31,7 @@
     "react-device-detect": "^1.13.1",
     "react-dom": "^16.12.0",
     "react-final-form": "^6.5.0",
+    "react-fullstory": "^1.4.0",
     "react-papaparse": "^3.3.0",
     "react-redux": "7.1.0",
     "react-rnd": "^10.1.10",

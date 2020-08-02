@@ -5,6 +5,8 @@ import { Form, Field } from "react-final-form";
 import { Paper } from "@material-ui/core";
 import { observer } from "mobx-react";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
+import { FULLSTORY_CODE } from "../../../util/config";
+import { identify } from "react-fullstory";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,6 +42,12 @@ function ShowProfile(props: IProps) {
       return <div>Profile not found</div>;
     case "ready":
       const profile = props.profileStore.state.model;
+      if (FULLSTORY_CODE) {
+        const params = {
+          displayName: `${profile.firstName} ${profile.lastName}`,
+        };
+        identify(profile.userId, params);
+      }
       return (
         <>
           <Paper elevation={4} className={classes.paper}>

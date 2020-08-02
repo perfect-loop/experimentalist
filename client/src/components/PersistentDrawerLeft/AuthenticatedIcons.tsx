@@ -1,11 +1,12 @@
 import React from "react";
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { API_DOMAIN } from "../../util/config";
+import { API_DOMAIN, FULLSTORY_CODE } from "../../util/config";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useAuth0 } from "../../util/react-auth0-spa";
 import { Link } from "react-router-dom";
+import { identify } from "react-fullstory";
 
 export default function AuthenticatedIcons(props: any) {
   const auth0 = useAuth0();
@@ -14,6 +15,12 @@ export default function AuthenticatedIcons(props: any) {
   if (!isAuthenticated) {
     return <></>;
   } else {
+    if (FULLSTORY_CODE && user) {
+      const params = {
+        email: user.email,
+      };
+      identify(user.id, params);
+    }
     return (
       <>
         <List>
