@@ -70,7 +70,10 @@ export default class VenmoController {
     venmoApi
       .getPaymentMethods(accessToken)
       .then((p: Api.Venmo.IPaymentMethod[]) => {
-        res.json(p).status(200);
+        const eligible = p.filter(
+          method => method.peer_payment_role === "backup"
+        );
+        res.json(eligible).status(200);
       })
       .catch(() => {
         res.status(500).send("Unable to get payment methods");
