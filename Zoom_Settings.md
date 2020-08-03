@@ -7,6 +7,7 @@ Mute participants upon entry: True
 Chat: True
   Prevent participants from saving chat: True
 Private Chat: False
+Co-host: True
 Screen sharing: True
   Who can share?: Host Only
 Annotation: False
