@@ -232,6 +232,8 @@ export class VenmoApi {
             logger.warn(`[pay] Error code returned ${JSON.stringify(data)}`);
             reject(data.data);
           }
+          logger.info("[pay] Payment made");
+          logger.info(JSON.stringify(data.data));
           resolve(data.data);
         })
         .catch((error: AxiosError) => {
