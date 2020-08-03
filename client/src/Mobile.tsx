@@ -4,6 +4,7 @@ import { Grid, Typography, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles({
   mobileImg: {
     width: "100%",
+    maxWidth: "640px"
   },
 });
 export function Mobile() {
