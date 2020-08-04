@@ -59,6 +59,7 @@ export default function ParticipantsTable(props: { participants: IParticipation[
               <StyledTableCell align="center"> Role </StyledTableCell>
               <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
               <StyledTableCell align="center"> Attended </StyledTableCell>
+              <StyledTableCell align="center"> Admitted </StyledTableCell>
               <StyledTableCell align="center"> Instructions </StyledTableCell>
             </TableRow>
           </TableHead>
@@ -76,6 +77,7 @@ export default function ParticipantsTable(props: { participants: IParticipation[
                 <StyledTableCell align="center"> {participant.role} </StyledTableCell>
                 <StyledTableCell align="center"> {participant.anonymousName} </StyledTableCell>
                 <StyledTableCell align="center">{!!participant.attendedAt && <CheckCircleIcon />}</StyledTableCell>
+                <StyledTableCell align="center">{!!participant.admittedAt && <CheckCircleIcon />}</StyledTableCell>
                 <StyledTableCell align="center"> {participant.instructions} </StyledTableCell>
               </StyledTableRow>
             ))}
