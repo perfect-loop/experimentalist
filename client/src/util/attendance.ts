@@ -1,5 +1,6 @@
 import { IParticipation } from "api/Participations";
 import { Api } from "./api";
+import { Api as API } from "api/Socket";
 import { AxiosResponse, AxiosError } from "axios";
 
 export function registerAttendance(participant: IParticipation): Promise<IParticipation> {
@@ -23,7 +24,29 @@ export function registerAttendance(participant: IParticipation): Promise<IPartic
  * Send a request to admit participant
  *
  * @param participant
+ * @param zoomUserId
  */
+
+export function requestAdmit(participant: IParticipation, zoomUserId: number) {
+  const client = new Api({});
+  const body: API.Socket.IEventAdmitParticipant = {
+    userId: zoomUserId,
+  };
+  const url = `/api/events/${participant.event._id}/participants/${participant._id}/admit.json`;
+  return new Promise((resolve, reject) => {
+    client
+      .post<IParticipation, API.Socket.IEventAdmitParticipant>(url, body)
+      .then((response: AxiosResponse<IParticipation>) => {
+        const updatedParticipant = response.data;
+        resolve(updatedParticipant);
+      })
+      .catch((error: AxiosError) => {
+        console.error(error.response?.statusText);
+        reject(participant);
+      });
+  });
+}
+
 export function registerAdmitance(participant: IParticipation): Promise<IParticipation> {
   const client = new Api({});
   const url = `/api/attendance/participants/${participant._id}/admit`;
