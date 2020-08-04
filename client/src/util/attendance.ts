@@ -73,5 +73,9 @@ export function isLateToMeeting(participant: IParticipation): boolean {
     return true;
   }
 
+  if (participant.event.state === "locked" && !participant.admittedAt) {
+    return true;
+  }
+
   return false;
 }
