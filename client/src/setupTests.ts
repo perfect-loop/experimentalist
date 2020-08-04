@@ -14,3 +14,13 @@ import React from "react";
 import { Router } from "react-router-dom";
 import { render } from "@testing-library/react";
 import { createMemoryHistory } from "history";
+
+// Enable import of Zoom
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+window.crypto = {};
+
+import $ from "jquery";
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+global.$ = global.jQuery = $;
