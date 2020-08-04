@@ -8,6 +8,7 @@ import { useAppContext } from "../../context/AppContext";
 import { Role } from "api/Zoom";
 import PersistenNotication from "./notifications/Persistent";
 import { IParticipation } from "api/Participations";
+import { ZoomMtg } from "@zoomus/websdk";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,6 +57,24 @@ const VideoConference = (props: IProps) => {
   const handleClose = () => {
     setPersistentOpen(false);
   };
+
+  const autoAdmitParticipants = () => {
+    app.socket.on(Api.Socket.EVENT_ADMIT_PARTICIPANT, (response: Api.Socket.IEventAdmitParticipant) => {
+      console.log(`[VideoConference] received ${Api.Socket.EVENT_ADMIT_PARTICIPANT} with`, response);
+      const userId = response.userId;
+      ZoomMtg.putOnHold({
+        userId,
+        hold: false, // take user out of waiting room
+        success: function(res: any) {
+          console.log(res);
+        },
+      });
+    });
+  };
+
+  if (props.hostParticition) {
+    autoAdmitParticipants();
+  }
 
   return (
     <>

@@ -26,11 +26,6 @@ export default function HostEvent(props: { participation: IParticipation; classe
           <GroupIcon />
         </Link>
       </StyledTableCell>
-      <StyledTableCell align="right">
-        <Link to={`/events/${props.participation.event._id}/settings`}>
-          <SettingsIcon />
-        </Link>
-      </StyledTableCell>
       <StyledTableCell align="center">
         <Link to={`/events/${props.participation.event._id}/admin/compensations`}>
           <LocalAtmIcon />

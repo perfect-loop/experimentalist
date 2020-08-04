@@ -1,8 +1,8 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import secured from "../lib/middleware/secured";
-import { IEvent, Event } from "api/Events";
 import { Participation, IParticipation } from "api/Participations";
 import { Auth0User } from "types/auth0";
+import AttendanceController from "../controllers/AttendanceController";
 
 const router = express.Router();
 
@@ -29,6 +29,14 @@ router.put(
       await participant.save();
     }
     res.json(participant);
+  }
+);
+
+router.put(
+  "/attendance/participants/:participantId/admit",
+  secured(),
+  async (req: Request, res: Response, next: NextFunction) => {
+    new AttendanceController().admit(req, res, next);
   }
 );
 

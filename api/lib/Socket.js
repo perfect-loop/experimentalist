@@ -6,6 +6,7 @@ var Api;
     var Socket;
     (function (Socket) {
         Socket.EVENT_UPDATED_NAME = "EVENT_UPDATED";
+        Socket.EVENT_ADMIT_PARTICIPANT = "EVENT_ADMIN_PARTICIPANT";
         Socket.EVENT_BROADCAST_NAME = "BROADCAST";
         function sendEventEvent(socket, event) {
             socket.emit(Socket.EVENT_UPDATED_NAME, { event: event });

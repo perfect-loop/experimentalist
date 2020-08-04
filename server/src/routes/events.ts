@@ -73,6 +73,14 @@ router.post(
   }
 );
 
+router.post(
+  "/events/:id/participants/:participantId/admit.json",
+  secured(),
+  async (req, res, next) => {
+    new EventsController().admitParticipant(req, res, next);
+  }
+);
+
 router.post("/events.json", secured(), (req: any, res: any, next) => {
   console.log("got request to create event");
   console.log(`body is ${JSON.stringify(req.body)}`);

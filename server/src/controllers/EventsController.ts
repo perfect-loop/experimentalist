@@ -37,6 +37,24 @@ export default class EventsController {
     res.status(200).send("Complete");
   }
 
+  public async admitParticipant(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const id = req.params.id;
+    const event = await Event.findById(id);
+    const body = req.body as Api.Socket.IEventAdmitParticipant;
+    logger.info(`[admitParticipant] ${JSON.stringify(body)}`);
+    if (!event) {
+      res.status(404).send("Not found");
+      return;
+    }
+
+    io.emit(Api.Socket.EVENT_ADMIT_PARTICIPANT, body);
+    res.status(200).send("Done");
+  }
+
   public async lock(req: Request, res: Response, next: NextFunction) {
     const id = req.params.id;
     const user = req.user;
