@@ -74,6 +74,7 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
   };
   app.socket.on(Api.Socket.EVENT_UPDATED_NAME, (response: { event: IEvent }) => {
     setEventActive(response.event.state === "active");
+    setOpen(response.event.state === "active");
   });
 
   return (

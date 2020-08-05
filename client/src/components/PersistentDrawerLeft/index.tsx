@@ -10,9 +10,19 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { useTheme } from "@material-ui/core";
+import { useTheme, Badge, withStyles, Theme } from "@material-ui/core";
 import { useStyles } from "./styles";
 import Icons from "./Icons";
+
+const StyledBadge = withStyles((theme: Theme) => ({
+  badge: {
+    right: -10,
+    top: 0,
+    fontSize: 10,
+    border: `1px solid ${theme.palette.background.paper}`,
+    padding: "0 2px",
+  },
+}))(Badge);
 
 export default function PersistentDrawerLeft(props: any) {
   const classes = useStyles();
@@ -46,9 +56,11 @@ export default function PersistentDrawerLeft(props: any) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Experimentalist
-          </Typography>
+          <StyledBadge color="secondary" badgeContent="beta">
+            <Typography variant="h6" noWrap>
+              Experimentalist
+            </Typography>
+          </StyledBadge>
         </Toolbar>
       </AppBar>
       <Drawer
