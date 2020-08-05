@@ -44,7 +44,7 @@ export default class ParticipantsStore {
       .filter((line: IRawUploadedData) => line.data[0] && line.data[1])
       .map((line: IRawUploadedData) => {
         return {
-          email: line.data[0],
+          email: line.data[0].toLowerCase(),
           instructions: line.data[1],
         };
       });
