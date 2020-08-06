@@ -19,17 +19,13 @@ const UnsupportedBrowser = () => {
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={12}>
           <img className={classes.mobileImg} src="/images/mobile.jpeg" alt="Logo" />
-          <Typography variant="h4">
-            We do not support your browser, please use{" "}
-            <a
-              href="https://support.google.com/chrome/answer/95346?co=GENIE.Platform%3DDesktop&hl=en"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <Typography variant="h5">
+            Your browser is not currently supported, please use{" "}
+            <a href="https://www.google.com/chrome/" rel="noopener noreferrer">
               Chrome
             </a>{" "}
             or{" "}
-            <a href="https://www.mozilla.org/en-US/exp/firefox/new/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.mozilla.org/en-US/exp/firefox/new/" rel="noopener noreferrer">
               Firefox
             </a>
           </Typography>
