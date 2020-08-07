@@ -6,7 +6,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles, Badge, Tooltip } from "@material-ui/core";
-import { IParticipation } from "api/Participations";
+import { IParticipationProfile } from "api/Participations";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import PeopleIcon from "@material-ui/icons/People";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -40,7 +40,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
   }),
 )(TableRow);
 
-export default function ParticipantsTable(props: { participants: IParticipation[] }) {
+export default function ParticipantsTable(props: { participants: IParticipationProfile[] }) {
   const classes = useStyles();
 
   return (
@@ -58,14 +58,16 @@ export default function ParticipantsTable(props: { participants: IParticipation[
               <StyledTableCell align="center"> Id </StyledTableCell>
               <StyledTableCell align="center"> Role </StyledTableCell>
               <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
+              <StyledTableCell align="center"> First Name </StyledTableCell>
+              <StyledTableCell align="center"> Last Name </StyledTableCell>
               <StyledTableCell align="center"> Attended </StyledTableCell>
               <StyledTableCell align="center"> Admitted </StyledTableCell>
               <StyledTableCell align="center"> Instructions </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.participants.map((participant: IParticipation) => (
-              <StyledTableRow key={participant._id}>
+            {props.participants.map(({ profile, participant }, idx) => (
+              <StyledTableRow key={idx}>
                 <StyledTableCell align="center"> {participant.email} </StyledTableCell>
                 <StyledTableCell>
                   {participant.verificationImageUrl && (
@@ -76,6 +78,8 @@ export default function ParticipantsTable(props: { participants: IParticipation[
                 </StyledTableCell>
                 <StyledTableCell align="center"> {participant.role} </StyledTableCell>
                 <StyledTableCell align="center"> {participant.anonymousName} </StyledTableCell>
+                <StyledTableCell align="center"> {profile ? profile.firstName : ""} </StyledTableCell>
+                <StyledTableCell align="center"> {profile ? profile.lastName : ""} </StyledTableCell>
                 <StyledTableCell align="center">{!!participant.attendedAt && <CheckCircleIcon />}</StyledTableCell>
                 <StyledTableCell align="center">{!!participant.admittedAt && <CheckCircleIcon />}</StyledTableCell>
                 <StyledTableCell align="center"> {participant.instructions} </StyledTableCell>

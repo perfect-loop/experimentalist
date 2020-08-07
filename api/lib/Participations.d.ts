@@ -1,6 +1,7 @@
 import { Document } from "mongoose";
 import * as mongoose from "mongoose";
 import { IEvent } from "./Events";
+import { IProfile } from "./Profiles";
 export declare const ParticipationsSchema: mongoose.Schema<any>;
 export interface IParticipation extends Document {
     _id: string;
@@ -12,5 +13,10 @@ export interface IParticipation extends Document {
     attendedAt?: Date;
     admittedAt?: Date;
     verificationImageUrl?: string;
+}
+export interface IParticipationProfile {
+    profile: IProfile;
+    participant: IParticipation;
+    email: string;
 }
 export declare const Participation: mongoose.Model<IParticipation, {}>;

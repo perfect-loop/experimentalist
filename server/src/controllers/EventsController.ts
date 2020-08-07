@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Event, EventSchema, IEvent } from "api/Events";
-import { isHost } from "./helpers";
+import { isHost, getParticipantProfiles } from "./helpers";
 import logger from "../shared/Logger";
 import { Api } from "api/Socket";
 import { io } from "../index";
@@ -143,10 +143,7 @@ export default class EventsController {
 
     await Compensation.insertMany(insertCompensations);
 
-    const allParticipants = (await Participation.find({
-      event: event.id
-    })) as IParticipation[];
-
-    res.json(allParticipants);
+    const allParticipantProfiles = await getParticipantProfiles(event);
+    res.json(allParticipantProfiles);
   }
 }

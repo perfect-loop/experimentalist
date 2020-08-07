@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
-import { IParticipation } from "api/Participations";
+import { IParticipation, IParticipationProfile } from "api/Participations";
 
 interface IUploadedData extends Pick<IParticipation, "email"> {
   email: string;
@@ -13,7 +13,7 @@ export interface IRawUploadedData {
 }
 
 export default class ParticipantsStore {
-  @observable public participations: IParticipation[];
+  @observable public participations: IParticipationProfile[];
   @observable public state: "not_ready" | "ready" | "error";
   private eventId: string;
 
@@ -27,8 +27,8 @@ export default class ParticipantsStore {
   public get = () => {
     const client = new Api({});
     client
-      .get<IParticipation[]>(`/api/events/${this.eventId}/participants.json`)
-      .then((response: AxiosResponse<IParticipation[]>) => {
+      .get<IParticipationProfile[]>(`/api/events/${this.eventId}/participants.json`)
+      .then((response: AxiosResponse<IParticipationProfile[]>) => {
         const { data } = response;
         this.participations = data;
         this.state = "ready";
@@ -52,8 +52,8 @@ export default class ParticipantsStore {
     const url = `/api/events/${eventId}/participants.json`;
     this.state = "not_ready";
     client
-      .post<IUploadedData[], IUploadedData[], AxiosResponse<IParticipation[]>>(url, uploadData)
-      .then((response: AxiosResponse<IParticipation[]>) => {
+      .post<IUploadedData[], IUploadedData[], AxiosResponse<IParticipationProfile[]>>(url, uploadData)
+      .then((response: AxiosResponse<IParticipationProfile[]>) => {
         const { data } = response;
         this.participations = data;
         this.state = "ready";

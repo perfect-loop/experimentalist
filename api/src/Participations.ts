@@ -59,6 +59,12 @@ export interface IParticipation extends Document {
   verificationImageUrl?: string;
 }
 
+export interface IParticipationProfile {
+  profile: IProfile;
+  participant: IParticipation;
+  email: string;
+}
+
 export const Participation = mongoose.model<IParticipation>(
   "participation",
   ParticipationsSchema
