@@ -18,6 +18,15 @@ export async function isHost(user: Auth0User, event: IEvent) {
   return ishost;
 }
 
+export async function isParticipant(user: Auth0User, event: IEvent) {
+  const params = {
+    event: event.id,
+    email: user.email
+  };
+  const participations = await Participation.find(params);
+  return participations.length > 0;
+}
+
 export async function getParticipantProfiles(event: IEvent) {
   const allParticipants = (await Participation.find({
     event: event.id

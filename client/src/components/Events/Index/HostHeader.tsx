@@ -9,6 +9,7 @@ export default function HostHeader() {
       <StyledTableCell align="center"> Status </StyledTableCell>
       <StyledTableCell align="center"> Participants </StyledTableCell>
       <StyledTableCell align="center"> Compensation </StyledTableCell>
+      <StyledTableCell align="center"> Settings </StyledTableCell>
     </>
   );
 }

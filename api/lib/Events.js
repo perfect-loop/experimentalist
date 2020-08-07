@@ -21,7 +21,7 @@ exports.EventSchema = new mongoose.Schema({
         type: String,
         enum: ["not_started", "started", "active", "locked", "ended"],
         default: "not_started"
-    }
+    },
 }, {
     timestamps: true
 });

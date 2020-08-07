@@ -1,11 +1,12 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Settings from "../Events/Settings";
 import Show from "../Events/Show";
 import Index from "../Events/Participants";
 import EventsIndex from "../Events/Index/";
 import Unavailable from "../Events/Unavailable";
 import Verify from "../Events/Verify";
+import NewDialog from "../EventSettings/New/NewDialog";
+import Settings from "../EventSettings/Show";
 
 export const EventManagementRoutes: React.FC = () => {
   return (
@@ -23,11 +24,11 @@ export const EventManagementRoutes: React.FC = () => {
       />
       <Route
         exact
-        path="/events/:id/settings"
+        path="/events/:eventId/host/settings"
         component={(props: any) => {
           return (
             <>
-              <Settings id={props.match.params.id} />
+              <Settings eventId={props.match.params.eventId} />
             </>
           );
         }}
@@ -64,6 +65,17 @@ export const EventManagementRoutes: React.FC = () => {
           return (
             <>
               <Unavailable eventId={props.match.params.id} />
+            </>
+          );
+        }}
+      />
+      <Route
+        exact
+        path="/events/:id/host/settings/new"
+        component={(props: any) => {
+          return (
+            <>
+              <NewDialog eventId={props.match.params.id} />
             </>
           );
         }}
