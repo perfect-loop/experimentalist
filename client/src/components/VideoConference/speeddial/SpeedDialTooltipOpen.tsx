@@ -5,14 +5,14 @@ import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 import { IParticipation } from "models/Participations";
-import CustomizedDialogs from "./CustomizedDialogs";
-import { Api } from "../../util/api";
+import CustomizedDialogs from "../CustomizedDialogs";
+import { Api } from "../../../util/api";
 import { IEvent } from "models/Events";
 import { isLocked, isStarted } from "models/Helpers";
 import { AxiosResponse } from "axios";
 import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
-import AdmitAll from "./speeddial/AdmitAll";
-import Lock from "./speeddial/Lock";
+import AdmitAll from "./AdmitAll";
+import Lock from "./Lock";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

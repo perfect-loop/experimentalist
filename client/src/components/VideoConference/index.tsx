@@ -35,6 +35,7 @@ const VideoConference = (props: IProps) => {
   const app = useAppContext();
 
   const [snackOpen, setSnackOpen] = React.useState(false);
+  const [showFab, setShowFab] = React.useState(false);
   const [snackText, setsnackText] = React.useState("");
   const [persistentText, setPersistentText] = React.useState("");
   const [persistentOpen, setPersistentOpen] = React.useState(false);
@@ -45,6 +46,9 @@ const VideoConference = (props: IProps) => {
     // console.log(`message from server is ${response.data}`);
     setsnackText("This event is now active!");
     setSnackSeverity(Severity.S);
+
+    // this is a backup plan in case FAB did not appear for the user for some reason
+    setShowFab(true);
     setSnackOpen(true);
   });
 
@@ -100,6 +104,7 @@ const VideoConference = (props: IProps) => {
         user={props.user}
         role={props.role}
         eventId={props.eventId}
+        showFab={showFab}
       />
     </>
   );

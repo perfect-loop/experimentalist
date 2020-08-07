@@ -1,10 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
 import IntroductionView from "../intro/IntroductionView";
-import SpeedDialTooltipOpen from "../SpeedDialTooltipOpen";
 import { PartcipantFactory } from "../../../test/factories/ParticipantFactory";
 import { Dialog } from "@material-ui/core";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
+import SpeedDialTooltipOpen from "../speeddial/SpeedDialTooltipOpen";
 
 const handle = jest.fn();
 describe("SpeedDialTooltipOpen", () => {
