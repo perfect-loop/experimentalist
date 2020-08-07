@@ -4,6 +4,7 @@ import { IEvent, Event } from "api/Events";
 import { Participation, IParticipation } from "api/Participations";
 import { Auth0User } from "types/auth0";
 import EventsController from "../controllers/EventsController";
+import { getParticipantProfiles } from "../controllers/helpers";
 
 const router = express.Router();
 
@@ -57,10 +58,8 @@ router.get(
       res.status(403).send("Unauthorized");
       return;
     } else {
-      const participants = (await Participation.find({
-        event: event.id
-      })) as IParticipation[];
-      res.json(participants);
+      const allParticipantProfiles = await getParticipantProfiles(event);
+      res.json(allParticipantProfiles);
     }
   }
 );
