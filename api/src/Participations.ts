@@ -2,6 +2,7 @@ import { Document } from "mongoose";
 import * as mongoose from "mongoose";
 import { IEvent, EventSchema } from "./Events";
 import { IUserSchema, UserSchema } from "./Users";
+import { IProfile } from "./Profiles";
 
 export const ParticipationsSchema = new mongoose.Schema(
   {
