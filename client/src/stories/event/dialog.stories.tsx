@@ -1,9 +1,9 @@
 import React from "react";
-import CustomizedDialogs from "../components/VideoConference/CustomizedDialogs";
-import { PartcipantFactory } from "../test/factories/ParticipantFactory";
+import CustomizedDialogs from "../../components/VideoConference/CustomizedDialogs";
+import { PartcipantFactory } from "../../test/factories/ParticipantFactory";
 
 export default {
-  title: "Dialog",
+  title: "Events/Dialog",
 };
 
 export const FloatingButton = () => {

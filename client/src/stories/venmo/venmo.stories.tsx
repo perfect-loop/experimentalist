@@ -1,9 +1,9 @@
 import React from "react";
-import InnerForm from "../components/Venmo/Login/InnerForm";
-import VenmoStorage from "../components/Venmo/Login/storage/VenmoStorage";
+import InnerForm from "../../components/Venmo/Login/InnerForm";
+import VenmoStorage from "../../components/Venmo/Login/storage/VenmoStorage";
 
 export default {
-  title: "Venmo Login",
+  title: "Venmo/Venmo Login",
 };
 
 export const VenmoUsernamePassword = () => {

@@ -31,6 +31,11 @@ export default function HostEvent(props: { participation: IParticipation; classe
           <LocalAtmIcon />
         </Link>
       </StyledTableCell>
+      <StyledTableCell align="center">
+        <Link to={`/events/${props.participation.event._id}/host/settings`}>
+          <SettingsIcon />
+        </Link>
+      </StyledTableCell>
     </StyledTableRow>
   );
 }

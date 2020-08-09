@@ -1,6 +1,7 @@
 import { Document } from "mongoose";
 import * as mongoose from 'mongoose';
 import { isStarted, isLocked } from "./Helpers";
+import { IEventSettings } from "./EventSettings";
 
 export const EventSchema = new mongoose.Schema(
   {
@@ -21,7 +22,7 @@ export const EventSchema = new mongoose.Schema(
       type: String,
       enum: ["not_started", "started", "active", "locked", "ended"],
       default: "not_started"
-    }
+    },
   },
   {
     timestamps: true
