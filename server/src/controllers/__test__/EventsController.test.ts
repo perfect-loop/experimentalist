@@ -54,3 +54,16 @@ describe("insert", () => {
     done();
   });
 });
+
+describe("AutoAdmit", () => {
+  const res = mockResponse();
+  const mNext = jest.fn();
+  const controller = new EventsController();
+  const req = ({
+    params: {},
+    user: { _id: "5eeaad1d96c9409bc72465c7" }
+  } as any) as Request;
+  it("admit", async () => {
+    await controller.admitParticipant(req, res, mNext);
+  });
+});
