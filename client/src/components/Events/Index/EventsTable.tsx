@@ -35,9 +35,9 @@ export default function EventsTable(props: { participations: IParticipation[] })
             // const p: IParticipation = participation;
             const p = participation;
             if (participation.role === "host") {
-              return <HostEvent participation={p} classes={classes} />;
+              return <HostEvent participation={p} classes={classes} key={participation._id} />;
             } else {
-              return <AttendeeEvent participation={p} />;
+              return <AttendeeEvent participation={p} key={participation._id} />;
             }
           })}
         </TableBody>
