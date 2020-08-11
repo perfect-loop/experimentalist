@@ -54,7 +54,7 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
           {eventActive && (
             <Typography gutterBottom>
               <Alert severity="success">
-              To access the experiment in a new tab, click this link{" "}
+                To access the experiment in a new tab, click this link{" "}
                 <a target="_blank" href={props.participant.instructions} rel="noopener noreferrer">
                   {props.participant.instructions}
                 </a>

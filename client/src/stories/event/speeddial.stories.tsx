@@ -12,7 +12,7 @@ const eventId = "skdfsdklf89";
 const eventSettingsStore = new EventSettingsStore(eventId);
 const p = PartcipantFactory({
   role: "attendee",
-  instructions: "http://google.com/"
+  instructions: "http://google.com/",
 });
 
 export const Instructions = () => {

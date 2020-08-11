@@ -43,11 +43,11 @@
     "typescript": "^3.9"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^5.3.18",
-    "@storybook/addon-links": "^5.3.18",
-    "@storybook/addons": "^5.3.18",
-    "@storybook/preset-create-react-app": "^2.1.2",
-    "@storybook/react": "^5.3.18",
+    "@storybook/addon-actions": "^6.0.2",
+    "@storybook/addon-links": "^6.0.2",
+    "@storybook/addons": "^6.0.2",
+    "@storybook/preset-create-react-app": "^3.1.4",
+    "@storybook/react": "^6.0.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
