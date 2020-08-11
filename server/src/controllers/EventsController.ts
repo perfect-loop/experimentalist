@@ -43,6 +43,7 @@ export default class EventsController {
     next: NextFunction
   ) {
     const id = req.params.id;
+    const participantId = req.params.participantId;
     const event = await Event.findById(id);
     const body = req.body as Api.Socket.IEventAdmitParticipant;
     logger.info(`[admitParticipant] ${JSON.stringify(body)}`);
@@ -51,7 +52,25 @@ export default class EventsController {
       return;
     }
 
-    io.emit(Api.Socket.EVENT_ADMIT_PARTICIPANT, body);
+    const participant = (await Participation.findOne({
+      _id: participantId,
+      event
+    })) as IParticipation;
+
+    if (!participant) {
+      res.status(403).send("Not authorized");
+    }
+
+    if (participant.admittedAt) {
+      logger.info(
+        `[admitParticipant] Participant ${participant._id} is allowed to skip waiting room`
+      );
+      io.emit(Api.Socket.EVENT_ADMIT_PARTICIPANT, body);
+    } else {
+      logger.info(
+        `[admitParticipant] Participant ${participant._id} is NOT allowed to skip waiting room`
+      );
+    }
     res.status(200).send("Done");
   }
 
