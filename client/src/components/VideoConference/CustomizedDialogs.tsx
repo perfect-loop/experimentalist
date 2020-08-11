@@ -12,6 +12,7 @@ import { Api } from "api/Socket";
 import { IEvent } from "api/Events";
 import MUIRichTextEditor from "mui-rte";
 import { DialogTitleWithClose } from "../Forms/DialogTitleWithClose";
+import Alert from "@material-ui/lab/Alert";
 
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
@@ -52,10 +53,12 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
           <MUIRichTextEditor defaultValue={props.participant.event.instructions} readOnly controls={[]} />
           {eventActive && (
             <Typography gutterBottom>
-              To access the experiment in a new tab, click this link{" "}
-              <a target="_blank" href={props.participant.instructions} rel="noopener noreferrer">
-                {props.participant.instructions}
-              </a>
+              <Alert severity="success">
+                To access the experiment in a new tab, click this link{" "}
+                <a target="_blank" href={props.participant.instructions} rel="noopener noreferrer">
+                  {props.participant.instructions}
+                </a>
+              </Alert>
             </Typography>
           )}
         </DialogContent>
