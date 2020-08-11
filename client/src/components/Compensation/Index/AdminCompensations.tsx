@@ -8,6 +8,7 @@ import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
 import CompensationsTable from "./CompensationTable";
 import VenmoLoginPopup from "./VenmoLogin";
 import { CircularProgress } from "@material-ui/core";
+import { Example } from "./Example";
 
 interface IProps {
   eventId: string;
@@ -71,6 +72,7 @@ class AdminCompensation extends Component<IProps, IState> {
           >
             <span>Drop CSV file here or click to upload.</span>
           </CSVReader>
+          <Example />
         </>
       );
     } else if (state === "paying") {
