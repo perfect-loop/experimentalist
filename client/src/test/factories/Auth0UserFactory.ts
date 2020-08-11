@@ -1,6 +1,5 @@
-import { define, random } from "cooky-cutter";
+import { define } from "cooky-cutter";
 import faker from "faker";
-import { IEvent } from "api/Events";
 import { Auth0User } from "../../util/react-auth0-spa";
 
 export const Auth0UserFactory = define<Auth0User>({
