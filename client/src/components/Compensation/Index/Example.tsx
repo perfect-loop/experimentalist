@@ -3,7 +3,7 @@ import Alert from "@material-ui/lab/Alert";
 import { Typography, Paper } from "@material-ui/core";
 import NotesIcon from "@material-ui/icons/Notes";
 
-export const Example = () => (
+const Example = () => (
   <Paper>
     <Alert icon={<NotesIcon />} severity="success">
       <Typography gutterBottom>
@@ -18,3 +18,5 @@ export const Example = () => (
     </Alert>
   </Paper>
 );
+
+export default Example;

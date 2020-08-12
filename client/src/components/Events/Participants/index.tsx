@@ -4,10 +4,13 @@ import { observer } from "mobx-react";
 import EventStore from "../storage/EventStore";
 import AllParticipants from "./AllParticipants";
 import ParticipantsStore, { IRawUploadedData } from "../storage/ParticipantsStore";
+import FileUploadStore from "../../FileUpload/store/FileUploadStore";
 import { CSVReader } from "react-papaparse";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
 import { Example } from "./Example";
+import FileUploadError from "../../FileUpload/FileUploadError";
+import { FileData } from "../../FileUpload/store/Types";
 
 interface IState {
   participantsStore: ParticipantsStore;
@@ -20,6 +23,7 @@ interface IProps {
 
 @observer
 export default class Index extends Component<IProps, IState> {
+  fileUploadStore = new FileUploadStore();
   constructor(props: IProps) {
     super(props);
     const store = new ParticipantsStore(props.eventId);
@@ -32,10 +36,17 @@ export default class Index extends Component<IProps, IState> {
     e.get(props.eventId);
   }
 
-  private handleOnDrop = (data: IRawUploadedData[]) => {
-    // remove header elements
-    data.shift();
-    this.state.participantsStore.uploadCVSData(data, this.props.eventId);
+  private handleOnDrop = (data: IRawUploadedData[], file: FileData) => {
+    this.fileUploadStore.notStarted();
+    if (file.type === "text/csv") {
+      // remove header elements
+      data.shift();
+      this.state.participantsStore.uploadCVSData(data, this.props.eventId);
+    } else {
+      this.fileUploadStore.error(
+        "Looks like this is not a valid CSV file. Please make sure to save your file as a CSV",
+      );
+    }
   };
 
   public render() {
@@ -57,9 +68,11 @@ export default class Index extends Component<IProps, IState> {
               console.error("Unable to open file", e);
             },
           }}
+          addRemoveButton
         >
           <span>Drop CSV file here or click to upload.</span>
         </CSVReader>
+        {this.fileUploadStore.state.kind === "error" && <FileUploadError store={this.fileUploadStore} />}
         <Example />
       </>
     );
