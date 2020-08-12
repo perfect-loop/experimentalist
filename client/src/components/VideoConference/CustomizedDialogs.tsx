@@ -1,5 +1,5 @@
 import React from "react";
-import { createStyles, Theme, withStyles, WithStyles } from "@material-ui/core/styles";
+import { Theme, withStyles, WithStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -53,7 +53,7 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
           <MUIRichTextEditor defaultValue={props.participant.event.instructions} readOnly controls={[]} />
           {eventActive && (
             <Typography gutterBottom>
-              <Alert severity="success">
+              <Alert severity="warning">
                 To access the experiment in a new tab, click this link{" "}
                 <a target="_blank" href={props.participant.instructions} rel="noopener noreferrer">
                   {props.participant.instructions}
