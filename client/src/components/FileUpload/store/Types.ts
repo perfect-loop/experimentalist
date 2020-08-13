@@ -30,3 +30,12 @@ export const error = (message: string): IStateErrorUpload => {
     message,
   };
 };
+
+export const fileExtension = (fileName: string) => {
+  return fileName
+    ?.split(".")
+    ?.pop()
+    ?.toLowerCase();
+};
+
+export const isCSVFile = (fileName: string): boolean => fileExtension(fileName) === "csv";

@@ -10,7 +10,7 @@ import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
 import { Example } from "./Example";
 import FileUploadError from "../../FileUpload/FileUploadError";
-import { FileData } from "../../FileUpload/store/Types";
+import { FileData, isCSVFile } from "../../FileUpload/store/Types";
 
 interface IState {
   participantsStore: ParticipantsStore;
@@ -38,7 +38,7 @@ export default class Index extends Component<IProps, IState> {
 
   private handleOnDrop = (data: IRawUploadedData[], file: FileData) => {
     this.fileUploadStore.notStarted();
-    if (file.type === "text/csv") {
+    if (isCSVFile(file.name)) {
       // remove header elements
       data.shift();
       this.state.participantsStore.uploadCVSData(data, this.props.eventId);
