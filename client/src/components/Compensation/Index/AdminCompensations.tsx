@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import CompensationsStore, { IRawUploadedData } from "../storage/CompensationsStore";
 import FileUploadStore from "../../FileUpload/store/FileUploadStore";
-import { FileData } from "../../FileUpload/store/Types";
+import { FileData, isCSVFile } from "../../FileUpload/store/Types";
 import { IUserCompensation } from "api/Compensations";
 import { CSVReader } from "react-papaparse";
 import Alert from "@material-ui/lab/Alert";
@@ -46,7 +46,7 @@ class AdminCompensation extends Component<IProps, IState> {
 
   private handleOnDrop = (data: IRawUploadedData[], file: FileData) => {
     this.fileUploadStore.notStarted();
-    if (file.type === "text/csv") {
+    if (isCSVFile(file.name)) {
       // remove header elements
       data.shift();
       this.state.compensationsStore.uploadCSVData(data, this.props.eventId);
