@@ -94,7 +94,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
             tooltipTitle="Instructions"
             tooltipOpen
           />
-          {props.participant.role === "host" && (
+          {(props.participant.role === "host" || props.participant.role === "assistant") && (
             <SpeedDialAction
               key="Broadcast"
               icon={<RecordVoiceOverIcon onClick={props.handleBroadcastClickOpen} />}
@@ -102,7 +102,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               tooltipOpen
             />
           )}
-          {props.participant.role === "host" && showActivate && (
+          {(props.participant.role === "host" || props.participant.role === "assistant") && showActivate && (
             <SpeedDialAction
               key="Start"
               icon={<PlayCircleFilledWhiteIcon />}
@@ -111,7 +111,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               tooltipOpen
             />
           )}
-          {props.participant.role === "host" && (
+          {(props.participant.role === "host" || props.participant.role === "assistant") && (
             <SpeedDialAction
               key="AdmitAll"
               icon={<AdmitAll />}
@@ -120,7 +120,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               TooltipClasses={classes}
             />
           )}
-          {props.participant.role === "host" && showLock && (
+          {(props.participant.role === "host" || props.participant.role === "assistant") && showLock && (
             <SpeedDialAction
               key="Lock"
               icon={<Lock />}

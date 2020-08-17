@@ -7,7 +7,7 @@ export interface IParticipation extends Document {
     _id: string;
     email: string;
     event: IEvent;
-    role: "attendee" | "host" | "attendee";
+    role: "attendee" | "host" | "assistant";
     anonymousName: string;
     instructions: string;
     attendedAt?: Date;

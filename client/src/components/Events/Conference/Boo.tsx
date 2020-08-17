@@ -30,7 +30,7 @@ export default class Boo extends Component<IProps, {}> {
       }
       case "ready": {
         const participant = this.props.participationsStore.state.models.find(a => a.role === "attendee");
-        const host = this.props.participationsStore.state.models.find(a => a.role === "host");
+        const host = this.props.participationsStore.state.models.find(a => a.role === "host" || a.role === "assistant");
         if (participant || host) {
           if (host) {
             return (

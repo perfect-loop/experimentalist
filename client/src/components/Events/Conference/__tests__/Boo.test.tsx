@@ -140,6 +140,24 @@ describe("Host", () => {
   });
 });
 
+describe("Assistant", () => {
+  test("always allows", () => {
+    const store = new ParticipantsStore();
+    store.state = {
+      kind: "ready",
+      models: [
+        PartcipantFactory({
+          role: "assistant",
+        }),
+      ],
+    };
+    const user: Auth0User = Auth0UserFactory();
+    const eventId = "1234";
+    const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+    expect(wrapper.html()).toBe("VideoConference");
+  });
+});
+
 describe("Both Participant & Host", () => {
   test("always allows", () => {
     const store = new ParticipantsStore();
