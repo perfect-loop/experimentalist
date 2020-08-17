@@ -1,6 +1,6 @@
 import { define, random } from "cooky-cutter";
 import faker from "faker";
-import { IEvent } from "api/Events";
+import { IEvent } from "models/Events";
 
 export const EventFactory = define<IEvent>({
   _id: "",

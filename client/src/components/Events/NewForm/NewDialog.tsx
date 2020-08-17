@@ -3,7 +3,7 @@ import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import EventStore from "../storage/EventStore";
-import { IEvent } from "api/Events";
+import { IEvent } from "models/Events";
 import { useHistory } from "react-router-dom";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";

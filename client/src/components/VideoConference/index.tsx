@@ -1,13 +1,13 @@
 import React from "react";
 import { Auth0User } from "../../util/react-auth0-spa";
 import IndeObserverVideoConferencex from "./ObserverVideoConference";
-import { Api } from "api/Socket";
+import { Api } from "models/Socket";
 import { Snackbar, makeStyles, Theme, createStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useAppContext } from "../../context/AppContext";
-import { Role } from "api/Zoom";
+import { Role } from "models/Zoom";
 import PersistenNotication from "./notifications/Persistent";
-import { IParticipation } from "api/Participations";
+import { IParticipation } from "models/Participations";
 import { ZoomMtg } from "@zoomus/websdk";
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -15,7 +15,7 @@ export const ParticipationsSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["attendee", "host"],
+      enum: ["attendee", "host", "assistant"],
       default: "attendee",
     },
     anonymousName: {
@@ -52,7 +52,7 @@ export interface IParticipation extends Document {
   _id: string;
   email: string;
   event: IEvent;
-  role: "attendee" | "host";
+  role: "attendee" | "host" | "attendee";
   anonymousName: string;
   instructions: string;
   attendedAt?: Date;

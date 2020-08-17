@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
-import { IParticipation } from "api/Participations";
+import { IParticipation } from "models/Participations";
 
 interface IStateReady {
   kind: "ready";

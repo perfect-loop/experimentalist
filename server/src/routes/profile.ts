@@ -1,6 +1,6 @@
 import express from "express";
 import secured from "../lib/middleware/secured";
-import { IProfile, Profile } from "api/Profiles";
+import { IProfile, Profile } from "models/Profiles";
 import { Auth0User } from "types/auth0";
 import ProfilesController from "../controllers/ProfilesController";
 

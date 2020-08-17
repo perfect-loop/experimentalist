@@ -1,6 +1,6 @@
 import { define } from "cooky-cutter";
 import faker from "faker";
-import { IEvent, Event } from "api/Events";
+import { IEvent, Event } from "models/Events";
 
 const event: IEvent = new Event({
   title: faker.lorem.words(2),

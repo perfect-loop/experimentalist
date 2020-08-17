@@ -1,6 +1,6 @@
 import ProfilesController from "../ProfilesController";
 import { Request, Response } from "express";
-import { Profile, IProfile } from "api/Profiles";
+import { Profile, IProfile } from "models/Profiles";
 
 describe("insert", () => {
   const status = { send: jest.fn() };

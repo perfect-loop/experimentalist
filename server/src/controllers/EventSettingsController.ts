@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { Event } from "api/Events";
-import { IEventSettings, EventSettings } from "api/EventSettings";
+import { Event } from "models/Events";
+import { IEventSettings, EventSettings } from "models/EventSettings";
 import { isHost, isParticipant } from "./helpers";
 
 export default class EventSettingsController {

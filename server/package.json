@@ -6,7 +6,6 @@
   "dependencies": {
     "@sentry/node": "5.19.0",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
-    "api": "../api/lib",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "command-line-args": "^5.1.1",
@@ -22,6 +21,7 @@
     "helmet": "^3.22.0",
     "http-status-codes": "^1.4.0",
     "install": "^0.13.0",
+    "models": "../models/lib",
     "mongoose": "^5.9.16",
     "morgan": ">=1.9.1",
     "passport": "^0.4.1",

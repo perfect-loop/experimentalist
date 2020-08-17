@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
-import { IEvent } from "api/Events";
+import { IEvent } from "models/Events";
 
 export default class EventsStore {
   @observable public events: IEvent[];

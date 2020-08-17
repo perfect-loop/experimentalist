@@ -1,5 +1,5 @@
 import Store from "../../Store/Store";
-import { IEventSettings } from "api/EventSettings";
+import { IEventSettings } from "models/EventSettings";
 import { action } from "mobx";
 
 export class EventSettingsStore extends Store<IEventSettings> {

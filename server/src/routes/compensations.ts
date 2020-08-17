@@ -1,10 +1,10 @@
 import express from "express";
 import secured from "../lib/middleware/secured";
 import CompensationsController from "../controllers/CompensationsControllers";
-import { Compensation } from "api/Compensations";
-import { Participation } from "api/Participations";
-import { Event } from "api/Events";
-import { Transaction } from "api/Transactions";
+import { Compensation } from "models/Compensations";
+import { Participation } from "models/Participations";
+import { Event } from "models/Events";
+import { Transaction } from "models/Transactions";
 
 const router = express.Router();
 

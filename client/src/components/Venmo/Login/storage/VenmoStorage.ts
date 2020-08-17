@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import { Api } from "../../../../util/api";
-import { Venmo } from "api/Venmo";
+import { Venmo } from "models/Venmo";
 
 interface IStateLogin {
   kind: "not_started";

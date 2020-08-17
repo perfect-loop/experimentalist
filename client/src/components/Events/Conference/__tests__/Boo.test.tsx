@@ -1,7 +1,7 @@
 import React from "react";
 import Boo from "../Boo";
 import ParticipantsStore from "../../../VideoConference/store/ParticipantsStore";
-import { Role } from "api/Zoom";
+import { Role } from "models/Zoom";
 import { Auth0User } from "../../../../util/react-auth0-spa";
 import { Auth0UserFactory } from "../../../../test/factories/Auth0UserFactory";
 import { shallow } from "enzyme";

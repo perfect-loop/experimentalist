@@ -4,7 +4,7 @@ import PersistentDrawerLeft from "../PersistentDrawerLeft";
 import FirstPage from "../FirstPage";
 import { EventManagementRoutes } from "./EventManagementRoutes";
 import { CatchAllRoute } from "./CatchAllRoute";
-import { Role } from "api/Zoom";
+import { Role } from "models/Zoom";
 import { ProfileRoutes } from "./ProfileRoutes";
 import { CompensationRoutes } from "./CompensationRoutes";
 import { useAuth0 } from "../../util/react-auth0-spa";

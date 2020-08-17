@@ -1,7 +1,7 @@
 import express from "express";
 import secured from "../lib/middleware/secured";
-import { IEvent, Event } from "api/Events";
-import { Participation, IParticipation } from "api/Participations";
+import { IEvent, Event } from "models/Events";
+import { Participation, IParticipation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 import ParticipantsController from "../controllers/ParticipantsController";
 

@@ -1,10 +1,10 @@
 import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
-import { ICompensation } from "api/Compensations";
-import { IUserCompensation } from "api/Compensations";
-import { Api as API } from "api/Socket";
-import { ITransaction } from "api/Transactions";
+import { ICompensation } from "models/Compensations";
+import { IUserCompensation } from "models/Compensations";
+import { Api as API } from "models/Socket";
+import { ITransaction } from "models/Transactions";
 
 interface IUplodatedData extends Pick<ICompensation, "amount"> {
   email: string;

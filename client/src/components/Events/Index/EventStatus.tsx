@@ -1,5 +1,5 @@
 import React from "react";
-import { IEvent } from "api/Events";
+import { IEvent } from "models/Events";
 
 export default function EventStatus(props: { event: IEvent }): JSX.Element {
   switch (props.event.state) {

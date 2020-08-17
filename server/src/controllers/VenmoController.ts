@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import logger from "../shared/Logger";
 import { VenmoApi } from "../venmoApi";
 import { Auth0User } from "types/auth0";
-import Api from "api/Venmo";
+import Api from "models/Venmo";
 import { session } from "passport";
 
 export default class VenmoController {

@@ -81,7 +81,7 @@ server.on("listening", () => {
  ***********************************************************************************/
 
 import socket, { Socket } from "socket.io";
-import { Api } from "api/Socket";
+import { Api } from "models/Socket";
 export const io = socket(server, { origins: "*:*" });
 io.on("connection", (scket: any) => {
   scket.on("disconnect", (data: any) => {

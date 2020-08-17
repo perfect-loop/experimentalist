@@ -3,12 +3,12 @@ import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import ProfileStore from "../storage/ProfileStore";
-import { IProfile } from "api/Profiles";
+import { IProfile } from "models/Profiles";
 import { useHistory } from "react-router-dom";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import { useAuth0 } from "../../../util/react-auth0-spa";
-import { Api } from "api/Socket";
+import { Api } from "models/Socket";
 
 //PROFILE FORM
 const useStyles = makeStyles((theme: Theme) =>

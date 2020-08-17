@@ -6,7 +6,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
-import { IUserCompensation } from "api/Compensations";
+import { IUserCompensation } from "models/Compensations";
 import PublishSharpIcon from "@material-ui/icons/PublishSharp";
 import { Button } from "@material-ui/core";
 

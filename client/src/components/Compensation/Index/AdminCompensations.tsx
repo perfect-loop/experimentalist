@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import CompensationsStore, { IRawUploadedData } from "../storage/CompensationsStore";
 import FileUploadStore from "../../FileUpload/store/FileUploadStore";
 import { FileData, isCSVFile } from "../../FileUpload/store/Types";
-import { IUserCompensation } from "api/Compensations";
+import { IUserCompensation } from "models/Compensations";
 import { CSVReader } from "react-papaparse";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";

@@ -1,8 +1,8 @@
 import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
-import { IProfile } from "api/Profiles";
-import { Api as API } from "api/Socket";
+import { IProfile } from "models/Profiles";
+import { Api as API } from "models/Socket";
 
 interface IStateReady {
   kind: "ready";

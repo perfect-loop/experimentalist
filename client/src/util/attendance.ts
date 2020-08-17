@@ -1,6 +1,6 @@
-import { IParticipation } from "api/Participations";
+import { IParticipation } from "models/Participations";
 import { Api } from "./api";
-import { Api as API } from "api/Socket";
+import { Api as API } from "models/Socket";
 import { AxiosResponse, AxiosError } from "axios";
 
 export function registerAttendance(participant: IParticipation): Promise<IParticipation> {
