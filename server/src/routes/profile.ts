@@ -1,8 +1,9 @@
 import express from "express";
 import secured from "../lib/middleware/secured";
-import { IProfile, Profile } from "models/Profiles";
+import { Profile } from "models/Profiles";
 import { Auth0User } from "types/auth0";
 import ProfilesController from "../controllers/ProfilesController";
+import logger from "../shared/Logger";
 
 const router = express.Router();
 
@@ -11,7 +12,7 @@ router.get("/profile.json", secured(), async (req: any, res, next) => {
   const userId = user._id;
   // finding profiles based on userId
   const profile = await Profile.findOne({ userId });
-  console.log(`Profile has been fetched ${profile}`);
+  logger.info(`Profile has been fetched ${profile}`);
   if (!profile) {
     res.status(404).send("Profile not found!");
     return;

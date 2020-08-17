@@ -4,6 +4,7 @@ import { IEvent, Event } from "models/Events";
 import { Participation, IParticipation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 import ParticipantsController from "../controllers/ParticipantsController";
+import logger from "../shared/Logger";
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.get("/my/participants.json", secured(), async (req: any, res, next) => {
   const eventId = req.query.eventId;
   const user: Auth0User = req.user;
 
-  console.log(`Event id is ${eventId}`);
+  logger.info(`Event id is ${eventId}`);
 
   const participations = eventId
     ? await participationsWithEvent(eventId, user)
@@ -37,9 +38,7 @@ async function participationsWithEvent(eventId: string, user: any) {
     event: event.id,
     email: user.email
   };
-  console.log(params);
   const participations = await Participation.find(params).populate("event");
-  console.log(`participation is ${JSON.stringify(participations)}`);
   return participations;
 }
 

@@ -33,12 +33,8 @@ export const EventRoutes: React.FC = () => {
           component={(props: any) => {
             return (
               <>
-                {(query.get("role") === "host" || query.get("role") === "assistant") && (
-                  <Conference role={Role.Host} eventId={props.match.params.id} />
-                )}
-                {query.get("role") !== "host" && query.get("role") !== "assistant" && (
-                  <Conference role={Role.Attendee} eventId={props.match.params.id} />
-                )}
+                {query.get("role") === "host" && <Conference role={Role.Host} eventId={props.match.params.id} />}
+                {query.get("role") !== "host" && <Conference role={Role.Attendee} eventId={props.match.params.id} />}
               </>
             );
           }}
