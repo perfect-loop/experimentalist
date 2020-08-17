@@ -6,6 +6,7 @@ import { PartcipantFactory } from "../../../test/factories/ParticipantFactory";
 import { Dialog } from "@material-ui/core";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 
+const handle = jest.fn();
 describe("SpeedDialTooltipOpen", () => {
   describe("Host", () => {
     const p = PartcipantFactory({
@@ -13,7 +14,7 @@ describe("SpeedDialTooltipOpen", () => {
     });
 
     test("Do not show introduction video", () => {
-      const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={() => {}} />);
+      const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={handle} />);
       expect(wrapper.find(SpeedDialAction)).toHaveLength(4);
     });
   });
@@ -23,7 +24,7 @@ describe("SpeedDialTooltipOpen", () => {
     });
 
     test("Do not show introduction video", () => {
-      const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={() => {}} />);
+      const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={handle} />);
       expect(wrapper.find(SpeedDialAction)).toHaveLength(1);
     });
   });
@@ -33,7 +34,7 @@ describe("SpeedDialTooltipOpen", () => {
     });
 
     test("Do not show introduction video", () => {
-      const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={() => {}} />);
+      const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={handle} />);
       expect(wrapper.find(SpeedDialAction)).toHaveLength(4);
     });
   });

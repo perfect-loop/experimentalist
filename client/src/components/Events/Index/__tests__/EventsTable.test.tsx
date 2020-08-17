@@ -44,9 +44,11 @@ describe("EventsTable", () => {
   });
   describe("Assistant", () => {
     test("Show event as host", () => {
-      const ps = [PartcipantFactory({
-          role: "assistant"
-      })];
+      const ps = [
+        PartcipantFactory({
+          role: "assistant",
+        }),
+      ];
       const wrapper = mount(
         <MemoryRouter>
           <EventsTable participations={ps} />
