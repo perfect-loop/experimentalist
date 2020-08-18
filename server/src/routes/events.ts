@@ -1,10 +1,10 @@
 import express from "express";
 import secured from "../lib/middleware/secured";
-import { IEvent, Event } from "api/Events";
-import { Participation, IParticipation } from "api/Participations";
+import { IEvent, Event } from "models/Events";
+import { Participation, IParticipation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 import EventsController from "../controllers/EventsController";
-import { getParticipantProfiles } from "../controllers/helpers";
+import { getParticipantProfiles, isHost } from "../controllers/helpers";
 
 const router = express.Router();
 
@@ -120,16 +120,6 @@ function addParticipation(
   console.log(`Creating host participant ${JSON.stringify(params)}`);
   const pNew = new Participation(params);
   return pNew.save();
-}
-
-async function isHost(user: Auth0User, event: IEvent) {
-  const params = {
-    event: event.id,
-    email: user.email
-  };
-  const participations = await Participation.find(params);
-  const ishost = participations.some(p => p.role === "host");
-  return ishost;
 }
 
 export default router;

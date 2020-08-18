@@ -1,6 +1,6 @@
 import faker from "faker";
 import { EventFactory } from "./EventFactory";
-import { IParticipation, Participation } from "api/Participations";
+import { IParticipation, Participation } from "models/Participations";
 
 interface ParticipationFactory {
   Attendee: (params: any) => IParticipation;

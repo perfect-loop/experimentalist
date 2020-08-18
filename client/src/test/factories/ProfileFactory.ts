@@ -1,6 +1,6 @@
 import { define, random } from "cooky-cutter";
 import faker from "faker";
-import { IProfile } from "api/Profiles";
+import { IProfile } from "models/Profiles";
 
 export const ProfileFactory = define<IProfile>({
   _id: "",

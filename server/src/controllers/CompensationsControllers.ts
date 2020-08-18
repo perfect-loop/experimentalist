@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import { IParticipation, Participation } from "api/Participations";
-import { Profile, IProfile } from "api/Profiles";
-import { User } from "api/Users";
+import { IParticipation, Participation } from "models/Participations";
+import { Profile, IProfile } from "models/Profiles";
+import { User } from "models/Users";
 import {
   ICompensation,
   Compensation,
   IUserCompensation
-} from "api/Compensations";
-import { ITransaction, Transaction } from "api/Transactions";
-import { IEvent, Event } from "api/Events";
+} from "models/Compensations";
+import { ITransaction, Transaction } from "models/Transactions";
+import { IEvent, Event } from "models/Events";
 import { Auth0User } from "types/auth0";
 import { VenmoApi, IVenmoUser } from "../venmoApi";
 import logger from "../shared/Logger";

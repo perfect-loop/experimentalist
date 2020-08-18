@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
-import { IParticipation, IParticipationProfile } from "api/Participations";
+import { IParticipation, IParticipationProfile } from "models/Participations";
 
 interface IUploadedData extends Pick<IParticipation, "email"> {
   email: string;

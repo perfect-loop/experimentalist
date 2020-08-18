@@ -1,12 +1,12 @@
 import { Auth0User } from "types/auth0";
-import { IEvent } from "api/Events";
+import { IEvent } from "models/Events";
 import {
   Participation,
   IParticipation,
   IParticipationProfile
-} from "api/Participations";
-import { Profile, IProfile } from "api/Profiles";
-import { User, IUserSchema } from "api/Users";
+} from "models/Participations";
+import { Profile, IProfile } from "models/Profiles";
+import { User, IUserSchema } from "models/Users";
 
 export async function isHost(user: Auth0User, event: IEvent) {
   const params = {
@@ -14,7 +14,9 @@ export async function isHost(user: Auth0User, event: IEvent) {
     email: user.email
   };
   const participations = await Participation.find(params);
-  const ishost = participations.some(p => p.role === "host");
+  const ishost = participations.some(
+    p => p.role === "host" || p.role === "assistant"
+  );
   return ishost;
 }
 

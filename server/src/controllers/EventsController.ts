@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import { Event, EventSchema, IEvent } from "api/Events";
+import { Event, EventSchema, IEvent } from "models/Events";
 import { isHost, getParticipantProfiles } from "./helpers";
 import logger from "../shared/Logger";
-import { Api } from "api/Socket";
+import { Api } from "models/Socket";
 import { io } from "../index";
-import { IParticipation, Participation } from "api/Participations";
+import { IParticipation, Participation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 import BulkWriteError from "types/mongodb";
-import { Compensation } from "api/Compensations";
+import { Compensation } from "models/Compensations";
 
 export default class EventsController {
   public async activate(req: Request, res: Response, next: NextFunction) {

@@ -13,7 +13,7 @@ import createAuth0Client, {
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
 import { Api } from "./api";
 import { AxiosResponse, AxiosError } from "axios";
-import { IProfile } from "api/Profiles";
+import { IProfile } from "models/Profiles";
 
 export interface Auth0RedirectState {
   targetUrl?: string;

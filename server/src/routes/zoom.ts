@@ -1,6 +1,6 @@
 import express from "express";
-import { Role } from "api/Zoom";
-import { Participation } from "api/Participations";
+import { Role } from "models/Zoom";
+import { Participation } from "models/Participations";
 import crypto from "crypto";
 import secured from "../lib/middleware/secured";
 const router = express.Router();

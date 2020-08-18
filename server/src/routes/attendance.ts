@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import secured from "../lib/middleware/secured";
-import { Participation, IParticipation } from "api/Participations";
+import { Participation, IParticipation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 import AttendanceController from "../controllers/AttendanceController";
 

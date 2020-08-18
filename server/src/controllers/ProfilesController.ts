@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import logger from "../shared/Logger";
 import { Auth0User } from "types/auth0";
-import { Profile, IProfile } from "api/Profiles";
-import { Api } from "api/Socket";
+import { Profile, IProfile } from "models/Profiles";
+import { Api } from "models/Socket";
 
 export default class ProfilesController {
   public async post(req: Request, res: Response, next: NextFunction) {

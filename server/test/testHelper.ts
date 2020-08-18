@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Profile } from "api/Profiles";
+import { Profile } from "models/Profiles";
 
 beforeAll(async (done: any) => {
   const url = `mongodb://127.0.0.1:27017/experimentalist_test`;

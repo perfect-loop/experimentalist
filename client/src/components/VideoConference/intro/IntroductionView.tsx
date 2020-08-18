@@ -1,9 +1,9 @@
 import React from "react";
 import { Dialog, DialogContent, DialogActions, Button } from "@material-ui/core";
 import { DialogTitleWithClose } from "../../Forms/DialogTitleWithClose";
-import { IParticipation } from "api/Participations";
+import { IParticipation } from "models/Participations";
 import { EventSettingsStore } from "../../EventSettings/store/EventSettingsStore";
-import { IEventSettings } from "api/EventSettings";
+import { IEventSettings } from "models/EventSettings";
 import { observer } from "mobx-react";
 
 function IntroductionView(props: { participant: IParticipation; eventSettingsStore: EventSettingsStore }): JSX.Element {

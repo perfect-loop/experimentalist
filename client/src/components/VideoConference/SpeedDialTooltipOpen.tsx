@@ -4,11 +4,11 @@ import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
-import { IParticipation } from "api/Participations";
+import { IParticipation } from "models/Participations";
 import CustomizedDialogs from "./CustomizedDialogs";
 import { Api } from "../../util/api";
-import { IEvent } from "api/Events";
-import { isLocked, isStarted } from "api/Helpers";
+import { IEvent } from "models/Events";
+import { isLocked, isStarted } from "models/Helpers";
 import { AxiosResponse } from "axios";
 import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 import AdmitAll from "./speeddial/AdmitAll";
@@ -94,7 +94,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
             tooltipTitle="Instructions"
             tooltipOpen
           />
-          {props.participant.role === "host" && (
+          {(props.participant.role === "host" || props.participant.role === "assistant") && (
             <SpeedDialAction
               key="Broadcast"
               icon={<RecordVoiceOverIcon onClick={props.handleBroadcastClickOpen} />}
@@ -102,7 +102,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               tooltipOpen
             />
           )}
-          {props.participant.role === "host" && showActivate && (
+          {(props.participant.role === "host" || props.participant.role === "assistant") && showActivate && (
             <SpeedDialAction
               key="Start"
               icon={<PlayCircleFilledWhiteIcon />}
@@ -120,7 +120,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               TooltipClasses={classes}
             />
           )}
-          {props.participant.role === "host" && showLock && (
+          {(props.participant.role === "host" || props.participant.role === "assistant") && showLock && (
             <SpeedDialAction
               key="Lock"
               icon={<Lock />}

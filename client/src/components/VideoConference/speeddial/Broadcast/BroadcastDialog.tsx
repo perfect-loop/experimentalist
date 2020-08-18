@@ -3,7 +3,7 @@ import { makeStyles, Theme, createStyles, TextField, Button } from "@material-ui
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { useAppContext } from "../../../../context/AppContext";
-import { Api } from "api/Socket";
+import { Api } from "models/Socket";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

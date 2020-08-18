@@ -6,7 +6,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles, Badge, Tooltip } from "@material-ui/core";
-import { IParticipationProfile } from "api/Participations";
+import { IParticipationProfile } from "models/Participations";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import PeopleIcon from "@material-ui/icons/People";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";

@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import { AxiosResponse, AxiosError } from "axios";
-import { IParticipation } from "api/Participations";
+import { IParticipation } from "models/Participations";
 import { Api } from "../../../util/api";
 
 interface IStateNotStarted {

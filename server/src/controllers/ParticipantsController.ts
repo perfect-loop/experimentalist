@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import logger from "../shared/Logger";
-import { Participation } from "api/Participations";
+import { Participation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 
 export default class ParticipantsController {

@@ -1,7 +1,7 @@
 import React from "react";
 import Boo from "../Boo";
 import ParticipantsStore from "../../../VideoConference/store/ParticipantsStore";
-import { Role } from "api/Zoom";
+import { Role } from "models/Zoom";
 import { Auth0User } from "../../../../util/react-auth0-spa";
 import { Auth0UserFactory } from "../../../../test/factories/Auth0UserFactory";
 import { shallow } from "enzyme";
@@ -130,6 +130,24 @@ describe("Host", () => {
       models: [
         PartcipantFactory({
           role: "host",
+        }),
+      ],
+    };
+    const user: Auth0User = Auth0UserFactory();
+    const eventId = "1234";
+    const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+    expect(wrapper.html()).toBe("VideoConference");
+  });
+});
+
+describe("Assistant", () => {
+  test("always allows", () => {
+    const store = new ParticipantsStore();
+    store.state = {
+      kind: "ready",
+      models: [
+        PartcipantFactory({
+          role: "assistant",
         }),
       ],
     };

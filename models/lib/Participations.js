@@ -12,7 +12,7 @@ exports.ParticipationsSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["attendee", "host"],
+        enum: ["attendee", "host", "assistant"],
         default: "attendee",
     },
     anonymousName: {

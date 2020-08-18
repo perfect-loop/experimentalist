@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { IParticipation, Participation } from "api/Participations";
+import { IParticipation, Participation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 
 export default class AttendanceController {

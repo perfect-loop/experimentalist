@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-import Api from "api/Venmo";
+import Api from "models/Venmo";
 import Axios from "axios";
 import { OnUnhandledRejection } from "@sentry/node/dist/integrations";
 

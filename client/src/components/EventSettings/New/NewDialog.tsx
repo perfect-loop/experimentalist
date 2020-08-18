@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
-import { IEventSettings } from "api/EventSettings";
+import { IEventSettings } from "models/EventSettings";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import { EventSettingsStore } from "../store/EventSettingsStore";

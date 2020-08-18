@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import SettingsIcon from "@material-ui/icons/Settings";
 import GroupIcon from "@material-ui/icons/Group";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
-import { IParticipation } from "api/Participations";
+import { IParticipation } from "models/Participations";
 import { StyledTableRow } from "./StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";

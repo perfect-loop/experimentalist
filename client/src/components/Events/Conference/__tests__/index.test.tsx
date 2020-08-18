@@ -1,6 +1,6 @@
 import React from "react";
 import Conference from "..";
-import { Role } from "api/Zoom";
+import { Role } from "models/Zoom";
 
 import { shallow } from "enzyme";
 import { MockProvider } from "../../../../test/MockProvider";

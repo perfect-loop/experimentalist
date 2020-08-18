@@ -8,7 +8,7 @@
 
 - Install dependencies
 
-`(cd api && yarn install)`
+`(cd models && yarn install)`
 `(cd client && yarn install)`
 `(cd server && yarn install)`
 
@@ -17,12 +17,12 @@
 `yarn start`
 
 
-## Updating api
+## Updating models
 
-After updating models in the api, 
+After updating models in the `models`, 
 
 ```
-cd api
+cd models
 yarn build
 ```
 
@@ -30,12 +30,12 @@ Upgrade both client and server
 
 ```
 cd client
-yarn upgrade api
+yarn upgrade models
 ```
 
 ```
 cd server
-yarn upgrade api
+yarn upgrade models
 ```
 
 Restart the servers

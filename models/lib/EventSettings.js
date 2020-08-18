@@ -14,4 +14,4 @@ exports.EventSettingsSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-exports.EventSettings = mongoose.model("eventSettings", exports.EventSettingsSchema);
+exports.EventSettings = mongoose.model("event_settings", exports.EventSettingsSchema);

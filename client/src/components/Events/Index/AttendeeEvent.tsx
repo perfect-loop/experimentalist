@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
-import { IParticipation } from "api/Participations";
+import { IParticipation } from "models/Participations";
 import { StyledTableRow } from "./StyledTableRow";
 import { StyledTableCell } from "./StyledTableCell";
 import EventStatus from "./EventStatus";

@@ -4,7 +4,7 @@ import ParticipantsStore from "../../VideoConference/store/ParticipantsStore";
 import React from "react";
 import VideoConference from "../../VideoConference";
 import { Redirect } from "react-router-dom";
-import { Role } from "api/Zoom";
+import { Role } from "models/Zoom";
 import { Auth0User } from "../../../util/react-auth0-spa";
 import { isLateToMeeting } from "../../../util/attendance";
 
@@ -30,7 +30,7 @@ export default class Boo extends Component<IProps, {}> {
       }
       case "ready": {
         const participant = this.props.participationsStore.state.models.find(a => a.role === "attendee");
-        const host = this.props.participationsStore.state.models.find(a => a.role === "host");
+        const host = this.props.participationsStore.state.models.find(a => a.role === "host" || a.role === "assistant");
         if (participant || host) {
           if (host) {
             return (

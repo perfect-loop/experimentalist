@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { EventSettingsStore } from "../store/EventSettingsStore";
-import { IEventSettings } from "api/EventSettings";
+import { IEventSettings } from "models/EventSettings";
 import { useHistory } from "react-router-dom";
 import { Typography, Tooltip } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";

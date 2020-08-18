@@ -1,5 +1,5 @@
 import React from "react";
-import { Role } from "api/Zoom";
+import { Role } from "models/Zoom";
 import { useAuth0 } from "../../../util/react-auth0-spa";
 import ParticipantsStore from "../../VideoConference/store/ParticipantsStore";
 import Boo from "./Boo";
