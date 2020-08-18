@@ -1,7 +1,7 @@
 import React from "react";
 import EventStore from "../storage/EventStore";
 import { observer } from "mobx-react";
-import { HostOptions } from "./AdminOptions";
+import { Redirect } from "react-router-dom";
 
 interface IProps {
   eventStore: EventStore;
@@ -13,7 +13,7 @@ function ShowEvent(props: IProps) {
       return <div>Not ready</div>;
     case "ready":
       const event = props.eventStore.state.model;
-      return <HostOptions event={event} />;
+      return <Redirect to={`/events/${event._id}/conference?role=host`} />;
   }
 }
 
