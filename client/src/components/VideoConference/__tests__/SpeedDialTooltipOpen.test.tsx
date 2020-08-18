@@ -13,7 +13,7 @@ describe("SpeedDialTooltipOpen", () => {
       role: "host",
     });
 
-    test("Do not show introduction video", () => {
+    test("Show host options", () => {
       const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={handle} />);
       expect(wrapper.find(SpeedDialAction)).toHaveLength(4);
     });
@@ -23,7 +23,7 @@ describe("SpeedDialTooltipOpen", () => {
       role: "attendee",
     });
 
-    test("Do not show introduction video", () => {
+    test("Show only participant options", () => {
       const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={handle} />);
       expect(wrapper.find(SpeedDialAction)).toHaveLength(1);
     });
@@ -33,9 +33,9 @@ describe("SpeedDialTooltipOpen", () => {
       role: "assistant",
     });
 
-    test("Do not show introduction video", () => {
+    test("Show assistant options", () => {
       const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={handle} />);
-      expect(wrapper.find(SpeedDialAction)).toHaveLength(4);
+      expect(wrapper.find(SpeedDialAction)).toHaveLength(3);
     });
   });
 });

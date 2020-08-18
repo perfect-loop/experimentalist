@@ -111,7 +111,7 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               tooltipOpen
             />
           )}
-          {(props.participant.role === "host" || props.participant.role === "assistant") && (
+          {props.participant.role === "host" && (
             <SpeedDialAction
               key="AdmitAll"
               icon={<AdmitAll />}

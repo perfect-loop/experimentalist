@@ -14,7 +14,9 @@ export async function isHost(user: Auth0User, event: IEvent) {
     email: user.email
   };
   const participations = await Participation.find(params);
-  const ishost = participations.some(p => p.role === "host");
+  const ishost = participations.some(
+    p => p.role === "host" || p.role === "assistant"
+  );
   return ishost;
 }
 
