@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Theme, createStyles, Button, Typography, Hidden } from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Button, Typography } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import ProfileStore from "../storage/ProfileStore";

@@ -5,8 +5,8 @@ import {
   IParticipation,
   IParticipationProfile
 } from "models/Participations";
-import { Profile, IProfile } from "models/Profiles";
-import { User, IUserSchema } from "models/Users";
+import { IUserSchema, User } from "models/Users";
+import { Profile } from "models/Profiles";
 
 export async function isHost(user: Auth0User, event: IEvent) {
   const params = {

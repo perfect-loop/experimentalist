@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import CompensationTable from "../CompensationTable";
+import CompensationTable from "../PayPalCompensationTable";
 import { UserCompensationFactory } from "../../../../test/factories/CompensationFactory";
 
 describe("CompensationTable", () => {
