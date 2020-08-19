@@ -17,9 +17,15 @@ export default function Icons(props: any) {
     <>
       <AuthenticatedIcons />
       <UnAuthenticatedIcons />
-      <Typography variant="caption" className={classes.copyright} color="textSecondary">
-        © 2020 Perfect Loop Technologies LLC
-      </Typography>
+      <div className={classes.copyright}>
+        <Typography variant="caption" color="textSecondary">
+          © 2020 Perfect Loop Technologies LLC
+        </Typography>
+        <div/>
+        <Typography variant="caption">
+          <a href="https://perfectloop.ladesk.com/023791-Terms-and-Conditions" target="_blank" rel="noopener noreferrer">Terms and Conditions</a>
+        </Typography>
+      </div>
     </>
   );
 }

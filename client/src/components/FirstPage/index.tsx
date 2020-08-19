@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: "400px",
       textAlign: "center",
     },
+    terms: {
+      display: "block",
+      marginTop: "10px",
+    },
   }),
 );
 
@@ -37,6 +41,12 @@ const FirstPage = () => {
             Log in
           </Button>
         </a>
+        <Typography variant="caption" className={classes.terms}>
+          By signing up, you agree to our{" "}
+          <a href="https://perfectloop.ladesk.com/023791-Terms-and-Conditions" target="_blank" rel="noopener noreferrer">
+            terms of service
+          </a>.
+        </Typography>
       </Paper>
     );
   }
