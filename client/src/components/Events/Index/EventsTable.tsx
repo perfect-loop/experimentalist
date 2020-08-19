@@ -10,7 +10,6 @@ import HostEvent from "./HostEvent";
 import AttendeeEvent from "./AttendeeEvent";
 import HostHeader from "./HostHeader";
 import AttendeeHeader from "./AttendeeHeader";
-import ImageUpload from "../../ImageUpload";
 
 const useStyles = makeStyles({
   table: {

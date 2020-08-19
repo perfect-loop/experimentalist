@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth0 } from "../../util/react-auth0-spa";
 import { Redirect } from "react-router-dom";
-import { Paper, makeStyles, Theme, createStyles, Button } from "@material-ui/core";
+import { Paper, makeStyles, Theme, createStyles, Button, Typography } from "@material-ui/core";
 import { API_DOMAIN } from "../../util/config";
 
 const useStyles = makeStyles((theme: Theme) =>

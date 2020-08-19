@@ -3,8 +3,6 @@ import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
 import { ICompensation } from "models/Compensations";
 import { IUserCompensation } from "models/Compensations";
-import { Api as API } from "models/Socket";
-import { ITransaction } from "models/Transactions";
 
 interface IUplodatedData extends Pick<ICompensation, "amount"> {
   email: string;

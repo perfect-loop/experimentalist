@@ -1,7 +1,6 @@
 import React from "react";
 import {
   withStyles,
-  DialogTitleProps,
   Typography,
   IconButton,
   Theme,
