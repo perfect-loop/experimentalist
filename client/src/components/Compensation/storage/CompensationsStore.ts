@@ -3,8 +3,6 @@ import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
 import { ICompensation } from "models/Compensations";
 import { IUserCompensation } from "models/Compensations";
-import { Api as API } from "models/Socket";
-import { ITransaction } from "models/Transactions";
 
 interface IUplodatedData extends Pick<ICompensation, "amount"> {
   email: string;
@@ -48,7 +46,7 @@ export default class CompensationsStore {
 
     client
       .post<IUplodatedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
-      .then((response: AxiosResponse<IUserCompensation[]>) => {
+      .then(() => {
         this.getAdmin();
       })
       .catch((error: AxiosError) => {
@@ -95,7 +93,7 @@ export default class CompensationsStore {
   @action
   public pay = (data: any) => {
     this.state = "paying";
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       const client = new Api({});
       client
         .post(`/api/compensations/${data.compensationId}/pay`, data)

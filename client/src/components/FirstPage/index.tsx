@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth0 } from "../../util/react-auth0-spa";
 import { Redirect } from "react-router-dom";
-import { Paper, makeStyles, Theme, createStyles, Button } from "@material-ui/core";
+import { Paper, makeStyles, Theme, createStyles, Button, Typography } from "@material-ui/core";
 import { API_DOMAIN } from "../../util/config";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       minHeight: "400px",
       textAlign: "center",
+    },
+    terms: {
+      display: "block",
+      marginTop: "10px",
     },
   }),
 );
@@ -37,6 +41,17 @@ const FirstPage = () => {
             Log in
           </Button>
         </a>
+        <Typography variant="caption" className={classes.terms}>
+          By signing up, you agree to our{" "}
+          <a
+            href="https://perfectloop.ladesk.com/023791-Terms-and-Conditions"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            terms of service
+          </a>
+          .
+        </Typography>
       </Paper>
     );
   }

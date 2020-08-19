@@ -31,7 +31,13 @@ function Settings(props: IProps) {
             </Tooltip>
           </Typography>
           {eventSettings.introVideo && eventSettings.introVideo !== "" && (
-            <iframe src={eventSettings.introVideo} width="320" height="180" allow="autoplay; fullscreen" />
+            <iframe
+              src={eventSettings.introVideo}
+              width="320"
+              height="180"
+              allow="autoplay; fullscreen"
+              title="Introductory Video"
+            />
           )}
         </>
       );
