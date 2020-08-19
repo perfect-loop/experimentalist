@@ -43,9 +43,14 @@ const FirstPage = () => {
         </a>
         <Typography variant="caption" className={classes.terms}>
           By signing up, you agree to our{" "}
-          <a href="https://perfectloop.ladesk.com/023791-Terms-and-Conditions" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://perfectloop.ladesk.com/023791-Terms-and-Conditions"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             terms of service
-          </a>.
+          </a>
+          .
         </Typography>
       </Paper>
     );

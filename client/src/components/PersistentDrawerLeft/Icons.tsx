@@ -21,9 +21,15 @@ export default function Icons(props: any) {
         <Typography variant="caption" color="textSecondary">
           © 2020 Perfect Loop Technologies LLC
         </Typography>
-        <div/>
+        <div />
         <Typography variant="caption">
-          <a href="https://perfectloop.ladesk.com/023791-Terms-and-Conditions" target="_blank" rel="noopener noreferrer">Terms and Conditions</a>
+          <a
+            href="https://perfectloop.ladesk.com/023791-Terms-and-Conditions"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Terms and Conditions
+          </a>
         </Typography>
       </div>
     </>

@@ -46,7 +46,7 @@ export default class CompensationsStore {
 
     client
       .post<IUplodatedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
-      .then((response: AxiosResponse<IUserCompensation[]>) => {
+      .then(() => {
         this.getAdmin();
       })
       .catch((error: AxiosError) => {
@@ -93,7 +93,7 @@ export default class CompensationsStore {
   @action
   public pay = (data: any) => {
     this.state = "paying";
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
       const client = new Api({});
       client
         .post(`/api/compensations/${data.compensationId}/pay`, data)

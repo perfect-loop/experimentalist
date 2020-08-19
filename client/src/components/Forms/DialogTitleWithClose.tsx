@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  withStyles,
-  Typography,
-  IconButton,
-  Theme,
-  createStyles,
-  WithStyles,
-} from "@material-ui/core";
+import { withStyles, Typography, IconButton, Theme, createStyles, WithStyles } from "@material-ui/core";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import CloseIcon from "@material-ui/icons/Close";
 
