@@ -5,6 +5,7 @@ import { Participation, IParticipation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 import EventsController from "../controllers/EventsController";
 import { getParticipantProfiles, isHost } from "../controllers/helpers";
+import logger from "../shared/Logger";
 
 const router = express.Router();
 
@@ -51,7 +52,7 @@ router.get(
   async (req: any, res, next) => {
     const id = req.params.id;
     const event = (await Event.findById(id)) as IEvent;
-    console.log(`event is ${event}`);
+    logger.info(`event is ${event}`);
 
     const user = req.user;
     if (!(await isHost(user, event))) {
