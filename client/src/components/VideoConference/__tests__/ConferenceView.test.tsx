@@ -23,6 +23,19 @@ describe("ConferenceView", () => {
       // @ts-ignore
       expect(instance.setupHealthcheck).toHaveBeenCalled();
     });
+    test("Register admittance", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "registerAdmitance");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.customizeConference();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.registerAdmitance).toHaveBeenCalled();
+    });
   });
   describe("Host", () => {
     const p = PartcipantFactory();
@@ -42,6 +55,19 @@ describe("ConferenceView", () => {
       // @ts-ignore
       expect(instance.setupHealthcheck).not.toHaveBeenCalled();
     });
+    test("Register admittance", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "registerAdmitance");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.customizeConference();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.registerAdmitance).toHaveBeenCalled();
+    });
   });
   describe("Assistant", () => {
     const p = PartcipantFactory();
@@ -60,6 +86,19 @@ describe("ConferenceView", () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       expect(instance.setupHealthcheck).not.toHaveBeenCalled();
+    });
+    test("Register admittance", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "registerAdmitance");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.customizeConference();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.registerAdmitance).toHaveBeenCalled();
     });
   });
 });
