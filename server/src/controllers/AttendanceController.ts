@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { IParticipation, Participation } from "models/Participations";
 import { Auth0User } from "types/auth0";
+import logger from "../shared/Logger";
 
 export default class AttendanceController {
   public async admit(req: Request, res: Response, next: NextFunction) {
@@ -18,9 +19,13 @@ export default class AttendanceController {
     }
 
     if (!participant.admittedAt) {
-      console.log("Setting attenance date");
+      logger.info(`[admit] Setting attenance date ${participant._id}`);
       participant.admittedAt = new Date();
       await participant.save();
+    } else {
+      logger.info(
+        `[admit] Participant ${participant._id} already admitted at ${participant.admittedAt}`
+      );
     }
     res.json(participant);
   }
