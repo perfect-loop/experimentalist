@@ -23,7 +23,9 @@ export default class AttendanceController {
       participant.admittedAt = new Date();
       await participant.save();
     } else {
-      logger.info(`[admit] Participant ${participant._id} already admitted at ${participant.admittedAt}`);
+      logger.info(
+        `[admit] Participant ${participant._id} already admitted at ${participant.admittedAt}`
+      );
     }
     res.json(participant);
   }
