@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { Event } from "models/Events";
 import { IEventSettings, EventSettings } from "models/EventSettings";
 import { isHost, isParticipant } from "./helpers";
+import { Api } from "models/Socket";
+import logger from "../shared/Logger";
 
 export default class EventSettingsController {
   public async index(req: Request, res: Response, next: NextFunction) {
@@ -56,5 +58,53 @@ export default class EventSettingsController {
     eventSettings.event = event;
     await eventSettings.save();
     res.json(eventSettings);
+  }
+
+  public async put(req: Request, res: Response, next: NextFunction) {
+    const eventId = req.params.eventId;
+    const eventSettingsId = req.params.id;
+    const user = req.user;
+    const event = await Event.findById(eventId);
+
+    if (!user) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+
+    if (!event) {
+      res.status(404).send("Not found");
+      return;
+    }
+
+    if (!(await isHost(user, event))) {
+      res.status(403).send("Unauthorized");
+      return;
+    }
+
+    const eventSettings = await EventSettings.findById(eventSettingsId);
+
+    if (!eventSettings) {
+      res.status(404).send("Event Settings not found");
+      return;
+    }
+
+    const body = req.body;
+
+    logger.info("Updating with ", body);
+
+    eventSettings.requireId = body.requireId;
+    eventSettings.introVideo = body.introVideo;
+
+    eventSettings
+      .save()
+      .then((settings: IEventSettings) => {
+        res.json(settings);
+      })
+      .catch((reason: any) => {
+        const error: Api.Error = {
+          message: reason.message
+        };
+        res.status(500).send(error);
+      });
   }
 }

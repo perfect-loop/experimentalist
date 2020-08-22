@@ -5,6 +5,7 @@ import { Form, Field } from "react-final-form";
 import { IEventSettings } from "models/EventSettings";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
+import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
 import { EventSettingsStore } from "../store/EventSettingsStore";
 import { useHistory } from "react-router-dom";
 
@@ -36,8 +37,8 @@ function NewDialog(props: { eventId: string }) {
 
   const onSubmit = (values: any) => {
     const newEvent = values as IEventSettings;
-    console.log(newEvent);
     const store = new EventSettingsStore(props.eventId);
+
     store
       .post(newEvent)
       .then((eventSettings: IEventSettings) => {
@@ -69,6 +70,9 @@ function NewDialog(props: { eventId: string }) {
                 required={true}
                 placeholder="https://player.vimeo.com/video/347119375"
               />
+            </div>
+            <div>
+              <Field name="requireId" component={CheckBoxAdapter} label="Require ID Verification" initialValue={true} />
             </div>
             <div className="buttons">
               <Button variant="contained" disabled={submitting} type="submit" color="primary">

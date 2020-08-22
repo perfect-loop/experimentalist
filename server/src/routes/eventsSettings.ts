@@ -20,4 +20,12 @@ router.get(
   }
 );
 
+router.put(
+  "/events/:eventId/eventSettings/:id.json",
+  secured(),
+  async (req, res, next) => {
+    new EventSettingsController().put(req, res, next);
+  }
+);
+
 export default router;

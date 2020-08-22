@@ -4,17 +4,26 @@ import { IParticipation, Participation } from "models/Participations";
 
 interface ParticipationFactory {
   Attendee: (params: any) => IParticipation;
+  Host: (params: any) => IParticipation;
 }
+
 export const ParticipationFactory: ParticipationFactory = {
   Attendee: (params = {}): IParticipation => {
-    const p = {
-      email: faker.internet.email(),
-      event: EventFactory(),
-      anonymousName: faker.name.findName(),
-      role: "attendee",
-      instructions: ""
-    };
-    const participation = new Participation({ ...p, ...params });
-    return participation;
+    return createParticipation(params, "attendee");
+  },
+  Host: (params = {}): IParticipation => {
+    return createParticipation(params, "host");
   }
+};
+
+const createParticipation = (params: any, role: string) => {
+  const p = {
+    email: faker.internet.email(),
+    event: EventFactory(),
+    anonymousName: faker.name.findName(),
+    role,
+    instructions: ""
+  };
+  const participation = new Participation({ ...p, ...params });
+  return participation;
 };

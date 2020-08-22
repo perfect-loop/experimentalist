@@ -8,6 +8,7 @@ import { EventFactory } from "../../../../test/factories/EventFactory";
 import EventsTable from "../EventsTable";
 import AttendeeEvent from "../AttendeeEvent";
 import { makeStyles } from "@material-ui/core/styles";
+import { EventSettingsStore } from "../../../EventSettings/store/EventSettingsStore";
 
 describe("Events", () => {
   test("Show events", () => {
@@ -27,12 +28,9 @@ describe("Events", () => {
         }),
       ],
     };
-    const wrapper = shallow(
-      <MemoryRouter>
-        <AllEvents participationsStore={store} />
-      </MemoryRouter>,
-    );
-    expect(wrapper.html()).toContain("Not Started");
-    expect(wrapper.html()).toContain("Ended");
+
+    const wrapper = shallow(<AllEvents participationsStore={store} />);
+
+    expect(wrapper.find(EventsTable)).toHaveLength(1);
   });
 });
