@@ -20,7 +20,6 @@ describe("IntroductionView", () => {
 
     test("Do not show introduction video", () => {
       const wrapper = shallow(<IntroductionView participant={p} eventSettingsStore={eventSettingsStore} />);
-      console.log(wrapper.html());
       expect(wrapper.find(Dialog)).toHaveLength(0);
     });
   });

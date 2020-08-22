@@ -11,18 +11,38 @@ interface IProps {
   eventId: string;
   hostParticipation?: IParticipation;
   attendeeParticipation?: IParticipation;
+  showFab: boolean;
 }
 
 @observer
 export default class IndeObserverVideoConferencex extends Component<IProps, {}> {
   public render() {
     if (this.props.role === Role.Host && this.props.hostParticipation) {
-      return <ConferenceView role={Role.Host} user={this.props.user} participant={this.props.hostParticipation} />;
+      return (
+        <ConferenceView
+          role={Role.Host}
+          user={this.props.user}
+          participant={this.props.hostParticipation}
+          showFab={this.props.showFab}
+        />
+      );
     } else if (this.props.role === Role.Attendee && this.props.hostParticipation) {
-      return <ConferenceView role={Role.Attendee} user={this.props.user} participant={this.props.hostParticipation} />;
+      return (
+        <ConferenceView
+          role={Role.Attendee}
+          user={this.props.user}
+          participant={this.props.hostParticipation}
+          showFab={this.props.showFab}
+        />
+      );
     } else if (this.props.role === Role.Attendee && this.props.attendeeParticipation) {
       return (
-        <ConferenceView role={Role.Attendee} user={this.props.user} participant={this.props.attendeeParticipation} />
+        <ConferenceView
+          role={Role.Attendee}
+          user={this.props.user}
+          participant={this.props.attendeeParticipation}
+          showFab={this.props.showFab}
+        />
       );
     } else {
       return <div>Not allowed</div>;

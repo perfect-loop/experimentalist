@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { IParticipation } from "models/Participations";
 import { Rnd } from "react-rnd";
-import SpeedDialTooltipOpen from "./SpeedDialTooltipOpen";
+import SpeedDialTooltipOpen from "./speeddial/SpeedDialTooltipOpen";
 import Broadcast from "./speeddial/Broadcast";
 
 function TabPanel(props: any) {
