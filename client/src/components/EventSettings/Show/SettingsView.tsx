@@ -17,7 +17,7 @@ function Settings(props: IProps) {
     case "not_ready":
       return <div>Not ready</div>;
     case "ready":
-      const eventSettings = props.eventSettingsStore.state.data as IEventSettings;
+      const eventSettings = props.eventSettingsStore.state.data[0] as IEventSettings;
       if (!eventSettings) {
         history.push(`/events/${props.eventSettingsStore.eventId}/host/settings/new`);
         return <></>;
