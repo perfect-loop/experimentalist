@@ -46,9 +46,29 @@ describe("ConferenceView", () => {
   });
 
   describe("Attendee", () => {
-    const p = PartcipantFactory();
-    const wrapper = shallow(<ConferenceView role={Role.Attendee} participant={p} />);
+    const p = PartcipantFactory({
+      role: "attendee",
+    });
+    const wrapper = mount(<ConferenceView role={Role.Attendee} participant={p} />);
     const instance = wrapper.instance();
+
+    test("Mute on entry", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "mute");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.setState({ currentId: 123 });
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.onCurrentUserKnown();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.mute).toHaveBeenCalled();
+    });
 
     describe("Show fab", () => {
       test("False by default", () => {
@@ -70,6 +90,19 @@ describe("ConferenceView", () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       expect(instance.setupHealthcheck).toHaveBeenCalled();
+    });
+    test("Audio is disabled", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "disableAudio");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.customizeOnJoin();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.disableAudio).toHaveBeenCalled();
     });
     test("Enable FAB", () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -108,7 +141,9 @@ describe("ConferenceView", () => {
     });
   });
   describe("Host", () => {
-    const p = PartcipantFactory();
+    const p = PartcipantFactory({
+      role: "host",
+    });
     const wrapper = shallow(<ConferenceView role={Role.Host} participant={p} />);
     const instance = wrapper.instance();
 
@@ -118,6 +153,36 @@ describe("ConferenceView", () => {
         // @ts-ignore
         expect(instance.isShowFab()).toBe(true);
       });
+    });
+    test("Audio is not disabled", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "disableAudio");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.customizeOnJoin();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.disableAudio).not.toHaveBeenCalled();
+    });
+    test("Do not mute on entry", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "mute");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.setState({ currentId: 123 });
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.onCurrentUserKnown();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.mute).not.toHaveBeenCalled();
     });
 
     test("Health check is not enabled", () => {
@@ -170,7 +235,9 @@ describe("ConferenceView", () => {
     });
   });
   describe("Assistant", () => {
-    const p = PartcipantFactory();
+    const p = PartcipantFactory({
+      role: "assistant",
+    });
     const wrapper = shallow(<ConferenceView role={Role.Assistant} participant={p} />);
     const instance = wrapper.instance();
 
@@ -180,6 +247,36 @@ describe("ConferenceView", () => {
         // @ts-ignore
         expect(instance.isShowFab()).toBe(false);
       });
+    });
+    test("Audio is not disabled", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "disableAudio");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.customizeOnJoin();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.disableAudio).not.toHaveBeenCalled();
+    });
+    test("Mute on entry", () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      jest.spyOn(instance, "mute");
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.setState({ currentId: 123 });
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      instance.onCurrentUserKnown();
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      expect(instance.mute).toHaveBeenCalled();
     });
 
     test("Health check is not enabled", () => {
