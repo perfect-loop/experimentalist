@@ -3388,10 +3388,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zoomus/websdk@1.7.8":
-  version "1.7.8"
-  resolved "https://registry.yarnpkg.com/@zoomus/websdk/-/websdk-1.7.8.tgz#9fd0c9167bfec96054cd2fdf75c4e7d81eb7bf3d"
-  integrity sha512-KAK3XcRioAkHYqHlPxbF6HlPRG6mfLeZx2dvNb7DrMihL6l063Fw0MnWyFxqjutsTI92Cc58nn74Bj5yayyV/w==
+"@zoomus/websdk@1.7.10":
+  version "1.7.10"
+  resolved "https://registry.yarnpkg.com/@zoomus/websdk/-/websdk-1.7.10.tgz#effbff06fdd39f1651b350dfb80b50c74c4e84cf"
+  integrity sha512-dlsXZcFAV6UjMnFeRVbbm6NxRerAmusvm1cRZ907Qzvh6LxH9LGQH2ak8pbRF5bp5hNjsWwhVln07iwK+kCQiA==
   dependencies:
     jquery "^3.4.1"
     lodash "^4.17.14"
