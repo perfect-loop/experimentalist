@@ -24,3 +24,10 @@ import $ from "jquery";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 global.$ = global.jQuery = $;
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import _ from "lodash";
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+global._ = _;
