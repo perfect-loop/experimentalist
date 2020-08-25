@@ -61,4 +61,25 @@ export default abstract class Store<T> {
         console.error(error.response?.statusText);
       });
   }
+
+  @action
+  public put(url: string, data: T): Promise<T> {
+    return new Promise((resolve, reject) => {
+      const client = new Api({});
+      client
+        .put<T, T>(url, data)
+        .then((response: AxiosResponse<T>) => {
+          const { data } = response;
+          this.state = {
+            kind: "ready",
+            data,
+          };
+          resolve(data);
+        })
+        .catch((error: AxiosError) => {
+          console.error(error.response?.statusText);
+          reject(error);
+        });
+    });
+  }
 }

@@ -7,6 +7,7 @@ import Unavailable from "../Events/Unavailable";
 import Verify from "../Events/Verify";
 import NewDialog from "../EventSettings/New/NewDialog";
 import Settings from "../EventSettings/Show";
+import EditSettings from "../EventSettings/Edit";
 
 export const EventManagementRoutes: React.FC = () => {
   return (
@@ -29,6 +30,17 @@ export const EventManagementRoutes: React.FC = () => {
           return (
             <>
               <Settings eventId={props.match.params.eventId} />
+            </>
+          );
+        }}
+      />
+      <Route
+        exact
+        path="/events/:eventId/host/settings/edit"
+        component={(props: any) => {
+          return (
+            <>
+              <EditSettings eventId={props.match.params.eventId} />
             </>
           );
         }}

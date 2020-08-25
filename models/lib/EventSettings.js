@@ -5,12 +5,16 @@ var mongoose = require("mongoose");
 exports.EventSettingsSchema = new mongoose.Schema({
     introVideo: {
         type: String,
-        required: true,
+        required: true
+    },
+    requireId: {
+        type: Boolean,
+        default: true
     },
     event: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "events",
-    },
+        ref: "events"
+    }
 }, {
     timestamps: true
 });

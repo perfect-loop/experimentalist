@@ -13,7 +13,7 @@ const TextFieldAdapter = ({ input, meta, ...rest }: { input: any; meta: FieldMet
         const value = target.value;
         input.onChange(value);
       }}
-      errorText={meta.touched ? meta.error : ""}
+      errortext={meta.touched ? meta.error : ""}
     />
   );
 };
