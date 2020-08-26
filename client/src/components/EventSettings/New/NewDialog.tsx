@@ -67,7 +67,6 @@ function NewDialog(props: { eventId: string }) {
                 component={TextFieldAdapter}
                 type="title"
                 label="URL to Introduction Video"
-                required={true}
                 placeholder="https://player.vimeo.com/video/347119375"
               />
             </div>

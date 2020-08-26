@@ -74,7 +74,6 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                   component={TextFieldAdapter}
                   type="title"
                   label="URL to Introduction Video"
-                  required={true}
                   placeholder="https://player.vimeo.com/video/347119375"
                   initialValue={eventSettings.introVideo}
                 />
