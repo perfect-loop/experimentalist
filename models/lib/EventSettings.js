@@ -5,7 +5,6 @@ var mongoose = require("mongoose");
 exports.EventSettingsSchema = new mongoose.Schema({
     introVideo: {
         type: String,
-        required: true
     },
     requireId: {
         type: Boolean,

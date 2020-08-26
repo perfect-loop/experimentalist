@@ -6,7 +6,6 @@ export const EventSettingsSchema = new mongoose.Schema(
   {
     introVideo: {
       type: String,
-      required: true
     },
     requireId: {
       type: Boolean,
