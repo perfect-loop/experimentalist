@@ -198,7 +198,11 @@ export default class CompensationsController {
 
     const access_token = session.venmoAccessToken;
     if (access_token === undefined) {
-      res.status(403).send("Invalid Venmo access token ");
+      res
+        .status(403)
+        .send(
+          "Your Venmo login has expired. Please use the button below to login."
+        );
       return;
     }
 
