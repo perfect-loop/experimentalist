@@ -60,41 +60,47 @@ class AdminCompensation extends Component<IProps, IState> {
   public render() {
     const { state, compensations } = this.state.compensationsStore;
 
-    if (state === "error") {
-      const { error } = this.state.compensationsStore;
-      return (
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
-      );
-    } else if (state === "ready") {
-      return (
-        <>
-          <VenmoLoginPopup />
-          <CompensationsTable compensations={compensations} pay={this.pay} />
-          <CSVReader
-            onDrop={this.handleOnDrop}
-            style={{}}
-            config={{
-              header: false,
-              error: (e: any) => {
-                console.error("Unable to open file", e);
-              },
-            }}
-            addRemoveButton
-          >
-            <span>Drop CSV file here or click to upload.</span>
-          </CSVReader>
-          {this.fileUploadStore.state.kind === "error" && <FileUploadError store={this.fileUploadStore} />}
+    let errorMsg: JSX.Element = <></>;
+    switch (state) {
+      case "error": {
+        const { error } = this.state.compensationsStore;
+        errorMsg = (
+          <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        );
+      }
+      case "paying":
+      case "ready": {
+        return (
+          <>
+            {errorMsg}
+            {state === "paying" && <CircularProgress />}
+            <VenmoLoginPopup />
+            <CompensationsTable compensations={compensations} pay={this.pay} />
+            <CSVReader
+              onDrop={this.handleOnDrop}
+              style={{}}
+              config={{
+                header: false,
+                error: (e: any) => {
+                  console.error("Unable to open file", e);
+                },
+              }}
+              addRemoveButton
+            >
+              <span>Drop CSV file here or click to upload.</span>
+            </CSVReader>
+            {this.fileUploadStore.state.kind === "error" && <FileUploadError store={this.fileUploadStore} />}
 
-          <Example />
-        </>
-      );
-    } else if (state === "paying") {
-      return <CircularProgress />;
-    } else {
-      return <CircularProgress />;
+            <Example />
+          </>
+        );
+      }
+      case "not_ready": {
+        return <CircularProgress />;
+      }
     }
   }
 }
