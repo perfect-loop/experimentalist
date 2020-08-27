@@ -4,7 +4,8 @@ import { VenmoApi } from "../venmoApi";
 import { Venmo } from "models/Venmo";
 import { Auth0User } from "types/auth0";
 import Api from "models/Venmo";
-import { session } from "passport";
+import { VenmoToken, IVenmoToken } from "models/VenmoToken";
+import * as Sentry from "@sentry/browser";
 
 export default class VenmoController {
   public mfa(req: Request, res: Response, next: NextFunction) {
@@ -149,20 +150,23 @@ export default class VenmoController {
     logger.info("Searching Venmo user", userId);
 
     const api = new VenmoApi();
-    const accessToken = process.env.VENMO_ACCESS_TOKEN;
-
-    if (accessToken === undefined) {
-      res.status(500).send("Token is undefined");
-      return;
-    }
-    api
-      .userSearch(userId, accessToken)
-      .then((result: Venmo.IVenmoUser[]) => {
-        res.json(result[0]);
-      })
-      .catch(error => {
-        res.status(500).json(error);
-        // res.status(500).send("unable to find user");
-      });
+    VenmoToken.findOne().then((venmoToken: IVenmoToken | null) => {
+      const accessToken = venmoToken?.token;
+      if (accessToken === undefined) {
+        const error = "Search venmo token is not found";
+        logger.error(error);
+        Sentry.captureException(new Error(error));
+        res.status(500).send("Token is undefined");
+        return;
+      }
+      api
+        .userSearch(userId, accessToken)
+        .then((result: Venmo.IVenmoUser[]) => {
+          res.json(result[0]);
+        })
+        .catch(error => {
+          res.status(500).json(error);
+        });
+    });
   }
 }

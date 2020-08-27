@@ -53,7 +53,7 @@ const InnerForm = (props: {
     case "not_found": {
       return (
         <SearchCard>
-          <NotFound venmoStorage={props.storage} />
+          <NotFound venmoStorage={props.storage} setVenmoHandle={props.setVenmoHandle} />
         </SearchCard>
       );
     }

@@ -27,11 +27,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const User = (props: {
+interface IProps {
   user: Venmo.IVenmoUser;
   venmoStorage: VenmoStorage;
   setVenmoHandle: (venmoHandle: string, venmoId: string) => void;
-}) => {
+}
+
+export const User: React.FC<IProps> = props => {
   const classes = useStyles();
   const reset = () => {
     props.venmoStorage.restart();

@@ -229,14 +229,7 @@ export default class CompensationsController {
     logger.info(`Going to pay to ${JSON.stringify(venmoId)}`);
     // choose default payment
     venmoApi
-      .pay(
-        access_token,
-        venmoId,
-        amount,
-        "default",
-        note,
-        venmoPaymentMethodId
-      )
+      .pay(access_token, venmoId, amount, "default", note, venmoPaymentMethodId)
       .then(async transaction => {
         const { id, date_completed } = transaction.payment;
         const newTransaction = new Transaction({

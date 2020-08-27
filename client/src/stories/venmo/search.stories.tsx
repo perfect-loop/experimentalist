@@ -33,6 +33,20 @@ export const Done = () => {
   );
 };
 
+export const NotFoundTooManyAttempts = () => {
+  const storage = new VenmoSearchStorage();
+  storage.failedAttempt = 4;
+  const setVenmoHandle = (venmoHandle: string, venmoId: string) => "";
+  storage.state = {
+    kind: "not_found",
+  };
+  return (
+    <div>
+      <InnerForm storage={storage} setVenmoHandle={setVenmoHandle} />
+    </div>
+  );
+};
+
 export const NotFound = () => {
   const storage = new VenmoSearchStorage();
   const setVenmoHandle = (venmoHandle: string, venmoId: string) => "";

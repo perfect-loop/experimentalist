@@ -33,6 +33,7 @@ type IState = IStateReady | IStateNotReady | IStateError | IStateSearching | ISt
 
 export default class VenmoSearchStorage {
   @observable public state: IState;
+  public failedAttempt = 0;
   private api: Api;
 
   constructor() {
@@ -44,7 +45,18 @@ export default class VenmoSearchStorage {
 
   @action
   public restart() {
-    this.state = { kind: "not_ready" };
+    this.state = {
+      kind: "not_ready",
+    };
+    this.incrementFailedAttempts();
+  }
+
+  public failedAttempts() {
+    return this.failedAttempt;
+  }
+
+  public incrementFailedAttempts() {
+    this.failedAttempt = this.failedAttempt + 1;
   }
 
   @action
