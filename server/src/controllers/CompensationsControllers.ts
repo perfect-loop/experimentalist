@@ -10,7 +10,8 @@ import {
 import { ITransaction, Transaction } from "models/Transactions";
 import { IEvent, Event } from "models/Events";
 import { Auth0User } from "types/auth0";
-import { VenmoApi, IVenmoUser } from "../venmoApi";
+import { VenmoApi } from "../venmoApi";
+import { Venmo } from "models/Venmo";
 import logger from "../shared/Logger";
 import { AxiosError } from "axios";
 
@@ -223,29 +224,12 @@ export default class CompensationsController {
     const compensationId = req.params.id;
     const data = req.body;
     const { venmoId, amount, event } = data;
-    const venmoUsers: IVenmoUser[] = await venmoApi.userSearch(
-      venmoId,
-      access_token
-    );
-    if (venmoUsers.length === 0) {
-      res.status(404).send("Venmo User not found!");
-      return;
-    }
     const title = (await Event.findById(event))?.title;
     const note = `Payment for ${title} from ${user.email}`;
-    //Getting the first query result
-    const venmoUser = venmoUsers[0];
-    logger.info(`Going to pay to ${JSON.stringify(venmoUser)}`);
+    logger.info(`Going to pay to ${JSON.stringify(venmoId)}`);
     // choose default payment
     venmoApi
-      .pay(
-        access_token,
-        venmoUser.id,
-        amount,
-        "default",
-        note,
-        venmoPaymentMethodId
-      )
+      .pay(access_token, venmoId, amount, "default", note, venmoPaymentMethodId)
       .then(async transaction => {
         const { id, date_completed } = transaction.payment;
         const newTransaction = new Transaction({

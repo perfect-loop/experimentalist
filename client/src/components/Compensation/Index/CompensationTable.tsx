@@ -58,7 +58,7 @@ export default function CompensationsTable(props: {
             <StyledTableCell align="center"> Name </StyledTableCell>
             <StyledTableCell align="center"> Email </StyledTableCell>
             <StyledTableCell align="center"> Compensation </StyledTableCell>
-            <StyledTableCell align="center"> Venmo Id </StyledTableCell>
+            <StyledTableCell align="center"> Venmo Handle </StyledTableCell>
             <StyledTableCell align="center"> Pay </StyledTableCell>
             <StyledTableCell align="center"> Transaction Id </StyledTableCell>
             <StyledTableCell align="center"> Transaction Date </StyledTableCell>
@@ -72,7 +72,7 @@ export default function CompensationsTable(props: {
               </StyledTableCell>
               <StyledTableCell align="center">{email}</StyledTableCell>
               <StyledTableCell align="center">{compensation.amount}</StyledTableCell>
-              <StyledTableCell align="center"> {profile ? profile.venmoId : "N/A"} </StyledTableCell>
+              <StyledTableCell align="center"> {profile ? profile.venmoHandle : "N/A"} </StyledTableCell>
               <StyledTableCell align="center">
                 <Button
                   data-idx={idx}

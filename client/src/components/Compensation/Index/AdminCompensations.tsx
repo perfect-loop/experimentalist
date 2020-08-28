@@ -36,7 +36,7 @@ class AdminCompensation extends Component<IProps, IState> {
 
   private pay = (compensation: IUserCompensation) => {
     const data = {
-      venmoId: compensation.profile.venmoId.split(/www.venmo.com\//)[1],
+      venmoId: compensation.profile.venmoId,
       amount: compensation.compensation.amount,
       event: this.props.eventId,
       compensationId: compensation.compensation._id,

@@ -44,4 +44,12 @@ router.post(
   }
 );
 
+router.post(
+  "/venmo/search.json",
+  secured(),
+  (req: Request, res: Response, next: NextFunction) => {
+    new VenmoController().search(req, res, next);
+  }
+);
+
 export default router;

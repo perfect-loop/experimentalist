@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import AdminCompensation, { IUserCompensation } from "../AdminCompensations";
+import AdminCompensation from "../AdminCompensations";
+import IUserCompensation from "api/Compensations";
 import CompensationsStore from "../../storage/CompensationsStore";
 import { Button } from "@material-ui/core";
 import VenmoLogin from "../../../Venmo/Login";

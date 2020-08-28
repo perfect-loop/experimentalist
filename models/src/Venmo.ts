@@ -23,4 +23,17 @@ export module Venmo {
     assets?: IPaymentMethodAsset;
     fee?: IFee;
   }
+
+  export interface IVenmoUser {
+    username: string;
+    profile_picture_url: string;
+    id: string;
+    date_joined: string;
+    about: string;
+    display_name: string;
+    email?: string;
+    last_name?: string;
+    first_name?: string;
+  }
 }
+

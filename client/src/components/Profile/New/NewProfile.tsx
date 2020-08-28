@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Button, Typography, Hidden } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import ProfileStore from "../storage/ProfileStore";
@@ -9,6 +9,7 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import { useAuth0 } from "../../../util/react-auth0-spa";
 import { Api } from "models/Socket";
+import VenmoSearch from "../New/VenmoSearch";
 
 //PROFILE FORM
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,6 +26,12 @@ const useStyles = makeStyles((theme: Theme) =>
     input: {
       width: "200",
     },
+    buttons: {
+      padding: theme.spacing(1),
+      "& button": {
+        margin: theme.spacing(0.5),
+      },
+    },
   }),
 );
 
@@ -34,6 +41,8 @@ function NewProfile(props: {}) {
   const [alertText, setAlertText] = React.useState("");
   const [alert, setAlert] = React.useState(false);
   const { updateProfile } = useAuth0();
+  const [venmoHandle, setVenmoHandle] = React.useState("");
+  const [venmoId, setVenmoId] = React.useState("");
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
     const profileStore = new ProfileStore();
@@ -51,6 +60,11 @@ function NewProfile(props: {}) {
       });
   };
 
+  const setVenmoHandleAndId = (venmoHandle: string, venmoId: string) => {
+    setVenmoHandle(venmoHandle);
+    setVenmoId(venmoId);
+  };
+
   return (
     <Paper elevation={4} className={classes.paper}>
       {alert && (
@@ -59,6 +73,7 @@ function NewProfile(props: {}) {
           {alertText}
         </Alert>
       )}
+      <Typography variant="h6">Fill in your profile</Typography>
       <Form
         onSubmit={onSubmit}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -85,15 +100,33 @@ function NewProfile(props: {}) {
             </div>
             <div>
               <Field
+                name="venmoHandle"
+                component={TextFieldAdapter}
+                type="text"
+                label="Venmo Handle"
+                required={true}
+                defaultValue={venmoHandle}
+                InputProps={{
+                  readOnly: true,
+                }}
+                placeholder="Venmo Handle"
+              />
+              <VenmoSearch setVenmoHandle={setVenmoHandleAndId} />
+            </div>
+            <Hidden lgDown={true} implementation="css">
+              <Field
                 name="venmoId"
                 component={TextFieldAdapter}
                 type="text"
-                placeholder="www.venmo.com/Your-Id"
-                required={true}
                 label="Venmo Id"
+                defaultValue={venmoId}
+                required={true}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
-            </div>
-            <div className="buttons">
+            </Hidden>
+            <div className={classes.buttons}>
               <Button variant="contained" disabled={submitting} type="submit" color="primary">
                 Create
               </Button>

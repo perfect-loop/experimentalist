@@ -68,6 +68,10 @@ exports.ProfileSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    venmoHandle: {
+        type: String,
+        require: true,
+    },
     studentId: {
         type: String,
         require: true,
@@ -97,7 +101,4 @@ exports.ProfileSchema = new mongoose.Schema({
 }, {
     timestamps: true,
 });
-exports.ProfileSchema.path("venmoId").validate(function (value) {
-    return (value.match(/www.venmo.com\/.*/));
-}, "must be of the form www.venmo.com/Your-Id. Login to https://venmo.com/account/settings/profile to check your id.");
 exports.Profile = mongoose.model("profiles", exports.ProfileSchema);

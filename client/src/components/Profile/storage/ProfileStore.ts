@@ -12,6 +12,7 @@ interface IStateReady {
 interface IStateNotReady {
   kind: "not_ready";
 }
+
 interface IStateEmpty {
   kind: "empty";
 }
