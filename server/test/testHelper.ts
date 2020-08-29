@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
+import "../src/LoadEnv";
 import { Profile } from "models/Profiles";
 
 beforeAll(async (done: any) => {
-  const url = `mongodb://127.0.0.1:27017/experimentalist_test`;
-  await mongoose.connect(url, {
+  const MONGO_URI = process.env.MONGO_URL || "";
+  // mongodb://127.0.0.1:27017/experimentalist_test`;
+  console.log(`Connecting to Mongo ${MONGO_URI}`)
+  await mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: false
   });
