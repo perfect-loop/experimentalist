@@ -168,6 +168,14 @@ open localhost:3000
 heroku container:login
 ```
 
+## SSH to Heroku
+
+```
+heroku run sh
+./node_modules/.bin/ts-node
+
+```
+
 ### QA
 
 ```

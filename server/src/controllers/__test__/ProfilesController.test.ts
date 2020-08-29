@@ -15,7 +15,7 @@ describe("insert", () => {
       body: {
         firstName: "Asdf",
         lastName: "bob",
-        venmoId: "www.venmo.com/asdf"
+        venmoId: "noname"
       },
       user: { _id: "5eeaad1d96c9409bc72465c7" }
     } as any) as Request;
@@ -24,20 +24,6 @@ describe("insert", () => {
 
     const p: IProfile = (await Profile.findOne({})) as IProfile;
     expect(p.firstName).toBe("Asdf");
-    done();
-  });
-
-  it("should not insert a profile for invalid venmo", async (done: any) => {
-    const mReq = ({
-      body: {
-        firstName: "Asdf",
-        lastName: "bob",
-        venmoId: "asdf"
-      },
-      user: { _id: "5eeaad1d96c9409bc72465c7" }
-    } as any) as Request;
-    await new ProfilesController().post(mReq, mRes, mNext);
-    expect(mRes.status).toBeCalledWith(500);
     done();
   });
 });

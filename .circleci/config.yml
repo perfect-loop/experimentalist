@@ -24,7 +24,7 @@ jobs:
             - run: cd server && yarn install && yarn upgrade api
             - run: cd server && node_modules/eslint/bin/eslint.js src --ext .js,.jsx,.ts,.tsx
             - run: cd server && ./node_modules/.bin/tsc
-            # - run: cd server && ./node_modules/.bin/jest
+            - run: cd server && yarn test-ci
       - save_cache:
           key: client-node-modules-{{ checksum "client/yarn.lock" }}
           paths:

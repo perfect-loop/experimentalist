@@ -65,15 +65,7 @@ import compensation from "./routes/compensations";
 import zoom from "./routes/zoom";
 import devRoutes from "./routes/development";
 
-let MONGO_URI;
-
-if (process.env.NODE_ENV === "development") {
-  const url = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
-  MONGO_URI = url.replace("development", `dev_${process.env.USER}`);
-} else {
-  MONGO_URI = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/experiment";
-}
-
+const MONGO_URI = process.env.MONGO_URL || "";
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true })
   .catch((err: any) => console.log(err));
