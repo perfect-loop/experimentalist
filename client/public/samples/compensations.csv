@@ -1,3 +1,6 @@
-Email,Amount
+Email or Label,Amount
 student@university.edu, 0.1
 ilyakatz@pm.me, 0.01
+100001, 0.2
+100002, 0.3
+  

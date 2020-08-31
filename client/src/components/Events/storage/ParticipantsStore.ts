@@ -6,10 +6,11 @@ import { IParticipation, IParticipationProfile } from "models/Participations";
 interface IUploadedData extends Pick<IParticipation, "email"> {
   email: string;
   instructions: string;
+  label?: string;
 }
 
 export interface IRawUploadedData {
-  data: [string, string];
+  data: [string, string, string];
 }
 
 export default class ParticipantsStore {
@@ -46,6 +47,7 @@ export default class ParticipantsStore {
         return {
           email: line.data[0].toLowerCase(),
           instructions: line.data[1],
+          anonymousName: line.data[2]?.trim(),
         };
       });
     const client = new Api({});

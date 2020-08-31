@@ -37,7 +37,7 @@ export default class CompensationsStore {
     data
       .filter((line: IRawUploadedData) => line.data[0] && line.data[1])
       .forEach((line: IRawUploadedData) => {
-        emailMap[line.data[0].toLowerCase()] = line.data[1];
+        emailMap[line.data[0].toLowerCase().trim()] = line.data[1];
       });
 
     const client = new Api({});
