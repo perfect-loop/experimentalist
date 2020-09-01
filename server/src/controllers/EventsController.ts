@@ -135,7 +135,9 @@ export default class EventsController {
 
     const toInsert = data.map(d => {
       d.event = event;
-      d.anonymousName = Math.trunc(Math.random() * 1000000).toString();
+      d.anonymousName = d.anonymousName
+        ? d.anonymousName
+        : Math.trunc(Math.random() * 1000000).toString();
       return d;
     });
     logger.info(`will insert ${JSON.stringify(toInsert)}`);

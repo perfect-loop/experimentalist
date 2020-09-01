@@ -14,5 +14,6 @@ export interface IUserCompensation {
     compensation: ICompensation;
     email: string;
     transactions: ITransaction[];
+    anonymousName?: string;
 }
 export declare const Compensation: mongoose.Model<ICompensation, {}>;

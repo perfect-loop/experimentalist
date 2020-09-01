@@ -57,6 +57,7 @@ export default function CompensationsTable(props: {
           <TableRow>
             <StyledTableCell align="center"> Name </StyledTableCell>
             <StyledTableCell align="center"> Email </StyledTableCell>
+            <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
             <StyledTableCell align="center"> Compensation </StyledTableCell>
             <StyledTableCell align="center"> Venmo Handle </StyledTableCell>
             <StyledTableCell align="center"> Pay </StyledTableCell>
@@ -65,12 +66,13 @@ export default function CompensationsTable(props: {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.compensations.map(({ profile, compensation, email, transactions }, idx) => (
+          {props.compensations.map(({ profile, compensation, email, anonymousName, transactions }, idx) => (
             <StyledTableRow key={compensation._id}>
               <StyledTableCell align="center">
                 {profile ? profile.firstName + " " + profile.lastName : "N/A"}
               </StyledTableCell>
               <StyledTableCell align="center">{email}</StyledTableCell>
+              <StyledTableCell align="center">{anonymousName}</StyledTableCell>
               <StyledTableCell align="center">{compensation.amount}</StyledTableCell>
               <StyledTableCell align="center"> {profile ? profile.venmoHandle : "N/A"} </StyledTableCell>
               <StyledTableCell align="center">

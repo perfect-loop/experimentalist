@@ -125,6 +125,7 @@ export default class CompensationsController {
       const email: string = compensation.receiver.email;
       emailMap[email] = {} as IUserCompensation;
       emailMap[email].email = email;
+      emailMap[email].anonymousName = compensation.receiver.anonymousName;
       emailMap[email].compensation = compensation;
       emailMap[email].transactions = transactionMap[compensation.id] || [];
     });
@@ -171,17 +172,23 @@ export default class CompensationsController {
     const eventId: any = req.params.eventId;
 
     const participation: IParticipation[] = await Participation.find({
-      $and: [{ email: { $in: emails } }, { event: eventId }]
+      $or: [
+        { $and: [{ email: { $in: emails } }, { event: eventId }] },
+        { $and: [{ anonymousName: { $in: emails } }, { event: eventId }] }
+      ]
     });
 
     const participationIds: string[] = participation.map(p => p._id);
+
     const compensation: ICompensation[] = await Compensation.find({
       receiver: { $in: participationIds }
-    }).populate("receiver", "email");
+    }).populate("receiver");
 
     compensation.forEach((c: any) => {
       const email = c.receiver.email;
-      c.amount = data[email];
+      const anonymousName = c.receiver.anonymousName;
+      const amount = data[email] ? data[email] : data[anonymousName];
+      c.amount = amount;
       c.receiver = c.receiver._id;
       c.sender = senderParticipation._id;
       c.save();
