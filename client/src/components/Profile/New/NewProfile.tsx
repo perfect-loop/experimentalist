@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
     input: {
       width: "200",
     },
+    hidden: {
+      display: "none",
+    },
     buttons: {
       padding: theme.spacing(1),
       "& button": {
@@ -42,7 +45,8 @@ function NewProfile(props: {}) {
   const [alert, setAlert] = React.useState(false);
   const { updateProfile } = useAuth0();
   const [venmoHandle, setVenmoHandle] = React.useState("");
-  const [venmoId, setVenmoId] = React.useState("");
+  const [venmoId, setVenmoId] = React.useState<string | undefined>(undefined);
+  const [readyToSubmit, setReadyToSubmit] = React.useState<boolean>(false);
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
     const profileStore = new ProfileStore();
@@ -63,6 +67,7 @@ function NewProfile(props: {}) {
   const setVenmoHandleAndId = (venmoHandle: string, venmoId: string) => {
     setVenmoHandle(venmoHandle);
     setVenmoId(venmoId);
+    setReadyToSubmit(true);
   };
 
   return (
@@ -109,25 +114,25 @@ function NewProfile(props: {}) {
                 InputProps={{
                   readOnly: true,
                 }}
+                variant="filled"
                 placeholder="Venmo Handle"
               />
               <VenmoSearch setVenmoHandle={setVenmoHandleAndId} />
             </div>
-            <Hidden lgDown={true} implementation="css">
-              <Field
-                name="venmoId"
-                component={TextFieldAdapter}
-                type="text"
-                label="Venmo Id"
-                defaultValue={venmoId}
-                required={true}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Hidden>
+            <Field
+              className={classes.hidden}
+              name="venmoId"
+              component={TextFieldAdapter}
+              type="text"
+              label="Venmo Id"
+              defaultValue={venmoId}
+              required={true}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
             <div className={classes.buttons}>
-              <Button variant="contained" disabled={submitting} type="submit" color="primary">
+              <Button variant="contained" disabled={submitting || !readyToSubmit} type="submit" color="primary">
                 Create
               </Button>
               <Button variant="contained" onClick={form.reset} disabled={submitting || pristine} color="secondary">
