@@ -1,13 +1,11 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { shallow } from "enzyme";
 import ParticipantsStore from "../../../VideoConference/store/ParticipantsStore";
-import AllEvents from "../AllEvents";
 import { PartcipantFactory } from "../../../../test/factories/ParticipantFactory";
-import { MemoryRouter, Link } from "react-router-dom";
 import { EventFactory } from "../../../../test/factories/EventFactory";
+import AllEvents from "../AllEvents";
 import EventsTable from "../EventsTable";
 import AttendeeEvent from "../AttendeeEvent";
-import { makeStyles } from "@material-ui/core/styles";
 import { EventSettingsStore } from "../../../EventSettings/store/EventSettingsStore";
 
 describe("Events", () => {

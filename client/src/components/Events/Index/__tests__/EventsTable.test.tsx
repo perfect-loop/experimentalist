@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { mount } from "enzyme";
 import ParticipantsStore from "../../../VideoConference/store/ParticipantsStore";
 import { PartcipantFactory } from "../../../../test/factories/ParticipantFactory";
 import { MemoryRouter, Link } from "react-router-dom";
