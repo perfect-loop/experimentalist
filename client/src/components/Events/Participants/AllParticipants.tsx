@@ -14,10 +14,10 @@ const AllParticipants: React.SFC<IProps> = ({ eventStore, participantsStore }) =
   if (eventStore.state.kind === "ready" && participantsStore.state === "ready") {
     return (
       <>
-        <ParticipantsTable participants={participantsStore.participations} />
-        <br />
-        <br />
         <UploadErrors store={participantsStore} errors={participantsStore.uploadErrors} />
+        <br />
+        <br />
+        <ParticipantsTable participants={participantsStore.participations} />
       </>
     );
   }
