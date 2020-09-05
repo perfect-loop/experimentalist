@@ -5,6 +5,7 @@ import logger from "../shared/Logger";
 import { Api } from "models/Socket";
 import { io } from "../index";
 import { IParticipation, Participation } from "models/Participations";
+import { ParticipantUploadError } from "models/Errors";
 import { Auth0User } from "types/auth0";
 import BulkWriteError from "types/mongodb";
 import { Compensation } from "models/Compensations";
@@ -144,6 +145,8 @@ export default class EventsController {
 
     // Get all the inserted participation
     let participation: IParticipation[] = [];
+
+    let insertErrors: ParticipantUploadError[] = [];
     try {
       participation = await Participation.insertMany(data, {
         ordered: false
@@ -152,6 +155,8 @@ export default class EventsController {
       const error: BulkWriteError = e;
       participation = error.insertedDocs;
       logger.error(JSON.stringify(e));
+
+      insertErrors = e.writeErrors;
     }
 
     logger.info(`Inserted ${JSON.stringify(participation)}`);
@@ -165,6 +170,6 @@ export default class EventsController {
     await Compensation.insertMany(insertCompensations);
 
     const allParticipantProfiles = await getParticipantProfiles(event);
-    res.json(allParticipantProfiles);
+    res.json({ participations: allParticipantProfiles, errors: insertErrors });
   }
 }

@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { Participation, IParticipation } from "models/Participations";
 import EventsController from "../EventsController";
 import { EventFactory } from "../../test/factories/EventFactory";
 import { ParticipationFactory } from "../../test/factories/ParticipationFactory";
@@ -52,6 +53,81 @@ describe("insert", () => {
     expect(res.status).toBeCalledWith(404);
     expect(res.send).toHaveBeenCalledWith("Participation not found!");
     done();
+  });
+
+  describe("valid params", () => {
+    it("saves the participants", async (done: any) => {
+      const host = ParticipationFactory.Host({
+        email: "test@test.com",
+        event: EventFactory()
+      });
+
+      await host.save();
+
+      const req = ({
+        params: {
+          id: host.event._id
+        },
+        body: [
+          {
+            email: "testing@faker.com",
+            instructions: "http://link.to/experiment",
+            anonymousName: "672917"
+          }
+        ],
+        user: { _id: "5eeaad1d96c9409bc72465c7", email: "test@test.com" }
+      } as any) as Request;
+      await new EventsController().uploadParticipants(req, res, mNext);
+
+      expect(res.json).toHaveBeenCalled;
+      const p: IParticipation = (await Participation.findOne({
+        email: "testing@faker.com"
+      })) as IParticipation;
+
+      expect(p.anonymousName).toBe("672917");
+
+      done();
+    });
+  });
+
+  describe("Duplicate anonymousName", () => {
+    it("does not save the participant", async (done: any) => {
+      const host = ParticipationFactory.Host({
+        email: "testhost2@test.com",
+        event: EventFactory()
+      });
+
+      const attendee = ParticipationFactory.Attendee({
+        event: host.event
+      });
+
+      await host.save();
+      await attendee.save();
+
+      const req = ({
+        params: {
+          id: host.event._id
+        },
+        body: [
+          {
+            email: "testing23@faker.com",
+            instructions: "http://link.to/experiment",
+            anonymousName: attendee.anonymousName
+          }
+        ],
+        user: { _id: "5eeaad1d96c9409bc72465c7", email: "testhost2@test.com" }
+      } as any) as Request;
+
+      expect(res.json).toHaveBeenCalled;
+
+      const p: IParticipation = (await Participation.findOne({
+        email: "testing23@faker.com"
+      })) as IParticipation;
+
+      expect(p?.anonymousName).toBeUndefined;
+
+      done();
+    });
   });
 });
 

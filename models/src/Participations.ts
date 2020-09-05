@@ -7,45 +7,47 @@ import { IProfile } from "./Profiles";
 export const ParticipationsSchema = new mongoose.Schema(
   {
     email: {
-      type: String,
+      type: String
     },
     event: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "events",
+      ref: "events"
     },
     role: {
       type: String,
       enum: ["attendee", "host", "assistant"],
-      default: "attendee",
+      default: "attendee"
     },
     anonymousName: {
       type: String,
+      unique: true
     },
     instructions: {
-      type: String,
+      type: String
     },
     attendedAt: {
-      type: Date,
+      type: Date
     },
     admittedAt: {
-      type: Date,
+      type: Date
     },
     verificationImageUrl: {
-      type: String,
-    },
+      type: String
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 ParticipationsSchema.index({ email: 1, event: 1, role: 1 }, { unique: true });
+ParticipationsSchema.index({ anonymousName: 1 }, { unique: true });
 // ParticipationsSchema.pre("save", function (next: any) {
 //   // @ts-ignore
 //   this.anonymousName = Math.trunc(Math.random() * 1000000).toString();
 //   next();
 // });
-ParticipationsSchema.path("verificationImageUrl").validate((value: string)  => {
-  return (value.match(/https?:\/\/.*/));
+ParticipationsSchema.path("verificationImageUrl").validate((value: string) => {
+  return value.match(/https?:\/\/.*/);
 }, "Image must be valid url");
 
 export interface IParticipation extends Document {

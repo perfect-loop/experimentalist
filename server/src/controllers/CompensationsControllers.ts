@@ -168,6 +168,7 @@ export default class CompensationsController {
     }
 
     const data = req.body;
+
     const emails: string[] = Object.keys(data);
     const eventId: any = req.params.eventId;
 
