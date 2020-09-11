@@ -3,7 +3,7 @@ import { Form } from "react-final-form";
 import { mount } from "enzyme";
 import EditForm from "../EditForm";
 import { MemoryRouter, useHistory } from "react-router-dom";
-import { PartcipantFactory } from "../../../../test/factories/ParticipantFactory";
+import { ParticipantFactory } from "../../../../test/factories/ParticipantFactory";
 import { EventFactory } from "../../../../test/factories/EventFactory";
 import { EventSettingsFactory } from "../../../../test/factories/EventSettingsFactory";
 import { EventSettingsStore } from "../../../EventSettings/store/EventSettingsStore";
@@ -52,7 +52,7 @@ test("Submit the form", async () => {
   const eventId = "234231";
   const history = useHistory();
 
-  const model = PartcipantFactory({
+  const model = ParticipantFactory({
     _id: "pid",
     event: EventFactory({
       _id: eventId,

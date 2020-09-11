@@ -1,7 +1,7 @@
 import React from "react";
 import { MemoryRouter, Link } from "react-router-dom";
 import { shallow, mount } from "enzyme";
-import { PartcipantFactory } from "../../../../../test/factories/ParticipantFactory";
+import { ParticipantFactory } from "../../../../../test/factories/ParticipantFactory";
 import { EventFactory } from "../../../../../test/factories/EventFactory";
 import { EventSettingsFactory } from "../../../../../test/factories/EventSettingsFactory";
 import Event from "../Event";
@@ -10,7 +10,7 @@ import { EventSettingsStore } from "../../../../EventSettings/store/EventSetting
 describe("Event", () => {
   describe("Event has no settings", () => {
     test("Show link to verify identity if user has not been verified", () => {
-      const model = PartcipantFactory({
+      const model = ParticipantFactory({
         _id: "pid",
         event: EventFactory({
           _id: "someid",
@@ -34,7 +34,7 @@ describe("Event", () => {
     });
 
     test("Show link to verify conference when identity is verified", () => {
-      const model = PartcipantFactory({
+      const model = ParticipantFactory({
         _id: "pid",
         verificationImageUrl: "/some/yrl",
         event: EventFactory({
@@ -60,7 +60,7 @@ describe("Event", () => {
 
   describe("Event has settings", () => {
     test("Show link to conference if requireId is false ", () => {
-      const model = PartcipantFactory({
+      const model = ParticipantFactory({
         _id: "pid",
         event: EventFactory({
           _id: "someid",
@@ -87,7 +87,7 @@ describe("Event", () => {
 
     describe("requireId is true", () => {
       test("Show link to verify identity if user has not been verified", () => {
-        const model = PartcipantFactory({
+        const model = ParticipantFactory({
           _id: "pid",
           event: EventFactory({
             _id: "someid",
@@ -112,7 +112,7 @@ describe("Event", () => {
       });
 
       test("Show link to conference when identity is verified", () => {
-        const model = PartcipantFactory({
+        const model = ParticipantFactory({
           _id: "pid",
           verificationImageUrl: "/some/yrl",
           event: EventFactory({

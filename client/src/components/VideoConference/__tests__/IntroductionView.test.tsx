@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import IntroductionView from "../intro/IntroductionView";
-import { PartcipantFactory } from "../../../test/factories/ParticipantFactory";
+import { ParticipantFactory } from "../../../test/factories/ParticipantFactory";
 import { Dialog } from "@material-ui/core";
 import { EventSettingsStore } from "../../EventSettings/store/EventSettingsStore";
 import { EventSettingsFactory } from "../../../test/factories/EventSettingsFactory";
@@ -14,7 +14,7 @@ describe("IntroductionView", () => {
     data: EventSettingsFactory(),
   };
   describe("Host", () => {
-    const p = PartcipantFactory({
+    const p = ParticipantFactory({
       role: "host",
     });
 
@@ -25,7 +25,7 @@ describe("IntroductionView", () => {
   });
 
   describe("Attendee", () => {
-    const p = PartcipantFactory({
+    const p = ParticipantFactory({
       role: "attendee",
     });
 
