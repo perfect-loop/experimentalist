@@ -40,7 +40,7 @@ export const ParticipationsSchema = new mongoose.Schema(
   }
 );
 ParticipationsSchema.index({ email: 1, event: 1, role: 1 }, { unique: true });
-ParticipationsSchema.index({ anonymousName: 1 }, { unique: true });
+ParticipationsSchema.index({ anonymousName: 1, event: 1 }, { unique: true });
 // ParticipationsSchema.pre("save", function (next: any) {
 //   // @ts-ignore
 //   this.anonymousName = Math.trunc(Math.random() * 1000000).toString();
