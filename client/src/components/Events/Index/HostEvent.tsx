@@ -9,7 +9,7 @@ import { StyledTableCell } from "./StyledTableCell";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 import EventStatus from "./EventStatus";
 
-export default function HostEvent(props: { participation: IParticipation; classes: Record<"table", string> }) {
+export default function HostEvent(props: { participation: IParticipation }) {
   return (
     <StyledTableRow key={props.participation.event._id}>
       <StyledTableCell align="right"> {props.participation.event.title} </StyledTableCell>
