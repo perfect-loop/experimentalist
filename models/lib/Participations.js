@@ -16,8 +16,7 @@ exports.ParticipationsSchema = new mongoose.Schema({
         default: "attendee"
     },
     anonymousName: {
-        type: String,
-        unique: true
+        type: String
     },
     instructions: {
         type: String

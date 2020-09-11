@@ -18,14 +18,14 @@ describe("UploadErrors", () => {
 
       const errors = [
         {
-          errmsg: "duplicate key error collection: experimentalist.participations index: email",
+          errmsg: "email_1_event_1_role_1 dup",
           op: {
             email: "test@yahoo.com",
             anonymousName: "100001",
           },
         },
         {
-          errmsg: "duplicate key error collection: experimentalist.participations index: anonymousName",
+          errmsg: "anonymousName_1_event_1 dup",
           op: {
             email: "test2@yahoo.com",
             anonymousName: "100001",
