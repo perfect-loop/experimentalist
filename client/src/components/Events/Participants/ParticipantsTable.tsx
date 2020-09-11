@@ -77,7 +77,9 @@ export default function ParticipantsTable(props: { participants: IParticipationP
                   )}
                 </StyledTableCell>
                 <StyledTableCell align="center"> {participant.role} </StyledTableCell>
-                <StyledTableCell align="center"> {participant.anonymousName} </StyledTableCell>
+                <StyledTableCell align="center">
+                  {participant.role === "host" ? "" : participant.anonymousName}
+                </StyledTableCell>
                 <StyledTableCell align="center"> {profile ? profile.firstName : ""} </StyledTableCell>
                 <StyledTableCell align="center"> {profile ? profile.lastName : ""} </StyledTableCell>
                 <StyledTableCell align="center">{!!participant.attendedAt && <CheckCircleIcon />}</StyledTableCell>

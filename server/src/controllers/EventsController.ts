@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Event, EventSchema, IEvent } from "models/Events";
-import { isHost, getParticipantProfiles } from "./helpers";
+import { isHost, getParticipantProfiles, randomizedName } from "./helpers";
 import logger from "../shared/Logger";
 import { Api } from "models/Socket";
 import { io } from "../index";
@@ -136,9 +136,7 @@ export default class EventsController {
 
     const toInsert = data.map(d => {
       d.event = event;
-      d.anonymousName = d.anonymousName
-        ? d.anonymousName
-        : Math.trunc(Math.random() * 1000000).toString();
+      d.anonymousName = d.anonymousName ? d.anonymousName : randomizedName();
       return d;
     });
     logger.info(`will insert ${JSON.stringify(toInsert)}`);

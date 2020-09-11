@@ -66,3 +66,6 @@ export async function getParticipantProfiles(event: IEvent) {
   const result: IParticipationProfile[] = Object.values(participantProfileMap);
   return result;
 }
+
+export const randomizedName = () =>
+  Math.trunc(Math.random() * 1000000).toString();

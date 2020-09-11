@@ -4,7 +4,11 @@ import { IEvent, Event } from "models/Events";
 import { Participation, IParticipation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 import EventsController from "../controllers/EventsController";
-import { getParticipantProfiles, isHost } from "../controllers/helpers";
+import {
+  getParticipantProfiles,
+  isHost,
+  randomizedName
+} from "../controllers/helpers";
 import logger from "../shared/Logger";
 
 const router = express.Router();
@@ -116,7 +120,8 @@ function addParticipation(
   const params = {
     email,
     event: event.id,
-    role: "host"
+    role: "host",
+    anonymousName: randomizedName()
   };
   console.log(`Creating host participant ${JSON.stringify(params)}`);
   const pNew = new Participation(params);
