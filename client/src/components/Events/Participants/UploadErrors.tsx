@@ -47,9 +47,9 @@ interface Props {
 }
 
 const errmsg = (msg: string) => {
-  if (msg.includes("duplicate key error collection: experimentalist.participations index: email")) {
+  if (msg.includes("email_1_event_1_role_1 dup")) {
     return "Duplicate username";
-  } else if (msg.includes("duplicate key error collection: experimentalist.participations index: anonymousName")) {
+  } else if (msg.includes("anonymousName_1_event_1 dup")) {
     return "Duplicate label";
   } else {
     return "Could not upload participant";

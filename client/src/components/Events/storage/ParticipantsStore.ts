@@ -68,13 +68,11 @@ export default class ParticipantsStore {
         this.participations = data.participations;
         this.uploadErrors = data.errors;
         this.state = "ready";
-        console.log(data.errors);
       })
       .catch((error: AxiosError) => {
         console.error(error.response?.statusText);
         this.state = "error";
       });
-    console.log(uploadData);
   };
 
   @action
