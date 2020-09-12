@@ -13,7 +13,7 @@ describe("HostEvent", () => {
         <HostEvent participation={participant} />
       </MemoryRouter>,
     );
-    const url = `/events/${participant.event._id}/admin/compensations`;
+    const url = `/events/${participant.event._id}/host/compensations/venmo`;
     const links = wrapper.find(Link).findWhere(link => link.prop("to") === url);
     expect(links).toHaveLength(1);
   });

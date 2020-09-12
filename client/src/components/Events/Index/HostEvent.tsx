@@ -27,7 +27,7 @@ export default function HostEvent(props: { participation: IParticipation }) {
         </Link>
       </StyledTableCell>
       <StyledTableCell align="center">
-        <Link to={`/events/${props.participation.event._id}/admin/compensations`}>
+        <Link to={`/events/${props.participation.event._id}/host/compensations/venmo`}>
           <LocalAtmIcon />
         </Link>
       </StyledTableCell>
