@@ -1,11 +1,11 @@
 import React from "react";
 import { mount } from "enzyme";
 import ParticipantsTable from "../ParticipantsTable";
-import { ParticipationProfileFactory, PartcipantFactory } from "../../../../test/factories/ParticipantFactory";
+import { ParticipationProfileFactory, ParticipantFactory } from "../../../../test/factories/ParticipantFactory";
 
 describe("ParticipantsTable", () => {
   test("Shows the participants", () => {
-    const participant = PartcipantFactory({ email: "test@yahoo.com" });
+    const participant = ParticipantFactory({ email: "test@yahoo.com" });
     const participantProfile = ParticipationProfileFactory({
       participant,
     });
