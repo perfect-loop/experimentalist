@@ -8,6 +8,7 @@ export interface ICompensation extends Document {
     status: string;
     sender: string;
     receiver: string;
+    paymentMethod: string;
 }
 export interface IUserCompensation {
     profile: IProfile;

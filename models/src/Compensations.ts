@@ -23,11 +23,13 @@ const CompensationsSchema = new mongoose.Schema({
     ref: "participation",
     require: true,
   },
+  paymentMethod: {
+    type: String,
+    enum: ["venmo", "paypal"],
+    default: "venmo",
+  }
 });
-CompensationsSchema.index(
-  { sender: 1, receiver: 1 },
-  { unique: true }
-);
+CompensationsSchema.index({ sender: 1, receiver: 1 }, { unique: true });
 
 export interface ICompensation extends Document {
   _id: string;
@@ -35,6 +37,7 @@ export interface ICompensation extends Document {
   status: string;
   sender: string;
   receiver: string;
+  paymentMethod: string;
 }
 
 export interface IUserCompensation {
