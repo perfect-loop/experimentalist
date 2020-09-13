@@ -5,7 +5,7 @@ import { Role } from "models/Zoom";
 import { Auth0User } from "../../../../util/react-auth0-spa";
 import { Auth0UserFactory } from "../../../../test/factories/Auth0UserFactory";
 import { shallow } from "enzyme";
-import { ParticipantFactory } from "../../../../test/factories/ParticipantFactory";
+import { PartcipantFactory } from "../../../../test/factories/ParticipantFactory";
 import { Redirect, MemoryRouter } from "react-router-dom";
 import VideoConference from "../../../VideoConference";
 import { EventFactory } from "../../../../test/factories/EventFactory";
@@ -22,7 +22,7 @@ describe("Participant", () => {
       store.state = {
         kind: "ready",
         models: [
-          ParticipantFactory({
+          PartcipantFactory({
             role: "attendee",
             attendedAt: new Date(),
             event,
@@ -39,7 +39,7 @@ describe("Participant", () => {
       store.state = {
         kind: "ready",
         models: [
-          ParticipantFactory({
+          PartcipantFactory({
             role: "attendee",
             event,
           }),
@@ -63,7 +63,7 @@ describe("Participant", () => {
       store.state = {
         kind: "ready",
         models: [
-          ParticipantFactory({
+          PartcipantFactory({
             role: "attendee",
             attendedAt: undefined,
             event: EventFactory({
@@ -82,7 +82,7 @@ describe("Participant", () => {
       store.state = {
         kind: "ready",
         models: [
-          ParticipantFactory({
+          PartcipantFactory({
             role: "attendee",
             attendedAt: new Date(),
             event,
@@ -102,7 +102,7 @@ describe("Participant", () => {
       store.state = {
         kind: "ready",
         models: [
-          ParticipantFactory({
+          PartcipantFactory({
             role: "attendee",
             admittedAt: new Date(),
             attendedAt: new Date(),
@@ -128,7 +128,7 @@ describe("Host", () => {
     store.state = {
       kind: "ready",
       models: [
-        ParticipantFactory({
+        PartcipantFactory({
           role: "host",
         }),
       ],
@@ -146,7 +146,7 @@ describe("Assistant", () => {
     store.state = {
       kind: "ready",
       models: [
-        ParticipantFactory({
+        PartcipantFactory({
           role: "assistant",
         }),
       ],
@@ -164,10 +164,10 @@ describe("Both Participant & Host", () => {
     store.state = {
       kind: "ready",
       models: [
-        ParticipantFactory({
+        PartcipantFactory({
           role: "host",
         }),
-        ParticipantFactory({
+        PartcipantFactory({
           role: "attendee",
         }),
       ],

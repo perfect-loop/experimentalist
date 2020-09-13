@@ -1,6 +1,6 @@
 import React from "react";
 import { EventSettingsStore } from "../../components/EventSettings/store/EventSettingsStore";
-import { ParticipantFactory } from "../../test/factories/ParticipantFactory";
+import { PartcipantFactory } from "../../test/factories/ParticipantFactory";
 import { EventSettingsFactory } from "../../test/factories/EventSettingsFactory";
 import CustomizedDialogs from "../../components/VideoConference/CustomizedDialogs";
 
@@ -10,7 +10,7 @@ export default {
 
 const eventId = "skdfsdklf89";
 const eventSettingsStore = new EventSettingsStore(eventId);
-const p = ParticipantFactory({
+const p = PartcipantFactory({
   role: "attendee",
   instructions: "http://google.com/",
 });

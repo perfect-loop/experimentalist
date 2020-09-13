@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import ParticipantsStore from "../../../VideoConference/store/ParticipantsStore";
-import { ParticipantFactory } from "../../../../test/factories/ParticipantFactory";
+import { PartcipantFactory } from "../../../../test/factories/ParticipantFactory";
 import { EventFactory } from "../../../../test/factories/EventFactory";
 import AllEvents from "../AllEvents";
 import EventsTable from "../EventsTable";
@@ -14,12 +14,12 @@ describe("Events", () => {
     store.state = {
       kind: "ready",
       models: [
-        ParticipantFactory({
+        PartcipantFactory({
           event: EventFactory({
             state: "not_started",
           }),
         }),
-        ParticipantFactory({
+        PartcipantFactory({
           event: EventFactory({
             state: "ended",
           }),
