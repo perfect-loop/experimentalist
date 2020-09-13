@@ -26,7 +26,7 @@ const BrowserViewWrapper = () => {
         redirect_uri={window.location.origin}
         onRedirectCallback={onRedirectCallback}
       >
-        <FlagsProvider features={{ venmoLogin: true }}>
+        <FlagsProvider features={{ venmoLogin: true, selectPaymentMethod: false }}>
           <App />
         </FlagsProvider>
       </Auth0Provider>

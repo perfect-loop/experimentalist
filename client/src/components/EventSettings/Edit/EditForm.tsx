@@ -1,6 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { useHistory } from "react-router-dom";
+import { useFeature } from "flagged";
 import { Paper } from "@material-ui/core";
 import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
@@ -9,6 +10,11 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import { EventSettingsStore } from "../store/EventSettingsStore";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import { Radio } from "final-form-material-ui";
 
 interface Props {
   eventId: string;
@@ -27,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       width: "700px",
       height: "100%",
+      padding: "20px",
     },
     input: {
       width: "200",
@@ -38,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
+  const selectPaymentMethod = useFeature("selectPaymentMethod");
   const classes = useStyles();
   const history = useHistory();
   const [alert, setAlert] = React.useState(false);
@@ -66,6 +74,7 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
         )}
         <Form
           onSubmit={onSubmit}
+          initialValues={{ paymentMethod: eventSettings.paymentMethod }}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit} className={classes.root}>
               <div>
@@ -78,6 +87,23 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                   initialValue={eventSettings.introVideo}
                 />
               </div>
+              <br />
+              <div>
+                <h4>Payment Method </h4>
+                <RadioGroup row>
+                  <FormControlLabel
+                    label="Venmo"
+                    control={<Field name="paymentMethod" component={Radio} type="radio" value="venmo" />}
+                  />
+                  {selectPaymentMethod && (
+                    <FormControlLabel
+                      label="PayPal"
+                      control={<Field name="paymentMethod" component={Radio} type="radio" value="paypal" />}
+                    />
+                  )}
+                </RadioGroup>
+              </div>
+              <br />
               <div>
                 <Field
                   name="requireId"
@@ -86,11 +112,18 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                   initialValue={eventSettings.requireId}
                 />
               </div>
+              <br />
               <div className="buttons">
                 <Button variant="contained" disabled={submitting} type="submit" color="primary">
                   Update
                 </Button>
-                <Button variant="contained" onClick={form.reset} disabled={submitting || pristine} color="secondary">
+                <Button
+                  variant="contained"
+                  onClick={form.reset}
+                  disabled={submitting || pristine}
+                  color="secondary"
+                  style={{ marginLeft: "20px" }}
+                >
                   Reset
                 </Button>
               </div>

@@ -45,13 +45,25 @@ function Settings(props: IProps) {
           )}
           <br />
           <br />
-          <Typography>
-            Identification Required?
-            <Tooltip title="Participants would be required to take a photo before joining the meeting">
-              <HelpIcon fontSize="small" color="disabled" />
-            </Tooltip>
-          </Typography>
-          <div>{eventSettings.requireId ? "Yes" : "No"}</div>
+          <div>
+            <Typography>
+              Identification Required?
+              <Tooltip title="Participants would be required to take a photo before joining the meeting">
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
+            </Typography>
+            <div>{eventSettings.requireId ? "Yes" : "No"}</div>
+          </div>
+          <br />
+          <div>
+            <Typography>
+              Payment Method
+              <Tooltip title="Method of payment for participants">
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
+            </Typography>
+            <div>{eventSettings.paymentMethod === "paypal" ? "PayPal" : "Venmo"}</div>
+          </div>
           <br />
           <br />
           <Link to={`/events/${props.eventSettingsStore.eventId}/host/settings/edit`}>Edit</Link>

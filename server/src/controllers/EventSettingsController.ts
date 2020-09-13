@@ -94,6 +94,7 @@ export default class EventSettingsController {
 
     eventSettings.requireId = body.requireId;
     eventSettings.introVideo = body.introVideo;
+    eventSettings.paymentMethod = body.paymentMethod?.toLowerCase();
 
     eventSettings
       .save()

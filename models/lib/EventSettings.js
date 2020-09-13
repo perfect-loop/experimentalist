@@ -4,7 +4,7 @@ exports.EventSettings = exports.EventSettingsSchema = void 0;
 var mongoose = require("mongoose");
 exports.EventSettingsSchema = new mongoose.Schema({
     introVideo: {
-        type: String,
+        type: String
     },
     requireId: {
         type: Boolean,
@@ -13,6 +13,10 @@ exports.EventSettingsSchema = new mongoose.Schema({
     event: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "events"
+    },
+    paymentMethod: {
+        type: String,
+        default: "venmo"
     }
 }, {
     timestamps: true

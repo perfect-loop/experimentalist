@@ -5,7 +5,7 @@ import { IEvent } from "./Events";
 export const EventSettingsSchema = new mongoose.Schema(
   {
     introVideo: {
-      type: String,
+      type: String
     },
     requireId: {
       type: Boolean,
@@ -14,6 +14,10 @@ export const EventSettingsSchema = new mongoose.Schema(
     event: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "events"
+    },
+    paymentMethod: {
+      type: String,
+      default: "venmo"
     }
   },
   {
@@ -25,6 +29,7 @@ export interface IEventSettings extends Document {
   _id: string;
   introVideo: string;
   requireId: boolean;
+  paymentMethod: string;
   event: IEvent;
   createdAt: Date;
   updatedAt: Date;

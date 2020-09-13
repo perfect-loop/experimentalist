@@ -1,5 +1,7 @@
 import React from "react";
 import { Form } from "react-final-form";
+import { FlagsProvider } from "flagged";
+import { Radio } from "final-form-material-ui";
 import NewDialog from "../NewDialog";
 import { MemoryRouter, useHistory } from "react-router-dom";
 import { mount } from "enzyme";
@@ -44,8 +46,9 @@ beforeEach(() => {
   mockHistoryPush.mockClear();
 });
 
+const eventId = "234231";
+
 test("Submit the form", async () => {
-  const eventId = "234231";
   const history = useHistory();
 
   const wrapper = mount(
@@ -57,4 +60,32 @@ test("Submit the form", async () => {
   form.simulate("submit");
   await flushPromises();
   expect(mockHistoryPush).toHaveBeenCalledWith(`/events/${eventId}/host/settings`);
+});
+
+describe("Select Payment Method", () => {
+  describe("With the select payment method feature flag on", () => {
+    test("Renders the paypal radio button", () => {
+      const wrapper = mount(
+        <FlagsProvider features={{ selectPaymentMethod: true }}>
+          <NewDialog eventId={eventId} />
+        </FlagsProvider>,
+      );
+
+      expect(wrapper.find(Radio)).toHaveLength(2);
+      expect(wrapper.text().includes("PayPal")).toBe(true);
+    });
+  });
+
+  describe("With the select payment method feature flag off", () => {
+    test("does not render the paypal radio button", () => {
+      const wrapper = mount(
+        <FlagsProvider features={{ selectPaymentMethod: false }}>
+          <NewDialog eventId={eventId} />
+        </FlagsProvider>,
+      );
+
+      expect(wrapper.find(Radio)).toHaveLength(1);
+      expect(wrapper.text().includes("PayPal")).toBe(false);
+    });
+  });
 });

@@ -6,6 +6,7 @@ export interface IEventSettings extends Document {
     _id: string;
     introVideo: string;
     requireId: boolean;
+    paymentMethod: string;
     event: IEvent;
     createdAt: Date;
     updatedAt: Date;
