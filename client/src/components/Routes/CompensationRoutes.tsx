@@ -18,7 +18,14 @@ export const CompensationRoutes: React.FC = () => {
         exact
         path="/events/:id/host/compensations/venmo"
         component={(props: any) => {
-          return <AdminCompensation eventId={props.match.params.id} />;
+          return <AdminCompensation eventId={props.match.params.id} method="venmo" />;
+        }}
+      />
+      <Route
+        exact
+        path="/events/:id/host/compensations/paypal"
+        component={(props: any) => {
+          return <AdminCompensation eventId={props.match.params.id} method="paypal" />;
         }}
       />
       <Route

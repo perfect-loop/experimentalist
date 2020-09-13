@@ -7,14 +7,16 @@ import { IUserCompensation } from "models/Compensations";
 import { CSVReader } from "react-papaparse";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle/AlertTitle";
-import CompensationsTable from "./CompensationTable";
 import VenmoLoginPopup from "./VenmoLogin";
 import { CircularProgress } from "@material-ui/core";
 import Example from "./Example";
 import FileUploadError from "../../FileUpload/FileUploadError";
+import CompensationsTable from "./CompensationTable";
+import PayPalCompensationsTable from "./PayPalCompensationTable";
 
 interface IProps {
   eventId: string;
+  method: "venmo" | "paypal";
 }
 
 interface IState {
@@ -77,8 +79,13 @@ class AdminCompensation extends Component<IProps, IState> {
           <>
             {errorMsg}
             {state === "paying" && <CircularProgress />}
-            <VenmoLoginPopup />
-            <CompensationsTable compensations={compensations} pay={this.pay} />
+            {this.props.method === "venmo" && (
+              <>
+                <VenmoLoginPopup />
+                <CompensationsTable compensations={compensations} pay={this.pay} />
+              </>
+            )}
+            {this.props.method === "paypal" && <PayPalCompensationsTable compensations={compensations} />}
             <CSVReader
               onDrop={this.handleOnDrop}
               style={{}}
