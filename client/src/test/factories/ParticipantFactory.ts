@@ -4,7 +4,7 @@ import { EventFactory } from "./EventFactory";
 import { IParticipation, IParticipationProfile } from "models/Participations";
 import { ProfileFactory } from "./ProfileFactory";
 
-export const PartcipantFactory = define<IParticipation>({
+export const ParticipantFactory = define<IParticipation>({
   _id: "",
   email: faker.internet.email(),
   event: EventFactory(),
@@ -15,6 +15,6 @@ export const PartcipantFactory = define<IParticipation>({
 
 export const ParticipationProfileFactory = define<IParticipationProfile>({
   email: faker.internet.email(),
-  participant: PartcipantFactory(),
+  participant: ParticipantFactory(),
   profile: ProfileFactory(),
 });

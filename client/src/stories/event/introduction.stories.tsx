@@ -1,6 +1,6 @@
 import React from "react";
 import { EventSettingsStore } from "../../components/EventSettings/store/EventSettingsStore";
-import { PartcipantFactory } from "../../test/factories/ParticipantFactory";
+import { ParticipantFactory } from "../../test/factories/ParticipantFactory";
 import IntroductionView from "../../components/VideoConference/intro/IntroductionView";
 import { EventSettingsFactory } from "../../test/factories/EventSettingsFactory";
 
@@ -10,7 +10,7 @@ export default {
 
 const eventId = "skdfsdklf89";
 const eventSettingsStore = new EventSettingsStore(eventId);
-const p = PartcipantFactory({
+const p = ParticipantFactory({
   role: "attendee",
 });
 
