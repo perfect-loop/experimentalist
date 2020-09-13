@@ -18,6 +18,9 @@ function IntroductionView(props: { participant: IParticipation; eventSettingsSto
 
   if (props.participant.role !== "host") {
     switch (props.eventSettingsStore.state.kind) {
+      case "empty": {
+        return <></>;
+      }
       case "not_ready": {
         return <></>;
       }

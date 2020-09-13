@@ -18,7 +18,7 @@ router.get("/profile.json", secured(), async (req: any, res, next) => {
     return;
   }
 
-  res.status(200).json(profile);
+  res.status(200).json([profile]);
 });
 
 router.post("/profile.json", secured(), async (req: any, res, next) => {

@@ -13,7 +13,11 @@ interface IStateNotReady {
   kind: "not_ready";
 }
 
-type IState = IStateReady | IStateNotReady;
+interface IStateEmpty {
+  kind: "empty";
+}
+
+type IState = IStateEmpty | IStateReady | IStateNotReady;
 
 export default abstract class Store<T> {
   @observable public state: IState;

@@ -14,6 +14,7 @@ interface IProps {
 function Settings(props: IProps) {
   const history = useHistory();
   switch (props.eventSettingsStore.state.kind) {
+    case "empty":
     case "not_ready":
       return <div>Not ready</div>;
     case "ready":

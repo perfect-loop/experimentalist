@@ -7,6 +7,7 @@ import { observer } from "mobx-react";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import { FULLSTORY_CODE } from "../../../util/config";
 import { identify } from "react-fullstory";
+import { IProfile } from "models/Profiles";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,7 +42,7 @@ function ShowProfile(props: IProps) {
     case "empty":
       return <div>Profile not found</div>;
     case "ready":
-      const profile = props.profileStore.state.model;
+      const profile: IProfile = props.profileStore.state.data[0];
       if (FULLSTORY_CODE) {
         const params = {
           displayName: `${profile.firstName} ${profile.lastName}`,

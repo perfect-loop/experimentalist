@@ -28,6 +28,7 @@ interface Props {
 
 const Event: React.SFC<Props> = ({ participation, eventSettingsStore }) => {
   switch (eventSettingsStore.state.kind) {
+    case "empty":
     case "not_ready":
       return <></>;
     case "ready": {

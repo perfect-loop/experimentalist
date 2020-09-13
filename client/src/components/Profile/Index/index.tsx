@@ -15,7 +15,7 @@ class Index extends Component<{}, IState> {
     this.state = {
       profileStore,
     };
-    profileStore.get();
+    profileStore.index();
   }
 
   public render() {
