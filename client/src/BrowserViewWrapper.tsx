@@ -19,6 +19,8 @@ const BrowserViewWrapper = () => {
   }
 
   if (isChrome || isFirefox) {
+    const selectPaymentMethod = process.env.NODE_ENV === "production" ? false : true;
+
     return (
       <Auth0Provider
         domain={AUTH0_DOMAIN}
@@ -26,7 +28,7 @@ const BrowserViewWrapper = () => {
         redirect_uri={window.location.origin}
         onRedirectCallback={onRedirectCallback}
       >
-        <FlagsProvider features={{ venmoLogin: true, selectPaymentMethod: false }}>
+        <FlagsProvider features={{ venmoLogin: true, selectPaymentMethod: selectPaymentMethod }}>
           <App />
         </FlagsProvider>
       </Auth0Provider>

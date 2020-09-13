@@ -10,11 +10,9 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import { EventSettingsStore } from "../store/EventSettingsStore";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
+import RadioButtonAdapter from "../../Forms/RadioButtonAdapter";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import { Radio } from "final-form-material-ui";
 
 interface Props {
   eventId: string;
@@ -93,12 +91,14 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                 <RadioGroup row>
                   <FormControlLabel
                     label="Venmo"
-                    control={<Field name="paymentMethod" component={Radio} type="radio" value="venmo" />}
+                    control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="venmo" />}
                   />
                   {selectPaymentMethod && (
                     <FormControlLabel
                       label="PayPal"
-                      control={<Field name="paymentMethod" component={Radio} type="radio" value="paypal" />}
+                      control={
+                        <Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="paypal" />
+                      }
                     />
                   )}
                 </RadioGroup>

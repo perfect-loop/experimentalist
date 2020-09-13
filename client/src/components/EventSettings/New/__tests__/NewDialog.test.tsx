@@ -1,8 +1,8 @@
 import React from "react";
 import { Form } from "react-final-form";
 import { FlagsProvider } from "flagged";
-import { Radio } from "final-form-material-ui";
 import NewDialog from "../NewDialog";
+import RadioButtonAdapter from "../../../Forms/RadioButtonAdapter";
 import { MemoryRouter, useHistory } from "react-router-dom";
 import { mount } from "enzyme";
 
@@ -71,7 +71,7 @@ describe("Select Payment Method", () => {
         </FlagsProvider>,
       );
 
-      expect(wrapper.find(Radio)).toHaveLength(2);
+      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(2);
       expect(wrapper.text().includes("PayPal")).toBe(true);
     });
   });
@@ -84,7 +84,7 @@ describe("Select Payment Method", () => {
         </FlagsProvider>,
       );
 
-      expect(wrapper.find(Radio)).toHaveLength(1);
+      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(1);
       expect(wrapper.text().includes("PayPal")).toBe(false);
     });
   });

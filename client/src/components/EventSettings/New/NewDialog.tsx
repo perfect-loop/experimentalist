@@ -8,11 +8,9 @@ import { IEventSettings } from "models/EventSettings";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
+import RadioButtonAdapter from "../../Forms/RadioButtonAdapter";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import { Radio } from "final-form-material-ui";
 import { EventSettingsStore } from "../store/EventSettingsStore";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -85,12 +83,12 @@ function NewDialog(props: { eventId: string }) {
               <RadioGroup row>
                 <FormControlLabel
                   label="Venmo"
-                  control={<Field name="paymentMethod" component={Radio} type="radio" value="venmo" />}
+                  control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="venmo" />}
                 />
                 {selectPaymentMethod && (
                   <FormControlLabel
                     label="PayPal"
-                    control={<Field name="paymentMethod" component={Radio} type="radio" value="paypal" />}
+                    control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="paypal" />}
                   />
                 )}
               </RadioGroup>
