@@ -42,6 +42,7 @@ class AdminCompensation extends Component<IProps, IState> {
       amount: compensation.compensation.amount,
       event: this.props.eventId,
       compensationId: compensation.compensation._id,
+      paymentMethod: "venmo",
     };
     this.state.compensationsStore.pay(data);
   };

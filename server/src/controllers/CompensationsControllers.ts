@@ -231,7 +231,7 @@ export default class CompensationsController {
 
     const compensationId = req.params.id;
     const data = req.body;
-    const { venmoId, amount, event } = data;
+    const { venmoId, amount, event, paymentMethod } = data;
     const title = (await Event.findById(event))?.title;
     const note = `Payment for ${title} from ${user.email}`;
     logger.info(`Going to pay to ${JSON.stringify(venmoId)}`);
@@ -252,6 +252,7 @@ export default class CompensationsController {
           return;
         }
         compensation.status = "Paid";
+        compensation.paymentMethod = paymentMethod;
         await compensation.save();
         await newTransaction.save();
         res.status(200).json(newTransaction);

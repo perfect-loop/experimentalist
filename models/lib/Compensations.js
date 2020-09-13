@@ -21,6 +21,11 @@ var CompensationsSchema = new mongoose.Schema({
         ref: "participation",
         require: true,
     },
+    paymentMethod: {
+        type: String,
+        enum: ["venmo", "paypal"],
+        default: "venmo",
+    }
 });
 CompensationsSchema.index({ sender: 1, receiver: 1 }, { unique: true });
 exports.Compensation = mongoose.model("compensation", CompensationsSchema);
