@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import ParticipantsStore from "../../../VideoConference/store/ParticipantsStore";
-import { ParticipantFactory } from "../../../../test/factories/ParticipantFactory";
+import { PartcipantFactory } from "../../../../test/factories/ParticipantFactory";
 import { MemoryRouter, Link } from "react-router-dom";
 import { EventFactory } from "../../../../test/factories/EventFactory";
 import EventsTable from "../EventsTable";
@@ -13,7 +13,7 @@ import AttendeeHeader from "../AttendeeHeader";
 describe("EventsTable", () => {
   describe("Attendee", () => {
     test("Show event as attendee", () => {
-      const ps = [ParticipantFactory()];
+      const ps = [PartcipantFactory()];
       const wrapper = mount(
         <MemoryRouter>
           <EventsTable participations={ps} />
@@ -27,7 +27,7 @@ describe("EventsTable", () => {
   describe("Host", () => {
     test("Show event as host", () => {
       const ps = [
-        ParticipantFactory({
+        PartcipantFactory({
           role: "host",
         }),
       ];
@@ -45,7 +45,7 @@ describe("EventsTable", () => {
   describe("Assistant", () => {
     test("Show event as host", () => {
       const ps = [
-        ParticipantFactory({
+        PartcipantFactory({
           role: "assistant",
         }),
       ];

@@ -2,7 +2,7 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 import { Role } from "models/Zoom";
 import ConferenceView from "../ConferenceView";
-import { ParticipantFactory } from "../../../test/factories/ParticipantFactory";
+import { PartcipantFactory } from "../../../test/factories/ParticipantFactory";
 import { fake } from "faker";
 
 describe("ConferenceView", () => {
@@ -12,7 +12,7 @@ describe("ConferenceView", () => {
   };
 
   describe("FAB", () => {
-    const p = ParticipantFactory();
+    const p = PartcipantFactory();
 
     test("Set to true", () => {
       const wrapper = shallow(<ConferenceView role={Role.Attendee} participant={p} showFab={true} />);
@@ -46,7 +46,7 @@ describe("ConferenceView", () => {
   });
 
   describe("Attendee", () => {
-    const p = ParticipantFactory({
+    const p = PartcipantFactory({
       role: "attendee",
     });
     const wrapper = mount(<ConferenceView role={Role.Attendee} participant={p} />);
@@ -141,7 +141,7 @@ describe("ConferenceView", () => {
     });
   });
   describe("Host", () => {
-    const p = ParticipantFactory({
+    const p = PartcipantFactory({
       role: "host",
     });
     const wrapper = shallow(<ConferenceView role={Role.Host} participant={p} />);
@@ -235,7 +235,7 @@ describe("ConferenceView", () => {
     });
   });
   describe("Assistant", () => {
-    const p = ParticipantFactory({
+    const p = PartcipantFactory({
       role: "assistant",
     });
     const wrapper = shallow(<ConferenceView role={Role.Assistant} participant={p} />);

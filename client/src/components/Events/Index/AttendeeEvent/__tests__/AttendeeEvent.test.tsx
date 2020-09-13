@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import { ParticipantFactory } from "../../../../../test/factories/ParticipantFactory";
+import { PartcipantFactory } from "../../../../../test/factories/ParticipantFactory";
 import { MemoryRouter, Link } from "react-router-dom";
 import { EventFactory } from "../../../../../test/factories/EventFactory";
 import AttendeeEvent from "../../AttendeeEvent";
@@ -9,7 +9,7 @@ import { EventSettingsStore } from "../../../../EventSettings/store/EventSetting
 
 describe("Events", () => {
   test("Show events", () => {
-    const model = ParticipantFactory({
+    const model = PartcipantFactory({
       _id: "pid",
       event: EventFactory({
         _id: "someid",

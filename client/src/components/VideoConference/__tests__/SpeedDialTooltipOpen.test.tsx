@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import IntroductionView from "../intro/IntroductionView";
-import { ParticipantFactory } from "../../../test/factories/ParticipantFactory";
+import { PartcipantFactory } from "../../../test/factories/ParticipantFactory";
 import { Dialog } from "@material-ui/core";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import SpeedDialTooltipOpen from "../speeddial/SpeedDialTooltipOpen";
@@ -9,7 +9,7 @@ import SpeedDialTooltipOpen from "../speeddial/SpeedDialTooltipOpen";
 const handle = jest.fn();
 describe("SpeedDialTooltipOpen", () => {
   describe("Host", () => {
-    const p = ParticipantFactory({
+    const p = PartcipantFactory({
       role: "host",
     });
 
@@ -19,7 +19,7 @@ describe("SpeedDialTooltipOpen", () => {
     });
   });
   describe("Attendee", () => {
-    const p = ParticipantFactory({
+    const p = PartcipantFactory({
       role: "attendee",
     });
 
@@ -29,7 +29,7 @@ describe("SpeedDialTooltipOpen", () => {
     });
   });
   describe("Assistant", () => {
-    const p = ParticipantFactory({
+    const p = PartcipantFactory({
       role: "assistant",
     });
 
