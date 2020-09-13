@@ -1,6 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import Profile from "../Profile";
+import Edit from "../Profile/Edit";
 import NewProfile from "../Profile/New/NewProfile";
 
 export const ProfileRoutes: React.FC = () => {
@@ -8,6 +9,9 @@ export const ProfileRoutes: React.FC = () => {
     <>
       <Route exact path="/profile/new">
         <NewProfile />
+      </Route>
+      <Route exact path="/profile/edit">
+        <Edit />
       </Route>
       <Route exact path="/profile">
         <Profile />
