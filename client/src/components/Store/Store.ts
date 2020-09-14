@@ -71,17 +71,18 @@ export default abstract class Store<T> {
   }
 
   @action
-  public put(url: string, data: T): Promise<T> {
+  public put(url: string, data: T, decoder?: any): Promise<T> {
     return new Promise((resolve, reject) => {
       const client = new Api({});
       client
         .put<T, T>(url, data)
         .then((response: AxiosResponse<T>) => {
           const { data } = response;
-          this.state = {
-            kind: "ready",
-            data,
-          };
+          if (decoder) {
+            this.singleWithDecodings<T>(decoder, data);
+          } else {
+            this.setSingleSuccess<T>(data);
+          }
           resolve(data);
         })
         .catch((error: AxiosError) => {
@@ -98,7 +99,39 @@ export default abstract class Store<T> {
     };
   }
 
+  private setSingleSuccess<T>(data: T) {
+    this.state = {
+      kind: "ready",
+      data,
+    };
+  }
+
+  private singleWithDecodings<T>(decoder: any, data: T) {
+    const value = decode(decoder, data);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    value.subscribe(
+      (d: any) => {
+        console.log(d);
+        this.setSingleSuccess<T>(data);
+      },
+      (error: any) => {
+        console.error(error);
+        if (process.env.NODE_ENV === "development") {
+          throw error;
+        } else {
+          Sentry.captureException(error);
+        }
+      },
+    );
+  }
   private withDecodings<T>(decoder: any, es: T, data: T[]) {
+    if (data.length === 0) {
+      this.setSuccess<T>(data);
+      return;
+    }
+
     const value = decode(decoder, es);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore

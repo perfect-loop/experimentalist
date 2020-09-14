@@ -57,9 +57,13 @@ describe("insert", () => {
 
   describe("valid params", () => {
     it("saves the participants", async (done: any) => {
+      const event = EventFactory();
+
+      await event.save();
+
       const host = ParticipationFactory.Host({
         email: "test@test.com",
-        event: EventFactory()
+        event
       });
 
       await host.save();

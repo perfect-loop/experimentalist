@@ -9,6 +9,7 @@ import TextFieldAdapter from "../Forms/TextFieldAdapter";
 import { useAuth0 } from "../../util/react-auth0-spa";
 import { Api } from "models/Socket";
 import VenmoSearch from "./New/VenmoSearch";
+import { observer } from "mobx-react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -55,14 +56,17 @@ function ProfileForm(props: IProps) {
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
 
-    props.onSubmit(newProfile).then((profile: IProfile) => {
-      console.log("Profile has been created");
-      updateProfile(true);
-      history.push(props.afterSuccessPath);
-    }).catch((error: Api.Error) => {
-      setAlertText(error.message);
-      setAlert(true);
-    });
+    props
+      .onSubmit(newProfile)
+      .then((profile: IProfile) => {
+        console.log("Profile has been created");
+        updateProfile(true);
+        history.push(props.afterSuccessPath);
+      })
+      .catch((error: Api.Error) => {
+        setAlertText(error.message);
+        setAlert(true);
+      });
   };
 
   const setVenmoHandleAndId = (venmoHandle: string, venmoId: string) => {
@@ -138,7 +142,7 @@ function ProfileForm(props: IProps) {
             />
             <div className={classes.buttons}>
               <Button variant="contained" disabled={submitting || !readyToSubmit} type="submit" color="primary">
-                Create
+                {props.model ? "Update" : "Create"}
               </Button>
               <Button variant="contained" onClick={form.reset} disabled={submitting || pristine} color="secondary">
                 Reset
@@ -151,4 +155,4 @@ function ProfileForm(props: IProps) {
   );
 }
 
-export default ProfileForm;
+export default observer(ProfileForm);

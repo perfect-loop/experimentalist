@@ -8,6 +8,7 @@ import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import { FULLSTORY_CODE } from "../../../util/config";
 import { identify } from "react-fullstory";
 import { IProfile } from "models/Profiles";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -104,6 +105,7 @@ function ShowProfile(props: IProps) {
               )}
             />
           </Paper>
+          <Link to={`/profile/edit`}>Edit</Link>
         </>
       );
   }

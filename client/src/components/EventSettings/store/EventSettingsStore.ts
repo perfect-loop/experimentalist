@@ -17,6 +17,6 @@ export class EventSettingsStore extends Store<IEventSettings> {
   }
 
   public index<T>() {
-    return super.index<T>(EventSettingsType);
+    return super.index<T>();
   }
 }

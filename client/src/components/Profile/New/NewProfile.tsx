@@ -13,12 +13,12 @@ function NewProfile() {
       profileStore
         .post(newProfile)
         .then((profile: IProfile) => {
-          resolve(profile)
+          resolve(profile);
         })
         .catch((error: Api.Error) => {
-          reject(error)
+          reject(error);
         });
-    })
+    });
   };
   return <ProfileForm onSubmit={onSubmit} afterSuccessPath={"/events"} />;
 }

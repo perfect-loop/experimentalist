@@ -1,8 +1,8 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import Profile from "../Profile";
-import Edit from "../Profile/Edit";
 import NewProfile from "../Profile/New/NewProfile";
+import Edit from "../Profile/Edit";
 
 export const ProfileRoutes: React.FC = () => {
   return (

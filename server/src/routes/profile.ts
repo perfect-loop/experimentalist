@@ -25,4 +25,8 @@ router.post("/profile.json", secured(), async (req: any, res, next) => {
   new ProfilesController().post(req, res, next);
 });
 
+router.put("/profile.json", secured(), async (req: any, res, next) => {
+  new ProfilesController().put(req, res, next);
+});
+
 export default router;
