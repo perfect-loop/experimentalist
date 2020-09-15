@@ -24,7 +24,6 @@ var CompensationsSchema = new mongoose.Schema({
     paymentMethod: {
         type: String,
         enum: ["venmo", "paypal"],
-        default: "venmo",
     }
 });
 CompensationsSchema.index({ sender: 1, receiver: 1 }, { unique: true });
