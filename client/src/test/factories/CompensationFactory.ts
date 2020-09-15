@@ -8,6 +8,7 @@ export const CompensationFactory = define<ICompensation>({
   _id: "",
   amount: 10,
   status: "paid",
+  currency: "USD",
   paymentMethod: "venmo",
   sender: faker.internet.email(),
   receiver: faker.internet.email(),

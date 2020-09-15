@@ -188,10 +188,11 @@ export default class CompensationsController {
     compensation.forEach((c: any) => {
       const email = c.receiver.email;
       const anonymousName = c.receiver.anonymousName;
-      const amount = data[email] ? data[email] : data[anonymousName];
-      c.amount = amount;
+      const uploadedData = data[email] ? data[email] : data[anonymousName];
+      c.amount = uploadedData.amount;
       c.receiver = c.receiver._id;
       c.sender = senderParticipation._id;
+      c.currency = uploadedData.currency;
       c.save();
     });
 

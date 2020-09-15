@@ -13,3 +13,5 @@ export const isEnded = function(event: IEvent) {
   // this is a workaround for not having a state machine
   return event.state === "ended";
 }
+
+export const ACCEPTED_CURRENCIES = ["USD", "CAD", "AUD", "EUR"]

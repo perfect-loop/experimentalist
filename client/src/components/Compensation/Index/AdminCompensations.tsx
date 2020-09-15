@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import CompensationsStore, { IRawUploadedData } from "../storage/CompensationsStore";
+import CompensationsStore from "../storage/CompensationsStore";
+import { IRawUploadedData } from "../storage/helpers";
 import FileUploadStore from "../../FileUpload/store/FileUploadStore";
 import { FileData, isCSVFile } from "../../FileUpload/store/Types";
 import { IUserCompensation } from "models/Compensations";
@@ -13,6 +14,7 @@ import Example from "./Example";
 import FileUploadError from "../../FileUpload/FileUploadError";
 import CompensationsTable from "./CompensationTable";
 import PayPalCompensationsTable from "./PayPalCompensationTable";
+import UploadErrors from "./UploadErrors";
 
 interface IProps {
   eventId: string;
@@ -52,7 +54,8 @@ class AdminCompensation extends Component<IProps, IState> {
     if (isCSVFile(file.name)) {
       // remove header elements
       data.shift();
-      this.state.compensationsStore.uploadCSVData(data, this.props.eventId);
+
+      this.validateData(data);
     } else {
       this.fileUploadStore.error(
         "Looks like this is not a valid CSV file. Please make sure to save your file as a CSV",
@@ -60,13 +63,23 @@ class AdminCompensation extends Component<IProps, IState> {
     }
   };
 
+  private validateData = (data: IRawUploadedData[]) => {
+    const validatedData = this.state.compensationsStore.validateData(data, this.props.method);
+
+    const uploadWithErrors = validatedData.filter(item => !!item.error);
+    if (uploadWithErrors.length > 0) {
+      this.state.compensationsStore.uploadWithErrors = uploadWithErrors;
+    } else {
+      this.state.compensationsStore.uploadCSVData(data, this.props.eventId);
+    }
+  };
+
   public render() {
-    const { state, compensations } = this.state.compensationsStore;
+    const { state, compensations, error, uploadWithErrors } = this.state.compensationsStore;
 
     let errorMsg: JSX.Element = <></>;
     switch (state) {
       case "error": {
-        const { error } = this.state.compensationsStore;
         errorMsg = (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
@@ -79,6 +92,9 @@ class AdminCompensation extends Component<IProps, IState> {
         return (
           <>
             {errorMsg}
+            <UploadErrors store={this.state.compensationsStore} uploadWithErrors={uploadWithErrors} />
+            <br />
+            <br />
             {state === "paying" && <CircularProgress />}
             {this.props.method === "venmo" && (
               <>
@@ -102,7 +118,7 @@ class AdminCompensation extends Component<IProps, IState> {
             </CSVReader>
             {this.fileUploadStore.state.kind === "error" && <FileUploadError store={this.fileUploadStore} />}
 
-            <Example />
+            <Example paymentMethod={this.props.method} />
           </>
         );
       }

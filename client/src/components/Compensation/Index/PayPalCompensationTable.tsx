@@ -47,6 +47,7 @@ export default function PayPalCompensationsTable(props: { compensations: IUserCo
             <StyledTableCell align="center"> Email </StyledTableCell>
             <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
             <StyledTableCell align="center"> Compensation </StyledTableCell>
+            <StyledTableCell align="center"> Currency </StyledTableCell>
             <StyledTableCell align="center"> PayPal Email </StyledTableCell>
             <StyledTableCell align="center"> Pay </StyledTableCell>
             <StyledTableCell align="center"> Transaction Id </StyledTableCell>
@@ -62,6 +63,7 @@ export default function PayPalCompensationsTable(props: { compensations: IUserCo
               <StyledTableCell align="center">{email}</StyledTableCell>
               <StyledTableCell align="center">{anonymousName}</StyledTableCell>
               <StyledTableCell align="center">{compensation.amount}</StyledTableCell>
+              <StyledTableCell align="center">{compensation.currency}</StyledTableCell>
               <StyledTableCell align="center"> {email} </StyledTableCell>
               <StyledTableCell align="center">
                 {compensation.amount > 0 && compensation.status !== "Paid" && (

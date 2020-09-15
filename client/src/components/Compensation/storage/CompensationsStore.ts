@@ -1,26 +1,14 @@
 import { action, observable } from "mobx";
 import { Api } from "../../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
-import { ICompensation } from "models/Compensations";
 import { IUserCompensation } from "models/Compensations";
-
-interface IUplodatedData extends Pick<ICompensation, "amount"> {
-  email: string;
-  amount: number;
-}
-
-interface IProcessedData {
-  [i: string]: number;
-}
-
-export interface IRawUploadedData {
-  data: [string, number];
-}
+import { IUploadedData, IProcessedData, IRawUploadedData, validateCurrency } from "./helpers";
 
 export default class CompensationsStore {
   @observable public state: "ready" | "not_ready" | "error" | "paying";
   @observable public compensations: IUserCompensation[];
   @observable public error: string;
+  @observable public uploadWithErrors: IRawUploadedData[];
   private eventId: string;
 
   constructor(eventId: string) {
@@ -28,16 +16,20 @@ export default class CompensationsStore {
     this.compensations = [];
     this.error = "";
     this.eventId = eventId;
+    this.uploadWithErrors = [];
   }
 
   @action
   public uploadCSVData = (data: IRawUploadedData[], eventId: string) => {
-    // email maps to the amount
+    // email maps to the amount and currency
     const emailMap: IProcessedData = {};
     data
       .filter((line: IRawUploadedData) => line.data[0] && line.data[1])
       .forEach((line: IRawUploadedData) => {
-        emailMap[line.data[0].toLowerCase().trim()] = line.data[1];
+        emailMap[line.data[0].toLowerCase().trim()] = {
+          amount: line.data[1],
+          currency: line.data[2]?.trim(),
+        };
       });
 
     const client = new Api({});
@@ -45,7 +37,7 @@ export default class CompensationsStore {
     this.state = "not_ready";
 
     client
-      .post<IUplodatedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
+      .post<IUploadedData[], IProcessedData, AxiosResponse<IUserCompensation[]>>(url, emailMap)
       .then(() => {
         this.getAdmin();
       })
@@ -112,6 +104,31 @@ export default class CompensationsStore {
           this.state = "error";
           this.error = error.response?.data || "Payment error";
         });
+    });
+  };
+
+  @action
+  public closeErrorAlerts = () => {
+    this.uploadWithErrors = [];
+  };
+
+  public validateData = (rawUploadedData: IRawUploadedData[], method: string) => {
+    return rawUploadedData.map(uploadedData => {
+      const { data } = uploadedData;
+
+      if (!data[1]) {
+        return uploadedData;
+      }
+
+      const currency = data[2]?.toUpperCase()?.trim();
+
+      if (!currency) {
+        return uploadedData;
+      }
+
+      validateCurrency(currency, method, uploadedData);
+
+      return uploadedData;
     });
   };
 }
