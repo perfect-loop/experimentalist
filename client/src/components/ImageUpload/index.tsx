@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 interface IProps {
   participationId: string;
   eventId: string;
+  imageUploadStore?: ImageUploadStore;
 }
 
 interface IState {
@@ -33,7 +34,7 @@ export default class ImageUpload extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      store: new ImageUploadStore(props.participationId),
+      store: props.imageUploadStore || new ImageUploadStore(props.participationId),
     };
   }
   uploadWidget() {
@@ -68,7 +69,7 @@ export default class ImageUpload extends React.Component<IProps, IState> {
       case "success_upload":
         return <Instructions uploadWidget={this.uploadWidget.bind(this)} />;
       case "finish":
-        return <Redirect to={`/events/${this.props.eventId}/conference/`} />;
+        return <Redirect to={`/events/${this.props.eventId}/payment/`} />;
     }
   }
 }

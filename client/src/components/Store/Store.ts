@@ -1,6 +1,8 @@
 import { action, observable } from "mobx";
 import { Api } from "../../util/api";
 import { AxiosResponse, AxiosError } from "axios";
+import { decode } from "./decode";
+import * as Sentry from "@sentry/browser";
 
 interface IStateReady {
   kind: "ready";
@@ -11,7 +13,11 @@ interface IStateNotReady {
   kind: "not_ready";
 }
 
-type IState = IStateReady | IStateNotReady;
+interface IStateEmpty {
+  kind: "empty";
+}
+
+type IState = IStateEmpty | IStateReady | IStateNotReady;
 
 export default abstract class Store<T> {
   @observable public state: IState;
@@ -46,16 +52,18 @@ export default abstract class Store<T> {
   }
 
   @action
-  public index<T>() {
+  public index<T>(decoder?: any) {
     const client = new Api({});
     client
       .get<T[]>(`${this.urlPrefix()}.json`)
       .then((response: AxiosResponse<T[]>) => {
         const { data } = response;
-        this.state = {
-          kind: "ready",
-          data,
-        };
+        const es = data[0];
+        if (decoder) {
+          this.withDecodings<T>(decoder, es, data);
+        } else {
+          this.setSuccess<T>(data);
+        }
       })
       .catch((error: AxiosError) => {
         console.error(error.response?.statusText);
@@ -63,17 +71,18 @@ export default abstract class Store<T> {
   }
 
   @action
-  public put(url: string, data: T): Promise<T> {
+  public put(url: string, data: T, decoder?: any): Promise<T> {
     return new Promise((resolve, reject) => {
       const client = new Api({});
       client
         .put<T, T>(url, data)
         .then((response: AxiosResponse<T>) => {
           const { data } = response;
-          this.state = {
-            kind: "ready",
-            data,
-          };
+          if (decoder) {
+            this.singleWithDecodings<T>(decoder, data);
+          } else {
+            this.setSingleSuccess<T>(data);
+          }
           resolve(data);
         })
         .catch((error: AxiosError) => {
@@ -81,5 +90,65 @@ export default abstract class Store<T> {
           reject(error);
         });
     });
+  }
+
+  private setSuccess<T>(data: T[]) {
+    this.state = {
+      kind: "ready",
+      data: data,
+    };
+  }
+
+  private setSingleSuccess<T>(data: T) {
+    this.state = {
+      kind: "ready",
+      data,
+    };
+  }
+
+  private singleWithDecodings<T>(decoder: any, data: T) {
+    const value = decode(decoder, data);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    value.subscribe(
+      (d: any) => {
+        console.log(d);
+        this.setSingleSuccess<T>(data);
+      },
+      (error: any) => {
+        console.error(error);
+        if (process.env.NODE_ENV === "development") {
+          throw error;
+        } else {
+          Sentry.captureException(error);
+        }
+      },
+    );
+  }
+  private withDecodings<T>(decoder: any, es: T, data: T[]) {
+    if (data.length === 0) {
+      this.setSuccess<T>(data);
+      return;
+    }
+
+    const value = decode(decoder, es);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    value.subscribe(
+      (d: any) => {
+        console.log(d);
+        this.setSuccess<T>(data);
+      },
+      (error: any) => {
+        console.error(error);
+        if (process.env.NODE_ENV === "development") {
+          throw error;
+        } else {
+          Sentry.captureException(error);
+        }
+      },
+    );
   }
 }

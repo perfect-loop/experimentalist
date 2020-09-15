@@ -14,4 +14,8 @@ export class EventSettingsStore extends Store<IEventSettings> {
   urlPrefix(): string {
     return `/api/events/${this.eventId}/eventSettings`;
   }
+
+  public index<T>() {
+    return super.index<T>();
+  }
 }

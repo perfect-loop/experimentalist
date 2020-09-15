@@ -11,11 +11,11 @@ import { EventSettingsStore } from "../../../EventSettings/store/EventSettingsSt
 
 const nextUrl = (participation: IParticipation, eventSettings: IEventSettings): string => {
   if (eventSettings && !eventSettings.requireId) {
-    return `/events/${participation.event._id}/conference`;
+    return `/events/${participation.event._id}/payment`;
   }
 
   if (participation.verificationImageUrl) {
-    return `/events/${participation.event._id}/conference`;
+    return `/events/${participation.event._id}/payment`;
   } else {
     return `/events/${participation.event._id}/verify/${participation._id}`;
   }
@@ -28,10 +28,12 @@ interface Props {
 
 const Event: React.SFC<Props> = ({ participation, eventSettingsStore }) => {
   switch (eventSettingsStore.state.kind) {
+    case "empty":
     case "not_ready":
       return <></>;
     case "ready": {
-      const url = nextUrl(participation, eventSettingsStore.state.data);
+      const eventSettings = eventSettingsStore.state.data[0] as IEventSettings;
+      const url = nextUrl(participation, eventSettings);
       return (
         <StyledTableRow key={participation.event._id}>
           <StyledTableCell align="center">

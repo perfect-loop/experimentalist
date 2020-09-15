@@ -18,11 +18,15 @@ router.get("/profile.json", secured(), async (req: any, res, next) => {
     return;
   }
 
-  res.status(200).json(profile);
+  res.status(200).json([profile]);
 });
 
 router.post("/profile.json", secured(), async (req: any, res, next) => {
   new ProfilesController().post(req, res, next);
+});
+
+router.put("/profile.json", secured(), async (req: any, res, next) => {
+  new ProfilesController().put(req, res, next);
 });
 
 export default router;

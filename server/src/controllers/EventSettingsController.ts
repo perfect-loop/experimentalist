@@ -28,7 +28,7 @@ export default class EventSettingsController {
     const params = {
       event: event.id
     };
-    const eventSettings = await EventSettings.findOne(params).populate("event");
+    const eventSettings = await EventSettings.find(params).populate("event");
     res.json(eventSettings);
   }
 

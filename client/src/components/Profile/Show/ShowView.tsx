@@ -7,6 +7,8 @@ import { observer } from "mobx-react";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import { FULLSTORY_CODE } from "../../../util/config";
 import { identify } from "react-fullstory";
+import { IProfile } from "models/Profiles";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,7 +43,7 @@ function ShowProfile(props: IProps) {
     case "empty":
       return <div>Profile not found</div>;
     case "ready":
-      const profile = props.profileStore.state.model;
+      const profile: IProfile = props.profileStore.state.data[0];
       if (FULLSTORY_CODE) {
         const params = {
           displayName: `${profile.firstName} ${profile.lastName}`,
@@ -85,24 +87,27 @@ function ShowProfile(props: IProps) {
                       placeholder="Last Name"
                     />
                   </div>
-                  <div>
-                    <Field
-                      name="venmoHandle"
-                      component={TextFieldAdapter}
-                      type="text"
-                      label="Venmo Handle"
-                      defaultValue={profile.venmoHandle}
-                      // required={true}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      placeholder="Venmo Handle"
-                    />
-                  </div>
+                  {profile.venmoHandle && (
+                    <div>
+                      <Field
+                        name="venmoHandle"
+                        component={TextFieldAdapter}
+                        type="text"
+                        label="Venmo Handle"
+                        defaultValue={profile.venmoHandle}
+                        // required={true}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        placeholder="Venmo Handle"
+                      />
+                    </div>
+                  )}
                 </form>
               )}
             />
           </Paper>
+          <Link to={`/profile/edit`}>Edit</Link>
         </>
       );
   }

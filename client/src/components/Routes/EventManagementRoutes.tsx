@@ -8,6 +8,7 @@ import Verify from "../Events/Verify";
 import NewDialog from "../EventSettings/New/NewDialog";
 import Settings from "../EventSettings/Show";
 import EditSettings from "../EventSettings/Edit";
+import PaymentMethod from "../Events/PaymentMethod";
 
 export const EventManagementRoutes: React.FC = () => {
   return (
@@ -90,6 +91,13 @@ export const EventManagementRoutes: React.FC = () => {
               <NewDialog eventId={props.match.params.id} />
             </>
           );
+        }}
+      />
+      <Route
+        exact
+        path="/events/:id/payment"
+        component={(props: any) => {
+          return <PaymentMethod eventId={props.match.params.id} />;
         }}
       />
       <Route

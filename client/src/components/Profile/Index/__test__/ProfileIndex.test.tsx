@@ -50,7 +50,7 @@ test("Show profile", () => {
   const profileStore = new ProfileStore();
   profileStore.state = {
     kind: "ready",
-    model: ProfileFactory(),
+    data: ProfileFactory(),
   };
   const wrapper = shallow(<ProfileIndex profileStore={profileStore} />);
   const p = wrapper.find(ShowProfile);

@@ -72,26 +72,6 @@ exports.ProfileSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-    studentId: {
-        type: String,
-        require: true,
-    },
-    phone: {
-        type: String,
-        require: true,
-    },
-    street: {
-        type: String,
-        require: true,
-    },
-    state: {
-        type: String,
-        require: true,
-    },
-    zip: {
-        type: String,
-        require: true,
-    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users_profiles",
