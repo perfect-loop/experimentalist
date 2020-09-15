@@ -10,6 +10,7 @@ import { Redirect } from "react-router-dom";
 interface IProps {
   eventId: string;
   profileStore?: ProfileStore;
+  participationId?: string;
 }
 
 const nextUrl = (eventId: string): string => {

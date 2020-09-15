@@ -20,7 +20,7 @@ describe("Event", () => {
       const store = new EventSettingsStore("someid");
       store.state = {
         kind: "ready",
-        data: null,
+        data: [EventSettingsFactory()],
       };
 
       const wrapper = mount(
@@ -45,7 +45,7 @@ describe("Event", () => {
       const store = new EventSettingsStore("someid");
       store.state = {
         kind: "ready",
-        data: null,
+        data: [EventSettingsFactory()],
       };
 
       const wrapper = mount(
@@ -54,7 +54,7 @@ describe("Event", () => {
         </MemoryRouter>,
       );
       const link = wrapper.find(Link).at(0);
-      expect(link.prop("to")).toBe("/events/someid/conference");
+      expect(link.prop("to")).toBe("/events/someid/payment");
     });
   });
 
@@ -82,7 +82,7 @@ describe("Event", () => {
       );
 
       const link = wrapper.find(Link).at(0);
-      expect(link.prop("to")).toBe("/events/someid/conference");
+      expect(link.prop("to")).toBe("/events/someid/verify/pid");
     });
 
     describe("requireId is true", () => {
@@ -134,7 +134,7 @@ describe("Event", () => {
           </MemoryRouter>,
         );
         const link = wrapper.find(Link).at(0);
-        expect(link.prop("to")).toBe("/events/someid/conference");
+        expect(link.prop("to")).toBe("/events/someid/payment");
       });
     });
   });

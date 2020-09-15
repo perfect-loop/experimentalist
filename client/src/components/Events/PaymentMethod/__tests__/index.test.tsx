@@ -1,6 +1,6 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-import { MemoryRouter, Link, Redirect } from "react-router-dom";
+import { MemoryRouter, Redirect } from "react-router-dom";
 import ProfileStore from "../../../Profile/storage/ProfileStore";
 import PaymentMethod from "..";
 import { ProfileFactory } from "../../../../test/factories/ProfileFactory";
