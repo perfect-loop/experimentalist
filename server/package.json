@@ -78,7 +78,7 @@
     "stop-prod": "pm2 stop",
     "build": "rimraf -fR && tsc && cp -r src/views build",
     "test": "NODE_ENV=test jest --watch",
-    "test-ci": "NODE_ENV=ci jest"
+    "test-ci": "NODE_ENV=ci jest --runInBand --forceExit"
   },
   "engines": {
     "node": ">= 14"

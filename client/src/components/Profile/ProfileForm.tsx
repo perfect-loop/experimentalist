@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Theme, createStyles, Button, Typography } from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { IProfile } from "models/Profiles";
@@ -41,9 +41,29 @@ interface IProps {
   onSubmit: (values: any) => Promise<IProfile>;
   afterSuccessPath: string;
   model?: IProfile;
+  requireVenmo?: boolean;
 }
 
 function ProfileForm(props: IProps) {
+  const isShowVenmo = (): boolean => {
+    return props.model?.venmoHandle !== undefined || !!props.requireVenmo;
+  };
+
+  const allowInitialSubmit = (): boolean => {
+    // if this is an update, allow to submit right away
+    if (props.model) {
+      return true;
+    }
+
+    // if venmo is not shown, allow submit right away
+    // else, wait for venmo to be entered before allowing submission
+    if (!isShowVenmo()) {
+      return true;
+    }
+
+    return false;
+  };
+
   const classes = useStyles();
   const history = useHistory();
   const [alertText, setAlertText] = React.useState("");
@@ -51,14 +71,15 @@ function ProfileForm(props: IProps) {
   const { updateProfile } = useAuth0();
   const [venmoHandle, setVenmoHandle] = React.useState("");
   const [venmoId, setVenmoId] = React.useState<string | undefined>(undefined);
-  const [readyToSubmit, setReadyToSubmit] = React.useState<boolean>(props.model ? true : false);
+  const [readyToSubmit, setReadyToSubmit] = React.useState<boolean>(allowInitialSubmit());
+  const [showVenmo] = React.useState<boolean>(isShowVenmo());
 
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
 
     props
       .onSubmit(newProfile)
-      .then((profile: IProfile) => {
+      .then(() => {
         console.log("Profile has been created");
         updateProfile(true);
         history.push(props.afterSuccessPath);
@@ -83,10 +104,9 @@ function ProfileForm(props: IProps) {
           {alertText}
         </Alert>
       )}
-      <Typography variant="h6">Fill in your profile</Typography>
       <Form
         onSubmit={onSubmit}
-        render={({ handleSubmit, form, submitting, pristine, values }) => (
+        render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit} className={classes.root}>
             <div>
               <Field
@@ -110,36 +130,40 @@ function ProfileForm(props: IProps) {
                 initialValue={props.model?.lastName}
               />
             </div>
-            <div>
-              <Field
-                name="venmoHandle"
-                component={TextFieldAdapter}
-                type="text"
-                label="Venmo Handle"
-                required={true}
-                defaultValue={venmoHandle}
-                InputProps={{
-                  readOnly: true,
-                }}
-                variant="filled"
-                placeholder="Venmo Handle"
-                initialValue={props.model?.venmoHandle}
-              />
-              <VenmoSearch setVenmoHandle={setVenmoHandleAndId} />
-            </div>
-            <Field
-              className={classes.hidden}
-              name="venmoId"
-              component={TextFieldAdapter}
-              type="text"
-              label="Venmo Id"
-              defaultValue={venmoId}
-              required={true}
-              InputProps={{
-                readOnly: true,
-              }}
-              initialValue={props.model?.venmoId}
-            />
+            {showVenmo && (
+              <>
+                <div>
+                  <Field
+                    name="venmoHandle"
+                    component={TextFieldAdapter}
+                    type="text"
+                    label="Venmo Handle"
+                    required={true}
+                    defaultValue={venmoHandle}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    variant="filled"
+                    placeholder="Venmo Handle"
+                    initialValue={props.model?.venmoHandle}
+                  />
+                  <VenmoSearch setVenmoHandle={setVenmoHandleAndId} />
+                </div>
+                <Field
+                  className={classes.hidden}
+                  name="venmoId"
+                  component={TextFieldAdapter}
+                  type="text"
+                  label="Venmo Id"
+                  defaultValue={venmoId}
+                  required={true}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  initialValue={props.model?.venmoId}
+                />
+              </>
+            )}
             <div className={classes.buttons}>
               <Button variant="contained" disabled={submitting || !readyToSubmit} type="submit" color="primary">
                 {props.model ? "Update" : "Create"}

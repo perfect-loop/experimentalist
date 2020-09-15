@@ -6,11 +6,17 @@ import ProfileForm from "../ProfileForm";
 import { Api } from "models/Socket";
 import { ProfileType } from "models/decoders/ProfileType";
 
+interface IProps {
+  afterSuccessPath?: string;
+  requireVenmo?: boolean;
+  profileStore?: ProfileStore;
+}
 @observer
-export default class Edit extends Component {
-  profileStore: ProfileStore = new ProfileStore();
+export default class Edit extends Component<IProps> {
+  profileStore: ProfileStore;
   constructor(props: {}) {
     super(props);
+    this.profileStore = this.props.profileStore || new ProfileStore();
     this.profileStore.index();
   }
 
@@ -21,7 +27,14 @@ export default class Edit extends Component {
         return <div>Loading</div>;
       case "ready":
         const model = this.profileStore.state.data[0];
-        return <ProfileForm onSubmit={this.onSubmit} afterSuccessPath={"/events"} model={model} />;
+        return (
+          <ProfileForm
+            onSubmit={this.onSubmit}
+            afterSuccessPath={this.props.afterSuccessPath || "/profile"}
+            model={model}
+            requireVenmo={this.props.requireVenmo}
+          />
+        );
     }
   }
 

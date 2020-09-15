@@ -1,6 +1,6 @@
 import React from "react";
 import { MemoryRouter, Link } from "react-router-dom";
-import { shallow, mount } from "enzyme";
+import { mount } from "enzyme";
 import { ParticipantFactory } from "../../../../../test/factories/ParticipantFactory";
 import { EventFactory } from "../../../../../test/factories/EventFactory";
 import { EventSettingsFactory } from "../../../../../test/factories/EventSettingsFactory";

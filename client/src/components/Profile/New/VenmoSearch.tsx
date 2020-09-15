@@ -81,7 +81,7 @@ interface IProps {
   defaultOpen?: boolean;
   setVenmoHandle: (venmoHandle: string, venmoId: string) => void;
 }
-export default function VenmoSearchButton({ defaultOpen = false, setVenmoHandle: setVenmoHandle }: IProps) {
+export default function VenmoSearchButton({ defaultOpen = false, setVenmoHandle }: IProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(defaultOpen);
   const onClose = () => {

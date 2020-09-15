@@ -87,20 +87,22 @@ function ShowProfile(props: IProps) {
                       placeholder="Last Name"
                     />
                   </div>
-                  <div>
-                    <Field
-                      name="venmoHandle"
-                      component={TextFieldAdapter}
-                      type="text"
-                      label="Venmo Handle"
-                      defaultValue={profile.venmoHandle}
-                      // required={true}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                      placeholder="Venmo Handle"
-                    />
-                  </div>
+                  {profile.venmoHandle && (
+                    <div>
+                      <Field
+                        name="venmoHandle"
+                        component={TextFieldAdapter}
+                        type="text"
+                        label="Venmo Handle"
+                        defaultValue={profile.venmoHandle}
+                        // required={true}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        placeholder="Venmo Handle"
+                      />
+                    </div>
+                  )}
                 </form>
               )}
             />

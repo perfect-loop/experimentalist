@@ -1,7 +1,6 @@
 import Store from "../../Store/Store";
 import { IEventSettings } from "models/EventSettings";
 import { action } from "mobx";
-import { EventSettingsType } from "models/decoders/EventSettings";
 
 export class EventSettingsStore extends Store<IEventSettings> {
   public eventId: string;

@@ -1,7 +1,7 @@
 import { pipe } from "fp-ts/lib/pipeable";
 import { fold, left } from "fp-ts/lib/Either";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import { Observable, throwError, of } from "rxjs";
+import { throwError, of } from "rxjs";
 
 export class DecodeError extends Error {
   name = "DecodeError";

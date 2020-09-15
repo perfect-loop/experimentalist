@@ -4,6 +4,6 @@ export const ProfileType = t.type({
   _id: t.string,
   firstName: t.string,
   lastName: t.string,
-  venmoId: t.string,
-  venmoHandle: t.string,
+  venmoId: t.union([t.string, t.undefined]),
+  venmoVenmo: t.union([t.string, t.undefined]),
 })
