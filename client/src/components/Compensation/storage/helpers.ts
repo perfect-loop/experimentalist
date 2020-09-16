@@ -35,3 +35,20 @@ export const validateCurrency = (currency: string, method: string, uploadedData:
       break;
   }
 };
+
+export const formattedAmount = (currency: string, amount: number) => {
+  switch (currency) {
+    case "USD":
+      return `$${amount}`;
+      break;
+    case "CAD":
+      return `C$${amount}`;
+      break;
+    case "AUD":
+      return `A$${amount}`;
+      break;
+    case "EUR":
+      return `€$${amount}`;
+      break;
+  }
+};

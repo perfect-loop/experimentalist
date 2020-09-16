@@ -8,6 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
 import { IUserCompensation } from "models/Compensations";
 import PaymentButton from "../PayPal/PaymentButton";
+import { formattedAmount } from "../storage/helpers";
 
 const useStyles = makeStyles({
   table: {},
@@ -47,7 +48,6 @@ export default function PayPalCompensationsTable(props: { compensations: IUserCo
             <StyledTableCell align="center"> Email </StyledTableCell>
             <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
             <StyledTableCell align="center"> Compensation </StyledTableCell>
-            <StyledTableCell align="center"> Currency </StyledTableCell>
             <StyledTableCell align="center"> PayPal Email </StyledTableCell>
             <StyledTableCell align="center"> Pay </StyledTableCell>
             <StyledTableCell align="center"> Transaction Id </StyledTableCell>
@@ -62,8 +62,11 @@ export default function PayPalCompensationsTable(props: { compensations: IUserCo
               </StyledTableCell>
               <StyledTableCell align="center">{email}</StyledTableCell>
               <StyledTableCell align="center">{anonymousName}</StyledTableCell>
-              <StyledTableCell align="center">{compensation.amount}</StyledTableCell>
-              <StyledTableCell align="center">{compensation.currency}</StyledTableCell>
+              <StyledTableCell align="center">{`${formattedAmount(
+                compensation.currency,
+                compensation.amount,
+              )}`}</StyledTableCell>
+
               <StyledTableCell align="center"> {email} </StyledTableCell>
               <StyledTableCell align="center">
                 {compensation.amount > 0 && compensation.status !== "Paid" && (

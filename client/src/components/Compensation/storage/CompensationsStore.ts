@@ -28,7 +28,7 @@ export default class CompensationsStore {
       .forEach((line: IRawUploadedData) => {
         emailMap[line.data[0].toLowerCase().trim()] = {
           amount: line.data[1],
-          currency: line.data[2]?.trim(),
+          currency: line.data[2]?.trim()?.toUpperCase(),
         };
       });
 
