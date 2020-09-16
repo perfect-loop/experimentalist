@@ -9,6 +9,7 @@ import { makeStyles, withStyles, Theme, createStyles } from "@material-ui/core";
 import { IUserCompensation } from "models/Compensations";
 import PublishSharpIcon from "@material-ui/icons/PublishSharp";
 import { Button } from "@material-ui/core";
+import { formattedAmount } from "../storage/helpers";
 
 const useStyles = makeStyles({
   table: {},
@@ -73,7 +74,10 @@ export default function CompensationsTable(props: {
               </StyledTableCell>
               <StyledTableCell align="center">{email}</StyledTableCell>
               <StyledTableCell align="center">{anonymousName}</StyledTableCell>
-              <StyledTableCell align="center">{compensation.amount}</StyledTableCell>
+              <StyledTableCell align="center">{`${formattedAmount(
+                compensation.currency,
+                compensation.amount,
+              )}`}</StyledTableCell>
               <StyledTableCell align="center"> {profile ? profile.venmoHandle : "N/A"} </StyledTableCell>
               <StyledTableCell align="center">
                 <Button

@@ -12,7 +12,7 @@ describe("UploadErrors", () => {
     });
   });
 
-  describe("When there are wew errors", () => {
+  describe("When there are errors", () => {
     test("shows the error alert", () => {
       const participantsStore = new ParticipantsStore();
 

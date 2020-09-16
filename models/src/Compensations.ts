@@ -1,8 +1,8 @@
 import { Document } from "mongoose";
 import * as mongoose from "mongoose";
-import { IParticipation, ParticipationsSchema } from "./Participations";
 import { IProfile } from "./Profiles";
 import { ITransaction } from "./Transactions";
+import { ACCEPTED_CURRENCIES } from "./Helpers";
 
 const CompensationsSchema = new mongoose.Schema({
   amount: {
@@ -26,8 +26,15 @@ const CompensationsSchema = new mongoose.Schema({
   paymentMethod: {
     type: String,
     enum: ["venmo", "paypal"],
+  },
+  currency: {
+    type: String,
+    enum: ACCEPTED_CURRENCIES,
+    default: "USD",
+    require: true,
   }
 });
+
 CompensationsSchema.index({ sender: 1, receiver: 1 }, { unique: true });
 
 export interface ICompensation extends Document {
@@ -36,6 +43,7 @@ export interface ICompensation extends Document {
   status: string;
   sender: string;
   receiver: string;
+  currency: string;
   paymentMethod: string;
 }
 

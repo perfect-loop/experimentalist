@@ -80,11 +80,17 @@ describe("Create Compensation", () => {
           eventId: host.event._id
         },
         body: {
-          "attendee.one@testing.com": 20,
-          [attendeeTwo.anonymousName]: 30
+          "attendee.one@testing.com": {
+            amount: 20
+          },
+          [attendeeTwo.anonymousName]: {
+            amount: 30,
+            currency: "USD"
+          }
         },
         user: { _id: "5eeaad1d96c9409bc72465c7", email: host.email }
       } as any) as Request;
+
       await new CompensationsController().createCompensation(req, res, mNext);
 
       expect(res.json).toHaveBeenCalled;
