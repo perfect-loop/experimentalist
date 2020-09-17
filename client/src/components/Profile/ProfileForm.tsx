@@ -69,9 +69,9 @@ function ProfileForm(props: IProps) {
   const [alertText, setAlertText] = React.useState("");
   const [alert, setAlert] = React.useState(false);
   const { updateProfile } = useAuth0();
-  const [venmoHandle, setVenmoHandle] = React.useState("");
-  const [venmoId, setVenmoId] = React.useState<string | undefined>(undefined);
-  const [readyToSubmit, setReadyToSubmit] = React.useState<boolean>(allowInitialSubmit());
+  const [venmoHandle, setVenmoHandle] = React.useState(props.model?.venmoHandle);
+  const [venmoId, setVenmoId] = React.useState<string | undefined>(props.model?.venmoId);
+  const [readyToSubmit, setReadyToSubmit] = React.useState<boolean>(true);
   const [showVenmo] = React.useState<boolean>(isShowVenmo());
 
   const onSubmit = (values: any) => {
@@ -145,7 +145,6 @@ function ProfileForm(props: IProps) {
                     }}
                     variant="filled"
                     placeholder="Venmo Handle"
-                    initialValue={props.model?.venmoHandle}
                   />
                   <VenmoSearch setVenmoHandle={setVenmoHandleAndId} />
                 </div>
@@ -160,7 +159,6 @@ function ProfileForm(props: IProps) {
                   InputProps={{
                     readOnly: true,
                   }}
-                  initialValue={props.model?.venmoId}
                 />
               </>
             )}
