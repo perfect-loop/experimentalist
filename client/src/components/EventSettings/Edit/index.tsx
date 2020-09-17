@@ -30,7 +30,7 @@ class Edit extends Component<IProps, IState> {
       case "not_ready":
         return <div>Not ready</div>;
       case "ready":
-        const eventSettings = eventSettingsStore.state.data as IEventSettings;
+        const eventSettings = eventSettingsStore.state.data[0] as IEventSettings;
 
         return <EditForm store={eventSettingsStore} eventId={this.props.eventId} eventSettings={eventSettings} />;
     }

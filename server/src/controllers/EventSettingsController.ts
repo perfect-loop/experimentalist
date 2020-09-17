@@ -99,7 +99,10 @@ export default class EventSettingsController {
     eventSettings
       .save()
       .then((settings: IEventSettings) => {
-        res.json(settings);
+        // TODO: in order to make this compatible with current
+        // React store, this needs to return an array.
+        // To fix this, we need to separate "index" state from "get" state in the store
+        res.json([settings]);
       })
       .catch((reason: any) => {
         const error: Api.Error = {
