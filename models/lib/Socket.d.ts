@@ -14,6 +14,11 @@ export declare module Api {
         interface IEventAdmitParticipant {
             userId: number;
         }
+        interface IBroadcastMessage {
+            eventId: string;
+            message: string;
+        }
+        function sendBroadcast(socket: SocketIOClient.Socket, eventId: string, message: string): void;
         function sendEventEvent(socket: SocketIOClient.Socket, event: IEvent): void;
     }
     interface Error {

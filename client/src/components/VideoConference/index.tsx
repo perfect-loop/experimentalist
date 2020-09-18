@@ -52,10 +52,12 @@ const VideoConference = (props: IProps) => {
     setSnackOpen(true);
   });
 
-  app.socket.on(Api.Socket.EVENT_BROADCAST_NAME, (response: any) => {
-    console.log(`message from server using ${Api.Socket.EVENT_BROADCAST_NAME} is ${response}`);
-    setPersistentText(response);
-    setPersistentOpen(true);
+  app.socket.on(Api.Socket.EVENT_BROADCAST_NAME, (response: Api.Socket.IBroadcastMessage) => {
+    console.log(`message from server using ${Api.Socket.EVENT_BROADCAST_NAME} is ${JSON.stringify(response)}`);
+    if (props.eventId === response.eventId) {
+      setPersistentText(response.message);
+      setPersistentOpen(true);
+    }
   });
 
   const handleClose = () => {

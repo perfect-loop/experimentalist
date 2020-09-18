@@ -97,7 +97,7 @@ function handleEventEvent(scket: socket.Socket): (...args: any[]) => void {
 }
 
 function handleBroadcastEvent(scket: socket.Socket): (...args: any[]) => void {
-  return (message: Api.Socket.ISocket) => {
+  return (message: Api.Socket.IBroadcastMessage) => {
     console.log(`[handleBroadcastEvent] ${JSON.stringify(message)}`);
     scket.broadcast.emit(Api.Socket.EVENT_BROADCAST_NAME, message);
   };

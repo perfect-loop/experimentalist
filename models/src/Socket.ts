@@ -16,6 +16,18 @@ export module Api {
       userId: number;
     }
 
+    export interface IBroadcastMessage {
+      eventId: string;
+      message: string;
+    }
+
+    export function sendBroadcast(socket: SocketIOClient.Socket, eventId: string, message: string){
+      const broadcastMessage: IBroadcastMessage = {
+        eventId, message
+      }
+      socket.emit(Api.Socket.EVENT_BROADCAST_NAME, broadcastMessage);
+    }
+
     export function sendEventEvent(socket: SocketIOClient.Socket, event: IEvent) {
       socket.emit(EVENT_UPDATED_NAME, { event });
     }

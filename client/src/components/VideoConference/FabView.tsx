@@ -43,7 +43,11 @@ export default function FloatingActionButtonZoom(props: { participant: IParticip
 
   return (
     <>
-      <Broadcast defaultOpen={broadcastOpen} handleBroadcastClickClose={handleBroadcastClickClose} />
+      <Broadcast
+        defaultOpen={broadcastOpen}
+        handleBroadcastClickClose={handleBroadcastClickClose}
+        eventId={props.participant.event._id}
+      />
       <Rnd
         default={{
           x: 150,
