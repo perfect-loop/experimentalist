@@ -83,9 +83,7 @@ export default class CompensationsController {
     if (adminParticipation === null) {
       res
         .status(403)
-        .send(
-          "Participation not found! Please make sure you are the host of the event"
-        );
+        .send("Please make sure you are the host/assistant of the event");
       return;
     }
     // find all compensations of the specific event
@@ -271,7 +269,13 @@ export default class CompensationsController {
 
   private async getAdminParticipation(eventId: any, user: Auth0User) {
     return await Participation.findOne({
-      $and: [{ event: eventId }, { email: user.email }, { role: "host" }]
+      $and: [
+        { event: eventId },
+        { email: user.email },
+        {
+          $or: [{ role: "host" }, { role: "assistant" }]
+        }
+      ]
     });
   }
 }
