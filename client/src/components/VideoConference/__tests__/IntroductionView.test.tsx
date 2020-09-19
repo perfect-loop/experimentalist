@@ -11,7 +11,7 @@ describe("IntroductionView", () => {
   const eventSettingsStore = new EventSettingsStore(eventId);
   eventSettingsStore.state = {
     kind: "ready",
-    data: EventSettingsFactory(),
+    data: [EventSettingsFactory()],
   };
   describe("Host", () => {
     const p = ParticipantFactory({
