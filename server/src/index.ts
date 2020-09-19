@@ -74,23 +74,18 @@ server.on("listening", () => {
   }
 });
 
-// import sockets from "./sockets";
-// sockets(server);
 /************************************************************************************
  *                             Socket
  ***********************************************************************************/
 
 import socket, { Socket } from "socket.io";
 import { Api } from "models/Socket";
+import logger from "./shared/Logger";
+import { IEvent } from "models/Events";
 export const io = socket(server, { origins: "*:*" });
-io.on("connection", (scket: any) => {
-  scket.on("disconnect", (data: any) => {
-    console.log("disconnecting");
-  });
-});
 
 function handleEventEvent(scket: socket.Socket): (...args: any[]) => void {
-  return (message: Api.Socket.ISocket) => {
+  return (message: IEvent) => {
     console.log(`[handleEventEvent] ${JSON.stringify(message)}`);
     scket.broadcast.emit(Api.Socket.EVENT_UPDATED_NAME, message);
   };
@@ -103,6 +98,28 @@ function handleBroadcastEvent(scket: socket.Socket): (...args: any[]) => void {
   };
 }
 
+function handleJoinRoomEvent(scket: socket.Socket): (...args: any[]) => void {
+  return (message: Api.Socket.IJoinEventMessage) => {
+    const roomName = message.roomName;
+    joinRoom(roomName);
+  };
+
+  function joinRoom(roomName: string) {
+    scket.join(roomName);
+    logger.info(`[handleJoinRoomEvent] ${JSON.stringify(roomName)}`);
+    const clients = io.sockets.adapter.rooms[roomName];
+    if (clients.length && clients.length > 0) {
+      logger.info(
+        `[handleJoinRoomEvent] number of clients in ${roomName} is ${clients.length}`
+      );
+    } else {
+      logger.error(
+        `[handleJoinRoomEvent] noone joined ${roomName} but expecting at least one`
+      );
+    }
+  }
+}
+
 function handleDisconnect(): (...args: any[]) => void {
   return () => {
     console.log("user disconnected");
@@ -110,8 +127,11 @@ function handleDisconnect(): (...args: any[]) => void {
 }
 
 io.on("connection", (scket: Socket) => {
+  logger.info("User connected to socket");
+  scket.join("Experimentalist");
   scket.on(Api.Socket.EVENT_UPDATED_NAME, handleEventEvent(scket));
   scket.on(Api.Socket.EVENT_BROADCAST_NAME, handleBroadcastEvent(scket));
+  scket.on(Api.Socket.EVENT_JOIN_EVENT_NAME, handleJoinRoomEvent(scket));
   scket.on("disconnect", handleDisconnect());
 });
 

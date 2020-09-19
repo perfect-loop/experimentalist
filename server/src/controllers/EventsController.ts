@@ -33,8 +33,9 @@ export default class EventsController {
 
     event.state = "active";
     await event.save();
-    logger.info("About to emit ", event);
-    io.emit(Api.Socket.EVENT_UPDATED_NAME, { event });
+    const socketRoomName = Api.Socket.eventSocketId(event);
+    logger.info(`About to emit to ${socketRoomName} ${JSON.stringify(event)}`);
+    io.to(socketRoomName).emit(Api.Socket.EVENT_UPDATED_NAME, { event });
     res.status(200).send("Complete");
   }
 
