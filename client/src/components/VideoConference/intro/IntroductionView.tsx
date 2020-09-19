@@ -25,7 +25,7 @@ function IntroductionView(props: { participant: IParticipation; eventSettingsSto
         return <></>;
       }
       case "ready": {
-        const settings: IEventSettings = props.eventSettingsStore.state.data;
+        const settings: IEventSettings = props.eventSettingsStore.state.data[0];
         if (!settings || !settings.introVideo) {
           return <></>;
         }

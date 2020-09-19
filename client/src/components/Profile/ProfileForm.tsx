@@ -49,21 +49,6 @@ function ProfileForm(props: IProps) {
     return props.model?.venmoHandle !== undefined || !!props.requireVenmo;
   };
 
-  const allowInitialSubmit = (): boolean => {
-    // if this is an update, allow to submit right away
-    if (props.model) {
-      return true;
-    }
-
-    // if venmo is not shown, allow submit right away
-    // else, wait for venmo to be entered before allowing submission
-    if (!isShowVenmo()) {
-      return true;
-    }
-
-    return false;
-  };
-
   const classes = useStyles();
   const history = useHistory();
   const [alertText, setAlertText] = React.useState("");
