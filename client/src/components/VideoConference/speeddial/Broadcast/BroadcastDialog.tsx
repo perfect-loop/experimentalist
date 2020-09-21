@@ -38,12 +38,12 @@ const TextFieldAdapter = ({ input, meta, ...rest }: { input: any; meta: any }) =
   );
 };
 
-function BroadcastDialog(props: { onClose: () => void }) {
+function BroadcastDialog(props: { onClose: () => void; eventId: string }) {
   const classes = useStyles();
   const app = useAppContext();
 
   const onSubmit = (values: any) => {
-    app.socket.emit(Api.Socket.EVENT_BROADCAST_NAME, values.message);
+    Api.Socket.sendBroadcast(app.socket, props.eventId, values.message);
     props.onClose();
   };
 

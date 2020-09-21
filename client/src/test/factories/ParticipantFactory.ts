@@ -1,11 +1,11 @@
-import { define, random } from "cooky-cutter";
+import { define } from "cooky-cutter";
 import faker from "faker";
 import { EventFactory } from "./EventFactory";
 import { IParticipation, IParticipationProfile } from "models/Participations";
 import { ProfileFactory } from "./ProfileFactory";
 
 export const ParticipantFactory = define<IParticipation>({
-  _id: "",
+  _id: faker.random.alphaNumeric(9),
   email: faker.internet.email(),
   event: EventFactory(),
   anonymousName: faker.name.findName(),

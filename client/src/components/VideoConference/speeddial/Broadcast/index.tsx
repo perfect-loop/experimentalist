@@ -48,7 +48,7 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-export default function Broadcast(props: { handleBroadcastClickClose: any; defaultOpen: boolean }) {
+export default function Broadcast(props: { handleBroadcastClickClose: any; defaultOpen: boolean; eventId: string }) {
   return (
     <div>
       <Dialog
@@ -60,7 +60,7 @@ export default function Broadcast(props: { handleBroadcastClickClose: any; defau
           Send message to all participants
         </DialogTitle>
         <DialogContent dividers>
-          <BroadcastDialog onClose={props.handleBroadcastClickClose} />
+          <BroadcastDialog onClose={props.handleBroadcastClickClose} eventId={props.eventId} />
         </DialogContent>
       </Dialog>
     </div>
