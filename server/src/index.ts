@@ -80,7 +80,13 @@ server.on("listening", () => {
 
 import socket, { Socket } from "socket.io";
 import { Api } from "models/Socket";
-import { handleBroadcastEvent, handleDisconnect, handleEventEvent, handleJoinRoomEvent } from "./sockets";
+import {
+  cleanupSockets,
+  handleBroadcastEvent,
+  handleDisconnect,
+  handleEventEvent,
+  handleJoinRoomEvent
+} from "./sockets";
 export const io = socket(server, { origins: "*:*" });
 
 io.on("connection", (scket: Socket) => {
@@ -89,7 +95,9 @@ io.on("connection", (scket: Socket) => {
   scket.on(Api.Socket.EVENT_UPDATED_NAME, handleEventEvent(scket));
   scket.on(Api.Socket.EVENT_BROADCAST_NAME, handleBroadcastEvent(scket));
   scket.on(Api.Socket.EVENT_JOIN_EVENT_NAME, handleJoinRoomEvent(scket, io));
-  scket.on("disconnect", handleDisconnect(scket));
+  scket.on("disconnect", () => {
+    handleDisconnect(scket);
+  });
 });
 
 (async () => {
@@ -97,5 +105,11 @@ io.on("connection", (scket: Socket) => {
   server.listen(port);
   console.log(`Server is up @ http://localhost:${port}`);
 })();
+
+/**
+ * After start
+ */
+
+cleanupSockets();
 
 export default app;

@@ -15,7 +15,7 @@ describe("SpeedDialTooltipOpen", () => {
 
     test("Show host options", () => {
       const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={handle} />);
-      expect(wrapper.find(SpeedDialAction)).toHaveLength(4);
+      expect(wrapper.find(SpeedDialAction)).toHaveLength(5);
     });
   });
   describe("Attendee", () => {
@@ -35,7 +35,7 @@ describe("SpeedDialTooltipOpen", () => {
 
     test("Show assistant options", () => {
       const wrapper = shallow(<SpeedDialTooltipOpen participant={p} handleBroadcastClickOpen={handle} />);
-      expect(wrapper.find(SpeedDialAction)).toHaveLength(3);
+      expect(wrapper.find(SpeedDialAction)).toHaveLength(4);
     });
   });
 });

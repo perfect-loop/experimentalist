@@ -24,7 +24,7 @@ describe("Events", () => {
       <VideoConference role={Role.Host} eventId="sadfdf" user={user} attendeeParticipation={attendeeParticipation} />,
     );
     const message: Api.Socket.IJoinEventMessage = {
-      roomName: Api.Socket.eventSocketIdByEventId("sadfdf"),
+      eventId: "sadfdf",
       participationId: attendeeParticipation._id,
     };
     expect(spyApi).toBeCalledWith(expect.any(Object), message);

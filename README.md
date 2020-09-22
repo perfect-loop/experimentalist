@@ -204,6 +204,12 @@ https://www.mongodb.com/cloud/atlas
 DEBUG=enine,socket.io* yarn start
 ```
 
+### Debug sockets
+
+```
+docker run -p 8080:8080 amritb/socketio-client-tool:latest
+```
+
 ## Server
 
 ```

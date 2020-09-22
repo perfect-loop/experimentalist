@@ -62,10 +62,9 @@ const VideoConference = (props: IProps) => {
 
   console.log(`props.attendeeParticipation is ${JSON.stringify(props.attendeeParticipation)}`);
   const participationId = props.attendeeParticipation?._id || props.hostParticition?._id;
-  const roomName = Api.Socket.eventSocketIdByEventId(props.eventId);
   if (participationId) {
     const message: Api.Socket.IJoinEventMessage = {
-      roomName: roomName,
+      eventId: props.eventId,
       participationId: participationId,
     };
     Api.Socket.joinEvent(app.socket, message);
