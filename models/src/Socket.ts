@@ -7,6 +7,7 @@ export module Api {
     export const EVENT_BROADCAST_NAME = "BROADCAST";
     export const EVENT_JOIN_EVENT_NAME = "JOIN_EVENT";
     export type EVENT_UPDATED = "EVENT_UPDATED";
+    export const EVENT_PARTICIPATION_UPDATE = "EVENT_PARTICIPATION_UPDATED";
     export type Event = EVENT_UPDATED;
     export interface ISocket {
       socketEvent: Event;
@@ -23,9 +24,14 @@ export module Api {
     }
 
     export interface IJoinEventMessage {
-      roomName: string;
+      eventId: string;
       participationId: string;
     }
+
+    export interface IEventParticipationMessage {
+      participant: number;
+    }
+
 
     export function sendBroadcast(
       socket: SocketIOClient.Socket,

@@ -80,59 +80,24 @@ server.on("listening", () => {
 
 import socket, { Socket } from "socket.io";
 import { Api } from "models/Socket";
-import logger from "./shared/Logger";
-import { IEvent } from "models/Events";
+import {
+  cleanupSockets,
+  handleBroadcastEvent,
+  handleDisconnect,
+  handleEventEvent,
+  handleJoinRoomEvent
+} from "./sockets";
 export const io = socket(server, { origins: "*:*" });
 
-function handleEventEvent(scket: socket.Socket): (...args: any[]) => void {
-  return (message: IEvent) => {
-    console.log(`[handleEventEvent] ${JSON.stringify(message)}`);
-    scket.broadcast.emit(Api.Socket.EVENT_UPDATED_NAME, message);
-  };
-}
-
-function handleBroadcastEvent(scket: socket.Socket): (...args: any[]) => void {
-  return (message: Api.Socket.IBroadcastMessage) => {
-    console.log(`[handleBroadcastEvent] ${JSON.stringify(message)}`);
-    scket.broadcast.emit(Api.Socket.EVENT_BROADCAST_NAME, message);
-  };
-}
-
-function handleJoinRoomEvent(scket: socket.Socket): (...args: any[]) => void {
-  return (message: Api.Socket.IJoinEventMessage) => {
-    const roomName = message.roomName;
-    joinRoom(roomName);
-  };
-
-  function joinRoom(roomName: string) {
-    scket.join(roomName);
-    logger.info(`[handleJoinRoomEvent] ${JSON.stringify(roomName)}`);
-    const clients = io.sockets.adapter.rooms[roomName];
-    if (clients.length && clients.length > 0) {
-      logger.info(
-        `[handleJoinRoomEvent] number of clients in ${roomName} is ${clients.length}`
-      );
-    } else {
-      logger.error(
-        `[handleJoinRoomEvent] noone joined ${roomName} but expecting at least one`
-      );
-    }
-  }
-}
-
-function handleDisconnect(): (...args: any[]) => void {
-  return () => {
-    console.log("user disconnected");
-  };
-}
-
 io.on("connection", (scket: Socket) => {
-  logger.info("User connected to socket");
+  // https://github.com/socketio/socket.io-redis
   scket.join("Experimentalist");
   scket.on(Api.Socket.EVENT_UPDATED_NAME, handleEventEvent(scket));
   scket.on(Api.Socket.EVENT_BROADCAST_NAME, handleBroadcastEvent(scket));
-  scket.on(Api.Socket.EVENT_JOIN_EVENT_NAME, handleJoinRoomEvent(scket));
-  scket.on("disconnect", handleDisconnect());
+  scket.on(Api.Socket.EVENT_JOIN_EVENT_NAME, handleJoinRoomEvent(scket, io));
+  scket.on("disconnect", () => {
+    handleDisconnect(scket);
+  });
 });
 
 (async () => {
@@ -140,5 +105,11 @@ io.on("connection", (scket: Socket) => {
   server.listen(port);
   console.log(`Server is up @ http://localhost:${port}`);
 })();
+
+/**
+ * After start
+ */
+
+cleanupSockets();
 
 export default app;

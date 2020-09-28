@@ -9,6 +9,7 @@ var Api;
         Socket.EVENT_ADMIT_PARTICIPANT = "EVENT_ADMIN_PARTICIPANT";
         Socket.EVENT_BROADCAST_NAME = "BROADCAST";
         Socket.EVENT_JOIN_EVENT_NAME = "JOIN_EVENT";
+        Socket.EVENT_PARTICIPATION_UPDATE = "EVENT_PARTICIPATION_UPDATED";
         function sendBroadcast(socket, eventId, message) {
             var broadcastMessage = {
                 eventId: eventId,
