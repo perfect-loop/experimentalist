@@ -7,12 +7,20 @@ import { Auth0UserFactory } from "../../../../test/factories/Auth0UserFactory";
 import { shallow } from "enzyme";
 import { ParticipantFactory } from "../../../../test/factories/ParticipantFactory";
 import { Redirect, MemoryRouter } from "react-router-dom";
-import VideoConference from "../../../VideoConference";
 import { EventFactory } from "../../../../test/factories/EventFactory";
+import { EventSettingsStore } from "../../../EventSettings/store/EventSettingsStore";
+import { NavigateBeforeTwoTone } from "@material-ui/icons";
 
 jest.mock("../../../VideoConference", () => () => "VideoConference");
 
 describe("Participant", () => {
+  const eventSettingsStore = new EventSettingsStore("sdf");
+  beforeEach(()=>{
+    eventSettingsStore.state = {
+      kind: "ready",
+      data: {}
+    }
+  });
   describe("started event", () => {
     const event = EventFactory({
       state: "started",
@@ -31,7 +39,7 @@ describe("Participant", () => {
       };
       const user: Auth0User = Auth0UserFactory();
       const eventId = "1234";
-      const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+      const wrapper = shallow(<Boo participationsStore={store} eventSettingsStore={eventSettingsStore} role={Role.Host} user={user} eventId={eventId} />);
       expect(wrapper.html()).toBe("VideoConference");
     });
     test("did not open event yet", () => {
@@ -47,7 +55,7 @@ describe("Participant", () => {
       };
       const user: Auth0User = Auth0UserFactory();
       const eventId = "1234";
-      const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+      const wrapper = shallow(<Boo participationsStore={store} eventSettingsStore={eventSettingsStore} role={Role.Host} user={user} eventId={eventId} />);
       const redirect = wrapper.find(Redirect);
       expect(redirect).toHaveLength(1);
       expect(redirect.prop("to")).toBe("/events/1234/unavailable");
@@ -74,7 +82,7 @@ describe("Participant", () => {
       };
       const user: Auth0User = Auth0UserFactory();
       const eventId = "1234";
-      const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+      const wrapper = shallow(<Boo participationsStore={store} eventSettingsStore={eventSettingsStore} role={Role.Host} user={user} eventId={eventId} />);
       expect(wrapper.find(Redirect)).toHaveLength(1);
     });
     test("already opened the event", () => {
@@ -91,7 +99,7 @@ describe("Participant", () => {
       };
       const user: Auth0User = Auth0UserFactory();
       const eventId = "1234";
-      const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+      const wrapper = shallow(<Boo participationsStore={store} eventSettingsStore={eventSettingsStore} role={Role.Host} user={user} eventId={eventId} />);
       const redirect = wrapper.find(Redirect);
       expect(redirect).toHaveLength(1);
       expect(redirect.prop("to")).toBe("/events/1234/unavailable");
@@ -114,7 +122,7 @@ describe("Participant", () => {
       const eventId = "1234";
       const wrapper = shallow(
         <MemoryRouter>
-          <Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />
+          <Boo participationsStore={store} eventSettingsStore={eventSettingsStore} role={Role.Host} user={user} eventId={eventId} />
         </MemoryRouter>,
       );
       expect(wrapper.html()).toBe("VideoConference");
@@ -123,6 +131,14 @@ describe("Participant", () => {
 });
 
 describe("Host", () => {
+  const eventSettingsStore = new EventSettingsStore("sdf");
+
+  beforeEach(()=>{
+    eventSettingsStore.state = {
+      kind: "ready",
+      data: {}
+    }
+  });
   test("always allows", () => {
     const store = new ParticipantsStore();
     store.state = {
@@ -135,12 +151,20 @@ describe("Host", () => {
     };
     const user: Auth0User = Auth0UserFactory();
     const eventId = "1234";
-    const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+    const wrapper = shallow(<Boo eventSettingsStore={eventSettingsStore}  participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
     expect(wrapper.html()).toBe("VideoConference");
   });
 });
 
 describe("Assistant", () => {
+  const eventSettingsStore = new EventSettingsStore("sdf");
+
+  beforeEach(()=>{
+    eventSettingsStore.state = {
+      kind: "ready",
+      data: {}
+    }
+  })
   test("always allows", () => {
     const store = new ParticipantsStore();
     store.state = {
@@ -153,12 +177,20 @@ describe("Assistant", () => {
     };
     const user: Auth0User = Auth0UserFactory();
     const eventId = "1234";
-    const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+    const wrapper = shallow(<Boo eventSettingsStore={eventSettingsStore} participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
     expect(wrapper.html()).toBe("VideoConference");
   });
 });
 
 describe("Both Participant & Host", () => {
+  const eventSettingsStore = new EventSettingsStore("sdf");
+
+  beforeEach(()=>{
+    eventSettingsStore.state = {
+      kind: "ready",
+      data: {}
+    }
+  });
   test("always allows", () => {
     const store = new ParticipantsStore();
     store.state = {
@@ -174,7 +206,7 @@ describe("Both Participant & Host", () => {
     };
     const user: Auth0User = Auth0UserFactory();
     const eventId = "1234";
-    const wrapper = shallow(<Boo participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
+    const wrapper = shallow(<Boo eventSettingsStore={eventSettingsStore} participationsStore={store} role={Role.Host} user={user} eventId={eventId} />);
     expect(wrapper.html()).toBe("VideoConference");
   });
 });

@@ -9,6 +9,8 @@ import { Role } from "models/Zoom";
 import PersistenNotication from "./notifications/Persistent";
 import { IParticipation } from "models/Participations";
 import { ZoomMtg } from "@zoomus/websdk";
+import { IEventSettings } from "models/EventSettings";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,6 +26,7 @@ interface IProps {
   user: Auth0User;
   hostParticition?: IParticipation;
   attendeeParticipation?: IParticipation;
+  eventSettings: IEventSettings;
 }
 
 enum Severity {
@@ -42,33 +45,36 @@ const VideoConference = (props: IProps) => {
   const [snackSeverity, setSnackSeverity] = React.useState(Severity.S);
 
   const classes = useStyles();
-  app.socket.on(Api.Socket.EVENT_UPDATED_NAME, (response: any) => {
-    // console.log(`message from server is ${response.data}`);
-    setsnackText("This event is now active!");
-    setSnackSeverity(Severity.S);
 
-    // this is a backup plan in case FAB did not appear for the user for some reason
-    setShowFab(true);
-    setSnackOpen(true);
-  });
+  useEffect(() => {
+    app.socket.on(Api.Socket.EVENT_UPDATED_NAME, (response: any) => {
+      // console.log(`message from server is ${response.data}`);
+      setsnackText("This event is now active!");
+      setSnackSeverity(Severity.S);
 
-  app.socket.on(Api.Socket.EVENT_BROADCAST_NAME, (response: Api.Socket.IBroadcastMessage) => {
-    console.log(`message from server using ${Api.Socket.EVENT_BROADCAST_NAME} is ${JSON.stringify(response)}`);
-    if (props.eventId === response.eventId) {
-      setPersistentText(response.message);
-      setPersistentOpen(true);
+      // this is a backup plan in case FAB did not appear for the user for some reason
+      setShowFab(true);
+      setSnackOpen(true);
+    });
+
+    app.socket.on(Api.Socket.EVENT_BROADCAST_NAME, (response: Api.Socket.IBroadcastMessage) => {
+      console.log(`message from server using ${Api.Socket.EVENT_BROADCAST_NAME} is ${JSON.stringify(response)}`);
+      if (props.eventId === response.eventId) {
+        setPersistentText(response.message);
+        setPersistentOpen(true);
+      }
+    });
+
+    console.log(`props.attendeeParticipation is ${JSON.stringify(props.attendeeParticipation)}`);
+    const participationId = props.attendeeParticipation?._id || props.hostParticition?._id;
+    if (participationId) {
+      const message: Api.Socket.IJoinEventMessage = {
+        eventId: props.eventId,
+        participationId: participationId,
+      };
+      Api.Socket.joinEvent(app.socket, message);
     }
-  });
-
-  console.log(`props.attendeeParticipation is ${JSON.stringify(props.attendeeParticipation)}`);
-  const participationId = props.attendeeParticipation?._id || props.hostParticition?._id;
-  if (participationId) {
-    const message: Api.Socket.IJoinEventMessage = {
-      eventId: props.eventId,
-      participationId: participationId,
-    };
-    Api.Socket.joinEvent(app.socket, message);
-  }
+  }, []);
 
   const handleClose = () => {
     setPersistentOpen(false);
@@ -81,7 +87,7 @@ const VideoConference = (props: IProps) => {
       ZoomMtg.putOnHold({
         userId,
         hold: false, // take user out of waiting room
-        success: function(res: any) {
+        success: function (res: any) {
           console.log(res);
         },
       });

@@ -1,3 +1,4 @@
+import { BooleanAlgebra } from "fp-ts/lib/BooleanAlgebra";
 import * as mongoose from "mongoose";
 import { Document } from "mongoose";
 import { IEvent } from "./Events";
@@ -19,7 +20,11 @@ export const EventSettingsSchema = new mongoose.Schema(
       type: String,
       enum: ["venmo", "paypal", "none"],
       default: "venmo"
-    }
+    },
+    intelligentReadmit: {
+      type: Boolean,
+      default: false
+    },
   },
   {
     timestamps: true
@@ -32,6 +37,7 @@ export interface IEventSettings extends Document {
   requireId: boolean;
   paymentMethod: string;
   event: IEvent;
+  intelligentReadmit: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

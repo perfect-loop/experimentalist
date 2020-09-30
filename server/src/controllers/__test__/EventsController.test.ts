@@ -3,8 +3,11 @@ import { Participation, IParticipation } from "models/Participations";
 import EventsController from "../EventsController";
 import { EventFactory } from "../../test/factories/EventFactory";
 import { ParticipationFactory } from "../../test/factories/ParticipationFactory";
+import { EventSettingsFactory } from "../../test/factories/EventSettingsFactory";
 import { mockResponse } from "../../test/helpers";
 import { io } from "../../";
+import { Api } from "models/Socket";
+import { IEvent } from "models/Events";
 
 describe("insert", () => {
   const res = mockResponse();
@@ -183,11 +186,137 @@ describe("AutoAdmit", () => {
   const res = mockResponse();
   const mNext = jest.fn();
   const controller = new EventsController();
-  const req = ({
-    params: {},
-    user: { _id: "5eeaad1d96c9409bc72465c7" }
-  } as any) as Request;
-  it("admit", async () => {
-    await controller.admitParticipant(req, res, mNext);
+
+  it("allow auto-admit", async (done: any) => {
+    const event = await EventFactory();
+    await event.save();
+
+    const participant = ParticipationFactory.Attendee({
+      event,
+      admittedAt: new Date()
+    });
+
+    await participant.save();
+
+    const req = ({
+      params: {
+        id: event.id,
+        participantId: participant.id
+      },
+      body: {
+        here: "you"
+      }
+    } as any) as Request;
+
+    const spyIo = jest.spyOn(io, "emit");
+
+    const r = controller.admitParticipant(req, res, mNext);
+    r?.then(async result => {
+      expect(spyIo).toBeCalledWith(Api.Socket.EVENT_ADMIT_PARTICIPANT, {
+        here: "you"
+      });
+      done();
+    });
+  });
+
+  it("do not allow auto-admit", async (done: any) => {
+    const event = await EventFactory();
+    await event.save();
+
+    const participant = ParticipationFactory.Attendee({
+      event
+    });
+
+    await participant.save();
+
+    const req = ({
+      params: {
+        id: event.id,
+        participantId: participant.id
+      }
+    } as any) as Request;
+
+    const spyIo = jest.spyOn(io, "emit");
+
+    const r = controller.admitParticipant(req, res, mNext);
+    r?.then(async result => {
+      expect(spyIo).not.toBeCalled();
+      done();
+    });
+  });
+
+  describe("intelligent auto admit", () => {
+    let event: IEvent;
+    let participant: IParticipation;
+    let req: Request;
+    const spyIo = jest.spyOn(io, "emit");
+
+    beforeEach(async () => {
+      event = await EventFactory({
+        state: "not_started"
+      });
+      event.state = "not_started";
+      await event.save();
+
+      participant = ParticipationFactory.Attendee({
+        event,
+        admittedAt: new Date()
+      });
+
+      await participant.save();
+
+      req = ({
+        params: {
+          id: event.id,
+          participantId: participant.id
+        }
+      } as any) as Request;
+    });
+    it("allow", async (done: any) => {
+      const eventSettings = EventSettingsFactory({
+        event,
+        intelligentReadmit: true
+      });
+      await eventSettings.save();
+
+      const r = controller.admitParticipant(req, res, mNext);
+      r?.then(async result => {
+        expect(spyIo).toBeCalled();
+        done();
+      });
+    });
+
+    it("intelligent auto admit is turned off", async (done: any) => {
+      const eventSettings = EventSettingsFactory({
+        event,
+        intelligentAutoAdmit: false
+      });
+      await eventSettings.save();
+
+      const r = controller.admitParticipant(req, res, mNext);
+      r?.then(async result => {
+        expect(spyIo).not.toBeCalled();
+        done();
+      });
+    });
+
+    it("settings is not present", async (done: any) => {
+      const r = controller.admitParticipant(req, res, mNext);
+      r?.then(async result => {
+        expect(spyIo).toBeCalled();
+        done();
+      });
+    });
+
+    it("participant is not previously admitted", async (done: any) => {
+      participant.admittedAt = undefined;
+      await participant.save();
+
+      const r = controller.admitParticipant(req, res, mNext);
+      r?.then(async result => {
+        expect(spyIo).not.toBeCalled();
+        done();
+      });
+    });
   });
 });

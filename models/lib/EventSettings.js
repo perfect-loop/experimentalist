@@ -18,7 +18,11 @@ exports.EventSettingsSchema = new mongoose.Schema({
         type: String,
         enum: ["venmo", "paypal", "none"],
         default: "venmo"
-    }
+    },
+    intelligentReadmit: {
+        type: Boolean,
+        default: false
+    },
 }, {
     timestamps: true
 });

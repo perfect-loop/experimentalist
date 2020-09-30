@@ -77,7 +77,7 @@ export default class EventSettingsController {
     }
 
     if (!(await isHost(user, event))) {
-      res.status(403).send("Unauthorized");
+      res.status(403).send("Unauthorized Host");
       return;
     }
 
