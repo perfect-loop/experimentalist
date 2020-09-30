@@ -13,6 +13,7 @@ import { AxiosResponse } from "axios";
 import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 import AdmitAll from "./AdmitAll";
 import Lock from "./Lock";
+import ConferenceStats from "./ConferenceStats";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -128,6 +129,15 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
               tooltipOpen
               open={true}
               onClick={handleLockClick}
+              TooltipClasses={classes}
+            />
+          )}
+          {(props.participant.role === "host" || props.participant.role === "assistant") && (
+            <SpeedDialAction
+              key="Conference Info"
+              icon={<ConferenceStats />}
+              tooltipTitle="Conference Info"
+              tooltipOpen
               TooltipClasses={classes}
             />
           )}
