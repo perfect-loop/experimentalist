@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useFeature } from "flagged";
 import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { IEventSettings } from "models/EventSettings";
 import { Alert, AlertTitle } from "@material-ui/lab";
@@ -48,7 +48,7 @@ function NewDialog(props: { eventId: string }) {
     store
       .post(newEvent)
       .then((eventSettings: IEventSettings) => {
-        history.push(`/events/${props.eventId}/host/settings`);
+        history.push(`/events`);
       })
       .catch(error => {
         setAlert(true);
@@ -63,6 +63,7 @@ function NewDialog(props: { eventId: string }) {
           Unable to create event settings. Please try again.
         </Alert>
       )}
+      <Typography variant="h6">Event Settings</Typography>
       <Form
         onSubmit={onSubmit}
         initialValues={{ paymentMethod: "venmo" }}

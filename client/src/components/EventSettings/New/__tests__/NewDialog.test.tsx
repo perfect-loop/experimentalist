@@ -59,7 +59,7 @@ test("Submit the form", async () => {
   const form = wrapper.find(Form);
   form.simulate("submit");
   await flushPromises();
-  expect(mockHistoryPush).toHaveBeenCalledWith(`/events/${eventId}/host/settings`);
+  expect(mockHistoryPush).toHaveBeenCalledWith(`/events`);
 });
 
 describe("Select Payment Method", () => {

@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useHistory } from "react-router-dom";
 import { useFeature } from "flagged";
-import { Paper } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { IEventSettings } from "models/EventSettings";
@@ -70,6 +70,7 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
             Unable to update event settings. Please try again.
           </Alert>
         )}
+        <Typography variant="h6">Edit Event Settings</Typography>
         <Form
           onSubmit={onSubmit}
           initialValues={{ paymentMethod: eventSettings.paymentMethod }}
