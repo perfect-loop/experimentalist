@@ -85,12 +85,17 @@ function NewDialog(props: { eventId: string }) {
                   label="Venmo"
                   control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="venmo" />}
                 />
+
                 {selectPaymentMethod && (
                   <FormControlLabel
                     label="PayPal"
                     control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="paypal" />}
                   />
                 )}
+                <FormControlLabel
+                  label="None"
+                  control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="none" />}
+                />
               </RadioGroup>
             </div>
             <br />

@@ -42,6 +42,7 @@ interface IProps {
   afterSuccessPath: string;
   model?: IProfile;
   requireVenmo?: boolean;
+  eventPaymentMethod?: string;
 }
 
 function ProfileForm(props: IProps) {
@@ -62,17 +63,22 @@ function ProfileForm(props: IProps) {
   const onSubmit = (values: any) => {
     const newProfile = values as IProfile;
 
-    props
-      .onSubmit(newProfile)
-      .then(() => {
-        console.log("Profile has been created");
-        updateProfile(true);
-        history.push(props.afterSuccessPath);
-      })
-      .catch((error: Api.Error) => {
-        setAlertText(error.message);
-        setAlert(true);
-      });
+    if (props.eventPaymentMethod === "venmo" && !values.venmoId) {
+      setAlertText("Please provide your venmo handle");
+      setAlert(true);
+    } else {
+      props
+        .onSubmit(newProfile)
+        .then(() => {
+          console.log("Profile has been created");
+          updateProfile(true);
+          history.push(props.afterSuccessPath);
+        })
+        .catch((error: Api.Error) => {
+          setAlertText(error.message);
+          setAlert(true);
+        });
+    }
   };
 
   const setVenmoHandleAndId = (venmoHandle: string, venmoId: string) => {

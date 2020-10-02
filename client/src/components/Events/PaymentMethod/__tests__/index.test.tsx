@@ -3,12 +3,13 @@ import { mount, shallow } from "enzyme";
 import { MemoryRouter, Redirect } from "react-router-dom";
 import ProfileStore from "../../../Profile/storage/ProfileStore";
 import PaymentMethod from "..";
+import PaymentMethodRenderer from "../PaymentMethodRenderer";
 import { ProfileFactory } from "../../../../test/factories/ProfileFactory";
 import Edit from "../../../Profile/Edit";
 
 describe("PaymentMethod", () => {
   const profileStore = new ProfileStore();
-  test("Show edit form", () => {
+  it("renders the PaymentMethodRenderer", () => {
     const profile = ProfileFactory({
       venmoId: undefined,
     });
@@ -18,26 +19,7 @@ describe("PaymentMethod", () => {
     };
     const wrapper = shallow(<PaymentMethod eventId="asdsf" profileStore={profileStore} />);
 
-    expect(wrapper.find(Edit)).toHaveLength(1);
-  });
-
-  test("Redirect to event if venmo is set", () => {
-    const profile = ProfileFactory({
-      venmoId: "sasdff",
-    });
-    profileStore.state = {
-      kind: "ready",
-      data: [profile],
-    };
-    const wrapper = mount(
-      <MemoryRouter>
-        <PaymentMethod eventId="asdsf" profileStore={profileStore} />
-      </MemoryRouter>,
-    );
-
-    const redirect = wrapper.find(Redirect);
-    expect(redirect).toHaveLength(1);
-    expect(redirect.prop("to")).toBe("/events/asdsf/conference");
+    expect(wrapper.find(PaymentMethodRenderer)).toHaveLength(1);
   });
 
   test("Show loading", () => {

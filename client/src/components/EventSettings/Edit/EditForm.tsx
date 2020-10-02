@@ -101,6 +101,10 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                       }
                     />
                   )}
+                  <FormControlLabel
+                    label="None"
+                    control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="none" />}
+                  />
                 </RadioGroup>
               </div>
               <br />
