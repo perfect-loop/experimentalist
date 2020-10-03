@@ -1,11 +1,8 @@
-import { Component } from "react";
-import React from "react";
-import Edit from "../../Profile/Edit";
-import { Typography } from "@material-ui/core";
-import ProfileStore from "../../Profile/storage/ProfileStore";
+import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { IProfile } from "models/Profiles";
-import { Redirect } from "react-router-dom";
+import ProfileStore from "../../Profile/storage/ProfileStore";
+import { EventSettingsStore } from "../../EventSettings/store/EventSettingsStore";
+import PaymentMethodRenderer from "./PaymentMethodRenderer";
 
 interface IProps {
   eventId: string;
@@ -13,38 +10,31 @@ interface IProps {
   participationId?: string;
 }
 
-const nextUrl = (eventId: string): string => {
-  return `/events/${eventId}/conference`;
-};
-
 @observer
 export default class PaymentMethod extends Component<IProps, {}> {
   private profileStore = this.props.profileStore || new ProfileStore();
+  private eventSettingsStore = new EventSettingsStore(this.props.eventId);
+
   constructor(props: IProps) {
     super(props);
     this.profileStore.index();
+    this.eventSettingsStore.index();
   }
+
   public render(): JSX.Element {
     switch (this.profileStore.state.kind) {
       case "not_ready":
       case "empty":
         return <div>Loading</div>;
       case "ready":
-        const model = this.profileStore.state.data[0] as IProfile;
-        if (model && model.venmoId) {
-          return <Redirect to={nextUrl(this.props.eventId)} />;
-        } else {
-          return (
-            <>
-              <Typography variant="h6">Please update your profile</Typography>
-              <Edit
-                requireVenmo={true}
-                profileStore={this.profileStore}
-                afterSuccessPath={nextUrl(this.props.eventId)}
-              />
-            </>
-          );
-        }
+        return (
+          <PaymentMethodRenderer
+            eventSettingsStore={this.eventSettingsStore}
+            profileStore={this.profileStore}
+            eventId={this.props.eventId}
+            profileData={this.profileStore.state.data[0]}
+          />
+        );
     }
   }
 }

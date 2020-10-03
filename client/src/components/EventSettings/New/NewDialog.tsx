@@ -1,23 +1,23 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useFeature } from "flagged";
-import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Button, Paper, Typography, Tooltip } from "@material-ui/core";
 import { Form, Field } from "react-final-form";
 import { IEventSettings } from "models/EventSettings";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import HelpIcon from "@material-ui/icons/Help";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
 import RadioButtonAdapter from "../../Forms/RadioButtonAdapter";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import RadioGroup from "@material-ui/core/RadioGroup";
+
 import { EventSettingsStore } from "../store/EventSettingsStore";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       "& .MuiTextField-root": {
-        margin: theme.spacing(1),
         width: "80%",
       },
     },
@@ -48,7 +48,7 @@ function NewDialog(props: { eventId: string }) {
     store
       .post(newEvent)
       .then((eventSettings: IEventSettings) => {
-        history.push(`/events/${props.eventId}/host/settings`);
+        history.push(`/events`);
       })
       .catch(error => {
         setAlert(true);
@@ -63,12 +63,20 @@ function NewDialog(props: { eventId: string }) {
           Unable to create event settings. Please try again.
         </Alert>
       )}
+      <Typography variant="h6">Event Settings</Typography>
+      <br />
       <Form
         onSubmit={onSubmit}
         initialValues={{ paymentMethod: "venmo" }}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit} className={classes.root}>
             <div>
+              <Typography>
+                Intro video
+                <Tooltip title="Introductory video that will be shown to participants while they are in the waiting room">
+                  <HelpIcon fontSize="small" color="disabled" />
+                </Tooltip>
+              </Typography>
               <Field
                 name="introVideo"
                 component={TextFieldAdapter}
@@ -78,23 +86,40 @@ function NewDialog(props: { eventId: string }) {
               />
             </div>
             <br />
+            <br />
             <div>
-              <h4>Payment Method </h4>
+              <Typography>
+                Payment Method
+                <Tooltip title="Method of payment for participants">
+                  <HelpIcon fontSize="small" color="disabled" />
+                </Tooltip>
+              </Typography>
               <RadioGroup row>
                 <FormControlLabel
                   label="Venmo"
                   control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="venmo" />}
                 />
+
                 {selectPaymentMethod && (
                   <FormControlLabel
                     label="PayPal"
                     control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="paypal" />}
                   />
                 )}
+                <FormControlLabel
+                  label="None"
+                  control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="none" />}
+                />
               </RadioGroup>
             </div>
             <br />
             <div>
+              <Typography>
+                Identification Required?
+                <Tooltip title="Participants would be required to take a photo before joining the meeting">
+                  <HelpIcon fontSize="small" color="disabled" />
+                </Tooltip>
+              </Typography>
               <Field name="requireId" component={CheckBoxAdapter} label="Require ID Verification" initialValue={true} />
             </div>
             <br />

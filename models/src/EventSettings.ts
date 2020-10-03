@@ -17,7 +17,7 @@ export const EventSettingsSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["venmo", "paypal"],
+      enum: ["venmo", "paypal", "none"],
       default: "venmo"
     }
   },

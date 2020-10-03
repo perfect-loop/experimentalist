@@ -59,7 +59,7 @@ test("Submit the form", async () => {
   const form = wrapper.find(Form);
   form.simulate("submit");
   await flushPromises();
-  expect(mockHistoryPush).toHaveBeenCalledWith(`/events/${eventId}/host/settings`);
+  expect(mockHistoryPush).toHaveBeenCalledWith(`/events`);
 });
 
 describe("Select Payment Method", () => {
@@ -71,7 +71,7 @@ describe("Select Payment Method", () => {
         </FlagsProvider>,
       );
 
-      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(2);
+      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(3);
       expect(wrapper.text().includes("PayPal")).toBe(true);
     });
   });
@@ -84,7 +84,7 @@ describe("Select Payment Method", () => {
         </FlagsProvider>,
       );
 
-      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(1);
+      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(2);
       expect(wrapper.text().includes("PayPal")).toBe(false);
     });
   });

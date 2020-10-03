@@ -89,4 +89,39 @@ describe("put", () => {
     expect(res.send).toHaveBeenCalledWith("Event Settings not found");
     done();
   });
+
+  describe("valid params", () => {
+    it("saves the event setting ", async (done: any) => {
+      const event = EventFactory();
+      await event.save();
+
+      const host = ParticipationFactory.Host({
+        email: "test@test.com",
+        event
+      });
+
+      await host.save();
+
+      const eventSettings = EventSettingsFactory();
+      eventSettings.event = event;
+
+      await eventSettings.save();
+
+      const req = ({
+        params: {
+          eventId: host.event._id,
+          id: eventSettings._id
+        },
+        user: { _id: "5eeaad1d96c9409bc72465c7", email: "test@test.com" },
+        body: {
+          requireId: false,
+          paymentMethod: "none"
+        }
+      } as any) as Request;
+      await new EventSettingsController().put(req, res, mNext);
+
+      expect(res.json).toHaveBeenCalled;
+      done();
+    });
+  });
 });
