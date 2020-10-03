@@ -62,7 +62,7 @@ export default function ParticipantsTable(props: { participants: IParticipationP
               <StyledTableCell align="center"> Last Name </StyledTableCell>
               <StyledTableCell align="center"> Attended </StyledTableCell>
               <StyledTableCell align="center"> Admitted </StyledTableCell>
-              <StyledTableCell align="center"> Instructions </StyledTableCell>
+              <StyledTableCell align="center"> Experiment </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
