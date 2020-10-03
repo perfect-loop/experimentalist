@@ -42,7 +42,7 @@ function NewDialog(props: {}) {
     eventStore
       .post(newEvent)
       .then((event: IEvent) => {
-        history.push(`/events/${event._id}/participants`);
+        history.push(`/events/${event._id}/host/settings/new`);
       })
       .catch(error => {
         setAlert(true);

@@ -91,7 +91,7 @@ describe("Select Payment Method", () => {
         </FlagsProvider>,
       );
 
-      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(2);
+      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(3);
       expect(wrapper.text().includes("PayPal")).toBe(true);
     });
   });
@@ -104,7 +104,7 @@ describe("Select Payment Method", () => {
         </FlagsProvider>,
       );
 
-      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(1);
+      expect(wrapper.find(RadioButtonAdapter)).toHaveLength(2);
       expect(wrapper.text().includes("PayPal")).toBe(false);
     });
   });

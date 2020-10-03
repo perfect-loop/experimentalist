@@ -2,17 +2,17 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useHistory } from "react-router-dom";
 import { useFeature } from "flagged";
-import { Paper } from "@material-ui/core";
-import { makeStyles, Theme, createStyles, Button } from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Button, Paper, Typography, Tooltip } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import HelpIcon from "@material-ui/icons/Help";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import { Form, Field } from "react-final-form";
 import { IEventSettings } from "models/EventSettings";
-import { Alert, AlertTitle } from "@material-ui/lab";
 import { EventSettingsStore } from "../store/EventSettingsStore";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
 import RadioButtonAdapter from "../../Forms/RadioButtonAdapter";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import RadioGroup from "@material-ui/core/RadioGroup";
 
 interface Props {
   eventId: string;
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       "& .MuiTextField-root": {
-        margin: theme.spacing(1),
         width: "80%",
       },
     },
@@ -70,12 +69,20 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
             Unable to update event settings. Please try again.
           </Alert>
         )}
+        <Typography variant="h6">Edit Event Settings</Typography>
+        <br />
         <Form
           onSubmit={onSubmit}
           initialValues={{ paymentMethod: eventSettings.paymentMethod }}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit} className={classes.root}>
               <div>
+                <Typography>
+                  Intro video
+                  <Tooltip title="Introductory video that will be shown to participants while they are in the waiting room">
+                    <HelpIcon fontSize="small" color="disabled" />
+                  </Tooltip>
+                </Typography>
                 <Field
                   name="introVideo"
                   component={TextFieldAdapter}
@@ -86,8 +93,14 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                 />
               </div>
               <br />
+              <br />
               <div>
-                <h4>Payment Method </h4>
+                <Typography>
+                  Payment Method
+                  <Tooltip title="Method of payment for participants">
+                    <HelpIcon fontSize="small" color="disabled" />
+                  </Tooltip>
+                </Typography>
                 <RadioGroup row>
                   <FormControlLabel
                     label="Venmo"
@@ -101,10 +114,20 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                       }
                     />
                   )}
+                  <FormControlLabel
+                    label="None"
+                    control={<Field name="paymentMethod" component={RadioButtonAdapter} type="radio" value="none" />}
+                  />
                 </RadioGroup>
               </div>
               <br />
               <div>
+                <Typography>
+                  Identification Required?
+                  <Tooltip title="Participants would be required to take a photo before joining the meeting">
+                    <HelpIcon fontSize="small" color="disabled" />
+                  </Tooltip>
+                </Typography>
                 <Field
                   name="requireId"
                   component={CheckBoxAdapter}

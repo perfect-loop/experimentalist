@@ -10,7 +10,9 @@ interface IProps {
   afterSuccessPath?: string;
   requireVenmo?: boolean;
   profileStore?: ProfileStore;
+  eventPaymentMethod?: string;
 }
+
 @observer
 export default class Edit extends Component<IProps> {
   profileStore: ProfileStore;
@@ -33,6 +35,7 @@ export default class Edit extends Component<IProps> {
             afterSuccessPath={this.props.afterSuccessPath || "/profile"}
             model={model}
             requireVenmo={this.props.requireVenmo}
+            eventPaymentMethod={this.props.eventPaymentMethod}
           />
         );
     }

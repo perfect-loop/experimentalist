@@ -6,12 +6,13 @@ import { IEventSettings } from "models/EventSettings";
 import { useHistory } from "react-router-dom";
 import { Typography, Tooltip } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
+import { paymentMethod } from "../store/helpers";
 
 interface IProps {
   eventSettingsStore: EventSettingsStore;
 }
 
-function Settings(props: IProps) {
+function SettingsView(props: IProps) {
   const history = useHistory();
   switch (props.eventSettingsStore.state.kind) {
     case "empty":
@@ -63,7 +64,7 @@ function Settings(props: IProps) {
                 <HelpIcon fontSize="small" color="disabled" />
               </Tooltip>
             </Typography>
-            <div>{eventSettings.paymentMethod === "paypal" ? "PayPal" : "Venmo"}</div>
+            <div>{paymentMethod(eventSettings.paymentMethod)}</div>
           </div>
           <br />
           <br />
@@ -73,4 +74,4 @@ function Settings(props: IProps) {
   }
 }
 
-export default observer(Settings);
+export default observer(SettingsView);
