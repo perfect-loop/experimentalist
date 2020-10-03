@@ -109,7 +109,7 @@ io.on("connection", (scket: Socket) => {
 /**
  * After start
  */
-
-cleanupSockets();
+// This seems dangerous, so commenting out for now
+// cleanupSockets();
 
 export default app;
