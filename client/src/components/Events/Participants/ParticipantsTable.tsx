@@ -5,11 +5,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { makeStyles, withStyles, Theme, createStyles, Badge, Tooltip } from "@material-ui/core";
+import { makeStyles, withStyles, Theme, createStyles, Badge, Tooltip, Grid } from "@material-ui/core";
 import { IParticipationProfile } from "models/Participations";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import PeopleIcon from "@material-ui/icons/People";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
+import HelpIcon from "@material-ui/icons/Help";
 
 const useStyles = makeStyles({
   table: {},
@@ -60,8 +61,31 @@ export default function ParticipantsTable(props: { participants: IParticipationP
               <StyledTableCell align="center"> Anonymized Name </StyledTableCell>
               <StyledTableCell align="center"> First Name </StyledTableCell>
               <StyledTableCell align="center"> Last Name </StyledTableCell>
-              <StyledTableCell align="center"> Attended </StyledTableCell>
-              <StyledTableCell align="center"> Admitted </StyledTableCell>
+              <StyledTableCell align="center">
+                <Grid container direction="row" alignItems="center">
+                  Attended
+                  <Tooltip title="Participants who were the waiting room.">
+                    <HelpIcon fontSize="small" style={{ color: "grey" }} />
+                  </Tooltip>
+                </Grid>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <Grid container direction="row" alignItems="center">
+                  Admitted
+                  <Tooltip title="Participants who were admitted into the main conference.">
+                    <HelpIcon fontSize="small" style={{ color: "grey" }} />
+                  </Tooltip>
+                </Grid>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <Grid container direction="row" alignItems="center">
+                  Participated
+                  <Tooltip title="Participants who were in the conference when the event was started by the host.">
+                    <HelpIcon fontSize="small" style={{ color: "grey" }} />
+                  </Tooltip>
+                </Grid>
+              </StyledTableCell>
+              <StyledTableCell align="center"> Instructions </StyledTableCell>
               <StyledTableCell align="center"> Experiment </StyledTableCell>
             </TableRow>
           </TableHead>
@@ -84,6 +108,7 @@ export default function ParticipantsTable(props: { participants: IParticipationP
                 <StyledTableCell align="center"> {profile ? profile.lastName : ""} </StyledTableCell>
                 <StyledTableCell align="center">{!!participant.attendedAt && <CheckCircleIcon />}</StyledTableCell>
                 <StyledTableCell align="center">{!!participant.admittedAt && <CheckCircleIcon />}</StyledTableCell>
+                <StyledTableCell align="center">{!!participant.participatedAt && <CheckCircleIcon />}</StyledTableCell>
                 <StyledTableCell align="center"> {participant.instructions} </StyledTableCell>
               </StyledTableRow>
             ))}

@@ -5,7 +5,6 @@ import logger from "../shared/Logger";
 const router = express.Router();
 
 router.get("/user", secured(), (req, res, next) => {
-  logger.info(`inside /users, user is ${req.user}`);
   res.render("user", {
     user: req.user,
     title: "Profile page"
@@ -20,7 +19,6 @@ router.get(
   "/user.json",
   secured(),
   (req: Auth0Request, res: any, next: any) => {
-    logger.info(`inside /users, user is ${req.user}`);
     if (req.user) {
       const user: Auth0User = req.user;
       res.json(user);

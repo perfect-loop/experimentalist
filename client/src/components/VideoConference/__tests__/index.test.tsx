@@ -14,7 +14,9 @@ describe("Events", () => {
   const eventSettings = EventSettingsFactory();
   test("Show events", () => {
     const user: Auth0User = Auth0UserFactory();
-    const wrapper = shallow(<VideoConference role={Role.Host} eventId="sadfdf" user={user} eventSettings={eventSettings} />);
+    const wrapper = shallow(
+      <VideoConference role={Role.Host} eventId="sadfdf" user={user} eventSettings={eventSettings} />,
+    );
     const instance = wrapper.instance();
   });
 
@@ -23,7 +25,13 @@ describe("Events", () => {
     const user: Auth0User = Auth0UserFactory();
     const attendeeParticipation = ParticipantFactory();
     mount(
-      <VideoConference role={Role.Host} eventId="sadfdf" user={user} attendeeParticipation={attendeeParticipation} eventSettings={eventSettings} />,
+      <VideoConference
+        role={Role.Host}
+        eventId="sadfdf"
+        user={user}
+        attendeeParticipation={attendeeParticipation}
+        eventSettings={eventSettings}
+      />,
     );
     const message: Api.Socket.IJoinEventMessage = {
       eventId: "sadfdf",

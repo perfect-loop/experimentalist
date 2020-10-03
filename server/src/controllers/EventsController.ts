@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { Event, EventSchema, IEvent } from "models/Events";
-import { isHost, getParticipantProfiles, randomizedName } from "./helpers";
+import { Event, IEvent } from "models/Events";
+import {
+  isHost,
+  getParticipantProfiles,
+  randomizedName,
+  setParticipantsAsParticipated
+} from "./helpers";
 import logger from "../shared/Logger";
 import { Api } from "models/Socket";
 import { io } from "../index";
@@ -10,7 +15,6 @@ import { Auth0User } from "types/auth0";
 import BulkWriteError from "types/mongodb";
 import { Compensation } from "models/Compensations";
 import { EventSettings } from "models/EventSettings";
-import CompensationsController from "./CompensationsControllers";
 
 export default class EventsController {
   public async activate(req: Request, res: Response, next: NextFunction) {
@@ -38,6 +42,9 @@ export default class EventsController {
     const socketRoomName = Api.Socket.eventSocketId(event);
     logger.info(`About to emit to ${socketRoomName} ${JSON.stringify(event)}`);
     io.to(socketRoomName).emit(Api.Socket.EVENT_UPDATED_NAME, { event });
+
+    setParticipantsAsParticipated(event);
+
     res.status(200).send("Complete");
   }
 

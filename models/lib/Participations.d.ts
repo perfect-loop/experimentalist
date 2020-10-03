@@ -12,6 +12,7 @@ export interface IParticipation extends Document {
     instructions: string;
     attendedAt?: Date;
     admittedAt?: Date;
+    participatedAt?: Date;
     verificationImageUrl?: string;
 }
 export interface IParticipationProfile {
