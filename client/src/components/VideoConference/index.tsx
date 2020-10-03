@@ -87,7 +87,7 @@ const VideoConference = (props: IProps) => {
       ZoomMtg.putOnHold({
         userId,
         hold: false, // take user out of waiting room
-        success: function (res: any) {
+        success: function(res: any) {
           console.log(res);
         },
       });
