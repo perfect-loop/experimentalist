@@ -125,8 +125,20 @@ function NewDialog(props: { eventId: string }) {
             </div>
             <br />
             <div>
-              <Field name="intelligentReadmit" component={CheckBoxAdapter} label="Inteligent Re-Admit" value={false} />
+              <Field name="intelligentReadmit" component={CheckBoxAdapter} label="Intelligent Re-Admit" value={false} />
               <Tooltip title={INTELLIGENT_READMIT_DESCRIPTION}>
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
+            </div>
+            <br />
+            <div>
+              <Field
+                name="showInstructions"
+                component={CheckBoxAdapter}
+                label="Show Instructions Button"
+                initialValue={true}
+              />
+              <Tooltip title="If this option is selected, participants would see the instructions button in the meeting">
                 <HelpIcon fontSize="small" color="disabled" />
               </Tooltip>
             </div>

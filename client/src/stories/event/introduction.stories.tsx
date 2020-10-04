@@ -19,12 +19,5 @@ export const SettingsReady = () => {
     kind: "ready",
     data: EventSettingsFactory(),
   };
-  return <IntroductionView participant={p} eventSettingsStore={eventSettingsStore} />;
-};
-
-export const SettingsNotReady = () => {
-  eventSettingsStore.state = {
-    kind: "not_ready",
-  };
-  return <IntroductionView participant={p} eventSettingsStore={eventSettingsStore} />;
+  return <IntroductionView participant={p} eventSettings={eventSettingsStore.state.data[0]} />;
 };

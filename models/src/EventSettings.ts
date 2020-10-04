@@ -25,6 +25,10 @@ export const EventSettingsSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    showInstructions: {
+      type: Boolean,
+      default: true
+    }
   },
   {
     timestamps: true
@@ -38,6 +42,7 @@ export interface IEventSettings extends Document {
   paymentMethod: string;
   event: IEvent;
   intelligentReadmit: boolean;
+  showInstructions: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

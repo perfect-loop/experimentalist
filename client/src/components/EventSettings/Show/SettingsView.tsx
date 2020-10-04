@@ -80,6 +80,16 @@ function SettingsView(props: IProps) {
             <div>{eventSettings.intelligentReadmit ? "Yes" : "No"}</div>
           </div>
           <br />
+          <div>
+            <Typography>
+              Show Instructions
+              <Tooltip title="If this option is selected, participants would see the instructions button in the meeting">
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
+            </Typography>
+            <div>{eventSettings.showInstructions ? "Yes" : "No"}</div>
+          </div>
+          <br />
           <br />
           <Link to={`/events/${props.eventSettingsStore.eventId}/host/settings/edit`}>Edit</Link>
         </>

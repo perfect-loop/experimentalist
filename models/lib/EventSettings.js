@@ -23,6 +23,10 @@ exports.EventSettingsSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    showInstructions: {
+        type: Boolean,
+        default: true
+    }
 }, {
     timestamps: true
 });

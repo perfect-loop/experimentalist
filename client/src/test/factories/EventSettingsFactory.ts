@@ -9,6 +9,7 @@ export const EventSettingsFactory = define<IEventSettings>({
   paymentMethod: "venmo",
   event: EventFactory(),
   intelligentReadmit: true,
+  showInstructions: true,
   createdAt: new Date(),
   updatedAt: new Date(),
 });

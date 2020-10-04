@@ -150,10 +150,22 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                 <Field
                   name="intelligentReadmit"
                   component={CheckBoxAdapter}
-                  label="Inteligent Re-Admit"
+                  label="Intelligent Re-Admit"
                   initialValue={eventSettings.intelligentReadmit}
                 />
                 <Tooltip title={INTELLIGENT_READMIT_DESCRIPTION}>
+                  <HelpIcon fontSize="small" color="disabled" />
+                </Tooltip>
+              </div>
+              <br />
+              <div>
+                <Field
+                  name="showInstructions"
+                  component={CheckBoxAdapter}
+                  label="Show Instructions Button"
+                  initialValue={eventSettings.showInstructions}
+                />
+                <Tooltip title="If this option is selected, participants would see the instructions button in the meeting">
                   <HelpIcon fontSize="small" color="disabled" />
                 </Tooltip>
               </div>

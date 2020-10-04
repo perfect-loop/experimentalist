@@ -7,19 +7,15 @@ import { EventSettingsStore } from "../../EventSettings/store/EventSettingsStore
 import { EventSettingsFactory } from "../../../test/factories/EventSettingsFactory";
 
 describe("IntroductionView", () => {
-  const eventId = "skdfsdklf89";
-  const eventSettingsStore = new EventSettingsStore(eventId);
-  eventSettingsStore.state = {
-    kind: "ready",
-    data: [EventSettingsFactory()],
-  };
+  const eventSettings = EventSettingsFactory();
+
   describe("Host", () => {
     const p = ParticipantFactory({
       role: "host",
     });
 
     test("Do not show introduction video", () => {
-      const wrapper = shallow(<IntroductionView participant={p} eventSettingsStore={eventSettingsStore} />);
+      const wrapper = shallow(<IntroductionView participant={p} eventSettings={eventSettings} />);
       expect(wrapper.find(Dialog)).toHaveLength(0);
     });
   });
@@ -30,26 +26,16 @@ describe("IntroductionView", () => {
     });
 
     test("Show introduction video", () => {
-      const wrapper = shallow(<IntroductionView participant={p} eventSettingsStore={eventSettingsStore} />);
+      const wrapper = shallow(<IntroductionView participant={p} eventSettings={eventSettings} />);
       expect(wrapper.find(Dialog)).toHaveLength(1);
     });
 
     test("Not intro video configured", () => {
-      eventSettingsStore.state = {
-        kind: "ready",
-        data: EventSettingsFactory({
-          introVideo: undefined,
-        }),
-      };
-      const wrapper = shallow(<IntroductionView participant={p} eventSettingsStore={eventSettingsStore} />);
-      expect(wrapper.find(Dialog)).toHaveLength(0);
-    });
+      const eventSettings = EventSettingsFactory({
+        introVideo: undefined,
+      });
 
-    test("Nothing to show yet", () => {
-      eventSettingsStore.state = {
-        kind: "not_ready",
-      };
-      const wrapper = shallow(<IntroductionView participant={p} eventSettingsStore={eventSettingsStore} />);
+      const wrapper = shallow(<IntroductionView participant={p} eventSettings={eventSettings} />);
       expect(wrapper.find(Dialog)).toHaveLength(0);
     });
   });

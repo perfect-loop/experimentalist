@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import { Rnd } from "react-rnd";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { IParticipation } from "models/Participations";
-import { Rnd } from "react-rnd";
 import SpeedDialTooltipOpen from "./speeddial/SpeedDialTooltipOpen";
 import Broadcast from "./speeddial/Broadcast";
+import { IEventSettings } from "models/EventSettings";
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
@@ -30,7 +32,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-export default function FloatingActionButtonZoom(props: { participant: IParticipation }) {
+function FloatingActionButtonZoom(props: { participant: IParticipation; eventSettings: IEventSettings }) {
   const [broadcastOpen, setBroadcastOpen] = React.useState(false);
 
   const handleBroadcastClickOpen = () => {
@@ -63,8 +65,14 @@ export default function FloatingActionButtonZoom(props: { participant: IParticip
           zIndex: 50,
         }}
       >
-        <SpeedDialTooltipOpen participant={props.participant} handleBroadcastClickOpen={handleBroadcastClickOpen} />
+        <SpeedDialTooltipOpen
+          participant={props.participant}
+          handleBroadcastClickOpen={handleBroadcastClickOpen}
+          eventSettings={props.eventSettings}
+        />
       </Rnd>
     </>
   );
 }
+
+export default observer(FloatingActionButtonZoom);

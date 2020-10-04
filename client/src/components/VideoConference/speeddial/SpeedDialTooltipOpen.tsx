@@ -1,10 +1,12 @@
 import React from "react";
+import { observer } from "mobx-react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 import { IParticipation } from "models/Participations";
+import { IEventSettings } from "models/EventSettings";
 import CustomizedDialogs from "../CustomizedDialogs";
 import { Api } from "../../../util/api";
 import { IEvent } from "models/Events";
@@ -14,6 +16,7 @@ import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 import AdmitAll from "./AdmitAll";
 import Lock from "./Lock";
 import ConferenceStats from "./ConferenceStats";
+import { canShowSpeedDial } from "../store/helpers";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,10 +45,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function SpeedDialTooltipOpen(props: { participant: IParticipation; handleBroadcastClickOpen: any }) {
+function SpeedDialTooltipOpen(props: {
+  participant: IParticipation;
+  handleBroadcastClickOpen: any;
+  eventSettings: IEventSettings;
+}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [hidden] = React.useState(false);
+  const [hidden] = React.useState(!canShowSpeedDial(props.participant, props.eventSettings));
   const [showActivate, setShowActivate] = React.useState(!isStarted(props.participant.event));
   const [showLock, setShowLock] = React.useState(!isLocked(props.participant.event));
 
@@ -146,3 +153,5 @@ export default function SpeedDialTooltipOpen(props: { participant: IParticipatio
     </>
   );
 }
+
+export default observer(SpeedDialTooltipOpen);
