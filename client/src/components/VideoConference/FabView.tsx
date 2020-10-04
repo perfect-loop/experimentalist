@@ -51,9 +51,9 @@ export default function FloatingActionButtonZoom(props: { participant: IParticip
       <Rnd
         default={{
           x: 150,
-          y: 100,
+          y: 300,
           width: 80,
-          height: 200,
+          height: 250,
         }}
         style={{
           display: "flex",
