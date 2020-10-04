@@ -13,6 +13,7 @@ import { EventSettingsStore } from "../store/EventSettingsStore";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
 import RadioButtonAdapter from "../../Forms/RadioButtonAdapter";
+import { INTELLIGENT_READMIT_DESCRIPTION } from "../Show/SettingsView";
 
 interface Props {
   eventId: string;
@@ -91,6 +92,15 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                   placeholder="https://player.vimeo.com/video/347119375"
                   initialValue={eventSettings.introVideo}
                 />
+                {eventSettings.introVideo && eventSettings.introVideo !== "" && (
+                  <iframe
+                    src={eventSettings.introVideo}
+                    width="320"
+                    height="180"
+                    allow="autoplay; fullscreen"
+                    title="Introductory Video"
+                  />
+                )}
               </div>
               <br />
               <br />
@@ -134,6 +144,18 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                   label="Require ID Verification"
                   initialValue={eventSettings.requireId}
                 />
+              </div>
+              <br />
+              <div>
+                <Field
+                  name="intelligentReadmit"
+                  component={CheckBoxAdapter}
+                  label="Inteligent Re-Admit"
+                  initialValue={eventSettings.intelligentReadmit}
+                />
+                <Tooltip title={INTELLIGENT_READMIT_DESCRIPTION}>
+                  <HelpIcon fontSize="small" color="disabled" />
+                </Tooltip>
               </div>
               <br />
               <div className="buttons">

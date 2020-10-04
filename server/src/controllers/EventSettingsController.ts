@@ -92,8 +92,10 @@ export default class EventSettingsController {
 
     logger.info("Updating with ", body);
 
+    // TODO: can this be improved
     eventSettings.requireId = body.requireId;
     eventSettings.introVideo = body.introVideo;
+    eventSettings.intelligentReadmit = body.intelligentReadmit;
     eventSettings.paymentMethod = body.paymentMethod?.toLowerCase();
 
     eventSettings

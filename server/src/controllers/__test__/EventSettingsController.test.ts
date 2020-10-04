@@ -122,7 +122,7 @@ describe("put", () => {
 
       await host.save();
 
-      const eventSettings = EventSettingsFactory();
+      const eventSettings = EventSettingsFactory({});
       eventSettings.event = event;
 
       await eventSettings.save();
