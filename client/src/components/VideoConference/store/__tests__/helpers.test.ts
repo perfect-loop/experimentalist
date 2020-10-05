@@ -17,6 +17,20 @@ describe("canShowSpeedDial", () => {
       expect(value).toBe(true);
     });
   });
+  describe("assistant", () => {
+    const participant = ParticipantFactory({
+      role: "assistant",
+    });
+
+    const eventSettings = EventSettingsFactory({
+      showInstructions: false,
+    });
+
+    it("returns true", () => {
+      const value = canShowSpeedDial(participant, eventSettings);
+      expect(value).toBe(true);
+    });
+  });
 
   describe("attendee", () => {
     const participant = ParticipantFactory({
