@@ -77,7 +77,7 @@ export default class EventSettingsController {
     }
 
     if (!(await isHost(user, event))) {
-      res.status(403).send("Unauthorized");
+      res.status(403).send("Unauthorized Host");
       return;
     }
 
@@ -92,8 +92,11 @@ export default class EventSettingsController {
 
     logger.info("Updating with ", body);
 
+    // TODO: can this be improved
     eventSettings.requireId = body.requireId;
     eventSettings.introVideo = body.introVideo;
+    eventSettings.intelligentReadmit = body.intelligentReadmit;
+    eventSettings.showInstructions = body.showInstructions;
     eventSettings.paymentMethod = body.paymentMethod?.toLowerCase();
 
     eventSettings

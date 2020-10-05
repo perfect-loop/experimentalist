@@ -7,6 +7,8 @@ import {
 } from "models/Participations";
 import { IUserSchema, User } from "models/Users";
 import { Profile } from "models/Profiles";
+import logger from "../shared/Logger";
+import { activeParticipants } from "../sockets";
 
 export async function isHost(user: Auth0User, event: IEvent) {
   const params = {
@@ -69,3 +71,35 @@ export async function getParticipantProfiles(event: IEvent) {
 
 export const randomizedName = () =>
   Math.trunc(Math.random() * 1000000).toString();
+
+export function setParticipantsAsParticipated(event: IEvent) {
+  logger.info(
+    `[setParticipantsAsParticipated] Updating participants for event ${event.id}`
+  );
+  return activeParticipants(event.id)
+    .then(participations => {
+      const ids: string[] = participations.map(p => p._id);
+      logger.info(
+        `[setParticipantsAsParticipated] ids are ${JSON.stringify(ids)}`
+      );
+      return ids;
+    })
+    .then(ids => {
+      if (!ids || ids.length < 1) {
+        return new Promise<number>((a, r) => {
+          a(0);
+        });
+      }
+      return Participation.updateMany(
+        { _id: { $in: ids } },
+        { participatedAt: new Date() }
+      ).then(res => {
+        logger.info(
+          `[setParticipantsAsParticipated] Matched: ${res.n}; Updated: ${res.nModified}`
+        );
+        return new Promise<number>((a, r) => {
+          a(res.nModified);
+        });
+      });
+    });
+}

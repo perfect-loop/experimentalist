@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { Event, EventSchema, IEvent } from "models/Events";
-import { isHost, getParticipantProfiles, randomizedName } from "./helpers";
+import { Event, IEvent } from "models/Events";
+import {
+  isHost,
+  getParticipantProfiles,
+  randomizedName,
+  setParticipantsAsParticipated
+} from "./helpers";
 import logger from "../shared/Logger";
 import { Api } from "models/Socket";
 import { io } from "../index";
@@ -9,6 +14,7 @@ import { ParticipantUploadError } from "models/Errors";
 import { Auth0User } from "types/auth0";
 import BulkWriteError from "types/mongodb";
 import { Compensation } from "models/Compensations";
+import { EventSettings } from "models/EventSettings";
 
 export default class EventsController {
   public async activate(req: Request, res: Response, next: NextFunction) {
@@ -36,6 +42,9 @@ export default class EventsController {
     const socketRoomName = Api.Socket.eventSocketId(event);
     logger.info(`About to emit to ${socketRoomName} ${JSON.stringify(event)}`);
     io.to(socketRoomName).emit(Api.Socket.EVENT_UPDATED_NAME, { event });
+
+    setParticipantsAsParticipated(event);
+
     res.status(200).send("Complete");
   }
 
@@ -43,15 +52,14 @@ export default class EventsController {
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+  ): Promise<unknown> {
     const id = req.params.id;
     const participantId = req.params.participantId;
     const event = await Event.findById(id);
     const body = req.body as Api.Socket.IEventAdmitParticipant;
     logger.info(`[admitParticipant] ${JSON.stringify(body)}`);
     if (!event) {
-      res.status(404).send("Not found");
-      return;
+      return res.status(404).send("Not found");
     }
 
     const participant = (await Participation.findOne({
@@ -60,20 +68,22 @@ export default class EventsController {
     })) as IParticipation;
 
     if (!participant) {
-      res.status(403).send("Not authorized");
+      return res.status(403).send("Not authorized");
     }
 
-    if (participant.admittedAt) {
-      logger.info(
-        `[admitParticipant] Participant ${participant._id} is allowed to skip waiting room`
-      );
-      io.emit(Api.Socket.EVENT_ADMIT_PARTICIPANT, body);
-    } else {
-      logger.info(
-        `[admitParticipant] Participant ${participant._id} is NOT allowed to skip waiting room`
-      );
-    }
-    res.status(200).send("Done");
+    return this.shouldAutoAdmit(participant, event).then(shouldAdmit => {
+      if (shouldAdmit) {
+        logger.info(
+          `[admitParticipant] Participant ${participant._id} is allowed to skip waiting room`
+        );
+        io.emit(Api.Socket.EVENT_ADMIT_PARTICIPANT, body);
+      } else {
+        logger.info(
+          `[admitParticipant] Participant ${participant._id} is NOT allowed to skip waiting room`
+        );
+      }
+      return res.status(200).send("Done");
+    });
   }
 
   public async lock(req: Request, res: Response, next: NextFunction) {
@@ -171,4 +181,22 @@ export default class EventsController {
     const allParticipantProfiles = await getParticipantProfiles(event);
     res.json({ participations: allParticipantProfiles, errors: insertErrors });
   }
+
+  private shouldAutoAdmit = (participant: IParticipation, event: IEvent) => {
+    return new Promise<boolean>((resolve, reject) => {
+      EventSettings.findOne({
+        event: participant.event
+      }).then(e => {
+        if (!e) {
+          resolve(!!participant.admittedAt);
+        } else {
+          if (e.intelligentReadmit && event.state == "not_started") {
+            resolve(!!participant.admittedAt);
+          } else {
+            resolve(false);
+          }
+        }
+      });
+    });
+  };
 }

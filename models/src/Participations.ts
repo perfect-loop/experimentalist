@@ -30,6 +30,9 @@ export const ParticipationsSchema = new mongoose.Schema(
     admittedAt: {
       type: Date
     },
+    participatedAt: {
+      type: Date
+    },
     verificationImageUrl: {
       type: String
     }
@@ -58,6 +61,7 @@ export interface IParticipation extends Document {
   instructions: string;
   attendedAt?: Date;
   admittedAt?: Date;
+  participatedAt?: Date;
   verificationImageUrl?: string;
 }
 

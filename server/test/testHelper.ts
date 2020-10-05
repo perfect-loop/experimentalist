@@ -27,5 +27,6 @@ afterAll(async (done: any) => {
 
 afterEach(async (done: any) => {
   // await mongoose.connection.db.dropDatabase();
+  jest.clearAllMocks();
   done();
 });

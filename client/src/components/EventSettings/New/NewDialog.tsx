@@ -13,6 +13,7 @@ import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
 import RadioButtonAdapter from "../../Forms/RadioButtonAdapter";
 
 import { EventSettingsStore } from "../store/EventSettingsStore";
+import { INTELLIGENT_READMIT_DESCRIPTION } from "../Show/SettingsView";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -121,6 +122,25 @@ function NewDialog(props: { eventId: string }) {
                 </Tooltip>
               </Typography>
               <Field name="requireId" component={CheckBoxAdapter} label="Require ID Verification" initialValue={true} />
+            </div>
+            <br />
+            <div>
+              <Field name="intelligentReadmit" component={CheckBoxAdapter} label="Intelligent Re-Admit" value={false} />
+              <Tooltip title={INTELLIGENT_READMIT_DESCRIPTION}>
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
+            </div>
+            <br />
+            <div>
+              <Field
+                name="showInstructions"
+                component={CheckBoxAdapter}
+                label="Show Instructions Button"
+                initialValue={true}
+              />
+              <Tooltip title="If this option is selected, participants would see the instructions button in the meeting">
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
             </div>
             <br />
             <div className="buttons">

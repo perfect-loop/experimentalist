@@ -8,6 +8,8 @@ export interface IEventSettings extends Document {
     requireId: boolean;
     paymentMethod: string;
     event: IEvent;
+    intelligentReadmit: boolean;
+    showInstructions: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

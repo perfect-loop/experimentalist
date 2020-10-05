@@ -12,6 +12,9 @@ interface IProps {
   eventSettingsStore: EventSettingsStore;
 }
 
+export const INTELLIGENT_READMIT_DESCRIPTION =
+  "If this option is selected, participants will be automatically added to the conference room every time they reload the conference once the host admits them. Auto-admit will only happen after hosts activates the event with the Start button";
+
 function SettingsView(props: IProps) {
   const history = useHistory();
   switch (props.eventSettingsStore.state.kind) {
@@ -65,6 +68,26 @@ function SettingsView(props: IProps) {
               </Tooltip>
             </Typography>
             <div>{paymentMethod(eventSettings.paymentMethod)}</div>
+          </div>
+          <br />
+          <div>
+            <Typography>
+              Intelligent Re-Admit
+              <Tooltip title={INTELLIGENT_READMIT_DESCRIPTION}>
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
+            </Typography>
+            <div>{eventSettings.intelligentReadmit ? "Yes" : "No"}</div>
+          </div>
+          <br />
+          <div>
+            <Typography>
+              Show Instructions
+              <Tooltip title="If this option is selected, participants would see the instructions button in the meeting">
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
+            </Typography>
+            <div>{eventSettings.showInstructions ? "Yes" : "No"}</div>
           </div>
           <br />
           <br />

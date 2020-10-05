@@ -27,6 +27,9 @@ exports.ParticipationsSchema = new mongoose.Schema({
     admittedAt: {
         type: Date
     },
+    participatedAt: {
+        type: Date
+    },
     verificationImageUrl: {
         type: String
     }

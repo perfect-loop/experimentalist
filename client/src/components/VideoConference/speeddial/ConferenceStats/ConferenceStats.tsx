@@ -4,8 +4,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { Grid } from "@material-ui/core";
 import PeopleIcon from "@material-ui/icons/People";
-import { useAppContext } from "../../../../context/AppContext";
-import { Api } from "models/Socket";
 
 const useStyles = makeStyles({
   root: {

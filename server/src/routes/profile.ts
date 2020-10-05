@@ -12,7 +12,6 @@ router.get("/profile.json", secured(), async (req: any, res, next) => {
   const userId = user._id;
   // finding profiles based on userId
   const profile = await Profile.findOne({ userId });
-  logger.info(`Profile has been fetched ${profile}`);
   if (!profile) {
     res.status(404).send("Profile not found!");
     return;

@@ -5,6 +5,7 @@ import { Participation, IParticipation } from "models/Participations";
 import CompensationsController from "../CompensationsControllers";
 import { EventFactory } from "../../test/factories/EventFactory";
 import { ParticipationFactory } from "../../test/factories/ParticipationFactory";
+import { EventSettingsFactory } from "../../test/factories/EventSettingsFactory";
 
 describe("Admin Compensation", () => {
   const status = { send: jest.fn() };

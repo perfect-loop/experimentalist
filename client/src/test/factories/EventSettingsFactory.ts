@@ -1,5 +1,4 @@
-import { define, random } from "cooky-cutter";
-import faker from "faker";
+import { define } from "cooky-cutter";
 import { EventFactory } from "./EventFactory";
 import { IEventSettings } from "models/EventSettings";
 
@@ -9,6 +8,8 @@ export const EventSettingsFactory = define<IEventSettings>({
   requireId: true,
   paymentMethod: "venmo",
   event: EventFactory(),
+  intelligentReadmit: true,
+  showInstructions: true,
   createdAt: new Date(),
   updatedAt: new Date(),
 });
