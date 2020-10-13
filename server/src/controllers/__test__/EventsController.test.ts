@@ -257,65 +257,120 @@ describe("AutoAdmit", () => {
       });
       event.state = "not_started";
       await event.save();
-
-      participant = ParticipationFactory.Attendee({
-        event,
-        admittedAt: new Date()
-      });
-
-      await participant.save();
-
-      req = ({
-        params: {
-          id: event.id,
-          participantId: participant.id
-        }
-      } as any) as Request;
-    });
-    it("allow", async (done: any) => {
-      const eventSettings = EventSettingsFactory({
-        event,
-        intelligentReadmit: true
-      });
-      await eventSettings.save();
-
-      const r = controller.admitParticipant(req, res, mNext);
-      r?.then(async result => {
-        expect(spyIo).toBeCalled();
-        done();
-      });
     });
 
-    it("intelligent auto admit is turned off", async (done: any) => {
-      const eventSettings = EventSettingsFactory({
-        event,
-        intelligentAutoAdmit: false
-      });
-      await eventSettings.save();
+    describe("participant previously not admitted", () => {
+      beforeEach(async () => {
+        participant = ParticipationFactory.Attendee({
+          event,
+          admittedAt: null
+        });
 
-      const r = controller.admitParticipant(req, res, mNext);
-      r?.then(async result => {
-        expect(spyIo).not.toBeCalled();
-        done();
+        await participant.save();
+
+        req = ({
+          params: {
+            id: event.id,
+            participantId: participant.id
+          }
+        } as any) as Request;
+      });
+      it("disallow if settings is not present", async (done: any) => {
+        const r = controller.admitParticipant(req, res, mNext);
+        r?.then(async result => {
+          expect(spyIo).not.toBeCalled();
+          done();
+        });
+      });
+      it("disallow if intelligent readmit is turned off", async (done: any) => {
+        const eventSettings = EventSettingsFactory({
+          event,
+          intelligentReadmit: false
+        });
+        await eventSettings.save();
+
+        const r = controller.admitParticipant(req, res, mNext);
+        r?.then(async result => {
+          expect(spyIo).not.toBeCalled();
+          done();
+        });
       });
     });
 
-    it("settings is not present", async (done: any) => {
-      const r = controller.admitParticipant(req, res, mNext);
-      r?.then(async result => {
-        expect(spyIo).toBeCalled();
-        done();
+    describe("participant previously admitted", () => {
+      beforeEach(async () => {
+        participant = ParticipationFactory.Attendee({
+          event,
+          admittedAt: new Date()
+        });
+
+        await participant.save();
+
+        req = ({
+          params: {
+            id: event.id,
+            participantId: participant.id
+          }
+        } as any) as Request;
       });
-    });
 
-    it("participant is not previously admitted", async (done: any) => {
-      participant.admittedAt = undefined;
-      await participant.save();
+      describe("intelligent readmit is off", () => {
+        beforeEach(async () => {
+          const eventSettings = EventSettingsFactory({
+            event,
+            intelligentReadmit: false
+          });
+          await eventSettings.save();
+        });
+        it("allow", async (done: any) => {
+          const r = controller.admitParticipant(req, res, mNext);
+          r?.then(async result => {
+            expect(spyIo).toBeCalled();
+            done();
+          });
+        });
+        it("disallow if event is locked", async (done: any) => {
+          event.state = "locked";
+          await event.save();
+          const r = controller.admitParticipant(req, res, mNext);
+          r?.then(async result => {
+            expect(spyIo).not.toBeCalled();
+            done();
+          });
+        });
+        it("disallow if event is started", async (done: any) => {
+          event.state = "started";
+          await event.save();
+          const r = controller.admitParticipant(req, res, mNext);
+          r?.then(async result => {
+            expect(spyIo).not.toBeCalled();
+            done();
+          });
+        });
+      });
 
-      const r = controller.admitParticipant(req, res, mNext);
-      r?.then(async result => {
-        expect(spyIo).not.toBeCalled();
-        done();
+      it("disallow if intelligent readmit is turned on", async (done: any) => {
+        const eventSettings = EventSettingsFactory({
+          event,
+          intelligentAutoAdmit: true
+        });
+        await eventSettings.save();
+        participant.admittedAt = undefined;
+        await participant.save();
+
+        const r = controller.admitParticipant(req, res, mNext);
+        r?.then(async result => {
+          expect(spyIo).not.toBeCalled();
+          done();
+        });
+      });
+
+      it("allow if settings is not present", async (done: any) => {
+        const r = controller.admitParticipant(req, res, mNext);
+        r?.then(async result => {
+          expect(spyIo).toBeCalled();
+          done();
+        });
       });
     });
   });

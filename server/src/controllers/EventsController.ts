@@ -190,7 +190,7 @@ export default class EventsController {
         if (!e) {
           resolve(!!participant.admittedAt);
         } else {
-          if (e.intelligentReadmit && event.state == "not_started") {
+          if (!e.intelligentReadmit && event.state == "not_started") {
             resolve(!!participant.admittedAt);
           } else {
             resolve(false);
