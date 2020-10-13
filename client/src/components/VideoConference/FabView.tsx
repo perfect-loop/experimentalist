@@ -53,7 +53,7 @@ function FloatingActionButtonZoom(props: { participant: IParticipation; eventSet
       <Rnd
         default={{
           x: 150,
-          y: 300,
+          y: 200,
           width: 80,
           height: 250,
         }}
