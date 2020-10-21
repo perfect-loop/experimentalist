@@ -92,7 +92,7 @@ export function setParticipantsAsParticipated(event: IEvent) {
       }
       return Participation.updateMany(
         { _id: { $in: ids } },
-        { participatedAt: new Date() }
+        { participatedAt: new Date(), status: "participated" }
       ).then(res => {
         logger.info(
           `[setParticipantsAsParticipated] Matched: ${res.n}; Updated: ${res.nModified}`

@@ -32,6 +32,11 @@ exports.ParticipationsSchema = new mongoose.Schema({
     },
     verificationImageUrl: {
         type: String
+    },
+    status: {
+        type: String,
+        enum: ["not_participated", "participated"],
+        default: "not_participated"
     }
 }, {
     timestamps: true

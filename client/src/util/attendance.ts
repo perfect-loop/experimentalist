@@ -1,4 +1,5 @@
 import { IParticipation } from "models/Participations";
+import { IEventSettings } from "models/EventSettings";
 import { Api } from "./api";
 import { Api as API } from "models/Socket";
 import { AxiosResponse, AxiosError } from "axios";
@@ -68,8 +69,16 @@ export function registerAdmitance(participant: IParticipation): Promise<IPartici
  *
  * @param participant
  */
-export function isLateToMeeting(participant: IParticipation): boolean {
+export function isLateToMeeting(participant: IParticipation, eventSettings: IEventSettings): boolean {
   if (participant.event.state !== "not_started" && !participant.attendedAt) {
+    return true;
+  }
+
+  if (
+    eventSettings?.intelligentReadmit &&
+    participant.event.state === "locked" &&
+    participant.status === "not_participated"
+  ) {
     return true;
   }
 

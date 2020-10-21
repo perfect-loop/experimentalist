@@ -329,21 +329,21 @@ describe("AutoAdmit", () => {
             done();
           });
         });
-        it("disallow if event is locked", async (done: any) => {
+        it("allows if event is locked", async (done: any) => {
           event.state = "locked";
           await event.save();
           const r = controller.admitParticipant(req, res, mNext);
           r?.then(async result => {
-            expect(spyIo).not.toBeCalled();
+            expect(spyIo).toBeCalled();
             done();
           });
         });
-        it("disallow if event is started", async (done: any) => {
+        it("allows if event is started", async (done: any) => {
           event.state = "started";
           await event.save();
           const r = controller.admitParticipant(req, res, mNext);
           r?.then(async result => {
-            expect(spyIo).not.toBeCalled();
+            expect(spyIo).toBeCalled();
             done();
           });
         });

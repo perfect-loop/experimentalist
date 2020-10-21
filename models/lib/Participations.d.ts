@@ -14,6 +14,7 @@ export interface IParticipation extends Document {
     admittedAt?: Date;
     participatedAt?: Date;
     verificationImageUrl?: string;
+    status: "not_participated" | "participated";
 }
 export interface IParticipationProfile {
     profile: IProfile;

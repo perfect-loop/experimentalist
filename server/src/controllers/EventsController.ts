@@ -187,14 +187,14 @@ export default class EventsController {
       EventSettings.findOne({
         event: participant.event
       }).then(e => {
-        if (!e) {
-          resolve(!!participant.admittedAt);
+        if (
+          e?.intelligentReadmit &&
+          event.state === "active" &&
+          participant.status === "participated"
+        ) {
+          resolve(true);
         } else {
-          if (!e.intelligentReadmit && event.state == "not_started") {
-            resolve(!!participant.admittedAt);
-          } else {
-            resolve(false);
-          }
+          resolve(!!participant.admittedAt);
         }
       });
     });

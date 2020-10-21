@@ -11,6 +11,7 @@ export const ParticipantFactory = define<IParticipation>({
   anonymousName: faker.name.findName(),
   role: "attendee",
   instructions: "",
+  status: "not_participated",
 });
 
 export const ParticipationProfileFactory = define<IParticipationProfile>({

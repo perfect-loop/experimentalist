@@ -50,7 +50,7 @@ export default class Boo extends Component<IProps, {}> {
               />
             );
           }
-          if (participant && isLateToMeeting(participant)) {
+          if (participant && isLateToMeeting(participant, this.props.eventSettingsStore.state.data[0])) {
             return <Redirect to={`/events/${this.props.eventId}/unavailable`} />;
           } else {
             return (
