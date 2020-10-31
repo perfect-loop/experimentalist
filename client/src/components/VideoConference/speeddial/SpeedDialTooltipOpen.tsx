@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: "none",
       transform: "translateZ(0px)",
       flexGrow: 1,
+      zIndex: 1000,
     },
     backdrop: {
       opacity: 0,
@@ -105,8 +106,9 @@ function SpeedDialTooltipOpen(props: {
           {(props.participant.role === "host" || props.participant.role === "assistant") && (
             <SpeedDialAction
               key="Broadcast"
-              icon={<RecordVoiceOverIcon onClick={props.handleBroadcastClickOpen} />}
+              icon={<RecordVoiceOverIcon />}
               tooltipTitle="Broadcast"
+              onClick={props.handleBroadcastClickOpen}
               tooltipOpen
             />
           )}
