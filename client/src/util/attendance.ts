@@ -48,6 +48,37 @@ export function requestAdmit(participant: IParticipation, zoomUserId: number) {
   });
 }
 
+export function removeParticipantFromRoom(participant: IParticipation, anonymousName: string): Promise<any> {
+  const client = new Api({});
+  const body = {
+    anonymousName,
+    eventId: participant.event._id,
+  };
+
+  interface Body {
+    anonymousName: string;
+    eventId: string;
+  }
+
+  interface Response {
+    message: string;
+  }
+
+  const url = `/api/attendance/participants/remove`;
+
+  return new Promise((resolve, reject) => {
+    client
+      .put<Response, Body>(url, body)
+      .then((response: AxiosResponse<Response>) => {
+        resolve(response.data.message);
+      })
+      .catch((error: AxiosError) => {
+        console.error(error.response?.statusText);
+        reject("hhjhhj");
+      });
+  });
+}
+
 export function registerAdmitance(participant: IParticipation): Promise<IParticipation> {
   const client = new Api({});
   const url = `/api/attendance/participants/${participant._id}/admit`;

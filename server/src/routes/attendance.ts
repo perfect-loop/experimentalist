@@ -40,4 +40,12 @@ router.put(
   }
 );
 
+router.put(
+  "/attendance/participants/remove",
+  secured(),
+  async (req: any, res: any, next) => {
+    new AttendanceController().remove(req, res, next);
+  }
+);
+
 export default router;
