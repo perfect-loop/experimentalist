@@ -37,11 +37,29 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
   const handleClose = () => {
     setOpen(false);
   };
+
   app.socket.on(Api.Socket.EVENT_UPDATED_NAME, (response: { event: IEvent }) => {
+    console.log(
+      `CustomizedDialogs] Message from server using ${Api.Socket.EVENT_UPDATED_NAME} is ${JSON.stringify(response)}`,
+    );
     if (props.participant.event._id === response.event._id) {
       setEventActive(response.event.state === "active");
       setOpen(response.event.state === "active");
     }
+  });
+
+  app.socket.on("disconnect", (reason: string) => {
+    console.log(`Socket disconnected ${reason}`);
+    if (reason === "io server disconnect") {
+      console.log("Socket disconnected from server, will attempts to reconnect");
+      // the disconnection was initiated by the server, you need to reconnect manually
+      app.socket.connect();
+    }
+    // else the socket will automatically try to reconnect
+  });
+
+  app.socket.on("error", (error: any) => {
+    console.log(`Socketr error ${JSON.stringify(error)}`);
   });
 
   return (
