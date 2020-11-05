@@ -17,7 +17,7 @@ export function handleJoinRoomEvent(
     updateParticipation(message.participationId).then(
       (p: IParticipationSocket) => {
         logger.info(
-          `[updateParticipation] updated ${message.participationId} to have socket ${p}`
+          `[handleJoinRoomEvent] updated ${message.participationId} to have socket ${p}`
         );
         broadcastParticipants(message.eventId, scket);
       }

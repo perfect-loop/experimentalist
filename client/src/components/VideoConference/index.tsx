@@ -57,6 +57,20 @@ const VideoConference = (props: IProps) => {
       setSnackOpen(true);
     });
 
+    app.socket.on("disconnect", (reason: string) => {
+      console.log(`Socket disconnected ${reason}`);
+      if (reason === "io server disconnect") {
+        console.log("Socket disconnected from server, will attempts to reconnect");
+        // the disconnection was initiated by the server, you need to reconnect manually
+        app.socket.connect();
+      }
+      // else the socket will automatically try to reconnect
+    });
+
+    app.socket.on("error", (error: any) => {
+      console.log(`Socketr error ${JSON.stringify(error)}`);
+    });
+
     app.socket.on(Api.Socket.EVENT_BROADCAST_NAME, (response: Api.Socket.IBroadcastMessage) => {
       console.log(`message from server using ${Api.Socket.EVENT_BROADCAST_NAME} is ${JSON.stringify(response)}`);
       if (props.eventId === response.eventId) {
