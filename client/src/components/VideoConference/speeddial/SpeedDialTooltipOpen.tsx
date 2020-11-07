@@ -7,7 +7,7 @@ import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 import { IParticipation } from "models/Participations";
 import { IEventSettings } from "models/EventSettings";
-import InstructionsAction from "../CustomizedDialogs";
+import InstructionsAction from "./InstructionsAction";
 import { Api } from "../../../util/api";
 import { IEvent } from "models/Events";
 import { isLocked, isStarted } from "models/Helpers";

@@ -7,11 +7,11 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import MenuBook from "@material-ui/icons/MenuBook";
 import { IParticipation } from "models/Participations";
-import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from "../../../../context/AppContext";
 import { Api } from "models/Socket";
 import { IEvent } from "models/Events";
 import MUIRichTextEditor from "mui-rte";
-import { DialogTitleWithClose } from "../Forms/DialogTitleWithClose";
+import { DialogTitleWithClose } from "../../../Forms/DialogTitleWithClose";
 import Alert from "@material-ui/lab/Alert";
 
 const DialogContent = withStyles((theme: Theme) => ({
@@ -79,6 +79,11 @@ export default function InstructionsAction(props: { participant: IParticipation 
                   {props.participant.instructions}
                 </a>
               </Alert>
+            </Typography>
+          )}
+          {!eventActive && (
+            <Typography gutterBottom>
+              <Alert severity="warning">Instructions are not yet available</Alert>
             </Typography>
           )}
         </DialogContent>
