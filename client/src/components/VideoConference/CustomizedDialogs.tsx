@@ -27,7 +27,7 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs(props: { participant: IParticipation }) {
+export default function InstructionsAction(props: { participant: IParticipation }) {
   const app = useAppContext();
   const [open, setOpen] = React.useState(false);
   const [eventActive, setEventActive] = React.useState(props.participant.event.state === "active");

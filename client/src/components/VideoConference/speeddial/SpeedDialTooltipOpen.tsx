@@ -7,7 +7,7 @@ import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 import { IParticipation } from "models/Participations";
 import { IEventSettings } from "models/EventSettings";
-import CustomizedDialogs from "../CustomizedDialogs";
+import InstructionsAction from "../CustomizedDialogs";
 import { Api } from "../../../util/api";
 import { IEvent } from "models/Events";
 import { isLocked, isStarted } from "models/Helpers";
@@ -99,7 +99,7 @@ function SpeedDialTooltipOpen(props: {
         >
           <SpeedDialAction
             key="Instructions"
-            icon={<CustomizedDialogs participant={props.participant} />}
+            icon={<InstructionsAction participant={props.participant} />}
             tooltipTitle="Instructions"
             tooltipOpen
           />
