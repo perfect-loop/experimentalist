@@ -59,7 +59,8 @@ export default class AttendanceController {
     }
 
     const participant = (await Participation.findOne({
-      anonymousName: anonymousName
+      anonymousName: anonymousName,
+      event: event
     })) as IParticipation;
 
     if (!participant) {
