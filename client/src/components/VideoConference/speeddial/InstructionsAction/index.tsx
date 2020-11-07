@@ -13,6 +13,9 @@ import { IEvent } from "models/Events";
 import MUIRichTextEditor from "mui-rte";
 import { DialogTitleWithClose } from "../../../Forms/DialogTitleWithClose";
 import Alert from "@material-ui/lab/Alert";
+import SyncIcon from "@material-ui/icons/Sync";
+import EventStore from "../../../Events/storage/EventStore";
+import { Link } from "@material-ui/core";
 
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
@@ -36,6 +39,21 @@ export default function InstructionsAction(props: { participant: IParticipation 
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const eventStore = new EventStore();
+  const checkEvent = () => {
+    const eventId = props.participant.event._id;
+    console.log(`Checking if event ${eventId} is active`);
+    eventStore
+      .get(eventId)
+      .then(event => {
+        setEventActive(event.state === "active");
+        setOpen(event.state === "active");
+      })
+      .catch(err => {
+        console.log(`Error occured ${err}`);
+      });
   };
 
   app.socket.on(Api.Socket.EVENT_UPDATED_NAME, (response: { event: IEvent }) => {
@@ -83,7 +101,14 @@ export default function InstructionsAction(props: { participant: IParticipation 
           )}
           {!eventActive && (
             <Typography gutterBottom>
-              <Alert severity="warning">Instructions are not yet available</Alert>
+              <Alert severity="warning">
+                <div>Link to experiment is not yet available</div>
+                <Link style={{ cursor: "pointer" }}>
+                  <div onClick={checkEvent}>
+                    Check Now <SyncIcon />
+                  </div>
+                </Link>
+              </Alert>
             </Typography>
           )}
         </DialogContent>

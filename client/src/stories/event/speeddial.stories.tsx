@@ -34,4 +34,3 @@ export const InstructionsNotReady = () => {
 
   return <InstructionsAction participant={p} />;
 };
-

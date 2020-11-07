@@ -1,6 +1,6 @@
 import express from "express";
 import secured from "../lib/middleware/secured";
-import { IEvent, Event } from "models/Events";
+import { IEvent, Event, EventSchema } from "models/Events";
 import { Participation, IParticipation } from "models/Participations";
 import { Auth0User } from "types/auth0";
 import EventsController from "../controllers/EventsController";
@@ -29,10 +29,6 @@ router.get("/events/:id.json", secured(), async (req: any, res, next) => {
   const event = await Event.findById(id);
   if (!event) {
     res.status(404).send("Not found");
-    return;
-  }
-  if (!(await isHost(user, event))) {
-    res.status(403).send("Unauthorized");
     return;
   }
   res.json(event);
