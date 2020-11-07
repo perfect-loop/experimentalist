@@ -23,3 +23,14 @@ export const Instructions = () => {
 
   return <InstructionsAction participant={p} />;
 };
+
+export const InstructionsNotReady = () => {
+  eventSettingsStore.state = {
+    kind: "ready",
+    data: EventSettingsFactory(),
+  };
+
+  p.event.state = "not_started";
+
+  return <InstructionsAction participant={p} />;
+};
