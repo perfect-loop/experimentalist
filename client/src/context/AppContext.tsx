@@ -5,6 +5,7 @@ import { SOCKET_SERVER_URL } from "../util/config";
 const socket = io(SOCKET_SERVER_URL, {
   transports: ["websocket"],
   upgrade: false,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   pingInterval: 25000, // default - 25000
   pingTimeout: 60000, // default - 60000
