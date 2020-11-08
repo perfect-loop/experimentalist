@@ -2,7 +2,7 @@ import React from "react";
 import { EventSettingsStore } from "../../components/EventSettings/store/EventSettingsStore";
 import { ParticipantFactory } from "../../test/factories/ParticipantFactory";
 import { EventSettingsFactory } from "../../test/factories/EventSettingsFactory";
-import CustomizedDialogs from "../../components/VideoConference/CustomizedDialogs";
+import InstructionsAction from "../../components/VideoConference/speeddial/InstructionsAction";
 
 export default {
   title: "Events/Speeddial",
@@ -21,5 +21,16 @@ export const Instructions = () => {
     data: EventSettingsFactory(),
   };
 
-  return <CustomizedDialogs participant={p} />;
+  return <InstructionsAction participant={p} />;
+};
+
+export const InstructionsNotReady = () => {
+  eventSettingsStore.state = {
+    kind: "ready",
+    data: EventSettingsFactory(),
+  };
+
+  p.event.state = "not_started";
+
+  return <InstructionsAction participant={p} />;
 };

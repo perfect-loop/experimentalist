@@ -7,12 +7,15 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import MenuBook from "@material-ui/icons/MenuBook";
 import { IParticipation } from "models/Participations";
-import { useAppContext } from "../../context/AppContext";
+import { useAppContext } from "../../../../context/AppContext";
 import { Api } from "models/Socket";
 import { IEvent } from "models/Events";
 import MUIRichTextEditor from "mui-rte";
-import { DialogTitleWithClose } from "../Forms/DialogTitleWithClose";
+import { DialogTitleWithClose } from "../../../Forms/DialogTitleWithClose";
 import Alert from "@material-ui/lab/Alert";
+import SyncIcon from "@material-ui/icons/Sync";
+import EventStore from "../../../Events/storage/EventStore";
+import { Link } from "@material-ui/core";
 
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
@@ -27,7 +30,7 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs(props: { participant: IParticipation }) {
+export default function InstructionsAction(props: { participant: IParticipation }) {
   const app = useAppContext();
   const [open, setOpen] = React.useState(false);
   const [eventActive, setEventActive] = React.useState(props.participant.event.state === "active");
@@ -36,6 +39,21 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const eventStore = new EventStore();
+  const checkEvent = () => {
+    const eventId = props.participant.event._id;
+    console.log(`Checking if event ${eventId} is active`);
+    eventStore
+      .get(eventId)
+      .then(event => {
+        setEventActive(event.state === "active");
+        setOpen(event.state === "active");
+      })
+      .catch(err => {
+        console.log(`Error occured ${err}`);
+      });
   };
 
   app.socket.on(Api.Socket.EVENT_UPDATED_NAME, (response: { event: IEvent }) => {
@@ -78,6 +96,18 @@ export default function CustomizedDialogs(props: { participant: IParticipation }
                 <a target="_blank" href={props.participant.instructions} rel="noopener noreferrer">
                   {props.participant.instructions}
                 </a>
+              </Alert>
+            </Typography>
+          )}
+          {!eventActive && (
+            <Typography gutterBottom>
+              <Alert severity="warning">
+                <div>Link to experiment is not yet available</div>
+                <Link style={{ cursor: "pointer" }}>
+                  <div onClick={checkEvent}>
+                    Check Now <SyncIcon />
+                  </div>
+                </Link>
               </Alert>
             </Typography>
           )}
