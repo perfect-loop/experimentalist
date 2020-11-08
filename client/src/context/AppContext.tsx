@@ -1,8 +1,14 @@
 import React, { useContext } from "react";
-import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
 import { SOCKET_SERVER_URL } from "../util/config";
 
-const socket = socketIOClient(SOCKET_SERVER_URL);
+const socket = io(SOCKET_SERVER_URL, {
+  transports: ["websocket"],
+  upgrade: false,
+  // @ts-ignore
+  pingInterval: 25000, // default - 25000
+  pingTimeout: 60000, // default - 60000
+});
 export const AppContext = React.createContext({
   socket,
 });
