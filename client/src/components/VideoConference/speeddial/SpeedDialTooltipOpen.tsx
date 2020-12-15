@@ -141,15 +141,6 @@ function SpeedDialTooltipOpen(props: {
               TooltipClasses={classes}
             />
           )}
-          {(props.participant.role === "host" || props.participant.role === "assistant") && (
-            <SpeedDialAction
-              key="Conference Info"
-              icon={<ConferenceStats />}
-              tooltipTitle="Conference Info"
-              tooltipOpen
-              TooltipClasses={classes}
-            />
-          )}
         </SpeedDial>
       </div>
     </>
