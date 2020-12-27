@@ -3,18 +3,8 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import { ZoomMtg } from "@zoomus/websdk";
 import { IAttendee, IZoomResult } from "../../types";
 
-const handleClick = () => {
-  ZoomMtg.getAttendeeslist({
-    success: function(res: IZoomResult) {
-      console.log("get getAttendeeslist");
-      const participants = res.result!!.attendeesList.filter(p => p.isHold);
-      admitNextParticipant(participants);
-    },
-  });
-};
-
 const admitNextParticipant = async (attendees: IAttendee[]) => {
-  var user = attendees.pop();
+  const user = attendees.pop();
   if (user === undefined) {
     return;
   }
@@ -30,6 +20,19 @@ const admitNextParticipant = async (attendees: IAttendee[]) => {
       console.log(`Error is `, res);
       await new Promise(r => setTimeout(r, 5000));
       admitNextParticipant(attendees);
+    },
+  });
+};
+
+const handleClick = () => {
+  ZoomMtg.getAttendeeslist({
+    success: function(res: IZoomResult) {
+      console.log("get getAttendeeslist");
+      if (res.result === undefined) {
+        return;
+      }
+      const participants = res.result.attendeesList.filter(p => p.isHold);
+      admitNextParticipant(participants);
     },
   });
 };

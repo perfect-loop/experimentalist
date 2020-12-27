@@ -19,10 +19,9 @@ export interface IZoomResult {
   errorMessage: string;
 }
 
-
 export enum IZoomConnection {
   CONNECTING = 1,
   CONNECTED = 2,
   DISCONNECTED = 3,
-  RECONNECTING = 4
+  RECONNECTING = 4,
 }
