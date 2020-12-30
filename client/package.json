@@ -10,7 +10,7 @@
     "@sentry/browser": "^5.17.0",
     "@types/react-router-dom": "^5.1.5",
     "@types/socket.io-client": "^1.4.34",
-    "@zoomus/websdk": "1.8.3",
+    "@zoomus/websdk": "1.8.5",
     "axios": "^0.19.2",
     "cloudinary-react": "^1.6.2",
     "env-cmd": "^10.1.0",
