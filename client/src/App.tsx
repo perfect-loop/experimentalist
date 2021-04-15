@@ -5,7 +5,7 @@ import { EventRoutes } from "./components/Routes/EventRoutes";
 import "./App.css";
 import FullStory from "react-fullstory";
 import { FULLSTORY_CODE, SMARTLOOK_API_KEY } from "./util/config";
-import smartlookClient from "smartlook-client"
+import smartlookClient from "smartlook-client";
 import { Offline } from "react-detect-offline";
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
