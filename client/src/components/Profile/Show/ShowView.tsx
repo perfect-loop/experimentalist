@@ -5,7 +5,8 @@ import { Form, Field } from "react-final-form";
 import { Paper } from "@material-ui/core";
 import { observer } from "mobx-react";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
-import { FULLSTORY_CODE } from "../../../util/config";
+import { FULLSTORY_CODE, SMARTLOOK_API_KEY } from "../../../util/config";
+import smartlookClient from "smartlook-client";
 import { identify } from "react-fullstory";
 import { IProfile } from "models/Profiles";
 import { Link } from "react-router-dom";
@@ -49,6 +50,14 @@ function ShowProfile(props: IProps) {
           displayName: `${profile.firstName} ${profile.lastName}`,
         };
         identify(profile.userId, params);
+      }
+
+      if (SMARTLOOK_API_KEY && profile && profile.userId) {
+        const params = {
+          displayName: `${profile.firstName} ${profile.lastName}`,
+        };
+        console.log(`smartlook idenitify ${profile.userId}`);
+        smartlookClient.identify(profile.userId, params);
       }
       return (
         <>
