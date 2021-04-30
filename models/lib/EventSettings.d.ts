@@ -10,6 +10,8 @@ export interface IEventSettings extends Document {
     event: IEvent;
     intelligentReadmit: boolean;
     showInstructions: boolean;
+    videoStartTime: Date;
+    videoEndTime: Date;
     createdAt: Date;
     updatedAt: Date;
 }

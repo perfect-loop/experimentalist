@@ -10,6 +10,8 @@ export const EventSettingsFactory = define<IEventSettings>({
   event: EventFactory(),
   intelligentReadmit: true,
   showInstructions: true,
+  videoStartTime: new Date(),
+  videoEndTime: new Date(),
   createdAt: new Date(),
   updatedAt: new Date(),
 });

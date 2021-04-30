@@ -26,6 +26,12 @@ exports.EventSettingsSchema = new mongoose.Schema({
     showInstructions: {
         type: Boolean,
         default: true
+    },
+    videoStartTime: {
+        type: Date
+    },
+    videoEndTime: {
+        type: Date
     }
 }, {
     timestamps: true

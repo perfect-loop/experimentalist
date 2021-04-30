@@ -14,6 +14,9 @@ import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
 import RadioButtonAdapter from "../../Forms/RadioButtonAdapter";
 import { INTELLIGENT_READMIT_DESCRIPTION } from "../Show/SettingsView";
+import DateTimePickerAdaptor from "../../Forms/DateTimePickerAdaptor";
+import { MuiPickersUtilsProvider, KeyboardDateTimePicker } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 interface Props {
   eventId: string;
@@ -35,6 +38,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       width: "200",
+    },
+    datePicker: {
+      "& .MuiTextField-root": {
+        width: "35%",
+        marginRight: theme.spacing(1),
+      },
     },
     wysiwyg: {
       height: "100px",
@@ -101,6 +110,33 @@ const EditForm: React.SFC<Props> = ({ store, eventId, eventSettings }) => {
                     title="Introductory Video"
                   />
                 )}
+              </div>
+              <br />
+              <br />
+              <div className={classes.datePicker}>
+                <Typography>
+                  Video session
+                  <Tooltip title="The start and end time for the video session. Editing time is not currently allowed">
+                    <HelpIcon fontSize="small" color="disabled" />
+                  </Tooltip>
+                </Typography>
+                <Field
+                  name="videoStartTime"
+                  component={DateTimePickerAdaptor}
+                  label="Start time"
+                  allowNull
+                  defaultValue={eventSettings.videoStartTime}
+                  clearable={true}
+                  disabled
+                />
+                <Field
+                  name="videoEndTime"
+                  component={DateTimePickerAdaptor}
+                  label="End time"
+                  allowNull
+                  disabled
+                  defaultValue={eventSettings.videoEndTime}
+                />
               </div>
               <br />
               <br />

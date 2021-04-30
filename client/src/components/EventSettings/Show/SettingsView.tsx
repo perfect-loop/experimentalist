@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { EventSettingsStore } from "../store/EventSettingsStore";
 import { IEventSettings } from "models/EventSettings";
 import { useHistory } from "react-router-dom";
-import { Typography, Tooltip } from "@material-ui/core";
+import { Typography, Tooltip, makeStyles, Theme, createStyles } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
 import { paymentMethod } from "../store/helpers";
 
@@ -12,11 +12,27 @@ interface IProps {
   eventSettingsStore: EventSettingsStore;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    label: {
+      marginRight: theme.spacing(1),
+    },
+  }),
+);
+
 export const INTELLIGENT_READMIT_DESCRIPTION =
   "If this option is selected, participants will be automatically added to the conference room every time they reload the conference once the host admits them. Auto-admit will only happen after hosts activates the event with the Start button";
 
 function SettingsView(props: IProps) {
   const history = useHistory();
+
+  const classes = useStyles();
+  const formatDate = (date: Date) => {
+    const option: any = { timeZoneName: "short" };
+    const localeDate = new Date(date);
+    return localeDate.toLocaleString("en-US", option);
+  };
+
   switch (props.eventSettingsStore.state.kind) {
     case "empty":
     case "not_ready":
@@ -48,6 +64,24 @@ function SettingsView(props: IProps) {
               title="Introductory Video"
             />
           )}
+          <br />
+          <br />
+          <div>
+            <Typography>
+              Video Session
+              <Tooltip title="Start and end time of the video session">
+                <HelpIcon fontSize="small" color="disabled" />
+              </Tooltip>
+            </Typography>
+            <label className={classes.label}>
+              Start Time
+              <div>{eventSettings.videoStartTime ? formatDate(eventSettings.videoStartTime) : ""}</div>
+            </label>
+            <label className={classes.label}>
+              End Time
+              <div>{eventSettings.videoEndTime ? formatDate(eventSettings.videoEndTime) : ""}</div>
+            </label>
+          </div>
           <br />
           <br />
           <div>
