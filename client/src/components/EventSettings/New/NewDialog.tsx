@@ -11,6 +11,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import TextFieldAdapter from "../../Forms/TextFieldAdapter";
 import CheckBoxAdapter from "../../Forms/CheckBoxAdapter";
 import RadioButtonAdapter from "../../Forms/RadioButtonAdapter";
+import DateTimePickerAdaptor from "../../Forms/DateTimePickerAdaptor";
 
 import { EventSettingsStore } from "../store/EventSettingsStore";
 import { INTELLIGENT_READMIT_DESCRIPTION } from "../Show/SettingsView";
@@ -29,6 +30,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     input: {
       width: "200",
+    },
+    datePicker: {
+      "& .MuiTextField-root": {
+        width: "35%",
+        marginRight: theme.spacing(1),
+      },
     },
     wysiwyg: {
       height: "100px",
@@ -84,6 +91,32 @@ function NewDialog(props: { eventId: string }) {
                 type="title"
                 label="URL to Introduction Video"
                 placeholder="https://player.vimeo.com/video/347119375"
+              />
+            </div>
+            <br />
+            <br />
+            <div className={classes.datePicker}>
+              <Typography>
+                Video session
+                <Tooltip title="Select the start and end time for the video session">
+                  <HelpIcon fontSize="small" color="disabled" />
+                </Tooltip>
+              </Typography>
+              <Field
+                name="videoStartTime"
+                component={DateTimePickerAdaptor}
+                label="Start time"
+                allowNull
+                showTodayButton
+                defaultValue={null}
+              />
+              <Field
+                name="videoEndTime"
+                component={DateTimePickerAdaptor}
+                label="End time"
+                allowNull
+                showTodayButton
+                defaultValue={null}
               />
             </div>
             <br />

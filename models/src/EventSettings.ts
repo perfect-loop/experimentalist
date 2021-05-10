@@ -28,6 +28,12 @@ export const EventSettingsSchema = new mongoose.Schema(
     showInstructions: {
       type: Boolean,
       default: true
+    },
+    videoStartTime: {
+      type: Date
+    }, 
+    videoEndTime: {
+      type: Date
     }
   },
   {
@@ -43,6 +49,8 @@ export interface IEventSettings extends Document {
   event: IEvent;
   intelligentReadmit: boolean;
   showInstructions: boolean;
+  videoStartTime: Date;
+  videoEndTime: Date;
   createdAt: Date;
   updatedAt: Date;
 }

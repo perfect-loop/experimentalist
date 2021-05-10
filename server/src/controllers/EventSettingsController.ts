@@ -97,6 +97,8 @@ export default class EventSettingsController {
     eventSettings.introVideo = body.introVideo;
     eventSettings.intelligentReadmit = body.intelligentReadmit;
     eventSettings.showInstructions = body.showInstructions;
+    eventSettings.videoStartTime = body.videoStartTime;
+    eventSettings.videoEndTime = body.videoEndTime;
     eventSettings.paymentMethod = body.paymentMethod?.toLowerCase();
 
     eventSettings
