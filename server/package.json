@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "0.0.1",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "private": true,
   "dependencies": {
     "@sentry/node": "5.19.0",

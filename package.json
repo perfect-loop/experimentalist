@@ -1,6 +1,7 @@
 {
   "name": "experiments",
   "version": "0.0.1",
+  "license": "GPL-3.0-only",
   "scripts": {
     "start": "(cd server && yarn start) & (cd client && yarn start)"
   }
