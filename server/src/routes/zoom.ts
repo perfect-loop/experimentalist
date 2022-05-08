@@ -5,10 +5,10 @@ import crypto from "crypto";
 import secured from "../lib/middleware/secured";
 const router = express.Router();
 
-const API_KEY = "d9X8t8-HQgi33MzVsdZKcg";
-const API_SECRET = "oBBj6t1iz60wXXCTkHZPNHni19qJCM5LiLdd";
+const API_KEY = "REPLACE_ME";
+const API_SECRET = "REPLACE_ME";
 export const ZOOM_MEETING_NUMBER = 7503424717;
-export const ZOOM_PASSWORD = "1e3AM8";
+export const ZOOM_PASSWORD = "REPLACE_ME";
 
 router.get(
   "/zoom/:participantId/signature.json",

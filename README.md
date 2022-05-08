@@ -7,6 +7,12 @@ This software is developed by [Perfect Loop Technologies](https://www.perfectloo
 
 If you would like to speak to us, please reach out via github at perfectloop.net
 
+## Prerequisites
+
+- Signup for auth0
+- Sign up for venmo
+- Signup for cloudinary
+
 ## Install
 
 - Install Mongodb (https://docs.mongodb.com/manual/administration/install-community/)
@@ -20,6 +26,16 @@ If you would like to speak to us, please reach out via github at perfectloop.net
 `(cd models && yarn install)`
 `(cd client && yarn install)`
 `(cd server && yarn install)`
+
+- Update env files
+
+`server/env`
+`client/.env`
+`client/.storybook/preview-head.html`
+`server/src/routes/zoom.ts`
+
+Note: on production or production-like environments (like QA), you should not use env files.
+Instead, these should be evironmental variables
 
 - Start up the app (client and server)
 
