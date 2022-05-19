@@ -6,7 +6,7 @@ Experimentalist is a platform for running social economic experiments.
 
 This software is developed by [Perfect Loop Technologies](https://www.perfectloop.net/) and is made open source. Feel free to use it for your experiments.
 
-If you would like to speak to us, please reach out via github at perfectloop.net
+If you would like to speak to us, please reach out via github@perfectloop.net
 
 ## Prerequisites
 
