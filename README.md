@@ -2,7 +2,7 @@
 
 ![](docs/logo.png)
 
-Experimentalist is a platform for running social economic experiments.
+Experimentalist is designed to facilitate conducting experiments online and to work in conjunction with already existing recruitment systems, subject management systems, and experimental platforms like Otree, Ztree, Qualtrics, and others. [Here is a link](https://bit.ly/3ojLdji) to a short introduction to Experimentalist.
 
 This software is developed by [Perfect Loop Technologies](https://www.perfectloop.net/) and is made open source. Feel free to use it for your experiments.
 
